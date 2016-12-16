@@ -23,10 +23,10 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-case class SeeAlso(src: String, trg: String)
-case class NounSeeAlso(src: String, trg: String, gen: String)
+case class SeeAlso(src: String, trg: String) extends Entry
+case class NounSeeAlso(src: String, trg: String, gen: String) extends Entry
 
-object EID {
+object FGB {
   import scala.xml._
 
   def trim(s: String):String = s.replaceAll("[.,;]? *$", "").replaceAll("^ *", "")
@@ -35,8 +35,8 @@ object EID {
 
   def readSimpleEntry(n: Elem): Entry = {
     n match {
-      case <entry><title>{src}</title><g>f. = </g><s>{trg}</s></entry> => NounSeeAlso(trim(src.text), fixtrg(trg.text), "f")
-      case <entry><title>{src}</title><g>m. = </g><s>{trg}</s></entry> => NounSeeAlso(trim(src.text), fixtrg(trg.text), "m")
+      case <entry><title>{src}</title><g>f. = </g><s>{trg}</s></entry> => NounSeeAlso(trim(src.text), fixtrg(src.text, trg.text), "f")
+      case <entry><title>{src}</title><g>m. = </g><s>{trg}</s></entry> => NounSeeAlso(trim(src.text), fixtrg(src.text, trg.text), "m")
 
       case _ => throw new Exception("Failed to match input")
     }

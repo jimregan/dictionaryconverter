@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 package ie.tcd.slscs.itut.DictionaryConverter
-sealed abstract class Entry
+abstract class Entry
 abstract class TranslationEntry(src: String, trg: String) extends Entry {
   def isAmbiguous: Boolean = trg.contains(",")
   def hasBrackets: Boolean = trg.contains("(")
@@ -35,7 +35,6 @@ case class EmptyEntry(src: String, lbl: String) extends Entry
 
 abstract class BaseXML()
 abstract class RawXML(s: String) extends BaseXML
-case class Title(s: String) extends RawXML(s)
 case class Src(s: String) extends RawXML(s)
 case class Trg(s: String) extends RawXML(s)
 case class Trg2(s: String, l: String) extends RawXML(s)
