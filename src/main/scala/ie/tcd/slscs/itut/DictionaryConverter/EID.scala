@@ -33,32 +33,29 @@ case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String) e
 case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends TranslationEntry(src, trg)
 case class EmptyEntry(src: String, lbl: String) extends Entry
 
-abstract class BaseXML()
-abstract class RawXML(s: String) extends BaseXML
-case class Src(s: String) extends RawXML(s)
-case class Trg(s: String) extends RawXML(s)
-case class Trg2(s: String, l: String) extends RawXML(s)
-case class Trg3(s: String, l: String, t: String) extends RawXML(s)
-case class Label(s: String) extends RawXML(s)
-case class Gen(s: String) extends RawXML(s)
-case class Txt(s: String) extends RawXML(s)
-case class VerbalNoun(s: String) extends RawXML(s)
-case class Sense(s: String) extends RawXML(s)
-case class SuperSense(s: String) extends RawXML(s)
-case class Super(s: String) extends RawXML(s)
-case class SubSense(s: String) extends RawXML(s)
-case class Line(s: Seq[BaseXML]) extends BaseXML
-case class Title(s: Seq[BaseXML]) extends BaseXML
-case class WordSense(sense: String, subsense: String, line: Seq[BaseXML]) extends BaseXML
-case class EmptySense(s: String) extends RawXML(s)
-case class EmptySubSense(s: String) extends RawXML(s)
-case class Valency(src: String, trg: String) extends BaseXML
-
 class EID {
-  //var entries: Int
-  //def incr = {
-  //  entries = entries + 1
-  //}
+  abstract class BaseXML()
+  abstract class RawXML(s: String) extends BaseXML
+  case class Src(s: String) extends RawXML(s)
+  case class Trg(s: String) extends RawXML(s)
+  case class Trg2(s: String, l: String) extends RawXML(s)
+  case class Trg3(s: String, l: String, t: String) extends RawXML(s)
+  case class Label(s: String) extends RawXML(s)
+  case class Gen(s: String) extends RawXML(s)
+  case class Txt(s: String) extends RawXML(s)
+  case class VerbalNoun(s: String) extends RawXML(s)
+  case class Sense(s: String) extends RawXML(s)
+  case class SuperSense(s: String) extends RawXML(s)
+  case class Super(s: String) extends RawXML(s)
+  case class SubSense(s: String) extends RawXML(s)
+  case class SubSense2(s: String, sub: String) extends RawXML(s)
+  case class Line(s: Seq[BaseXML]) extends BaseXML
+  case class Title(s: Seq[BaseXML]) extends BaseXML
+  case class WordSense(sense: String, subsense: String, line: Seq[BaseXML]) extends BaseXML
+  case class EmptySense(s: String) extends RawXML(s)
+  case class EmptySubSense(s: String) extends RawXML(s)
+  case class Valency(src: String, trg: String) extends BaseXML
+
 }
 
 object EID {
@@ -81,7 +78,9 @@ object EID {
     case SimpleNounEntry(a, "a. & s.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
   }
 
-  def breakdownComplexEntry(e: Elem): Seq[BaseXML] = {
+//  def extractElem(e: Elem): 
+
+  def breakdownComplexEntry(e: Elem): List[BaseXML] = {
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
       case <trg>{trg}</trg> => Trg(trg.text)
@@ -101,27 +100,41 @@ object EID {
       case scala.xml.Text(t) => Txt(t)
     }
     e match {
-      case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}
-      case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}
+      case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}.toList
+      case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}.toList
     }
   }
 
-  def mkWordSenses(seq: Seq[BaseXML]): Seq[BaseXML] = {
-    def doWordSenses(in: String, acc: Seq[BaseXML], seq: Seq[BaseXML]): Seq[BaseXML] = seq match {
+/*
+  def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
+    def doWordSenses(in: String, acc: List[BaseXML], l: List[BaseXML]): List[BaseXML] = l match {
+      //case Title(Seq(Trg(t), Txt(".")) :: xs => doWordSenses("", acc :+ Title(Seq(t)), xs)
       case Title(t) :: xs => doWordSenses("", acc :+ Title(t), xs)
-      case Sense(s) :: SubSense(sub) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(in, sub, l), xs)
-      case Sense(s) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(in, "", l), xs)
+      case Sense(s) :: SubSense(sub) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, sub, l), xs)
+      case Sense(s) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, "", l), xs)
       case SubSense(sub) :: Line(l) :: Nil => acc :+ WordSense(in, sub, l)
       case SubSense(sub) :: Line(l) :: xs => doWordSenses(in, acc :+ WordSense(in, sub, l), xs)
+      //case Trg(t) :: Txt("; ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
+      //case Trg(t) :: Txt(". ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
       case Line(l) :: Nil => acc :+ Line(l)
       case Line(l) :: xs => doWordSenses(in, acc :+ Line(l), xs)
       case Sense(s) :: Nil => acc :+ EmptySense(s)
       case Sense(s) :: xs => doWordSenses(in, acc :+ Sense(s), xs)
-      case SubSense(s) :: Nil => acc :+ EmptySubSense(s)
-      case SubSense(s) :: xs => doWordSenses(in, acc :+ SubSense(s), xs)
+      //case SubSense(a) :: SubSense(b) :: SubSense(c) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b) :+ EmptySubSense(c)
+      //case SubSense(a) :: SubSense(b) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b)
+      //case SubSense(s) :: Nil => acc :+ EmptySubSense(s)
+      case SubSense(s) :: xs => doWordSenses(in, acc :+ SubSense2(in, s), xs)
       case Nil => acc
     }
-    doWordSenses("", Seq.empty[BaseXML], seq)
+    doWordSenses("", List[BaseXML](), seq)
   }
+
+  def cleanInner(seq: Seq[BaseXML]): Seq[BaseXML] = {
+    val l = seq.toList
+    l match {
+      case 
+    }
+  }
+*/
 }
 
