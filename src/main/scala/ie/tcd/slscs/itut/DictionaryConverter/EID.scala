@@ -34,6 +34,11 @@ case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: Str
 case class EmptyEntry(src: String, lbl: String) extends Entry
 
 class EID {
+}
+
+object EID {
+  import scala.xml._
+
   abstract class BaseXML()
   abstract class RawXML(s: String) extends BaseXML
   case class Src(s: String) extends RawXML(s)
@@ -56,10 +61,6 @@ class EID {
   case class EmptySubSense(s: String) extends RawXML(s)
   case class Valency(src: String, trg: String) extends BaseXML
 
-}
-
-object EID {
-  import scala.xml._
   def readSimpleEntry(n: Elem): Entry = {
     n match {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label></title></entry> => EmptyEntry(src.toString, lbl.map{_.text}.mkString)

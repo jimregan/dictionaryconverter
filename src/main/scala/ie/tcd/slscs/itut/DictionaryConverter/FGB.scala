@@ -27,6 +27,8 @@ package ie.tcd.slscs.itut.DictionaryConverter
 case class SeeAlso(src: String, trg: String) extends Entry
 case class NounEquals(src: String, trg: String, gen: String) extends Entry
 case class OtherEquals(src: String, trg: String) extends Entry
+case class OtherEqualsLX(src: String, srcid: String, trg: String) extends Entry
+case class OtherEqualsRX(src: String, trg: String, trgid: String) extends Entry
 case class OtherEqualsXX(src: String, srcid: String, trg: String, trgid: String) extends Entry
 case class OtherSimpleTrans(src: String, pos: String, trg: String) extends TranslationEntry(src, trg)
 
@@ -59,9 +61,17 @@ object FGB {
   case class Comma() extends BaseXML
   case class Fullstop() extends BaseXML
   case class Colon() extends BaseXML
-
+  case class CloseParen() extends BaseXML
+  case class CloseParenStop() extends BaseXML
+  case class OpenParen() extends BaseXML
+  abstract class Filtered(s: String) extends RawXML(s)
+  case class PosPiece(s: String) extends Filtered(s)
+  case class GramPiece(s: String, t: String) extends Filtered(s)
+  case class RefPieces(a: String, l: List[RefPiece]) extends Filtered(a)
+  case class RefPiece(s: String, x: String, n: String, l: String) extends Filtered(s)
 
   def trim(s: String):String = s.replaceAll("[.,;]? *$", "").replaceAll("^ *", "")
+  def trims(s: String):String = s.replaceAll(" *$", "").replaceAll("^ *", "")
   def noupper(s: String):Boolean = s.toLowerCase == s
   def fixtrg(src: String, trg: String):String = if(noupper(src)) trim(trg.toLowerCase) else trim(trg)
 
@@ -69,8 +79,8 @@ object FGB {
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <trans><r>{tr}</r></trans> => TransElem(tr.text)
       case <title>{title}</title> => TitleElem(title.text)
-      case <a>{a}</a> => AElem(a.text)
-      case <b>{b}</b> => BElem(b.text)
+      case <a>{a}</a> => AElem(trims(a.text))
+      case <b>{b}</b> => BElem(trims(b.text))
       case <c>{c}</c> => CElem(c.text)
       case <e>{e}</e> => EElem(e.text)
       case <g>{g @ _* }</g> => GElem(g.map{_.text}.mkString)
@@ -88,12 +98,111 @@ object FGB {
       case scala.xml.Text(", ") => Comma()
       case scala.xml.Text(". ") => Fullstop()
       case scala.xml.Text(" :") => Colon()
+      case scala.xml.Text(" : ") => Colon()
+      case scala.xml.Text("(") => OpenParen()
+      case scala.xml.Text(")") => CloseParen()
+      case scala.xml.Text(").") => CloseParenStop()
       case scala.xml.Text(t) => Txt(t)
     }
     e match {
       case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}.toList
       case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}.toList
     }
+  }
+
+  def mkGramPiece(a: String, b: String): List[Filtered] = {
+    if (a.contains("(")) {
+        val out = a.split("\\(")
+        return List[Filtered](PosPiece(trims(out(0))), GramPiece(out(1), b))
+    } else {
+        return List[Filtered](GramPiece(a, b))
+    }
+  }
+
+  def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
+    /**
+     * If the current element is <n>, and is followed directly by another,
+     * the next <n> is the sense number of the next sense
+     */
+    def nextIsNElem(l: List[BaseXML]): Boolean = l match {
+        case NElem(n) :: xs => true
+        case _ => false
+    }
+    //def fix
+    def consumeSeeAlso(cur: RefPiece, p: RefPieces, list: List[BaseXML]): List[BaseXML] = list match {
+      case SElem(s) :: xs => {
+        val newrp = RefPiece(s, "", "", "")
+        if(cur.s != "") {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+        } else {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+        }
+      }
+      case XElem(x) :: xs => {
+        val newrp = RefPiece(cur.s, x, "", "")
+        if(cur.x != "") {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+        } else {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+        }
+      }
+      case NElem(n) :: xs => {
+        val newrp = RefPiece(cur.s, cur.x, n, "")
+        val newrps = if(cur.n != "") RefPieces(p.a, p.l :+ cur) else RefPieces(p.a, p.l)
+        if(nextIsNElem(xs)) {
+          List[BaseXML](newrps) ++ xs
+        } else {
+          consumeSeeAlso(newrp, newrps, xs)
+        }
+      }
+      case LElem(l) :: xs => {
+        val newrp = RefPiece(cur.s, cur.x, cur.n, l)
+        if(cur.x != "") {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+        } else {
+          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+        }
+      }
+      case OpenParen() :: xs => consumeSeeAlso(cur, p, xs)
+      case Comma() :: xs => consumeSeeAlso(cur, p, xs)
+      case CloseParen() :: xs => consumeSeeAlso(cur, p, xs)
+      case CloseParenStop() :: xs => List[BaseXML](p) ++ xs
+      case nil => List[BaseXML](p)
+    }
+    def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
+      case TitleElem(t) :: XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
+      case TitleElem(t) :: xs => doWordSenses(xs, acc :+ TitleElem(t))
+      case GElem(g) :: BElem(b) :: xs => doWordSenses(xs, acc ++ mkGramPiece(g, b))
+      case GElem(t) :: xs => doWordSenses(xs, acc :+ GElem(t))
+//      case AElem(a) :: SElem(s) :: XElem(x) :: NElem(n) :: OpenParen() :: LElem(l) :: CloseParenStop() :: xs => doWordSenses(xs, acc :+ RefPiece(a, s, x, n, l))
+//      case AElem(a) :: SElem(s) :: XElem(x) :: Txt(" ") :: NElem(n) :: OpenParen() :: LElem(l) :: CloseParenStop() :: xs => doWordSenses(xs, acc :+ RefPiece(a, s, x, n, l))
+//      case AElem(a) :: SElem(s) :: NElem(n) :: OpenParen() :: LElem(l) :: CloseParenStop() :: xs => doWordSenses(xs, acc :+ RefPiece(a, s, "", n, l))
+      case AElem(a) :: xs => consumeSeeAlso(RefPiece("", "", "", ""), RefPieces(a, List[RefPiece]()), xs)
+      case TransElem(t) :: xs => doWordSenses(xs, acc :+ TransElem(t))
+      case BElem(t) :: xs => doWordSenses(xs, acc :+ BElem(t))
+      case CElem(t) :: xs => doWordSenses(xs, acc :+ CElem(t))
+      case EElem(t) :: xs => doWordSenses(xs, acc :+ EElem(t))
+      case HElem(t) :: xs => doWordSenses(xs, acc :+ HElem(t))
+      case IElem(t) :: xs => doWordSenses(xs, acc :+ IElem(t))
+      case KElem(t) :: xs => doWordSenses(xs, acc :+ KElem(t))
+      case LElem(t) :: xs => doWordSenses(xs, acc :+ LElem(t))
+      case NElem(t) :: xs => doWordSenses(xs, acc :+ NElem(t))
+      case OElem(t) :: xs => doWordSenses(xs, acc :+ OElem(t))
+      case PElem(t) :: xs => doWordSenses(xs, acc :+ PElem(t))
+      case RElem(t) :: xs => doWordSenses(xs, acc :+ RElem(t))
+      case SElem(t) :: xs => doWordSenses(xs, acc :+ SElem(t))
+      case VElem(t) :: xs => doWordSenses(xs, acc :+ VElem(t))
+      case XElem(t) :: xs => doWordSenses(xs, acc :+ XElem(t))
+      case Comma() :: xs => doWordSenses(xs, acc :+ Comma())
+      case Fullstop() :: xs => doWordSenses(xs, acc :+ Fullstop())
+      case Colon() :: xs => doWordSenses(xs, acc :+ Colon())
+      case OpenParen() :: xs => doWordSenses(xs, acc :+ OpenParen())
+      case CloseParen() :: xs => doWordSenses(xs, acc :+ CloseParen())
+      case CloseParenStop() :: xs => doWordSenses(xs, acc :+ CloseParenStop())
+      case Txt(t) :: xs => doWordSenses(xs, acc :+ Txt(t))
+      case Nil => acc
+    }
+    doWordSenses(seq, List[BaseXML]())
   }
 
 
@@ -103,6 +212,11 @@ object FGB {
       case <entry><title>{src}</title><g>m. = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "m")
       case <entry><title>{src}</title><g>f = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "f")
       case <entry><title>{src}</title><g>m = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "m")
+      case <entry><title>{src}</title><g>= </g><s>{trg}</s></entry> => OtherEquals(trim(src.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title>= <s>{trg}</s></entry> => OtherEquals(trim(src.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s></entry> => OtherEqualsLX(trim(src.text), trim(x.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s>.</entry> => OtherEqualsLX(trim(src.text), trim(x.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title>= <s>{trg}</s><x>{x}</x>.</entry> => OtherEqualsRX(trim(src.text), fixtrg(src.text, trg.text), trim(x.text))
       case <entry><title>{src}</title><x>{sx}</x> = <s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trim(src.text), trim(sx.text), fixtrg(src.text, trg.text), trim(tx.text))
       case <entry><title>{src}</title><x>{sx}</x> :<k> </k><s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trim(src.text), trim(sx.text), fixtrg(src.text, trg.text), trim(tx.text))
       case <entry><title>{src}</title><g>{gram}</g><trans><r>{trg}</r></trans></entry> => OtherSimpleTrans(trim(src.text), trim(gram.text), fixtrg(src.text, trg.text))
