@@ -1,7 +1,7 @@
 import sbt._
 import sbt.Keys._
 
-object DictionaryconverterBuild extends Build {
+object DictionaryConverterBuild extends Build {
 
   lazy val dictionaryconverter = Project(
     id = "dictionaryconverter",

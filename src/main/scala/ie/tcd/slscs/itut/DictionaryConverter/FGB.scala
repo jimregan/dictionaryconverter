@@ -119,6 +119,46 @@ object FGB {
     }
   }
 
+  def consumeSeeAlso(cur: RefPiece, p: RefPieces, list: List[BaseXML]): List[BaseXML] = list match {
+    case SElem(s) :: xs => {
+      val newrp = RefPiece(s, "", "", "")
+      if(cur.s != "") {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+      } else {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+      }
+    }
+    case XElem(x) :: xs => {
+      val newrp = RefPiece(cur.s, x, "", "")
+      if(cur.x != "") {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+      } else {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+      }
+    }
+    case NElem(n) :: xs => {
+      val newrp = RefPiece(cur.s, cur.x, n, "")
+      val newrps = if(cur.n != "") RefPieces(p.a, p.l :+ cur) else RefPieces(p.a, p.l)
+      if(nextIsNElem(xs)) {
+        List[BaseXML](newrps) ++ xs
+      } else {
+        consumeSeeAlso(newrp, newrps, xs)
+      }
+    }
+    case LElem(l) :: xs => {
+      val newrp = RefPiece(cur.s, cur.x, cur.n, l)
+      if(cur.x != "") {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
+      } else {
+        consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
+      }
+    }
+    case OpenParen() :: xs => consumeSeeAlso(cur, p, xs)
+    case Comma() :: xs => consumeSeeAlso(cur, p, xs)
+    case CloseParen() :: xs => consumeSeeAlso(cur, p, xs)
+    case CloseParenStop() :: xs => List[BaseXML](p) ++ xs
+    case nil => List[BaseXML](p)
+  }
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     /**
      * If the current element is <n>, and is followed directly by another,
@@ -129,46 +169,6 @@ object FGB {
         case _ => false
     }
     //def fix
-    def consumeSeeAlso(cur: RefPiece, p: RefPieces, list: List[BaseXML]): List[BaseXML] = list match {
-      case SElem(s) :: xs => {
-        val newrp = RefPiece(s, "", "", "")
-        if(cur.s != "") {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
-        }
-      }
-      case XElem(x) :: xs => {
-        val newrp = RefPiece(cur.s, x, "", "")
-        if(cur.x != "") {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
-        }
-      }
-      case NElem(n) :: xs => {
-        val newrp = RefPiece(cur.s, cur.x, n, "")
-        val newrps = if(cur.n != "") RefPieces(p.a, p.l :+ cur) else RefPieces(p.a, p.l)
-        if(nextIsNElem(xs)) {
-          List[BaseXML](newrps) ++ xs
-        } else {
-          consumeSeeAlso(newrp, newrps, xs)
-        }
-      }
-      case LElem(l) :: xs => {
-        val newrp = RefPiece(cur.s, cur.x, cur.n, l)
-        if(cur.x != "") {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlso(newrp, RefPieces(p.a, p.l), xs)
-        }
-      }
-      case OpenParen() :: xs => consumeSeeAlso(cur, p, xs)
-      case Comma() :: xs => consumeSeeAlso(cur, p, xs)
-      case CloseParen() :: xs => consumeSeeAlso(cur, p, xs)
-      case CloseParenStop() :: xs => List[BaseXML](p) ++ xs
-      case nil => List[BaseXML](p)
-    }
     def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
       case TitleElem(t) :: XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
       case TitleElem(t) :: xs => doWordSenses(xs, acc :+ TitleElem(t))
