@@ -23,7 +23,7 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-class Dictionary {
+abstract class Dictionary {
   val Alphabet: String
   val Sdefs: List[Sdef]
   val Pardefs: List[Pardef]
@@ -57,7 +57,7 @@ class Section(name: String, `type`: String, entries: List[E]) extends EntryConta
 class E(children: List[Parts], lm: String = null)
 
 abstract class Parts()
-class P(left: L, right: R) extends Parts()
+//class P(left: L, right: R) extends Parts()
 //class I(content: String) extends Parts()
 class RE(content: String) extends Parts()
 
