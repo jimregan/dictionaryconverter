@@ -51,8 +51,14 @@ trait TextLike extends DixElement
 case class B extends TextLike {
   def toXML = <b/>
 }
+case class Prm extends TextLike {
+  def toXML = <prm/>
+}
 case class Txt(s: String) extends TextLike {
   def toXML = new scala.xml.Text(s)
+}
+case class Entity(s: String) extends TextLike {
+  def toXML = new scala.xml.EntityRef(s)
 }
 case class S(n: String) extends TextLike {
   def toXML = <s n={n}/>
@@ -109,7 +115,9 @@ object Dictionary {
   import scala.xml.XML
   def nodetocontent(node: Node): TextLike = node match {
     case scala.xml.Text(t) => Txt(t)
+    case scala.xml.EntityRef(e) => Entity(e)
     case <b/> => B()
+    case <prm/> => Prm()
     case s @ <s/> => S(s.attribute("n").get(0).text)
     case _ => throw new Exception("Error reading sdef")
   }
