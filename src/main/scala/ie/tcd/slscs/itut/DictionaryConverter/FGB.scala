@@ -90,7 +90,7 @@ object FGB {
       case <l>{l}</l> => LElem(l.text)
       case <n>{n}</n> => NElem(n.text)
       case <o>{o}</o> => OElem(o.text)
-      case <p>{p}</p> => PElem(p.text)
+      case <p>{p}</p> => if (p == ", ") Comma() else PElem(p.text)
       case <r>{r}</r> => RElem(r.text)
       case <s>{s}</s> => SElem(s.text)
       case <v>{v}</v> => VElem(v.text)

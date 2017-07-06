@@ -23,38 +23,61 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-abstract class Dictionary {
-  val Alphabet: String
-  val Sdefs: List[Sdef]
-  val Pardefs: List[Pardef]
-  val Sections: List[Section]
+class Dictionary(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
+  def toXML = {
+    <dictionary>
+      <alphabet>{alphabet}</alphabet>
+      <sdefs>
+        { sdefs.map { sdef => sdef.toXML } }
+      </sdefs>
+      <pardefs>
+        { pardefs.map { pardef => pardef.toXML } }
+      </pardefs>
+      { sections.map { section => section.toXML } }
+    </dictionary>
+  }
 }
 
-class Sdef(n: String, c: String = null) {
+case class Sdef(n: String, c: String = null) {
   def toXML = <sdef n={n} c={c} />
 }
 
-class I(c: List[TextLike]) {
+case class I(c: List[TextLike]) {
 //  def toXML = <i>{i}</i>
 }
 
-class P(l: List[TextLike], r: List[TextLike]) {
+case class P(l: List[TextLike], r: List[TextLike]) {
 //  def toXML = <p><l>{l}
 }
 
 abstract class TextLike
-class B extends TextLike {
+case class B extends TextLike {
   def toXML = <b/>
 }
-class Text(s: String) extends TextLike {
+case class Text(s: String) extends TextLike {
   def toXML = new scala.xml.Text(s)
+}
+case class S(n: String) extends TextLike {
+  def toXML = <s n={n}/>
 }
 
 abstract class EntryContainer(name: String, entries: List[E])
-class Pardef(name: String, entries: List[E]) extends EntryContainer(name, entries)
-class Section(name: String, `type`: String, entries: List[E]) extends EntryContainer(name, entries)
+case class Pardef(name: String, comment: String = null, entries: List[E]) extends EntryContainer(name, entries) {
+  def toXML = {
+    <pardef name={name} c={comment}>
+      { entries.map{e => e.toXML} }
+    </pardef>
+  }
+}
+case class Section(name: String, stype: String, entries: List[E]) extends EntryContainer(name, entries) {
+  def toXML = {
+    <section id={name} type={stype}>
+      { entries.map{e => e.toXML} }
+    </section>
+  }
+}
 
-class E(children: List[Parts], lm: String = null)
+case class E(children: List[Parts], lm: String = null)
 
 abstract class Parts()
 //class P(left: L, right: R) extends Parts()
@@ -62,6 +85,29 @@ abstract class Parts()
 class RE(content: String) extends Parts()
 
 abstract class TextLikeContainer(content: List[TextLike])
-class L(content: List[TextLike]) extends TextLikeContainer(content)
-class R(content: List[TextLike]) extends TextLikeContainer(content)
-class G(content: List[TextLike]) extends TextLikeContainer(content)
+case class L(content: List[TextLike]) extends TextLikeContainer(content)
+case class R(content: List[TextLike]) extends TextLikeContainer(content)
+case class G(content: List[TextLike]) extends TextLikeContainer(content)
+case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]())
+
+object Dictionary {
+  import scala.xml.XML
+//  def readcontent
+  def nodetosdef(node: Node): Sdef = node match {
+    case <sdef/> => {
+      val name = node \ "@n"
+      val comment = node \ "@c"
+      val n = name.text
+      val c = if (comment.text != "") comment.text else null
+      Sdef(n, c)
+    }
+    case _ => throw new Exception("Error reading sdef")
+  }
+  def load(file: String) = {
+    //def toplevel(l: List[Node]) = l match {
+    val xml = XML.loadFile(file)
+    val alph = (xml \ "alphabet")(0).text
+    val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
+    val pardefs = (xml \ "pardefs" \ "pardef").toList
+  }
+}
