@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 package ie.tcd.slscs.itut.DictionaryConverter
+import scala.xml._
 
 class Dictionary(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
   def toXML = {
@@ -42,15 +43,9 @@ case class Sdef(n: String, c: String = null) {
   def toXML = <sdef n={n} c={c} />
 }
 
-case class I(c: List[TextLike]) {
-//  def toXML = <i>{i}</i>
+abstract class TextLike {
+  def toXML
 }
-
-case class P(l: List[TextLike], r: List[TextLike]) {
-//  def toXML = <p><l>{l}
-}
-
-abstract class TextLike
 case class B extends TextLike {
   def toXML = <b/>
 }
@@ -77,18 +72,39 @@ case class Section(name: String, stype: String, entries: List[E]) extends EntryC
   }
 }
 
-case class E(children: List[Parts], lm: String = null)
+case class E(children: List[Parts], lm: String = null) {
+  def toXML = {
+    <e>{ children.map{c => c.toXML} }</e>
+  }
+}
 
-abstract class Parts()
-//class P(left: L, right: R) extends Parts()
-//class I(content: String) extends Parts()
-class RE(content: String) extends Parts()
+abstract class Parts() {
+  def toXML
+}
 
 abstract class TextLikeContainer(content: List[TextLike])
-case class L(content: List[TextLike]) extends TextLikeContainer(content)
-case class R(content: List[TextLike]) extends TextLikeContainer(content)
-case class G(content: List[TextLike]) extends TextLikeContainer(content)
-case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]())
+case class L(content: List[TextLike]) extends TextLikeContainer(content) {
+  def toXML = <l>{ content.map{c => c.toXML} }</l>
+}
+case class R(content: List[TextLike]) extends TextLikeContainer(content) {
+  def toXML = <r>{ content.map{c => c.toXML} }</r>
+}
+case class G(content: List[TextLike]) extends TextLikeContainer(content) {
+  def toXML = <g>{ content.map{c => c.toXML} }</g>
+}
+case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
+  def toXML = <par n={name} sa={sa} prm={prm} />
+}
+case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
+  def toXML = <re>{regex}</re>
+}
+case class I(content: List[TextLike]) extends TextLikeContainer(content) {
+  def toXML = <i>{ content.map{c => c.toXML} }</i>
+}
+case class P(l: L, r: R) extends TextLikeContainer(List[TextLike]()) {
+  def toXML = <p><l>{l.toXML}</l><r>{r.toXML}</r></p>
+}
+
 
 object Dictionary {
   import scala.xml.XML

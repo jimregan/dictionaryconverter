@@ -52,6 +52,6 @@ object LexRule {
   }
   case class WordRules(children: List[Rule])
   case class Rule(name: String, children: List[SubRule])
-  case class SubRule(name: String, match: String, children: List[Entry])
+  case class SubRule(name: String, matcher: String, children: List[Entry])
   case class Entry(tags: String, text: String)
 }
