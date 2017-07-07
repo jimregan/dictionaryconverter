@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 package ie.tcd.slscs.itut.DictionaryConverter
+package dix
+
 import scala.xml._
 
 class Dictionary(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
@@ -80,9 +82,13 @@ case class Section(name: String, stype: String, entries: List[E]) extends EntryC
   }
 }
 
-case class E(children: List[Parts], lm: String = null) {
+case class E(children: List[TextLikeContainer], lm: String = null, r: String = null,
+             a: String = null, c: String = null, i: Boolean = false,
+             slr: String = null, srl: String = null, alt: String = null,
+             v: String = null, vr: String = null, vl: String = null) {
   def toXML = {
-    <e>{ children.map{c => c.toXML} }</e>
+    val itxt = if(i) "yes" else null
+    <e lm={lm} r={r} a={a} c={c} i={itxt} slr={slr} srl={srl} v={v} vr={vr} vl={vl} alt={alt}>{ children.map{c => c.toXML} }</e>
   }
 }
 
@@ -120,6 +126,43 @@ object Dictionary {
     case <prm/> => Prm()
     case s @ <s/> => S(s.attribute("n").get(0).text)
     case _ => throw new Exception("Error reading sdef")
+  }
+  def nodetosection(node: Node): Section = node match {
+    case s @ <section/> => {
+      val id = s.attribute("id").get(0).text
+      val kind = s.attribute("type").get(0).text
+      if (id == "") throw new Exception("Attribute `id' cannot be missing")
+      if (kind == "") throw new Exception("Attribute `type' cannot be missing")
+      Section(id, kind, s.child.toList.map{nodetoe})
+    }
+    case _ => throw new Exception("Expected <section>")
+  }
+  def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
+    val attr = n.attribute(s).get(0).text
+    if (nullify && attr != "") {
+      attr
+    } else {
+      null
+    }
+  }
+  def nodetoe(node: Node): E = node match {
+    case e @ <e/> => {
+      val lm = getattrib(e, "lm", true)
+      val rtxt = e.attribute("r").get(0).text
+      val r = if (rtxt == "LR" || rtxt == "RL") rtxt else null
+      val itxt = e.attribute("i").get(0).text
+      val i = if (itxt == "yes") true else false
+      val c = getattrib(e, "c", true)
+      val alt = getattrib(e, "alt", true)
+      val a = getattrib(e, "a", true)
+      val v = getattrib(e, "v", true)
+      val vr = getattrib(e, "vr", true)
+      val vl = getattrib(e, "vl", true)
+      val slr = getattrib(e, "slr", true)
+      val srl = getattrib(e, "srl", true)
+      E(e.child.toList.map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vr, vl)
+    }
+    case _ => throw new Exception("Expected <e>")
   }
   def nodetocontainer(node: Node): TextLikeContainer = node match {
     case <i>{cnt @ _*}</i> => I(cnt.toList.map{nodetocontent})
