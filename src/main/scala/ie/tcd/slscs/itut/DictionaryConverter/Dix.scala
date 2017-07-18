@@ -28,16 +28,22 @@ import scala.xml._
 
 case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
   def toXML = {
-    <dictionary>
-      <alphabet>{alphabet}</alphabet>
-      <sdefs>
-        { sdefs.map { sdef => sdef.toXML } }
-      </sdefs>
-      <pardefs>
-        { pardefs.map { pardef => pardef.toXML } }
-      </pardefs>
-      { sections.map { section => section.toXML } }
-    </dictionary>
+<dictionary>
+  <alphabet>{alphabet}</alphabet>
+  <sdefs>
+  {
+    sdefs.map { sdef => sdef.toXML }
+  }
+  </sdefs>
+  <pardefs>
+  {
+    pardefs.map { pardef => pardef.toXML }
+  }
+  </pardefs>
+  {
+    sections.map { section => section.toXML }
+  }
+</dictionary>
   }
 }
 
@@ -153,8 +159,6 @@ object Dix {
     }
   }
 /*
-import scala.xml._
-import scala.xml.XML
 import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
 Dix.load("/tmp/test.dix")
  */
