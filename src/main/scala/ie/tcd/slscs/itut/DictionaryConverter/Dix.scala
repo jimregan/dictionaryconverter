@@ -137,20 +137,49 @@ object Dictionary {
     }
     case _ => throw new Exception("Expected <section>")
   }
+  /**
+   * Get attribute s from Node n
+   */
   def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
-    val attr = n.attribute(s).get(0).text
-    if (nullify && attr != "") {
-      attr
+    val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
+    if (nullify && attr.text != "") {
+      attr.text
     } else {
       null
     }
   }
-  def nodetoe(node: Node): E = node match {
-    case e @ <e/> => {
+/*
+import scala.xml._
+import scala.xml.XML
+import ie.tcd.slscs.itut.DictionaryConverter.dix.Dictionary
+val xml = XML.load("/tmp/test.dix")
+val pardefs = (xml \ "pardefs" \ "pardef").toList
+val node = pardefs(0)
+Dictionary.nodetopardef(node)
+ */
+  def pruneNodes(l: List[Node]): List[Node] = {
+    def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
+      case scala.xml.Text(t) :: xs => {
+        if(t.trim != "") {
+          pruneinner(xs, acc :+ scala.xml.Text(t))
+        } else {
+          pruneinner(xs, acc)
+        }
+      }
+      case scala.xml.Comment(_) :: xs => pruneinner(xs, acc)
+      case scala.xml.ProcInstr(_, _) :: xs => pruneinner(xs, acc)
+      case x :: xs => pruneinner(xs, acc :+ x)
+      case nil => acc
+    }
+    pruneinner(l, List.empty[Node])
+  }
+  def pruneNodes(n: Node): List[Node] = pruneNodes(n.child.toList)
+  def nodetoe(e: Node): E = e match {
+    case <e>{_*}</e> => {
       val lm = getattrib(e, "lm", true)
-      val rtxt = e.attribute("r").get(0).text
+      val rtxt = getattrib(e, "r", true)
       val r = if (rtxt == "LR" || rtxt == "RL") rtxt else null
-      val itxt = e.attribute("i").get(0).text
+      val itxt = getattrib(e, "i", true)
       val i = if (itxt == "yes") true else false
       val c = getattrib(e, "c", true)
       val alt = getattrib(e, "alt", true)
@@ -160,27 +189,42 @@ object Dictionary {
       val vl = getattrib(e, "vl", true)
       val slr = getattrib(e, "slr", true)
       val srl = getattrib(e, "srl", true)
-      E(e.child.toList.map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vr, vl)
+      E(pruneNodes(e).map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vr, vl)
     }
-    case _ => throw new Exception("Expected <e>")
+    case _ => throw new Exception("Expected <e>" + e.toString)
   }
   def nodetocontainer(node: Node): TextLikeContainer = node match {
     case <i>{cnt @ _*}</i> => I(cnt.toList.map{nodetocontent})
-    case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => P(L(l.toList.map{nodetocontent}), R(List[TextLike](G(g.toList.map{nodetocontent}))))
-    case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => P(L(l.toList.map{nodetocontent}), R(r.toList.map{nodetocontent}))
+    case p @ Elem(ns, "p", attribs, scope, children @ _*) => {
+      val tmp = Elem(ns, "p", attribs, scope, pruneNodes(children.toList) :_*)
+      tmp match {
+        case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => P(L(l.toList.map{nodetocontent}), R(List[TextLike](G(g.toList.map{nodetocontent}))))
+        case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => P(L(l.toList.map{nodetocontent}), R(r.toList.map{nodetocontent}))
+        case _ => throw new Exception("Error reading p: " + tmp.toString)
+      }
+    }
     case par @ <par/> => {
-      val satxt = par.attribute("sa").get(0).text
-      val sa = if (satxt != "") satxt else null
-      val prmtxt = par.attribute("prm").get(0).text
-      val prm = if (prmtxt != "") prmtxt else null
-      val name = par.attribute("n").get(0).text
+      val sa = getattrib(par, "sa", true)
+      val prm = getattrib(par, "prm", true)
+      val name = getattrib(par, "n", false)
       Par(name, sa, prm)
     }
     case <re>{re}</re> => RE(re.text)
     case <g>{foo @ _*}</g> => throw new Exception("Error reading <g>: cannot appear outside of <r>")
     case <l>{foo @ _*}</l> => throw new Exception("Error reading <l>: cannot appear outside of <p>")
     case <r>{foo @ _*}</r> => throw new Exception("Error reading <r>: cannot appear outside of <p>")
-    case _ => throw new Exception("Error reading e")
+    case _ => throw new Exception("Error reading e: " + node.toString)
+  }
+  def nodetopardef(node: Node): Pardef = node match {
+    case <pardef>{_*}</pardef> => {
+      val name = node \ "@n"
+      val comment = node \ "@c"
+      val n = name.text
+      val c = if (comment.text != "") comment.text else null
+      val children = pruneNodes(node.child.toList).map{nodetoe}
+      Pardef(n, c, children)
+    }
+    case _ => throw new Exception("Error reading pardef")
   }
   def nodetosdef(node: Node): Sdef = node match {
     case <sdef/> => {
@@ -200,3 +244,4 @@ object Dictionary {
     val pardefs = (xml \ "pardefs" \ "pardef").toList
   }
 }
+// set tabstop=2
