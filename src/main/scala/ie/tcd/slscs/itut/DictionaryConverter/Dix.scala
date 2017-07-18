@@ -26,7 +26,7 @@ package dix
 
 import scala.xml._
 
-class Dictionary(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
+case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], sections: List[Section]) {
   def toXML = {
     <dictionary>
       <alphabet>{alphabet}</alphabet>
@@ -120,7 +120,7 @@ case class P(l: L, r: R) extends TextLikeContainer(List[TextLike]()) {
   def toXML = <p><l>{l.toXML}</l><r>{r.toXML}</r></p>
 }
 
-object Dictionary {
+object Dix {
   import scala.xml.XML
   def nodetocontent(node: Node): TextLike = node match {
     case scala.xml.Text(t) => Txt(t)
@@ -155,10 +155,8 @@ object Dictionary {
 /*
 import scala.xml._
 import scala.xml.XML
-import ie.tcd.slscs.itut.DictionaryConverter.dix.Dictionary
-val xml = XML.load("/tmp/test.dix")
-val sections = xml \\ "section"
-Dictionary.nodetosection(sections(0))
+import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
+Dix.load("/tmp/test.dix")
  */
   def pruneNodes(l: List[Node]): List[Node] = {
     def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
@@ -239,13 +237,13 @@ Dictionary.nodetosection(sections(0))
     }
     case _ => throw new Exception("Error reading sdef")
   }
-  def load(file: String): Dictionary = {
+  def load(file: String): Dix = {
     val xml = XML.loadFile(file)
     val alph = (xml \ "alphabet")(0).text
     val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
     val pardefs = (xml \ "pardefs" \ "pardef").toList.map{nodetopardef}
     val sections = (xml \ "sections" \ "section").toList.map{nodetosection}
-    Dictionary(alph, sdefs, pardefs, sections)
+    Dix(alph, sdefs, pardefs, sections)
   }
 }
 // set tabstop=2
