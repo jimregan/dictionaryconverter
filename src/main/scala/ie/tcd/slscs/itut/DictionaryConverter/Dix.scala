@@ -53,6 +53,9 @@ trait TextLike extends DixElement
 case class B extends TextLike {
   def toXML = <b/>
 }
+case class J extends TextLike {
+  def toXML = <j/>
+}
 case class Prm extends TextLike {
   def toXML = <prm/>
 }
@@ -123,17 +126,18 @@ object Dictionary {
     case scala.xml.Text(t) => Txt(t)
     case scala.xml.EntityRef(e) => Entity(e)
     case <b/> => B()
+    case <j/> => J()
     case <prm/> => Prm()
     case s @ <s/> => S(s.attribute("n").get(0).text)
-    case _ => throw new Exception("Error reading sdef")
+    case _ => throw new Exception("Error reading content " + node.toString)
   }
   def nodetosection(node: Node): Section = node match {
-    case s @ <section/> => {
-      val id = s.attribute("id").get(0).text
-      val kind = s.attribute("type").get(0).text
+    case s @ <section>{_*}</section> => {
+      val id = getattrib(s, "id", false)
+      val kind = getattrib(s, "type", false)
       if (id == "") throw new Exception("Attribute `id' cannot be missing")
       if (kind == "") throw new Exception("Attribute `type' cannot be missing")
-      Section(id, kind, s.child.toList.map{nodetoe})
+      Section(id, kind, pruneNodes(s).map{nodetoe})
     }
     case _ => throw new Exception("Expected <section>")
   }
@@ -153,9 +157,8 @@ import scala.xml._
 import scala.xml.XML
 import ie.tcd.slscs.itut.DictionaryConverter.dix.Dictionary
 val xml = XML.load("/tmp/test.dix")
-val pardefs = (xml \ "pardefs" \ "pardef").toList
-val node = pardefs(0)
-Dictionary.nodetopardef(node)
+val sections = xml \\ "section"
+Dictionary.nodetosection(sections(0))
  */
   def pruneNodes(l: List[Node]): List[Node] = {
     def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
@@ -236,12 +239,13 @@ Dictionary.nodetopardef(node)
     }
     case _ => throw new Exception("Error reading sdef")
   }
-  def load(file: String) = {
-    //def toplevel(l: List[Node]) = l match {
+  def load(file: String): Dictionary = {
     val xml = XML.loadFile(file)
     val alph = (xml \ "alphabet")(0).text
     val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
-    val pardefs = (xml \ "pardefs" \ "pardef").toList
+    val pardefs = (xml \ "pardefs" \ "pardef").toList.map{nodetopardef}
+    val sections = (xml \ "sections" \ "section").toList.map{nodetosection}
+    Dictionary(alph, sdefs, pardefs, sections)
   }
 }
 // set tabstop=2
