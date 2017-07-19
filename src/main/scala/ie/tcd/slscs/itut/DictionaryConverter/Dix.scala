@@ -72,15 +72,13 @@ case class S(n: String) extends TextLike {
 abstract class EntryContainer(name: String, entries: List[E])
 case class Pardef(name: String, comment: String = null, entries: List[E]) extends EntryContainer(name, entries) {
   def toXML = {
-
     <pardef name={name} c={comment}>
       { entries.map{_.toXML} }
     </pardef>
   }
 }
 case class Section(name: String, stype: String, entries: List[E]) extends EntryContainer(name, entries) {
-  def toXML: scala.xml.Node = {
-
+  def toXML: scala.xml.Elem = {
     <section id={name} type={stype}>
       { entries.map{_.toXML} }
     </section>
@@ -139,7 +137,10 @@ object Dix {
       val kind = getattrib(s, "type", false)
       if (id == "") throw new Exception("Attribute `id' cannot be missing")
       if (kind == "") throw new Exception("Attribute `type' cannot be missing")
-      Section(id, kind, pruneNodes(s).map{nodetoe})
+//      val children = pruneNodes(s.child.toList).map{nodetoe}
+      val children = (s \ "e").toList.map{nodetoe}
+      if(children.isEmpty) throw new Exception("Failed to read section " + id)
+      Section(id, kind, children)
     }
     case _ => throw new Exception("Expected <section>")
   }
@@ -154,10 +155,6 @@ object Dix {
       null
     }
   }
-/*
-import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
-Dix.load("/tmp/test.dix")
- */
   def pruneNodes(l: List[Node]): List[Node] = {
     def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
       case scala.xml.Text(t) :: xs => {
