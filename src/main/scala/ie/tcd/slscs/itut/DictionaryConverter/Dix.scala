@@ -31,24 +31,20 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
 <dictionary>
   <alphabet>{alphabet}</alphabet>
   <sdefs>
-  {
-    sdefs.map { sdef => sdef.toXML }
-  }
+    { sdefs.map(_.toXML) }
   </sdefs>
   <pardefs>
-  {
-    pardefs.map { pardef => pardef.toXML }
-  }
+    { pardefs.map(_.toXML) }
   </pardefs>
   {
-    sections.map { section => section.toXML }
+    sections.map(_.toXML)
   }
 </dictionary>
   }
 }
 
 abstract class DixElement {
-  def toXML
+  def toXML: scala.xml.Node
 }
 
 case class Sdef(n: String, c: String = null) {
@@ -97,7 +93,7 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
              v: String = null, vr: String = null, vl: String = null) {
   def toXML = {
     val itxt = if(i) "yes" else null
-    <e lm={lm} r={r} a={a} c={c} i={itxt} slr={slr} srl={srl} v={v} vr={vr} vl={vl} alt={alt}>{ children.map{c => c.toXML} }</e>
+    <e lm={lm} r={r} a={a} c={c} i={itxt} slr={slr} srl={srl} v={v} vr={vr} vl={vl} alt={alt}>{ children.map{_.toXML} }</e>
   }
 }
 
@@ -105,25 +101,25 @@ abstract class Parts() extends DixElement
 
 abstract class TextLikeContainer(content: List[TextLike]) extends DixElement
 case class L(content: List[TextLike]) extends TextLikeContainer(content) {
-  def toXML = <l>{ content.map{c => c.toXML} }</l>
+  def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
 case class R(content: List[TextLike]) extends TextLikeContainer(content) {
-  def toXML = <r>{ content.map{c => c.toXML} }</r>
+  def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
 case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
-  def toXML = <g>{ content.map{c => c.toXML} }</g>
+  def toXML = { <g>{ content.map{c => c.toXML} }</g> }
 }
 case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
-  def toXML = <par n={name} sa={sa} prm={prm} />
+  def toXML = { <par n={name} sa={sa} prm={prm} /> }
 }
 case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
-  def toXML = <re>{regex}</re>
+  def toXML = { <re>{regex}</re> }
 }
 case class I(content: List[TextLike]) extends TextLikeContainer(content) {
-  def toXML = <i>{ content.map{c => c.toXML} }</i>
+  def toXML = { <i>{ content.map{c => c.toXML} }</i> }
 }
 case class P(l: L, r: R) extends TextLikeContainer(List[TextLike]()) {
-  def toXML = <p><l>{l.toXML}</l><r>{r.toXML}</r></p>
+  def toXML = { <p>{l.toXML}{r.toXML}</p> }
 }
 
 object Dix {
