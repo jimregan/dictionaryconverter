@@ -131,19 +131,6 @@ object Dix {
     case s @ <s/> => S(s.attribute("n").get(0).text)
     case _ => throw new Exception("Error reading content " + node.toString)
   }
-  def nodetosection(node: Node): Section = node match {
-    case s @ <section>{_*}</section> => {
-      val id = getattrib(s, "id", false)
-      val kind = getattrib(s, "type", false)
-      if (id == "") throw new Exception("Attribute `id' cannot be missing")
-      if (kind == "") throw new Exception("Attribute `type' cannot be missing")
-//      val children = pruneNodes(s.child.toList).map{nodetoe}
-      val children = (s \ "e").toList.map{nodetoe}
-      if(children.isEmpty) throw new Exception("Failed to read section " + id)
-      Section(id, kind, children)
-    }
-    case _ => throw new Exception("Expected <section>")
-  }
   /**
    * Get attribute s from Node n
    */
@@ -224,6 +211,18 @@ object Dix {
     }
     case _ => throw new Exception("Error reading pardef")
   }
+  def nodetosection(node: Node): Section = node match {
+    case <section>{_*}</section> => {
+      val id = (node \ "@id").text
+      val kind = (node \ "@type").text
+      if (id == "") throw new Exception("Attribute `id' cannot be missing")
+      if (kind == "") throw new Exception("Attribute `type' cannot be missing")
+      val children = (node \ "e").toList.map{nodetoe}
+      if(children.isEmpty) throw new Exception("Failed to read section " + id)
+      Section(id, kind, children)
+    }
+    case _ => throw new Exception("Expected <section>")
+  }
   def nodetosdef(node: Node): Sdef = node match {
     case <sdef/> => {
       val name = node \ "@n"
@@ -239,7 +238,7 @@ object Dix {
     val alph = (xml \ "alphabet")(0).text
     val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
     val pardefs = (xml \ "pardefs" \ "pardef").toList.map{nodetopardef}
-    val sections = (xml \ "sections" \ "section").toList.map{nodetosection}
+    val sections = (xml \ "section").toList.map{nodetosection}
     Dix(alph, sdefs, pardefs, sections)
   }
 }
