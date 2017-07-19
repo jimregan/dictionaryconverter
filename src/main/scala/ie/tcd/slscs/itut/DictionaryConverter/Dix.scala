@@ -241,5 +241,8 @@ object Dix {
     val sections = (xml \ "section").toList.map{nodetosection}
     Dix(alph, sdefs, pardefs, sections)
   }
+  def save(file: String, d: Dix) {
+    scala.xml.XML.save(file, d.toXML, "UTF-8")
+  }
 }
 // set tabstop=2
