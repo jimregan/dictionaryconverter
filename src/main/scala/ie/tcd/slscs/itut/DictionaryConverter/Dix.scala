@@ -36,9 +36,7 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
   <pardefs>
     { pardefs.map(_.toXML) }
   </pardefs>
-  {
-    sections.map(_.toXML)
-  }
+  { sections.map(_.toXML) }
 </dictionary>
   }
 }
@@ -74,15 +72,17 @@ case class S(n: String) extends TextLike {
 abstract class EntryContainer(name: String, entries: List[E])
 case class Pardef(name: String, comment: String = null, entries: List[E]) extends EntryContainer(name, entries) {
   def toXML = {
+
     <pardef name={name} c={comment}>
-      { entries.map{e => e.toXML} }
+      { entries.map{_.toXML} }
     </pardef>
   }
 }
 case class Section(name: String, stype: String, entries: List[E]) extends EntryContainer(name, entries) {
-  def toXML = {
+  def toXML: scala.xml.Node = {
+
     <section id={name} type={stype}>
-      { entries.map{e => e.toXML} }
+      { entries.map{_.toXML} }
     </section>
   }
 }
