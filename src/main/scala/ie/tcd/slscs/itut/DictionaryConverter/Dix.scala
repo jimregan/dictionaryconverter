@@ -43,10 +43,12 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
 
 abstract class DixElement {
   def toXML: scala.xml.Node
+  def toXMLString: String = toXML.toString
 }
 
 case class Sdef(n: String, c: String = null) {
   def toXML = <sdef n={n} c={c} />
+  def toXMLString = toXML.toString + "\n"
 }
 
 trait TextLike extends DixElement
