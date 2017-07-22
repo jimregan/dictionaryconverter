@@ -47,9 +47,9 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
 ${sdefs.map{e => "    " + e.toXMLString + "\n"}.mkString }
   </sdefs>
   <pardefs>
-${pardefs.map{_.toXMLString} }
+${pardefs.map{_.toXMLString}.mkString }
   </pardefs>
-${sections.map{_.toXMLString} }
+${sections.map{_.toXMLString}.mkString }
 </dictionary>
 """
 }
@@ -93,7 +93,7 @@ case class Pardef(name: String, comment: String = null, entries: List[E]) extend
   }
   def toXMLString: String = s"""
     <pardef n="$name"${if (comment != null) " c=\"$comment\"" else ""}>
-${entries.map{e => "      " + e.toXMLString + "\n"} }
+${entries.map{e => "      " + e.toXMLString + "\n"}.mkString }
     </pardef>
 """
 }
@@ -106,7 +106,7 @@ case class Section(name: String, stype: String, entries: List[E]) extends EntryC
 
   def toXMLString: String = s"""
   <section id="$name" type="$stype">
-${entries.map{e => "    " + e.toXMLString + "\n"} }
+${entries.map{e => "    " + e.toXMLString + "\n"}.mkString }
   </section>
 """
 }
