@@ -136,7 +136,6 @@ case class G(content: List[TextLike]) extends TextLikeContainer(content) with Te
 }
 case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
   def toXML = { <par n={name} sa={sa} prm={prm} /> }
-  override def toXMLString = toXML.toString
 }
 case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
   def toXML = { <re>{regex}</re> }
@@ -219,7 +218,7 @@ object Dix {
     case <par/> => {
       val sa = getattrib(node, "sa", true)
       val prm = getattrib(node, "prm", true)
-      val name = getattrib(node, "n", false)
+      val name = getattrib(node, "n", true)
       Par(name, sa, prm)
     }
     case <re>{re}</re> => RE(re.text)
