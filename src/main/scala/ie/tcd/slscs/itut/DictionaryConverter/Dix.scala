@@ -44,7 +44,7 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
 <dictionary>
   <alphabet>$alphabet</alphabet>
   <sdefs>
-${sdefs.map{e => "    " + e.toXMLString + "\n"}.mkString }
+${sdefs.map{e => "    " + e.toXMLString}.mkString("\n") }
   </sdefs>
   <pardefs>
 ${pardefs.map{_.toXMLString}.mkString }
@@ -93,7 +93,7 @@ case class Pardef(name: String, comment: String = null, entries: List[E]) extend
   }
   def toXMLString: String = s"""
     <pardef n="$name"${if (comment != null) " c=\"$comment\"" else ""}>
-${entries.map{e => "      " + e.toXMLString + "\n"}.mkString }
+${entries.map{e => "      " + e.toXMLString}.mkString("\n") }
     </pardef>
 """
 }
@@ -106,7 +106,7 @@ case class Section(name: String, stype: String, entries: List[E]) extends EntryC
 
   def toXMLString: String = s"""
   <section id="$name" type="$stype">
-${entries.map{e => "    " + e.toXMLString + "\n"}.mkString }
+${entries.map{e => "    " + e.toXMLString}.mkString("\n") }
   </section>
 """
 }
@@ -136,6 +136,7 @@ case class G(content: List[TextLike]) extends TextLikeContainer(content) with Te
 }
 case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
   def toXML = { <par n={name} sa={sa} prm={prm} /> }
+  override def toXMLString = toXML.toString
 }
 case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
   def toXML = { <re>{regex}</re> }
@@ -215,10 +216,10 @@ object Dix {
         case _ => throw new Exception("Error reading p: " + tmp.toString)
       }
     }
-    case par @ <par/> => {
-      val sa = getattrib(par, "sa", true)
-      val prm = getattrib(par, "prm", true)
-      val name = getattrib(par, "n", false)
+    case <par/> => {
+      val sa = getattrib(node, "sa", true)
+      val prm = getattrib(node, "prm", true)
+      val name = getattrib(node, "n", false)
       Par(name, sa, prm)
     }
     case <re>{re}</re> => RE(re.text)
