@@ -39,6 +39,19 @@ case class Dix(alphabet: String, sdefs: List[Sdef], pardefs: List[Pardef], secti
   { sections.map(_.toXML) }
 </dictionary>
   }
+
+  def toXMLString: String = s"""
+<dictionary>
+  <alphabet>$alphabet</alphabet>
+  <sdefs>
+${sdefs.map{e => "    " + e.toXMLString + "\n"}.mkString }
+  </sdefs>
+  <pardefs>
+${pardefs.map{_.toXMLString} }
+  </pardefs>
+${sections.map{_.toXMLString} }
+</dictionary>
+"""
 }
 
 abstract class DixElement {
@@ -48,7 +61,7 @@ abstract class DixElement {
 
 case class Sdef(n: String, c: String = null) {
   def toXML = <sdef n={n} c={c} />
-  def toXMLString = toXML.toString + "\n"
+  def toXMLString = toXML.toString
 }
 
 trait TextLike extends DixElement
@@ -74,10 +87,15 @@ case class S(n: String) extends TextLike {
 abstract class EntryContainer(name: String, entries: List[E])
 case class Pardef(name: String, comment: String = null, entries: List[E]) extends EntryContainer(name, entries) {
   def toXML = {
-    <pardef name={name} c={comment}>
+    <pardef n={name} c={comment}>
       { entries.map{_.toXML} }
     </pardef>
   }
+  def toXMLString: String = s"""
+    <pardef n="$name"${if (comment != null) " c=\"$comment\"" else ""}>
+${entries.map{e => "      " + e.toXMLString + "\n"} }
+    </pardef>
+"""
 }
 case class Section(name: String, stype: String, entries: List[E]) extends EntryContainer(name, entries) {
   def toXML: scala.xml.Elem = {
@@ -85,6 +103,12 @@ case class Section(name: String, stype: String, entries: List[E]) extends EntryC
       { entries.map{_.toXML} }
     </section>
   }
+
+  def toXMLString: String = s"""
+  <section id="$name" type="$stype">
+${entries.map{e => "    " + e.toXMLString + "\n"} }
+  </section>
+"""
 }
 
 case class E(children: List[TextLikeContainer], lm: String = null, r: String = null,
@@ -95,6 +119,7 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
     val itxt = if(i) "yes" else null
     <e lm={lm} r={r} a={a} c={c} i={itxt} slr={slr} srl={srl} v={v} vr={vr} vl={vl} alt={alt}>{ children.map{_.toXML} }</e>
   }
+  def toXMLString = toXML.toString
 }
 
 abstract class Parts() extends DixElement
@@ -244,7 +269,10 @@ object Dix {
     Dix(alph, sdefs, pardefs, sections)
   }
   def save(file: String, d: Dix) {
-    scala.xml.XML.save(file, d.toXML, "UTF-8")
+    import java.io._
+    val outfile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))
+    outfile.write(d.toXMLString)
+    outfile.close
   }
 }
 // set tabstop=2
