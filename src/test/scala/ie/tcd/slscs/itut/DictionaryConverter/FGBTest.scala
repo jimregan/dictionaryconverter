@@ -34,9 +34,14 @@ class StackSpec extends FlatSpec {
     val out1 = consumeSeeAlso("S.a.", breakdownComplexEntry(in1))
     assert(exp1 == out1)
 
-    val in2 = <entry><a>S.a. </a><s>beag</s><x>1</x>, <s>dath</s><x>1</x> <n>2</n>.</entry>
-    val exp2 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "1", "", ""), RefPiece("dath", "1", "2", ""))))
+    val in2 = <entry><a>S.a. </a><s>dath</s><x>1</x> <n>2</n>.</entry>
+    val exp2 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("dath", "1", "2", ""))))
     val out2 = consumeSeeAlso("S.a.", breakdownComplexEntry(in2))
     assert(exp2 == out2)
+
+    val in3 = <entry><a>S.a. </a><s>beag</s><x>1</x>, <s>dath</s><x>1</x> <n>2</n>.</entry>
+    val exp3 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "1", "", ""), RefPiece("dath", "1", "2", ""))))
+    val out3 = consumeSeeAlso("S.a.", breakdownComplexEntry(in2))
+    assert(exp3 == out3)
   }
 }
