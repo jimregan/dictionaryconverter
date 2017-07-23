@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 package ie.tcd.slscs.itut.DictionaryConverter
+package FGB
 
 //abstract class Entry
 case class SeeAlso(src: String, trg: String) extends Entry
