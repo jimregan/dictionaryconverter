@@ -99,6 +99,7 @@ object FGB {
       case <x>{x}</x> => XElem(x.text.trim)
       case scala.xml.Text(", ") => Comma()
       case scala.xml.Text(". ") => Fullstop()
+      case scala.xml.Text(".") => Fullstop()
       case scala.xml.Text(" :") => Colon()
       case scala.xml.Text(" : ") => Colon()
       case scala.xml.Text("(") => OpenParen()
@@ -130,44 +131,39 @@ object FGB {
     def consumeSeeAlsoInner(cur: RefPiece, p: RefPieces, list: List[BaseXML]): List[BaseXML] = list match {
       case SElem(s) :: xs => {
         val newrp = RefPiece(s, "", "", "")
-        if(cur.s != "") {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l), xs)
-        }
+        val l = if(cur.s != "") p.l :+ cur else p.l
+        consumeSeeAlsoInner(newrp, RefPieces(p.a, l), xs)
       }
       case XElem(x) :: xs => {
         val newrp = RefPiece(cur.s, x, "", "")
-        if(cur.x != "") {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l), xs)
-        }
+        val l = if(cur.x != "") p.l :+ cur else p.l
+        consumeSeeAlsoInner(newrp, RefPieces(p.a, l), xs)
       }
       case NElem(n) :: xs => {
         val newrp = RefPiece(cur.s, cur.x, n, "")
         val newrps = if(cur.n != "") RefPieces(p.a, p.l :+ cur) else RefPieces(p.a, p.l)
         if(nextIsNElem(xs)) {
-          List[BaseXML](newrps) ++ xs
+          //List[BaseXML](newrps) ++ xs
+          List[BaseXML](RefPieces(newrps.a, newrps.l :+ newrp)) ++ xs
         } else {
           consumeSeeAlsoInner(newrp, newrps, xs)
         }
       }
       case LElem(l) :: xs => {
         val newrp = RefPiece(cur.s, cur.x, cur.n, l)
-        if(cur.x != "") {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l :+ cur), xs)
-        } else {
-          consumeSeeAlsoInner(newrp, RefPieces(p.a, p.l), xs)
-        }
+        val ll = if(cur.l != "") p.l :+ cur else p.l
+        consumeSeeAlsoInner(newrp, RefPieces(p.a, ll), xs)
       }
       case OpenParen() :: xs => consumeSeeAlsoInner(cur, p, xs)
       case Comma() :: xs => consumeSeeAlsoInner(cur, p, xs)
+      case Txt("") :: xs => consumeSeeAlsoInner(cur, p, xs)
       case CloseParen() :: xs => consumeSeeAlsoInner(cur, p, xs)
       case CloseParenStop() :: xs => List[BaseXML](p) ++ xs
+      case Fullstop() :: xs => List[BaseXML](p) ++ xs
+      case x :: xs => throw new Exception("Unknown element: " + list.toString)
       case nil => List[BaseXML](p)
     }
-    consumeSeeAlsoInner(RefPiece("", "", "", ""), RefPieces(a, List[RefPiece]()), list)
+    consumeSeeAlsoInner(RefPiece("", "", "", ""), RefPieces(a, List.empty[RefPiece]), list)
   }
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
