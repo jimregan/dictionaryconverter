@@ -29,9 +29,10 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
 }
 case class SimpleEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg)
 case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends TranslationEntry(src, trg)
-case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String) extends TranslationEntry(src, trg)
+case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends TranslationEntry(src, trg)
 case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends TranslationEntry(src, trg)
 case class EmptyEntry(src: String, lbl: String) extends Entry
+case class EqualsEntry(src: String, lbl: String, eq: String) extends Entry
 
 class EID {
 }
@@ -48,6 +49,7 @@ object EID {
   case class Label(s: String) extends RawXML(s)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
+  case class SATxt(s: String) extends RawXML(s)
   case class VerbalNoun(s: String) extends RawXML(s)
   case class Sense(s: String) extends RawXML(s)
   case class SuperSense(s: String) extends RawXML(s)
@@ -68,7 +70,12 @@ object EID {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}</trg>.</title></entry> => SimpleEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, lbl2.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}<label>{gen}</label></trg>.</title></entry>  => SimpleNounEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString, lbl2.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString)
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString)
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString, true)
+      case <entry><title><src>{src}</src>, <label>{lbl}</label>{txt}</title></entry> => if(txt.text.trim.startsWith("=")) {
+        EqualsEntry(src.toString, lbl.toString, txt.toString.trim.substring(1).trim)
+      } else {
+        throw new Exception("Check entry: " + src.toString + " " + lbl.toString + " " + txt.toString)
+      }
       case _ => throw new Exception("Failed to match input")
     }
   }
@@ -79,9 +86,14 @@ object EID {
     case SimpleNounEntry(a, "a. & s.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
   }
 
-//  def extractElem(e: Elem): 
-
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
+    def optVNTrimmer(txt: String): String = {
+      if(txt.trim.endsWith(")")) {
+        txt.trim.substring(0, txt.trim.length-1)
+      } else {
+        txt.trim
+      }
+    }
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
       case <trg>{trg}</trg> => Trg(trg.text)
@@ -90,7 +102,7 @@ object EID {
       case <trg>{trg}<label>{lbl}</label>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text, true)
       case <noindex>(<label>v.n.</label> <trg>{vn}</trg>)</noindex> => VerbalNoun(vn.text)
-      case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(vn.text)
+      case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(optVNTrimmer(vn.text))
       case <noindex>(<src>{src}</src>, <trg>{trg}</trg>)</noindex> => Valency(src.text, trg.text)
       case <label>{lbl @ _* }</label> => Label(lbl.map{_.text}.mkString)
       case <sense>{sns}</sense> => Sense(sns.text)
@@ -99,7 +111,15 @@ object EID {
       case <super>{sns}</super> => Super(sns.text)
       case <line>{c @ _*}</line> => Line(c.map{breakdownComplexEntryPiece})
       case <title>{c @ _*}</title> => Title(c.map{breakdownComplexEntryPiece})
-      case scala.xml.Text(t) => Txt(t)
+      case scala.xml.Text(t) => {
+        if(t.startsWith(". S.a.")) {
+          SATxt(t.substring(2))
+        } else if(t.startsWith("S.a.") || t.startsWith("Cp.")) {
+          SATxt(t)
+        } else {
+          Txt(t)
+        }
+      }
     }
     e match {
       case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}.toList
