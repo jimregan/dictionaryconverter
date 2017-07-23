@@ -98,10 +98,12 @@ object FGB {
       case <v>{v}</v> => VElem(v.text.trim)
       case <x>{x}</x> => XElem(x.text.trim)
       case scala.xml.Text(", ") => Comma()
+      case scala.xml.Text(",") => Comma()
       case scala.xml.Text(". ") => Fullstop()
       case scala.xml.Text(".") => Fullstop()
       case scala.xml.Text(" :") => Colon()
       case scala.xml.Text(" : ") => Colon()
+      case scala.xml.Text(":") => Colon()
       case scala.xml.Text("(") => OpenParen()
       case scala.xml.Text(")") => CloseParen()
       case scala.xml.Text(").") => CloseParenStop()
@@ -143,7 +145,6 @@ object FGB {
         val newrp = RefPiece(cur.s, cur.x, n, "")
         val newrps = if(cur.n != "") RefPieces(p.a, p.l :+ cur) else RefPieces(p.a, p.l)
         if(nextIsNElem(xs)) {
-          //List[BaseXML](newrps) ++ xs
           List[BaseXML](RefPieces(newrps.a, newrps.l :+ newrp)) ++ xs
         } else {
           consumeSeeAlsoInner(newrp, newrps, xs)
