@@ -37,7 +37,7 @@ class StackSpec extends FlatSpec {
 
   "consumeSeeAlso1" should "consume seealso elements" in {
     val in = <entry><s>bocht</s><x>1</x>, <s>cleith</s><x>1</x> <n>1. </n><n>2. </n></entry>
-    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "", ""), RefPiece("cleith", "1", "1", ""))), NElem("2."))
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "", ""), RefPiece("cleith", "1", "1.", ""))), NElem("2."))
     val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
     assert(exp == out)
   }
