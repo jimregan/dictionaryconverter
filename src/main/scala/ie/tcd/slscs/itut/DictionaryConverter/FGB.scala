@@ -170,11 +170,6 @@ object FGB {
     consumeSeeAlsoInner(RefPiece("", "", "", ""), RefPieces(a, List[RefPiece]()), list)
   }
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
-    /**
-     * If the current element is <n>, and is followed directly by another,
-     * the next <n> is the sense number of the next sense
-     */
-    //def fix
     def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
       case TitleElem(t) :: xs => xs match {
         case XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
