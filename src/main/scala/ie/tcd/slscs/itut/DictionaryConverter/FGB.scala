@@ -50,6 +50,7 @@ object FGB {
   case class KElem(s: String) extends RawXML(s)
   case class LElem(s: String) extends RawXML(s)
   case class NElem(s: String) extends RawXML(s)
+  case class NLElem(n: String, l: String) extends RawXML(n)
   case class OElem(s: String) extends RawXML(s)
   case class PElem(s: String) extends RawXML(s)
   case class RElem(s: String) extends RawXML(s)
@@ -78,24 +79,24 @@ object FGB {
 
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
-      case <trans><r>{tr}</r></trans> => TransElem(tr.text)
-      case <title>{title}</title> => TitleElem(title.text)
+      case <trans><r>{tr}</r></trans> => TransElem(tr.text.trim)
+      case <title>{title}</title> => TitleElem(title.text.trim)
       case <a>{a}</a> => AElem(trims(a.text))
       case <b>{b}</b> => BElem(trims(b.text))
-      case <c>{c}</c> => CElem(c.text)
-      case <e>{e}</e> => EElem(e.text)
-      case <g>{g @ _* }</g> => GElem(g.map{_.text}.mkString)
-      case <h>{h}</h> => HElem(h.text)
-      case <i>{i}</i> => IElem(i.text)
-      case <k>{k}</k> => KElem(k.text)
-      case <l>{l}</l> => LElem(l.text)
-      case <n>{n}</n> => NElem(n.text)
-      case <o>{o}</o> => OElem(o.text)
-      case <p>{p}</p> => if (p == ", ") Comma() else PElem(p.text)
-      case <r>{r}</r> => RElem(r.text)
-      case <s>{s}</s> => SElem(s.text)
-      case <v>{v}</v> => VElem(v.text)
-      case <x>{x}</x> => XElem(x.text)
+      case <c>{c}</c> => CElem(c.text.trim)
+      case <e>{e}</e> => EElem(e.text.trim)
+      case <g>{g @ _* }</g> => GElem(g.map{_.text}.mkString.trim)
+      case <h>{h}</h> => HElem(h.text.trim)
+      case <i>{i}</i> => IElem(i.text.trim)
+      case <k>{k}</k> => KElem(k.text.trim)
+      case <l>{l}</l> => LElem(l.text.trim)
+      case <n>{n}</n> => NElem(n.text.trim)
+      case <o>{o}</o> => OElem(o.text.trim)
+      case <p>{p}</p> => if (p.text.trim == ",") Comma() else PElem(p.text)
+      case <r>{r}</r> => RElem(r.text.trim)
+      case <s>{s}</s> => SElem(s.text.trim)
+      case <v>{v}</v> => VElem(v.text.trim)
+      case <x>{x}</x> => XElem(x.text.trim)
       case scala.xml.Text(", ") => Comma()
       case scala.xml.Text(". ") => Fullstop()
       case scala.xml.Text(" :") => Colon()
@@ -103,7 +104,7 @@ object FGB {
       case scala.xml.Text("(") => OpenParen()
       case scala.xml.Text(")") => CloseParen()
       case scala.xml.Text(").") => CloseParenStop()
-      case scala.xml.Text(t) => Txt(t)
+      case scala.xml.Text(t) => Txt(t.trim)
     }
     e match {
       case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}.toList
@@ -177,13 +178,18 @@ object FGB {
     def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
       case TitleElem(t) :: xs => xs match {
         case XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
-        case x :: xs => doWordSenses(List[BaseXML](x) ++ xs, acc :+ TitleElem(t))
+        case x :: xe => doWordSenses(List[BaseXML](x) ++ xe, acc :+ TitleElem(t))
         case Nil => acc :+ TitleElem(t)
       }
       case GElem(g) :: xs => xs match {
-        case BElem(b) :: xs => doWordSenses(xs, acc ++ mkGramPiece(g, b))
-        case x :: xs => doWordSenses(List[BaseXML](x) ++ xs, acc :+ GElem(g))
+        case BElem(b) :: xe => doWordSenses(xe, acc ++ mkGramPiece(g, b))
+        case x :: xe => doWordSenses(List[BaseXML](x) ++ xe, acc :+ GElem(g))
         case Nil => acc :+ GElem(g)
+      }
+      case NElem(n) :: xs => xs match {
+        case OpenParen() :: LElem(l) :: CloseParen() :: xe => doWordSenses(xe, acc :+ NLElem(n, l))
+        case x :: xe => doWordSenses(List[BaseXML](x) ++ xe, acc :+ NElem(n))
+        case Nil => acc :+ NElem(n)
       }
       case AElem(a) :: xs => doWordSenses(consumeSeeAlso(a, xs), acc)
       case x :: xs => doWordSenses(xs, acc :+ x)
