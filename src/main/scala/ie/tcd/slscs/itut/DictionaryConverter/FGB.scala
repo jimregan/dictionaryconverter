@@ -158,10 +158,10 @@ object FGB {
       case Comma() :: xs => consumeSeeAlsoInner(cur, p, xs)
       case Txt("") :: xs => consumeSeeAlsoInner(cur, p, xs)
       case CloseParen() :: xs => consumeSeeAlsoInner(cur, p, xs)
-      case CloseParenStop() :: xs => List[BaseXML](p) ++ xs
-      case Fullstop() :: xs => List[BaseXML](p) ++ xs
+      case CloseParenStop() :: xs => List[BaseXML](RefPieces(p.a, p.l :+ cur)) ++ xs
+      case Fullstop() :: xs => List[BaseXML](RefPieces(p.a, p.l :+ cur)) ++ xs
       case x :: xs => throw new Exception("Unknown element: " + list.toString)
-      case nil => List[BaseXML](p)
+      case nil => List[BaseXML](RefPieces(p.a, p.l :+ cur))
     }
     consumeSeeAlsoInner(RefPiece("", "", "", ""), RefPieces(a, List.empty[RefPiece]), list)
   }
