@@ -27,7 +27,7 @@ import org.scalatest.FlatSpec
 import scala.xml._
 import ie.tcd.slscs.itut.DictionaryConverter.FGB.FGB._
 
-class StackSpec extends FlatSpec {
+class FGBTest extends FlatSpec {
   "consumeSeeAlso" should "consume seealso elements" in {
     val in = <entry><s>bocht</s><x>1</x><n>2. </n></entry>
     val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "2.", ""))))
