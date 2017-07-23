@@ -185,32 +185,11 @@ object FGB {
         case x :: xs => doWordSenses(List[BaseXML](x) ++ xs, acc :+ GElem(g))
         case Nil => acc :+ GElem(g)
       }
-      case AElem(a) :: xs => consumeSeeAlso(a, xs)
-      case TransElem(t) :: xs => doWordSenses(xs, acc :+ TransElem(t))
-      case BElem(t) :: xs => doWordSenses(xs, acc :+ BElem(t))
-      case CElem(t) :: xs => doWordSenses(xs, acc :+ CElem(t))
-      case EElem(t) :: xs => doWordSenses(xs, acc :+ EElem(t))
-      case HElem(t) :: xs => doWordSenses(xs, acc :+ HElem(t))
-      case IElem(t) :: xs => doWordSenses(xs, acc :+ IElem(t))
-      case KElem(t) :: xs => doWordSenses(xs, acc :+ KElem(t))
-      case LElem(t) :: xs => doWordSenses(xs, acc :+ LElem(t))
-      case NElem(t) :: xs => doWordSenses(xs, acc :+ NElem(t))
-      case OElem(t) :: xs => doWordSenses(xs, acc :+ OElem(t))
-      case PElem(t) :: xs => doWordSenses(xs, acc :+ PElem(t))
-      case RElem(t) :: xs => doWordSenses(xs, acc :+ RElem(t))
-      case SElem(t) :: xs => doWordSenses(xs, acc :+ SElem(t))
-      case VElem(t) :: xs => doWordSenses(xs, acc :+ VElem(t))
-      case XElem(t) :: xs => doWordSenses(xs, acc :+ XElem(t))
-      case Comma() :: xs => doWordSenses(xs, acc :+ Comma())
-      case Fullstop() :: xs => doWordSenses(xs, acc :+ Fullstop())
-      case Colon() :: xs => doWordSenses(xs, acc :+ Colon())
-      case OpenParen() :: xs => doWordSenses(xs, acc :+ OpenParen())
-      case CloseParen() :: xs => doWordSenses(xs, acc :+ CloseParen())
-      case CloseParenStop() :: xs => doWordSenses(xs, acc :+ CloseParenStop())
-      case Txt(t) :: xs => doWordSenses(xs, acc :+ Txt(t))
+      case AElem(a) :: xs => doWordSenses(consumeSeeAlso(a, xs), acc)
+      case x :: xs => doWordSenses(xs, acc :+ x)
       case Nil => acc
     }
-    doWordSenses(seq, List[BaseXML]())
+    doWordSenses(seq, List.empty[BaseXML])
   }
 
 
