@@ -29,19 +29,44 @@ import ie.tcd.slscs.itut.DictionaryConverter.FGB.FGB._
 
 class StackSpec extends FlatSpec {
   "consumeSeeAlso" should "consume seealso elements" in {
-    val in1 = <entry><a>S.a. </a><s>bocht</s><x>1</x>, <s>cleith</s><x>1</x> <n>1. </n><n>2. </n></entry>
-    val exp1 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "", ""), RefPiece("cleith", "1", "1", ""))), NElem("2."))
-    val out1 = consumeSeeAlso("S.a.", breakdownComplexEntry(in1))
-    assert(exp1 == out1)
+    val in = <entry><s>bocht</s><x>1</x><n>2. </n></entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "", ""))), NElem("2."))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
+  }
 
-    val in2 = <entry><a>S.a. </a><s>dath</s><x>1</x> <n>2</n>.</entry>
-    val exp2 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("dath", "1", "2", ""))))
-    val out2 = consumeSeeAlso("S.a.", breakdownComplexEntry(in2))
-    assert(exp2 == out2)
+  "consumeSeeAlso1" should "consume seealso elements" in {
+    val in = <entry><s>bocht</s><x>1</x>, <s>cleith</s><x>1</x> <n>1. </n><n>2. </n></entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("bocht", "1", "", ""), RefPiece("cleith", "1", "1", ""))), NElem("2."))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
+  }
 
-    val in3 = <entry><a>S.a. </a><s>beag</s><x>1</x>, <s>dath</s><x>1</x> <n>2</n>.</entry>
-    val exp3 = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "1", "", ""), RefPiece("dath", "1", "2", ""))))
-    val out3 = consumeSeeAlso("S.a.", breakdownComplexEntry(in2))
-    assert(exp3 == out3)
+  "consumeSeeAlso2" should "consume seealso elements" in {
+    val in = <entry><s>dath</s><x>1</x> <n>2</n>.</entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("dath", "1", "2", ""))))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
+  }
+
+  "consumeSeeAlso3" should "consume seealso elements" in {
+    val in = <entry><s>beag</s><x>1</x>, <x>1</x> <n>2</n>.</entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "1", "", ""), RefPiece("beag", "1", "2", ""))))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
+  }
+
+  "consumeSeeAlso4" should "consume seealso elements" in {
+    val in = <entry><s>beag</s>, <s>dath</s>.</entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "", "", ""), RefPiece("dath", "", "", ""))))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
+  }
+
+  "consumeSeeAlso5" should "consume seealso elements" in {
+    val in = <entry><s>beag</s><x>1</x>, <s>dath</s><x>1</x> <n>2</n>.</entry>
+    val exp = List[BaseXML](RefPieces("S.a.", List[RefPiece](RefPiece("beag", "1", "", ""), RefPiece("dath", "1", "2", ""))))
+    val out = consumeSeeAlso("S.a.", breakdownComplexEntry(in))
+    assert(exp == out)
   }
 }
