@@ -175,10 +175,16 @@ object FGB {
      */
     //def fix
     def doWordSenses(l: List[BaseXML], acc: List[BaseXML]): List[BaseXML] = l match {
-      case TitleElem(t) :: XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
-      case TitleElem(t) :: xs => doWordSenses(xs, acc :+ TitleElem(t))
-      case GElem(g) :: BElem(b) :: xs => doWordSenses(xs, acc ++ mkGramPiece(g, b))
-      case GElem(t) :: xs => doWordSenses(xs, acc :+ GElem(t))
+      case TitleElem(t) :: xs => xs match {
+        case XElem(x) :: xs => doWordSenses(xs, acc :+ TitleXElem(t, x))
+        case x :: xs => doWordSenses(List[BaseXML](x) ++ xs, acc :+ TitleElem(t))
+        case Nil => acc :+ TitleElem(t)
+      }
+      case GElem(g) :: xs => xs match {
+        case BElem(b) :: xs => doWordSenses(xs, acc ++ mkGramPiece(g, b))
+        case x :: xs => doWordSenses(List[BaseXML](x) ++ xs, acc :+ GElem(g))
+        case Nil => acc :+ GElem(g)
+      }
       case AElem(a) :: xs => consumeSeeAlso(a, xs)
       case TransElem(t) :: xs => doWordSenses(xs, acc :+ TransElem(t))
       case BElem(t) :: xs => doWordSenses(xs, acc :+ BElem(t))
