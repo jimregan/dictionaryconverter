@@ -56,7 +56,7 @@ class EIDTest extends FlatSpec {
 
   "read simple noun" should "read whole XML with simple noun entry" in {
     val in = <entry><title xml:space="preserve"><src>sewing</src>, <label>s.</label> <trg>Fuáil <label>f</label></trg>.</title></entry>
-    val exp = SimpleNounEntry("sewing", "s.", "Fuáil", "f")
+    val exp = SimpleNounEntry("sewing", "s.", "fuáil", "f")
     val out = readSimpleEntry(in)
     assert(exp == out)
   }

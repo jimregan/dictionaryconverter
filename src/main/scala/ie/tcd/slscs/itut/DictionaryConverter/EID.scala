@@ -73,13 +73,14 @@ object EID {
   case class EmptySubSense(s: String) extends RawXML(s)
   case class Valency(src: String, trg: String) extends BaseXML
 
+  def fixtrg(src: String, trg: String):String = if(noupper(trimp(src))) trimp(trg.toLowerCase) else trimp(trg)
   def readSimpleEntry(n: Elem): Entry = {
     n match {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label></title></entry> => EmptyEntry(src.toString, lbl.map{_.text}.mkString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}</trg>.</title></entry> => SimpleEntry(src.toString, lbl.map{_.text}.mkString, trg.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}</trg>.</title></entry> => SimpleEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, lbl2.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}<label>{gen}</label></trg>.</title></entry>  => SimpleNounEntryDomain(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, trimp(lbl2.toString))
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), trimp(gen.toString))
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, fixtrg(src.toString, trg.toString), trimp(gen.toString))
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, true)
       case <entry><title><src>{src}</src>, <label>{lbl}</label>{txt}</title></entry> => if(txt.text.trim.startsWith("=")) {
         EqualsEntry(trimp(src.toString), lbl.toString.trim, txt.toString.trim.substring(1).trim)
