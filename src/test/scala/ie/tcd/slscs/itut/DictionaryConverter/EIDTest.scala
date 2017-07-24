@@ -34,4 +34,16 @@ class EIDTest extends FlatSpec {
     val out = readSimpleEntry(in)
     assert(exp == out)
   }
+
+  "readSimpleEntry1" should "check simple entry" in {
+    val in = <entry><title xml:space="preserve"><src>Foo</src>, <label>a. &amp; s.</label> <trg>Fú <noindex>(<label>m</label>)</noindex></trg>.</title></entry>
+    val exp = SimpleNounEntry("Foo", "a. & s.", "Fú", "m", true)
+    val out = readSimpleEntry(in)
+    val ent = out match {
+      case SimpleNounEntry(a, b, c, d, e) => SimpleNounEntry(a, b, c, d, e)
+      case _ => throw new Exception("Could not cast")
+    }
+    assert(exp == out)
+    assert(ent.getLabels.toList == List("a.", "s."))
+  }
 }

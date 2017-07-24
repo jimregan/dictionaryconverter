@@ -22,23 +22,33 @@
  * SOFTWARE.
  */
 package ie.tcd.slscs.itut.DictionaryConverter
+import ie.tcd.slscs.itut.gramadanj.Conversion.EID.LabelMap
+
 abstract class Entry
 abstract class TranslationEntry(src: String, trg: String) extends Entry {
   def isAmbiguous: Boolean = trg.contains(",")
   def hasBrackets: Boolean = trg.contains("(")
 }
-case class SimpleEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg)
-case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends TranslationEntry(src, trg)
-case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends TranslationEntry(src, trg)
-case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends TranslationEntry(src, trg)
-case class EmptyEntry(src: String, lbl: String) extends Entry
-case class EqualsEntry(src: String, lbl: String, eq: String) extends Entry
+trait Label {
+  def lbl: String
+  def getLabels = LabelMap.getPoS(lbl)
+}
+abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with Label
+abstract class LabelEntry extends Entry with Label
+case class SimpleEntry(src: String, lbl: String, trg: String) extends LabelTransEntry(src, lbl, trg)
+case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends LabelTransEntry(src, lbl, trg)
+case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends LabelTransEntry(src, lbl, trg)
+case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends LabelTransEntry(src, lbl, trg)
+case class EmptyEntry(src: String, lbl: String) extends LabelEntry
+case class EqualsEntry(src: String, lbl: String, eq: String) extends LabelEntry
 
 class EID {
 }
 
 object EID {
   import scala.xml._
+
+  def trimp(s: String):String = s.trim.replaceAll("[.,;]?$", "")
 
   abstract class BaseXML()
   abstract class RawXML(s: String) extends BaseXML
@@ -68,11 +78,11 @@ object EID {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label></title></entry> => EmptyEntry(src.toString, lbl.map{_.text}.mkString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}</trg>.</title></entry> => SimpleEntry(src.toString, lbl.map{_.text}.mkString, trg.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}</trg>.</title></entry> => SimpleEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, lbl2.toString)
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}<label>{gen}</label></trg>.</title></entry>  => SimpleNounEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString, lbl2.toString)
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString)
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(src.toString, lbl.map{_.text}.mkString, trg.toString, gen.toString, true)
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}<label>{gen}</label></trg>.</title></entry>  => SimpleNounEntryDomain(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, trimp(lbl2.toString))
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), trimp(gen.toString))
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, true)
       case <entry><title><src>{src}</src>, <label>{lbl}</label>{txt}</title></entry> => if(txt.text.trim.startsWith("=")) {
-        EqualsEntry(src.toString, lbl.toString, txt.toString.trim.substring(1).trim)
+        EqualsEntry(trimp(src.toString), lbl.toString.trim, txt.toString.trim.substring(1).trim)
       } else {
         throw new Exception("Check entry: " + src.toString + " " + lbl.toString + " " + txt.toString)
       }
@@ -80,11 +90,13 @@ object EID {
     }
   }
 
+/*
   def filterEntries(e: Entry):List[Entry] = e match {
     case SimpleNounEntry(a, "s.", b, c) => List(SimpleNounEntry(a, "s.", b, c))
     case SimpleNounEntry(a, "s. & a.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
     case SimpleNounEntry(a, "a. & s.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
   }
+*/
 
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
     def optVNTrimmer(txt: String): String = {
