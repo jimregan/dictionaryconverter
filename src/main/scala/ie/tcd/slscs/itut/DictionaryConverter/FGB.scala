@@ -72,10 +72,10 @@ object FGB {
   case class RefPieces(a: String, l: List[RefPiece]) extends Filtered(a)
   case class RefPiece(s: String, x: String, n: String, l: String) extends Filtered(s)
 
-  def trim(s: String):String = s.replaceAll("[.,;]? *$", "").replaceAll("^ *", "")
-  def trims(s: String):String = s.replaceAll(" *$", "").replaceAll("^ *", "")
+  def trimp(s: String):String = s.trim.replaceAll("[.,;]?$", "")
+  def trims(s: String):String = s.trim
   def noupper(s: String):Boolean = s.toLowerCase == s
-  def fixtrg(src: String, trg: String):String = if(noupper(src)) trim(trg.toLowerCase) else trim(trg)
+  def fixtrg(src: String, trg: String):String = if(noupper(src)) trimp(trg.toLowerCase) else trimp(trg)
 
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
@@ -193,18 +193,18 @@ object FGB {
 
   def readSimpleEntry(n: Elem): Entry = {
     n match {
-      case <entry><title>{src}</title><g>f. = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "f")
-      case <entry><title>{src}</title><g>m. = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "m")
-      case <entry><title>{src}</title><g>f = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "f")
-      case <entry><title>{src}</title><g>m = </g><s>{trg}</s></entry> => NounEquals(trim(src.text), fixtrg(src.text, trg.text), "m")
-      case <entry><title>{src}</title><g>= </g><s>{trg}</s></entry> => OtherEquals(trim(src.text), fixtrg(src.text, trg.text))
-      case <entry><title>{src}</title>= <s>{trg}</s></entry> => OtherEquals(trim(src.text), fixtrg(src.text, trg.text))
-      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s></entry> => OtherEqualsLX(trim(src.text), trim(x.text), fixtrg(src.text, trg.text))
-      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s>.</entry> => OtherEqualsLX(trim(src.text), trim(x.text), fixtrg(src.text, trg.text))
-      case <entry><title>{src}</title>= <s>{trg}</s><x>{x}</x>.</entry> => OtherEqualsRX(trim(src.text), fixtrg(src.text, trg.text), trim(x.text))
-      case <entry><title>{src}</title><x>{sx}</x> = <s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trim(src.text), trim(sx.text), fixtrg(src.text, trg.text), trim(tx.text))
-      case <entry><title>{src}</title><x>{sx}</x> :<k> </k><s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trim(src.text), trim(sx.text), fixtrg(src.text, trg.text), trim(tx.text))
-      case <entry><title>{src}</title><g>{gram}</g><trans><r>{trg}</r></trans></entry> => OtherSimpleTrans(trim(src.text), trim(gram.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title><g>f. = </g><s>{trg}</s></entry> => NounEquals(trimp(src.text), fixtrg(src.text, trg.text), "f")
+      case <entry><title>{src}</title><g>m. = </g><s>{trg}</s></entry> => NounEquals(trimp(src.text), fixtrg(src.text, trg.text), "m")
+      case <entry><title>{src}</title><g>f = </g><s>{trg}</s></entry> => NounEquals(trimp(src.text), fixtrg(src.text, trg.text), "f")
+      case <entry><title>{src}</title><g>m = </g><s>{trg}</s></entry> => NounEquals(trimp(src.text), fixtrg(src.text, trg.text), "m")
+      case <entry><title>{src}</title><g>= </g><s>{trg}</s></entry> => OtherEquals(trimp(src.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title>= <s>{trg}</s></entry> => OtherEquals(trimp(src.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s></entry> => OtherEqualsLX(trimp(src.text), trimp(x.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title><x>{x}</x>= <s>{trg}</s>.</entry> => OtherEqualsLX(trimp(src.text), trimp(x.text), fixtrg(src.text, trg.text))
+      case <entry><title>{src}</title>= <s>{trg}</s><x>{x}</x>.</entry> => OtherEqualsRX(trimp(src.text), fixtrg(src.text, trg.text), trimp(x.text))
+      case <entry><title>{src}</title><x>{sx}</x> = <s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trimp(src.text), trimp(sx.text), fixtrg(src.text, trg.text), trimp(tx.text))
+      case <entry><title>{src}</title><x>{sx}</x> :<k> </k><s>{trg}</s><x>{tx}</x>.</entry> => OtherEqualsXX(trimp(src.text), trimp(sx.text), fixtrg(src.text, trg.text), trimp(tx.text))
+      case <entry><title>{src}</title><g>{gram}</g><trans><r>{trg}</r></trans></entry> => OtherSimpleTrans(trimp(src.text), trimp(gram.text), fixtrg(src.text, trg.text))
 
       case _ => throw new Exception("Failed to match input")
     }
