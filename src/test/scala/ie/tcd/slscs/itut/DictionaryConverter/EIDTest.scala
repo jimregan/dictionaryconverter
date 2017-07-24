@@ -46,4 +46,18 @@ class EIDTest extends FlatSpec {
     assert(exp == out)
     assert(ent.getLabels.toList == List("a.", "s."))
   }
+
+  "check empty sense" should "read whole XML entry with empty sense" in {
+    val in = <entry><title xml:space="preserve"><src>settle upon</src>, <label>v.i.</label></title></entry>
+    val exp = EmptyEntry("settle upon", "v.i.")
+    val out = readSimpleEntry(in)
+    assert(exp == out)
+  }
+
+  "read simple noun" should "read whole XML with simple noun entry" in {
+    val in = <entry><title xml:space="preserve"><src>sewing</src>, <label>s.</label> <trg>Fuáil <label>f</label></trg>.</title></entry>
+    val exp = SimpleNounEntry("sewing", "s.", "Fuáil", "f")
+    val out = readSimpleEntry(in)
+    assert(exp == out)
+  }
 }
