@@ -73,7 +73,8 @@ object EID {
   case class EmptySubSense(s: String) extends RawXML(s)
   case class Valency(src: String, trg: String) extends BaseXML
 
-  def fixtrg(src: String, trg: String):String = if(noupper(trimp(src))) trimp(trg.toLowerCase) else trimp(trg)
+  def noupper(s: String):Boolean = s.trim.toLowerCase == s
+  def fixtrg(src: String, trg: String):String = if(noupper(src)) trimp(trg.toLowerCase) else trimp(trg)
   def readSimpleEntry(n: Elem): Entry = {
     n match {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label></title></entry> => EmptyEntry(src.toString, lbl.map{_.text}.mkString)
@@ -90,14 +91,6 @@ object EID {
       case _ => throw new Exception("Failed to match input")
     }
   }
-
-/*
-  def filterEntries(e: Entry):List[Entry] = e match {
-    case SimpleNounEntry(a, "s.", b, c) => List(SimpleNounEntry(a, "s.", b, c))
-    case SimpleNounEntry(a, "s. & a.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
-    case SimpleNounEntry(a, "a. & s.", b, c) => List(SimpleNounEntry(a, "s.", b, c), SimpleEntry(a, "a.", b))
-  }
-*/
 
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
     def optVNTrimmer(txt: String): String = {
