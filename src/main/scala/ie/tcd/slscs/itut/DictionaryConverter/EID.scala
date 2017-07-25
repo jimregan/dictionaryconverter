@@ -31,7 +31,7 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
 }
 trait Label {
   def lbl: String
-  def getLabels = LabelMap.getPoS(lbl)
+  def getLabels: Array[String] = LabelMap.getPoS(lbl)
 }
 abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with Label
 abstract class LabelEntry extends Entry with Label
