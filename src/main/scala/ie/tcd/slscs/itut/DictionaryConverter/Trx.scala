@@ -29,7 +29,13 @@ trait TransferElement {
   def toXML: scala.xml.Node
   def toXMLString = toXML.toString
 }
-case class TopLevel(kind: String, defcats: List[DefCat], defattrs: List[AttrCat], vars: List[DefVar], lists: List[DefList], macros: List[DefMacro], rules: List[Rule]) extends TransferElement {
+trait Indentable {
+  val indent: String
+}
+case class TopLevel(kind: String, defcats: List[DefCat],
+                    defattrs: List[AttrCat], vars: List[DefVar],
+                    lists: List[DefList], macros: List[DefMacro],
+                    rules: List[Rule]) extends TransferElement {
   def getOpen: String = if(kind == "chunk") {
     "<transfer default=\"chunk\">"
   } else {
@@ -41,6 +47,34 @@ case class TopLevel(kind: String, defcats: List[DefCat], defattrs: List[AttrCat]
     "</" + kind + ">"
   }
   def toXML = <FIXME/>
+}
+case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
+                   defattrs: Map[String, List[AttrItem]],
+                   vars: Map[String, String],
+                   lists: Map[String, List[ListItem]],
+                   macros: Map[String, List[Action]], rules: List[Rule]) {
+  val variables = collection.mutable.Map.empty ++ vars
+  val validvariables: List[String] = vars.map(_._1).toList
+  def getVar(s: String): Option[String] = {
+    if (validvariables.contains(s)) {
+      variables.get(s)
+    } else {
+      None
+    }
+  }
+  def setVar(s: String, v: String) {
+    variables(s) = v
+  }
+}
+object TrxProc {
+  def fromTopLevel(t: TopLevel): TrxProc = {
+    val dc = t.defcats.map{e => (e.n, e.l)}.toMap
+    val da = t.defattrs.map{e => (e.n, e.l)}.toMap
+    val dv = t.vars.map{e => (e.name, e.value)}.toMap
+    val dl = t.lists.map{e => (e.name, e.items)}.toMap
+    val dm = t.macros.map{e => (e.name, e.actions)}.toMap
+    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
+  }
 }
 case class CatItem(tags: String, lemma: String = null) extends TransferElement {
   def toXML = <cat-item lemma={lemma} tags={tags} />
@@ -72,13 +106,19 @@ case class Action(c: List[Sentence]) extends TransferElement {
     { c.map{_.toXML} }
   </action>
 }
-trait Condition extends TransferElement
+trait Condition extends TransferElement {
+  def evaluate: Boolean
+}
 trait Container extends TransferElement
 trait Sentence extends TransferElement
-trait Value extends TransferElement
+trait Value extends TransferElement {
+  var value: String
+  def getValue: String = value
+}
 trait StringValue extends Value
 case class Var(name: String) extends Container with StringValue {
   def toXML = <var n={name}/>
+  var value = null
 }
 case class DefMacro(name: String, numparams: String, comment: String, actions: List[Action]) extends TransferElement {
   override def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
@@ -99,6 +139,11 @@ ${ items.map{_.toXMLString} }
 case class ListItem(value: String) extends TransferElement {
   def toXML = <list-item v={value}/>
   override def toXMLString = "      " + toXML.toString() + "\n"
+}
+case class BeginsWithList(v: Value, caseless: Boolean = false, l: List[ListItem]) extends Condition {
+  def evaluate: Boolean = {
+    true
+  }
 }
 
 object Trx {
@@ -127,6 +172,12 @@ object Trx {
     val items = (n \ "attr-item").map{nodeToAttrItem}.toList
     AttrCat(name, items)
   }
+  def nodeToDefList(n: Node): DefList = {
+    val name = (n \ "@n").text
+    val items = (n \ "list-item").map{nodeToListItem}.toList
+    DefList(name, items)
+  }
+  def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
 
   def load(file: String): TopLevel = {
     val xml = XML.loadFile(file)
@@ -143,5 +194,7 @@ object Trx {
     val kind = rootElementToTrxType(xml)
     val defcats = (xml \ "section-def-cats" \ "def-cat").map{nodeToDefCat}
     val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}
+    val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToVar}
+    val deflists = (xml \ "section-def-lists" \ "def-list").map(nodeToDefList)
   }
 }
