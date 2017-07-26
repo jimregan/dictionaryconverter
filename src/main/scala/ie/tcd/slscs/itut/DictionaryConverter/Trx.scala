@@ -111,20 +111,17 @@ case class DefVar(name: String, value: String = null) extends TransferElement {
 }
 case class Rule(comment: String, pattern: List[PatternItem], action: Action)
 case class PatternItem(n: String)
-case class Action(c: List[Sentence]) extends TransferElement {
+case class Action(c: List[SentenceElement]) extends TransferElement {
   def toXML = <action>
     { c.map{_.toXML} }
   </action>
 }
 trait ConditionElement extends TransferElement
-trait Container extends TransferElement
-trait Sentence extends TransferElement
-trait Value extends TransferElement {
-  var value: String
-  def getValue: String = value
-}
-trait StringValue extends Value
-case class Var(name: String) extends Container with StringValue {
+trait ContainerElement extends TransferElement
+trait SentenceElement extends TransferElement
+trait ValueElement extends TransferElement
+trait StringValueElement extends ValueElement
+case class Var(name: String) extends ContainerElement with StringValueElement {
   def toXML = <var n={name}/>
   var value = null
 }
@@ -146,7 +143,7 @@ case class ListItem(value: String) extends TransferElement {
   def toXML = <list-item v={value}/>
   override def toXMLString = "      " + toXML.toString
 }
-case class BeginsWithListElem(v: Value, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
+case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
   def toXML = <FIXME/>
 }
 
