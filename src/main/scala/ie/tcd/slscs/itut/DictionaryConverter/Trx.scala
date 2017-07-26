@@ -144,6 +144,7 @@ case class BeginsWithList(v: Value, caseless: Boolean = false, l: List[ListItem]
   def evaluate: Boolean = {
     true
   }
+  def toXML = <FIXME/>
 }
 
 object Trx {
