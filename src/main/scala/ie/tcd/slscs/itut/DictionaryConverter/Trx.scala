@@ -87,9 +87,9 @@ case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
     { l.map { c => c.toXML } }
     </def-cat>
   }
-  override def toXMLString = "    <def-cat n=\"$n\">\n"
-    + l.map{_.toXMLString}.mkString("\n")
-    + "    </def-cat>\n"
+  override def toXMLString = "    <def-cat n=\"$n\">\n" +
+    l.map{_.toXMLString}.mkString("\n") +
+    "    </def-cat>\n"
 }
 case class AttrItem(tags: String) extends TransferElement {
   def toXML = <attr-item tags={tags} />
@@ -101,9 +101,9 @@ case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
     { l.map { c => c.toXML } }
     </def-attr>
   }
-  override def toXMLString = "    <def-attr n=\"$n\">\n"
-    + l.map{_.toXMLString}.mkString("\n")
-    + "    </def-attr>\n"
+  override def toXMLString = "    <def-attr n=\"$n\">\n" +
+    l.map{_.toXMLString}.mkString("\n") +
+    "    </def-attr>\n"
 }
 case class DefVar(name: String, value: String = null) extends TransferElement {
   def toXML = <def-var n={name} v={value} />
@@ -130,7 +130,7 @@ case class Var(name: String) extends Container with StringValue {
 }
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
-  override def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
+  def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
     { actions.map{_.toXML} }
   </def-macro>
 }
@@ -138,9 +138,9 @@ case class DefList(name: String, items: List[ListItem]) extends TransferElement 
   override def toXML: Node = <def-list n={name}>
     { items.map{_.toXML} }
   </def-list>
-  override def toXMLString: String = "    <def-list n=\"$name\">\n"
-    + items.map{_.toXMLString}.mkString("\n")
-    + "    </def-list>\n"
+  override def toXMLString: String = "    <def-list n=\"$name\">\n" +
+    items.map{_.toXMLString}.mkString("\n") +
+    "    </def-list>\n"
 }
 case class ListItem(value: String) extends TransferElement {
   def toXML = <list-item v={value}/>
