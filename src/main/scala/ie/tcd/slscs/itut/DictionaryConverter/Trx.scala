@@ -31,7 +31,7 @@ trait TransferElement {
 }
 trait Indentable extends TransferElement {
   val indent: String = "  "
-  override def toXMLString = indent + toXML.toString + "\n"
+  override def toXMLString: String = indent + toXML.toString + "\n"
 }
 case class TopLevel(kind: String, defcats: List[DefCat],
                     defattrs: List[AttrCat], vars: List[DefVar],
@@ -116,9 +116,7 @@ case class Action(c: List[Sentence]) extends TransferElement {
     { c.map{_.toXML} }
   </action>
 }
-trait Condition extends TransferElement {
-  def evaluate: Boolean
-}
+trait ConditionElement extends TransferElement
 trait Container extends TransferElement
 trait Sentence extends TransferElement
 trait Value extends TransferElement {
@@ -148,10 +146,7 @@ case class ListItem(value: String) extends TransferElement {
   def toXML = <list-item v={value}/>
   override def toXMLString = "      " + toXML.toString
 }
-case class BeginsWithList(v: Value, caseless: Boolean = false, l: List[ListItem]) extends Condition {
-  def evaluate: Boolean = {
-    true
-  }
+case class BeginsWithListElem(v: Value, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
   def toXML = <FIXME/>
 }
 
@@ -171,6 +166,11 @@ object Trx {
   def nodeToVar(n: Node): Var = {
     val name = (n \ "@n").text
     Var(name)
+  }
+  def nodeToDefVar(n: Node): DefVar = {
+    val name = (n \ "@n").text
+    val value = (n \ "@v").text
+    DefVar(name, value)
   }
   def nodeToAttrItem(n: Node): AttrItem = {
     val tags = (n \ "@tags").text
@@ -205,9 +205,10 @@ object Trx {
       }
     }
     val kind = rootElementToTrxType(xml)
-    val defcats = (xml \ "section-def-cats" \ "def-cat").map{nodeToDefCat}
-    val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}
-    val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToVar}
-    val deflists = (xml \ "section-def-lists" \ "def-list").map(nodeToDefList)
+    val defcats = (xml \ "section-def-cats" \ "def-cat").map{nodeToDefCat}.toList
+    val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}.toList
+    val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToDefVar}.toList
+    val deflists = (xml \ "section-def-lists" \ "def-list").map{nodeToDefList}.toList
+    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacro], List.empty[Rule])
   }
 }
