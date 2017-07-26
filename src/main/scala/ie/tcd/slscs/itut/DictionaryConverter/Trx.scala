@@ -78,11 +78,11 @@ object TrxProc {
   }
 }
 case class CatItem(tags: String, lemma: String = null) extends TransferElement {
-  def toXML = <cat-item lemma={lemma} tags={tags} />
+  def toXML: Node = <cat-item lemma={lemma} tags={tags} />
   override def toXMLString: String = "      " + toXML.toString
 }
 case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
-  def toXML = {
+  def toXML: Node = {
     <def-cat n={n}>
     { l.map { c => c.toXML } }
     </def-cat>
@@ -92,11 +92,11 @@ case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
     "    </def-cat>\n"
 }
 case class AttrItem(tags: String) extends TransferElement {
-  def toXML = <attr-item tags={tags} />
+  def toXML: Node = <attr-item tags={tags} />
   override def toXMLString: String = "      " + toXML.toString
 }
 case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
-  def toXML = {
+  def toXML: Node = {
     <def-attr n={n}>
     { l.map { c => c.toXML } }
     </def-attr>
@@ -106,13 +106,13 @@ case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
     "    </def-attr>\n"
 }
 case class DefVar(name: String, value: String = null) extends TransferElement {
-  def toXML = <def-var n={name} v={value} />
-  override def toXMLString = "    " + toXML.toString
+  def toXML: Node = <def-var n={name} v={value} />
+  override def toXMLString: String = "    " + toXML.toString
 }
 case class Rule(comment: String, pattern: List[PatternItem], action: Action)
 case class PatternItem(n: String)
 case class Action(c: List[SentenceElement]) extends TransferElement {
-  def toXML = <action>
+  def toXML: Node = <action>
     { c.map{_.toXML} }
   </action>
 }
@@ -122,8 +122,7 @@ trait SentenceElement extends TransferElement
 trait ValueElement extends TransferElement
 trait StringValueElement extends ValueElement
 case class VarElement(name: String) extends ContainerElement with StringValueElement {
-  def toXML = <var n={name}/>
-  var value = null
+  def toXML: Node = <var n={name}/>
 }
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
@@ -140,11 +139,11 @@ case class DefList(name: String, items: List[ListItem]) extends TransferElement 
     "    </def-list>\n"
 }
 case class ListItem(value: String) extends TransferElement {
-  def toXML = <list-item v={value}/>
-  override def toXMLString = "      " + toXML.toString
+  def toXML: Node = <list-item v={value}/>
+  override def toXMLString: String = "      " + toXML.toString
 }
 case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
-  def toXML = <FIXME/>
+  def toXML: Node = <FIXME/>
 }
 
 object Trx {
