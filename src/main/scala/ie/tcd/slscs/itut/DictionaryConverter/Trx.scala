@@ -72,14 +72,14 @@ object TrxProc {
     val dc = t.defcats.map{e => (e.n, e.l)}.toMap
     val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
     val dv = t.vars.map{e => (e.name, e.value)}.toMap
-    val dl = t.lists.map{e => (e.name, e.items{_.value})}.toMap
+    val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
 }
 case class CatItem(tags: String, lemma: String = null) extends TransferElement {
   def toXML = <cat-item lemma={lemma} tags={tags} />
-  def toXMLString = "      " + toXML.toString
+  override def toXMLString = "      " + toXML.toString
 }
 case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
   def toXML = {
@@ -87,13 +87,13 @@ case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
     { l.map { c => c.toXML } }
     </def-cat>
   }
-  def toXMLString = "    <def-cat n=\"$n\">\n"
+  override def toXMLString = "    <def-cat n=\"$n\">\n"
     + l.map{_.toXMLString}.mkString("\n")
     + "    </def-cat>\n"
 }
 case class AttrItem(tags: String) extends TransferElement {
   def toXML = <attr-item tags={tags} />
-  def toXMLString = "      " + toXML.toString
+  override def toXMLString = "      " + toXML.toString
 }
 case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
   def toXML = {
@@ -101,13 +101,13 @@ case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
     { l.map { c => c.toXML } }
     </def-attr>
   }
-  def toXMLString = "    <def-attr n=\"$n\">\n"
+  override def toXMLString = "    <def-attr n=\"$n\">\n"
     + l.map{_.toXMLString}.mkString("\n")
     + "    </def-attr>\n"
 }
 case class DefVar(name: String, value: String = null) extends TransferElement {
   def toXML = <def-var n={name} v={value} />
-  def toXMLString = "    " + toXML.toString
+  override def toXMLString = "    " + toXML.toString
 }
 case class Rule(comment: String, pattern: List[PatternItem], action: Action)
 case class PatternItem(n: String)
