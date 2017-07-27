@@ -30,8 +30,9 @@ trait TransferElement {
   def toXMLString: String = toXML.toString + "\n"
 }
 trait Indentable extends TransferElement {
-  val indent: String = "  "
-  override def toXMLString: String = indent + toXML.toString + "\n"
+  val indent: String
+  val myindent: String = indent + "  "
+  override def toXMLString: String = myindent + toXML.toString + "\n"
 }
 case class TopLevel(kind: String, defcats: List[DefCat],
                     defattrs: List[AttrCat], vars: List[DefVar],
@@ -144,6 +145,14 @@ case class ListItem(value: String) extends TransferElement {
 }
 case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
   def toXML: Node = <FIXME/>
+}
+trait OutputElement extends TransferElement
+case class BElement(pos: String) extends OutputElement {
+  def toXML = <b pos={pos}/>
+}
+
+case class ChunkElement(children: List[ValueElement]) extends Indentable {
+  def toXML = <chunk>{children.map{_.toXML}}</chunk>
 }
 
 object Trx {
