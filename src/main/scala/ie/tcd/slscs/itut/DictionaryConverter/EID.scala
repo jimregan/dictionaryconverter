@@ -85,7 +85,7 @@ object EID {
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}</trg>.</title></entry> => SimpleEntryDomain(src.toString, lbl.map{_.text}.mkString, trg.toString, lbl2.toString)
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <label>{lbl2}</label>: <trg>{trg}<label>{gen}</label></trg>.</title></entry>  => SimpleNounEntryDomain(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, trimp(lbl2.toString))
       case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<label>{gen}</label></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, fixtrg(src.toString, trg.toString), trimp(gen.toString))
-      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString, true)
+      case <entry><title><src>{src}</src>, <label>{lbl @ _* }</label> <trg>{trg}<noindex>(<label>{gen}</label>)</noindex></trg>.</title></entry> => SimpleNounEntry(trimp(src.toString), lbl.map{_.text}.mkString, trimp(trg.toString), gen.toString)
       case <entry><title><src>{src}</src>, <label>{lbl}</label>{txt}</title></entry> => if(txt.text.trim.startsWith("=")) {
         EqualsEntry(trimp(src.toString), lbl.toString.trim, txt.toString.trim.substring(1).trim)
       } else {
@@ -120,14 +120,12 @@ object EID {
       case <super>{sns}</super> => Super(sns.text)
       case <line>{c @ _*}</line> => Line(c.map{breakdownComplexEntryPiece})
       case <title>{c @ _*}</title> => Title(c.map{breakdownComplexEntryPiece})
-      case scala.xml.Text(t) => {
-        if(t.startsWith(". S.a.")) {
-          SATxt(t.substring(2))
-        } else if(t.startsWith("S.a.") || t.startsWith("Cp.")) {
-          SATxt(t)
-        } else {
-          Txt(t)
-        }
+      case scala.xml.Text(t) => if(t.startsWith(". S.a.")) {
+        SATxt(t.substring(2))
+      } else if(t.startsWith("S.a.") || t.startsWith("Cp.")) {
+        SATxt(t)
+      } else {
+        Txt(t)
       }
     }
     e match {
