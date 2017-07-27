@@ -49,4 +49,13 @@ class TrxTest extends FlatSpec {
     val out = nodeToAttrItem(in)
     assert(exp == out)
   }
+
+  "callMacro" should "read a call-macro node" in {
+    val in = <call-macro n="firstWord">
+      <with-param pos="1"/>
+    </call-macro>
+    val exp = CallMacro("firstWord", List[WithParam](WithParam("1", "    ")), "  ")
+    val out = nodeToCallMacro(in, "  ")
+    assert(exp == out)
+  }
 }

@@ -97,7 +97,7 @@ case class Action(c: List[SentenceElement]) extends TransferElement {
  * 'condition' elements: and, or, not, equal, begins-with, begins-with-list,
  * ends-with, ends-with-list, contains-substring, in
  */
-trait ConditionElement extends TransferElement
+trait ConditionElement extends Indentable
 /** 'container' elements: var and clip */
 trait ContainerElement extends TransferElement
 /** 'sentence' elements: let, out, choose, modify-case, call-macro, append, and reject-current-rule */
@@ -164,13 +164,29 @@ case class ListItem(value: String) extends TransferElement {
   def toXML: Node = <list-item v={value}/>
   override def toXMLString: String = "      " + toXML.toString
 }
-case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
-  def toXML: Node = <FIXME/>
+case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement, indent: String) extends ConditionElement {
+  def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
 }
-
+case class EndsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement, indent: String) extends ConditionElement {
+  def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
+}
+case class NotElement(v: ValueElement, indent: String) extends ConditionElement {
+  def toXML = <not>{v.toXML}</not>
+}
+case class AndElement(children: List[ValueElement], indent: String) extends ConditionElement {
+  def toXML = <and>{children.map{_.toXML}}</and>
+}
+case class OrElement(children: List[ValueElement], indent: String) extends ConditionElement {
+  def toXML = <or>{children.map{_.toXML}}</or>
+}
+case class ListElement(name: String, indent: String) extends Indentable {
+  def toXML = <list n={name}/>
+}
 
 object Trx {
   import scala.xml._
+  private def indLevel(l: Int, t: String = "  ") = (t * l)
+
   def nodeToCatItem(n: Node): CatItem = {
     val lemmaRaw = (n \ "@lemma").text
     val lemma = if (lemmaRaw != "") lemmaRaw else null
@@ -182,9 +198,9 @@ object Trx {
     val children = (n \ "cat-item").toList.map{nodeToCatItem}
     DefCat(name, children)
   }
-  def nodeToVar(n: Node): VarElement = {
+  def nodeToVar(n: Node, indent: String): VarElement = {
     val name = (n \ "@n").text
-    VarElement(name, "")
+    VarElement(name, indent)
   }
   def nodeToDefVar(n: Node): DefVar = {
     val name = (n \ "@n").text
@@ -206,11 +222,11 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
-  def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
-  def nodeToCallMacro(n: Node): CallMacro = {
+  def nodeToWithParam(n: Node, indent: String): WithParam = WithParam((n \ "@pos").text, indent)
+  def nodeToCallMacro(n: Node, indent: String): CallMacro = {
     val name = (n \ "@n").text
-    val children = (n \ "with-param").map{nodeToWithParam}.toList
-    CallMacro(name, children)
+    val children = (n \ "with-param").map{e => nodeToWithParam(e, indent + indLevel(1))}.toList
+    CallMacro(name, children, indent)
   }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
