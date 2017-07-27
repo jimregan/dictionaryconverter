@@ -139,7 +139,12 @@ case class TagsElementType(children: List[TagElement], indent: String) extends I
 case class TagElement(children: List[ValueElement], indent: String) extends Indentable {
   def toXML = <tag>{children.map{_.toXML}}</tag>
 }
-
+case class WithParam(pos: String, indent: String = "          ") extends Indentable {
+  def toXML = <with-param pos={pos}/>
+}
+case class CallMacro(name: String, params: List[WithParam], indent: String = "        ") extends Indentable {
+  def toXML = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
+}
 
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
@@ -201,7 +206,7 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
-  def nodeToWithParam(n: Node): WithParam = WithParamElement((n \ "@pos").text)
+  def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
   def nodeToCallMacro(n: Node): CallMacro = {
     val name = (n \ "@n").text
     val children = (n \ "with-param").map{nodeToWithParam}.toList
