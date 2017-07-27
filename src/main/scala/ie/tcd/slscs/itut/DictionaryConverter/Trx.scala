@@ -1,7 +1,10 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Trinity College, Dublin
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,34 +53,6 @@ case class TopLevel(kind: String, defcats: List[DefCat],
   }
   def toXML: Node = <FIXME/>
 }
-case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
-                   defattrs: Map[String, List[String]],
-                   vars: Map[String, String],
-                   lists: Map[String, List[String]],
-                   macros: Map[String, List[Action]], rules: List[Rule]) {
-  val variables = collection.mutable.Map.empty[String, String] ++ vars
-  val validVariables: List[String] = vars.keys.toList
-  def getVar(s: String): Option[String] = {
-    if (validVariables.contains(s)) {
-      variables.get(s)
-    } else {
-      None
-    }
-  }
-  def setVar(s: String, v: String) {
-    variables(s) = v
-  }
-}
-object TrxProc {
-  def fromTopLevel(t: TopLevel): TrxProc = {
-    val dc = t.defcats.map{e => (e.n, e.l)}.toMap
-    val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
-    val dv = t.vars.map{e => (e.name, e.value)}.toMap
-    val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
-    val dm = t.macros.map{e => (e.name, e.actions)}.toMap
-    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
-  }
-}
 case class CatItem(tags: String, lemma: String = null) extends TransferElement {
   def toXML: Node = <cat-item lemma={lemma} tags={tags} />
   override def toXMLString: String = "      " + toXML.toString
@@ -117,14 +92,35 @@ case class Action(c: List[SentenceElement]) extends TransferElement {
     { c.map{_.toXML} }
   </action>
 }
+
+/**
+ * 'condition' elements: and, or, not, equal, begins-with, begins-with-list,
+ * ends-with, ends-with-list, contains-substring, in
+ */
 trait ConditionElement extends TransferElement
+/** 'container' elements: var and clip */
 trait ContainerElement extends TransferElement
+/** 'sentence' elements: let, out, choose, modify-case, call-macro, append, and reject-current-rule */
 trait SentenceElement extends TransferElement
-trait ValueElement extends TransferElement
+/** 'value' elements: b, clip, lit, lit-tag, var, get-case-from, case-of, concat, lu, mlu, and chunk */
+trait ValueElement extends Indentable
+/** 'stringvalue' elements: clip, lit, var, get-case-from, lu-count, and case-of */
 trait StringValueElement extends ValueElement
-case class VarElement(name: String) extends ContainerElement with StringValueElement {
+/** Elements that can be contained by <out>: mlu, lu, var, b, and chunk */
+trait OutElementType extends ValueElement
+case class VarElement(name: String, indent: String) extends ContainerElement with OutElementType {
   def toXML: Node = <var n={name}/>
 }
+case class BElement(pos: String, indent: String) extends OutElementType {
+  def toXML = <b pos={pos}/>
+}
+case class ChunkElement(children: List[ValueElement], indent: String) extends OutElementType {
+  def toXML = <chunk>{children.map{_.toXML}}</chunk>
+}
+case class ConcatElement(children: List[ValueElement], indent: String) extends ValueElement {
+  def toXML = <concat>{children.map{_.toXML}}</concat>
+}
+
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
   def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
@@ -145,14 +141,6 @@ case class ListItem(value: String) extends TransferElement {
 }
 case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: List[ListItem]) extends ConditionElement {
   def toXML: Node = <FIXME/>
-}
-trait OutputElement extends TransferElement
-case class BElement(pos: String) extends OutputElement {
-  def toXML = <b pos={pos}/>
-}
-
-case class ChunkElement(children: List[ValueElement]) extends Indentable {
-  def toXML = <chunk>{children.map{_.toXML}}</chunk>
 }
 
 object Trx {

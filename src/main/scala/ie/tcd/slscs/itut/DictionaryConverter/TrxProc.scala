@@ -1,10 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Trinity College, Dublin
- * Irish Speech and Language Technology Research Centre
- * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
- * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
+ * Copyright (c) 2017 Jim O'Regan
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,27 +23,31 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import org.scalatest.FlatSpec
-import scala.xml._
-import ie.tcd.slscs.itut.DictionaryConverter.Trx._
-
-class TrxTest extends FlatSpec {
-  "readDefAttr" should "read a def-attr node" in {
-    val in = <def-attr n="nbr">
-      <attr-item tags="sg"/>
-      <attr-item tags="pl"/>
-      <attr-item tags="sp"/>
-      <attr-item tags="ND"/>
-    </def-attr>
-    val exp = AttrCat("nbr", List[AttrItem](AttrItem("sg"), AttrItem("pl"), AttrItem("sp"), AttrItem("ND")))
-    val out = nodeToDefAttr(in)
-    assert(exp == out)
+case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
+                   defattrs: Map[String, List[String]],
+                   vars: Map[String, String],
+                   lists: Map[String, List[String]],
+                   macros: Map[String, List[Action]], rules: List[Rule]) {
+  val variables = collection.mutable.Map.empty[String, String] ++ vars
+  val validVariables: List[String] = vars.keys.toList
+  def getVar(s: String): Option[String] = {
+    if (validVariables.contains(s)) {
+      variables.get(s)
+    } else {
+      None
+    }
   }
-
-  "readAttrItem" should "read an attr-item node" in {
-    val in = <attr-item tags="sg"/>
-    val exp = AttrItem("sg")
-    val out = nodeToAttrItem(in)
-    assert(exp == out)
+  def setVar(s: String, v: String) {
+    variables(s) = v
+  }
+}
+object TrxProc {
+  def fromTopLevel(t: TopLevel): TrxProc = {
+    val dc = t.defcats.map{e => (e.n, e.l)}.toMap
+    val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
+    val dv = t.vars.map{e => (e.name, e.value)}.toMap
+    val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
+    val dm = t.macros.map{e => (e.name, e.actions)}.toMap
+    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
 }

@@ -1,7 +1,10 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Trinity College, Dublin
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -155,7 +158,7 @@ object Dix {
     case <b/> => B()
     case <j/> => J()
     case <prm/> => Prm()
-    case s @ <s/> => S(s.attribute("n").get(0).text)
+    case s @ <s/> => S(s.attribute("n").head.text)
     case _ => throw new Exception("Error reading content " + node.toString)
   }
   /**
