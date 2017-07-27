@@ -109,27 +109,35 @@ trait StringValueElement extends ValueElement
 /** Elements that can be contained by <out>: mlu, lu, var, b, and chunk */
 trait OutElementType extends ValueElement
 /** Elements that can be contained by <get-case-from>: clip, lit, var */
-trait CaseFromElement extends StringValueElement
-case class VarElement(name: String, indent: String) extends ContainerElement with OutElementType with CaseFromElement {
+trait CaseFromElementType extends StringValueElement
+/** Elements that can be contained by <chunk>: mlu, lu, b, var */
+trait ChunkElementType extends OutElementType
+case class VarElement(name: String, indent: String) extends ContainerElement with ChunkElementType with CaseFromElementType {
   def toXML: Node = <var n={name}/>
 }
-case class BElement(pos: String, indent: String) extends OutElementType {
+case class BElement(pos: String, indent: String) extends ChunkElementType {
   def toXML = <b pos={pos}/>
-}
-case class ChunkElement(children: List[ValueElement], indent: String) extends OutElementType {
-  def toXML = <chunk>{children.map{_.toXML}}</chunk>
 }
 case class ConcatElement(children: List[ValueElement], indent: String) extends ValueElement {
   def toXML = <concat>{children.map{_.toXML}}</concat>
 }
-case class MLUElement(children: List[LUElement], indent: String) extends OutElementType {
+case class MLUElement(children: List[LUElement], indent: String) extends ChunkElementType {
   def toXML = <mlu>{children.map{_.toXML}}</mlu>
 }
-case class LUElement(children: List[ValueElement], indent: String) extends OutElementType {
+case class LUElement(children: List[ValueElement], indent: String) extends ChunkElementType {
   def toXML = <lu>{children.map{_.toXML}}</lu>
 }
 case class LUCountElement(indent: String) extends StringValueElement {
   def toXML = <lu-count/>
+}
+case class ChunkElement(tags: TagsElementType, children: List[ValueElement], indent: String) extends OutElementType {
+  def toXML = <lu>{children.map{_.toXML}}</lu>
+}
+case class TagsElementType(children: List[TagElement], indent: String) extends Indentable {
+  def toXML = <tags>{children.map{_.toXML}}</tags>
+}
+case class TagElement(children: List[ValueElement], indent: String) extends Indentable {
+  def toXML = <tag>{children.map{_.toXML}}</tag>
 }
 
 
