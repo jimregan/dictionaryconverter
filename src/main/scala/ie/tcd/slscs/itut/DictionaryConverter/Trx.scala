@@ -99,7 +99,7 @@ case class Action(c: List[SentenceElement]) extends TransferElement {
  */
 trait ConditionElement extends Indentable
 /** 'container' elements: var and clip */
-trait ContainerElement extends TransferElement
+trait ContainerElement extends ValueElement
 /** 'sentence' elements: let, out, choose, modify-case, call-macro, append, and reject-current-rule */
 trait SentenceElement extends TransferElement
 /** 'value' elements: b, clip, lit, lit-tag, var, get-case-from, case-of, concat, lu, mlu, and chunk */
@@ -144,6 +144,12 @@ case class WithParam(pos: String, indent: String = "          ") extends Indenta
 }
 case class CallMacro(name: String, params: List[WithParam], indent: String = "        ") extends Indentable {
   def toXML = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
+}
+case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String, indent: String) extends ContainerElement {
+  def toXML = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
+}
+case class TestElement(cond: ConditionElement, indent: String) extends Indentable {
+  def toXML = <test>{cond.toXML}</test>
 }
 
 case class DefMacro(name: String, numparams: String, comment: String,
