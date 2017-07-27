@@ -136,8 +136,8 @@ case class ChunkElement(tags: TagsElementType, children: List[ValueElement], ind
 case class TagsElementType(children: List[TagElement], indent: String) extends Indentable {
   def toXML = <tags>{children.map{_.toXML}}</tags>
 }
-case class TagElement(children: List[ValueElement], indent: String) extends Indentable {
-  def toXML = <tag>{children.map{_.toXML}}</tag>
+case class TagElement(child: ValueElement, indent: String) extends Indentable {
+  def toXML = <tag>{child.toXML}</tag>
 }
 case class WithParam(pos: String, indent: String = "          ") extends Indentable {
   def toXML = <with-param pos={pos}/>
