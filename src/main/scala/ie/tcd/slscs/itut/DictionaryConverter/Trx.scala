@@ -138,6 +138,7 @@ case class TagsElementType(children: List[TagElement], indent: String) extends I
 }
 case class TagElement(child: ValueElement, indent: String) extends Indentable {
   def toXML = <tag>{child.toXML}</tag>
+  override def toXMLString: String = indent + toXML.toString + "\n"
 }
 case class WithParam(pos: String, indent: String = "          ") extends Indentable {
   def toXML = <with-param pos={pos}/>
