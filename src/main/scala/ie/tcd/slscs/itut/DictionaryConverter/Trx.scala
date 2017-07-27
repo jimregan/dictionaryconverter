@@ -108,7 +108,9 @@ trait ValueElement extends Indentable
 trait StringValueElement extends ValueElement
 /** Elements that can be contained by <out>: mlu, lu, var, b, and chunk */
 trait OutElementType extends ValueElement
-case class VarElement(name: String, indent: String) extends ContainerElement with OutElementType {
+/** Elements that can be contained by <get-case-from>: clip, lit, var */
+trait CaseFromElement extends StringValueElement
+case class VarElement(name: String, indent: String) extends ContainerElement with OutElementType with CaseFromElement {
   def toXML: Node = <var n={name}/>
 }
 case class BElement(pos: String, indent: String) extends OutElementType {
@@ -120,6 +122,16 @@ case class ChunkElement(children: List[ValueElement], indent: String) extends Ou
 case class ConcatElement(children: List[ValueElement], indent: String) extends ValueElement {
   def toXML = <concat>{children.map{_.toXML}}</concat>
 }
+case class MLUElement(children: List[LUElement], indent: String) extends OutElementType {
+  def toXML = <mlu>{children.map{_.toXML}}</mlu>
+}
+case class LUElement(children: List[ValueElement], indent: String) extends OutElementType {
+  def toXML = <lu>{children.map{_.toXML}}</lu>
+}
+case class LUCountElement(indent: String) extends StringValueElement {
+  def toXML = <lu-count/>
+}
+
 
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
