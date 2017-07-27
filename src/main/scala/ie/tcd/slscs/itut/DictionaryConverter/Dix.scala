@@ -191,19 +191,19 @@ object Dix {
   def pruneNodes(n: Node): List[Node] = pruneNodes(n.child.toList)
   def nodetoe(e: Node): E = e match {
     case <e>{_*}</e> => {
-      val lm = getattrib(e, "lm", true)
-      val rtxt = getattrib(e, "r", true)
+      val lm = getattrib(e, "lm")
+      val rtxt = getattrib(e, "r")
       val r = if (rtxt == "LR" || rtxt == "RL") rtxt else null
-      val itxt = getattrib(e, "i", true)
+      val itxt = getattrib(e, "i")
       val i = if (itxt == "yes") true else false
-      val c = getattrib(e, "c", true)
-      val alt = getattrib(e, "alt", true)
-      val a = getattrib(e, "a", true)
-      val v = getattrib(e, "v", true)
-      val vr = getattrib(e, "vr", true)
-      val vl = getattrib(e, "vl", true)
-      val slr = getattrib(e, "slr", true)
-      val srl = getattrib(e, "srl", true)
+      val c = getattrib(e, "c")
+      val alt = getattrib(e, "alt")
+      val a = getattrib(e, "a")
+      val v = getattrib(e, "v")
+      val vr = getattrib(e, "vr")
+      val vl = getattrib(e, "vl")
+      val slr = getattrib(e, "slr")
+      val srl = getattrib(e, "srl")
       E(pruneNodes(e).map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vr, vl)
     }
     case _ => throw new Exception("Expected <e>" + e.toString)
@@ -265,7 +265,7 @@ object Dix {
   }
   def load(file: String): Dix = {
     val xml = XML.loadFile(file)
-    val alph = (xml \ "alphabet")(0).text
+    val alph = (xml \ "alphabet").head.text
     val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
     val pardefs = (xml \ "pardefs" \ "pardef").toList.map{nodetopardef}
     val sections = (xml \ "section").toList.map{nodetosection}
@@ -275,7 +275,7 @@ object Dix {
     import java.io._
     val outfile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))
     outfile.write(d.toXMLString)
-    outfile.close
+    outfile.close()
   }
 }
 // set tabstop=2

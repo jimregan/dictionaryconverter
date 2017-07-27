@@ -33,7 +33,7 @@ object LexRule {
   }
   case class Groups(children: List[Grouping]) {
     lazy val mapinner: Map[String, Grouping] = children.foldLeft(Map[String, Grouping]()) { (m, c) => m + (c.getName -> c) }
-    def getMap() = mapinner
+    def getMap = mapinner
   }
   case class CharGroup(g: String, name: String, repeated: Boolean) extends Grouping(name, repeated) {
     private def getRegexInner(neg: Boolean): String = {

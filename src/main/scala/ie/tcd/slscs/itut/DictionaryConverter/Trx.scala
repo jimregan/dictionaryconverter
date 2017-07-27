@@ -158,7 +158,7 @@ object Trx {
   }
   def nodeToVar(n: Node): VarElement = {
     val name = (n \ "@n").text
-    VarElement(name)
+    VarElement(name, "")
   }
   def nodeToDefVar(n: Node): DefVar = {
     val name = (n \ "@n").text

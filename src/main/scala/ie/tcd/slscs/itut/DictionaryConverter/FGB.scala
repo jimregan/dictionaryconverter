@@ -87,13 +87,13 @@ object FGB {
       case <a>{a}</a> => AElem(trims(a.text))
       case <b>{b}</b> => BElem(trims(b.text))
       case <c>{c}</c> => CElem(c.text.trim)
-      case <e>{e}</e> => EElem(e.text.trim)
+      case <e>{ee}</e> => EElem(ee.text.trim)
       case <g>{g @ _* }</g> => GElem(g.map{_.text}.mkString.trim)
       case <h>{h}</h> => HElem(h.text.trim)
       case <i>{i}</i> => IElem(i.text.trim)
       case <k>{k}</k> => KElem(k.text.trim)
       case <l>{l}</l> => LElem(l.text.trim)
-      case <n>{n}</n> => NElem(n.text.trim)
+      case <n>{nn}</n> => NElem(nn.text.trim)
       case <o>{o}</o> => OElem(o.text.trim)
       case <p>{p}</p> => if (p.text.trim == ",") Comma() else PElem(p.text)
       case <r>{r}</r> => RElem(r.text.trim)
@@ -126,9 +126,9 @@ object FGB {
   def mkGramPiece(a: String, b: String): List[Filtered] = {
     if (a.contains("(")) {
         val out = a.split("\\(")
-        return List[Filtered](PosPiece(trims(out(0))), GramPiece(out(1), b))
+        List[Filtered](PosPiece(trims(out(0))), GramPiece(out(1), b))
     } else {
-        return List[Filtered](GramPiece(a, b))
+        List[Filtered](GramPiece(a, b))
     }
   }
 
