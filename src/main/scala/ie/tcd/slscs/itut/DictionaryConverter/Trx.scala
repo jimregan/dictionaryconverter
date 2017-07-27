@@ -163,6 +163,7 @@ case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: Lis
   def toXML: Node = <FIXME/>
 }
 
+
 object Trx {
   import scala.xml._
   def nodeToCatItem(n: Node): CatItem = {
@@ -200,6 +201,12 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
+  def nodeToWithParam(n: Node): WithParam = WithParamElement((n \ "@pos").text)
+  def nodeToCallMacro(n: Node): CallMacro = {
+    val name = (n \ "@n").text
+    val children = (n \ "with-param").map{nodeToWithParam}.toList
+    CallMacro(name, children)
+  }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
     AttrCat(s, l.map{e => AttrItem(e)})
