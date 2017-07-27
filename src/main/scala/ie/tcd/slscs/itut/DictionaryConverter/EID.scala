@@ -96,13 +96,12 @@ object EID {
   }
 
   def breakdownComplexEntry(e: Elem): List[BaseXML] = {
-    def optVNTrimmer(txt: String): String = {
-      if(txt.trim.endsWith(")")) {
-        txt.trim.substring(0, txt.trim.length-1)
-      } else {
-        txt.trim
-      }
+    def optVNTrimmer(txt: String): String = if(txt.trim.endsWith(")")) {
+      txt.trim.substring(0, txt.trim.length-1)
+    } else {
+      txt.trim
     }
+
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
       case <trg>{trg}</trg> => Trg(trg.text)
