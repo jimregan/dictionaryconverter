@@ -189,6 +189,12 @@ case class OrElement(children: List[ValueElement], indent: String) extends Condi
 case class ListElement(name: String, indent: String) extends Indentable {
   def toXML = <list n={name}/>
 }
+case class LitElement(value: String, indent: String) extends StringValueElement {
+  def toXML = <lit v={value}/>
+}
+case class LitTagElement(value: String, indent: String) extends StringValueElement {
+  def toXML = <lit-tag v={value}/>
+}
 
 object Trx {
   import scala.xml._
