@@ -115,44 +115,43 @@ trait OutElementType extends ValueElement
 trait CaseFromElementType extends StringValueElement
 /** Elements that can be contained by <chunk>: mlu, lu, b, var */
 trait ChunkElementType extends OutElementType
-case class VarElement(name: String, indent: String) extends ContainerElement with ChunkElementType with CaseFromElementType {
+case class VarElement(name: String) extends ContainerElement with ChunkElementType with CaseFromElementType {
   def toXML: Node = <var n={name}/>
 }
-case class BElement(pos: String, indent: String) extends ChunkElementType {
+case class BElement(pos: String) extends ChunkElementType {
   def toXML = <b pos={pos}/>
 }
-case class ConcatElement(children: List[ValueElement], indent: String) extends ValueElement {
+case class ConcatElement(children: List[ValueElement]) extends ValueElement {
   def toXML = <concat>{children.map{_.toXML}}</concat>
 }
-case class MLUElement(children: List[LUElement], indent: String) extends ChunkElementType {
+case class MLUElement(children: List[LUElement]) extends ChunkElementType {
   def toXML = <mlu>{children.map{_.toXML}}</mlu>
 }
-case class LUElement(children: List[ValueElement], indent: String) extends ChunkElementType {
+case class LUElement(children: List[ValueElement]) extends ChunkElementType {
   def toXML = <lu>{children.map{_.toXML}}</lu>
 }
 case class LUCountElement(indent: String) extends StringValueElement {
   def toXML = <lu-count/>
 }
-case class ChunkElement(tags: TagsElementType, children: List[ValueElement], indent: String) extends OutElementType {
+case class ChunkElement(tags: TagsElementType, children: List[ValueElement]) extends OutElementType {
   def toXML = <lu>{children.map{_.toXML}}</lu>
 }
-case class TagsElementType(children: List[TagElement], indent: String) extends Indentable {
+case class TagsElementType(children: List[TagElement]) extends Indentable {
   def toXML = <tags>{children.map{_.toXML}}</tags>
 }
-case class TagElement(child: ValueElement, indent: String) extends Indentable {
+case class TagElement(child: ValueElement) extends Indentable {
   def toXML = <tag>{child.toXML}</tag>
-  override def toXMLString: String = indent + toXML.toString + "\n"
 }
-case class WithParam(pos: String, indent: String = "          ") extends Indentable {
+case class WithParam(pos: String) extends Indentable {
   def toXML = <with-param pos={pos}/>
 }
-case class CallMacro(name: String, params: List[WithParam], indent: String = "        ") extends Indentable {
+case class CallMacro(name: String, params: List[WithParam]) extends Indentable {
   def toXML = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
 }
-case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String, indent: String) extends ContainerElement {
+case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement {
   def toXML = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
 }
-case class TestElement(cond: ConditionElement, indent: String) extends Indentable {
+case class TestElement(cond: ConditionElement) extends Indentable {
   def toXML = <test>{cond.toXML}</test>
 }
 
@@ -174,28 +173,28 @@ case class ListItem(value: String) extends TransferElement {
   def toXML: Node = <list-item v={value}/>
   override def toXMLString: String = "      " + toXML.toString
 }
-case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement, indent: String) extends ConditionElement {
+case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement) extends ConditionElement {
   def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
 }
-case class EndsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement, indent: String) extends ConditionElement {
+case class EndsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement) extends ConditionElement {
   def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
 }
-case class NotElement(v: ValueElement, indent: String) extends ConditionElement {
+case class NotElement(v: ValueElement) extends ConditionElement {
   def toXML = <not>{v.toXML}</not>
 }
-case class AndElement(children: List[ValueElement], indent: String) extends ConditionElement {
+case class AndElement(children: List[ValueElement]) extends ConditionElement {
   def toXML = <and>{children.map{_.toXML}}</and>
 }
-case class OrElement(children: List[ValueElement], indent: String) extends ConditionElement {
+case class OrElement(children: List[ValueElement]) extends ConditionElement {
   def toXML = <or>{children.map{_.toXML}}</or>
 }
-case class ListElement(name: String, indent: String) extends Indentable {
+case class ListElement(name: String) extends Indentable {
   def toXML = <list n={name}/>
 }
-case class LitElement(value: String, indent: String) extends StringValueElement {
+case class LitElement(value: String) extends StringValueElement {
   def toXML = <lit v={value}/>
 }
-case class LitTagElement(value: String, indent: String) extends StringValueElement {
+case class LitTagElement(value: String) extends StringValueElement {
   def toXML = <lit-tag v={value}/>
 }
 
@@ -214,9 +213,9 @@ object Trx {
     val children = (n \ "cat-item").toList.map{nodeToCatItem}
     DefCat(name, children)
   }
-  def nodeToVar(n: Node, indent: String): VarElement = {
+  def nodeToVar(n: Node): VarElement = {
     val name = (n \ "@n").text
-    VarElement(name, indent)
+    VarElement(name)
   }
   def nodeToDefVar(n: Node): DefVar = {
     val name = (n \ "@n").text
@@ -238,11 +237,11 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
-  def nodeToWithParam(n: Node, indent: String): WithParam = WithParam((n \ "@pos").text, indent)
-  def nodeToCallMacro(n: Node, indent: String): CallMacro = {
+  def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
+  def nodeToCallMacro(n: Node): CallMacro = {
     val name = (n \ "@n").text
-    val children = (n \ "with-param").map{e => nodeToWithParam(e, indent + indLevel(1))}.toList
-    CallMacro(name, children, indent)
+    val children = (n \ "with-param").map{nodeToWithParam}.toList
+    CallMacro(name, children)
   }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
