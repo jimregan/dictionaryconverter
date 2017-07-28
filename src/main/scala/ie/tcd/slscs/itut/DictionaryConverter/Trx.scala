@@ -34,8 +34,11 @@ trait TransferElement {
 }
 trait Indentable extends TransferElement {
   val indent_text: String = "  "
-  override def toXMLString: String = toXMLString(0)
-  def toXMLString(i: Int): String = (indent_text * i) + toXML.toString + "\n"
+  override def toXMLString: String = toXML.toString
+  def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + toXMLString + nl
+  }
 }
 case class TopLevel(kind: String, defcats: List[DefCat],
                     defattrs: List[AttrCat], vars: List[DefVar],
