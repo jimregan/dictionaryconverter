@@ -238,11 +238,24 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
+  def nodeToLit(n: Node): LitElement = LitElement((n \ "@v").text)
+  def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
   def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
   def nodeToCallMacro(n: Node): CallMacro = {
     val name = (n \ "@n").text
     val children = (n \ "with-param").map{nodeToWithParam}.toList
     CallMacro(name, children)
+  }
+  def inlistornull(s: String, l: List[String]): String = if(l.contains(s)) s else null
+  def nodeToClip(n: Node): ClipElement = {
+    val validside = List[String]("sl", "tl")
+    val pos = (n \ "@pos").text
+    val side = inlistornull((n \ "@side").text, validside)
+    val part = (n \ "@part").text
+    val queue = nullify((n \ "@queue").text)
+    val linkto = nullify((n \ "@link-to").text)
+    val c = nullify((n \ "@c").text)
+    ClipElement(pos, side, part, queue, linkto, c)
   }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
