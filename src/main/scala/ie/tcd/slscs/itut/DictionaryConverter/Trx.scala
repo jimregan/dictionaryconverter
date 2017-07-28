@@ -201,10 +201,11 @@ case class LitTagElement(value: String) extends StringValueElement {
 object Trx {
   import scala.xml._
   private def indLevel(l: Int, t: String = "  ") = (t * l)
+  private def nullify(s: String): String = if(s != "") s else null
 
   def nodeToCatItem(n: Node): CatItem = {
     val lemmaRaw = (n \ "@lemma").text
-    val lemma = if (lemmaRaw != "") lemmaRaw else null
+    val lemma = nullify((n \ "@lemma").text)
     val tags = (n \ "@tags").text
     CatItem(tags, lemma)
   }
@@ -219,7 +220,7 @@ object Trx {
   }
   def nodeToDefVar(n: Node): DefVar = {
     val name = (n \ "@n").text
-    val value = (n \ "@v").text
+    val value = (n \ "@lemma").text((n \ "@v").text)
     DefVar(name, value)
   }
   def nodeToAttrItem(n: Node): AttrItem = {
