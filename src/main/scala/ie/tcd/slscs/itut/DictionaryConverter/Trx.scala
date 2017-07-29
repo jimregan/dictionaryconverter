@@ -197,6 +197,9 @@ case class LitElement(value: String) extends StringValueElement {
 case class LitTagElement(value: String) extends StringValueElement {
   def toXML = <lit-tag v={value}/>
 }
+case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends ConditionElement {
+  def toXML = <equal caseless={caseless}>{children.map{_.toXML}}</equal>
+}
 
 object Trx {
   import scala.xml._
@@ -247,6 +250,14 @@ object Trx {
     CallMacro(name, children)
   }
   def inlistornull(s: String, l: List[String]): String = if(l.contains(s)) s else null
+  def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
+    val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
+    if (nullify && attr.text != "") {
+      attr.text
+    } else {
+      null
+    }
+  }
   def nodeToClip(n: Node): ClipElement = {
     val validside = List[String]("sl", "tl")
     val pos = (n \ "@pos").text
@@ -256,6 +267,22 @@ object Trx {
     val linkto = nullify((n \ "@link-to").text)
     val c = nullify((n \ "@c").text)
     ClipElement(pos, side, part, queue, linkto, c)
+  }
+  def nodeToValue(n: Node): ValueElement = n match {
+    case <b/> => BElement(getattrib(n, pos))
+    case <clip/> => {
+    //
+    }
+    case <lit/> => LitElement(getattrib(n, v))
+  }
+  def nodeToConditional(n: Node): ConditionElement = n match {
+    case <and>{_*}</and> => AndElement(n.child.map{nodeToValue}.toList)
+    case <or>{_*}</or> => OrElement(n.child.map{nodeToValue}.toList)
+    case <not>{_*}</not> => NotElement(nodeToValue(n.child.head))
+    case <equal>{_*}</equal> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      EqualElement(caseless, n.child.map{nodeToValue}.toList)
+    }
   }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
