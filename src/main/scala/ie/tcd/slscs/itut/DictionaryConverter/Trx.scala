@@ -347,7 +347,7 @@ object Trx {
     }
     GetCaseFromElement(pos, child)
   }
-  def incorrect(name: String): String = "<$name> contains incorrect number of elements"
+  def incorrect(name: String): String = "<{name}> contains incorrect number of elements"
   def nodeToTag(n: Node): TagElement = {
     val pruned = pruneNodes(n.child.toList)
     if(pruned.length != 1) {
@@ -527,7 +527,7 @@ object Trx {
     case <ends-with>{_*}</ends-with> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
-      val children = pruned.map{nodeToValue}.toList
+      val children = pruned.map{nodeToValue}
       if(children.length != 2) {
         throw new Exception(incorrect("ends-with"))
       }
