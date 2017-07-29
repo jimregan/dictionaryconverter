@@ -58,4 +58,29 @@ class TrxTest extends FlatSpec {
     val out = nodeToCallMacro(in)
     assert(exp == out)
   }
+
+  "action" should "read an action node" in {
+    val in = <action c="test">
+      <call-macro n="firstWord">
+        <with-param pos="1"/>
+      </call-macro>
+      <out>
+        <chunk name="ant" case="caseFirstWord">
+          <tags>
+            <tag><lit-tag v="SN"/></tag>
+            <tag><clip pos="2" side="sl" part="gen"/></tag>
+            <tag><clip pos="2" side="tl" part="nbr"/></tag>
+          </tags>
+          <lu>
+            <clip pos="2" side="tl" part="whole"/>
+          </lu>
+        </chunk>
+      </out>
+    </action>
+    val cm = CallMacroElement("firstWord", List[WithParamElement](WithParamElement("1")))
+
+    val exp = ActionElement("test", List[SentenceElement](cm))
+    val out = nodeToAction(in)
+    assert(exp == out)
+  }
 }
