@@ -212,6 +212,11 @@ case class LitTagElement(value: String) extends StringValueElement {
 case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends ConditionElement {
   def toXML: Node = <equal caseless={caseless}>{children.map{_.toXML}}</equal>
 }
+case class GetCaseFromElement(pos: String, child: StringValueElement) extends StringValueElement {
+  def toXML: Node = <get-case-from pos={pos}>{child.toXML}</get-case-from>
+}
+
+(pos, child)
 
 object Trx {
   import scala.xml._
@@ -281,12 +286,27 @@ object Trx {
     val c = nullify((n \ "@c").text)
     ClipElement(pos, side, part, queue, linkto, c)
   }
+  def nodeToGetCaseFrom(n: Node): GetCaseFromElement = {
+    val pos = getattrib(n, "pos")
+    if (n.child.length != 1) {
+      throw new Exception("<get-case-from> can only contain one element")
+    }
+    val childn = n.child.head
+    val child = childn match {
+      case <clip/> => nodeToClip(childn)
+      case <lit/> => LitElement(getattrib(childn, "v"))
+      case <var/> => VarElement(getattrib(childn, "n"))
+      case _ => throw new Exception("Unrecognised element: " + childn.label)
+    }
+    GetCaseFromElement(pos, child)
+  }
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => nodeToClip(n)
     case <lit/> => LitElement(getattrib(n, "v"))
     case <lit-tag/> => LitTagElement(getattrib(n, "v"))
     case <var/> => VarElement(getattrib(n, "n"))
+    case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <lu-count/> => LUCountElement()
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
@@ -294,7 +314,8 @@ object Trx {
   def nodeToStringValue(n: Node): StringValueElement = n match {
     case <clip/> => nodeToClip(n)
     case <lit/> => LitElement(getattrib(n, "v"))
-
+    case <var/> => VarElement(getattrib(n, "n"))
+    case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <lu-count/> => LUCountElement()
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
