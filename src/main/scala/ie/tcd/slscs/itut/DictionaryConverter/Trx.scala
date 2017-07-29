@@ -223,7 +223,7 @@ object Trx {
   }
   def nodeToDefVar(n: Node): DefVar = {
     val name = (n \ "@n").text
-    val value = (n \ "@lemma").text((n \ "@v").text)
+    val value = getattrib(n, "value")
     DefVar(name, value)
   }
   def nodeToAttrItem(n: Node): AttrItem = {
@@ -269,11 +269,11 @@ object Trx {
     ClipElement(pos, side, part, queue, linkto, c)
   }
   def nodeToValue(n: Node): ValueElement = n match {
-    case <b/> => BElement(getattrib(n, pos))
+    case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => {
     //
     }
-    case <lit/> => LitElement(getattrib(n, v))
+    case <lit/> => LitElement(getattrib(n, "v"))
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
     case <and>{_*}</and> => AndElement(n.child.map{nodeToValue}.toList)
