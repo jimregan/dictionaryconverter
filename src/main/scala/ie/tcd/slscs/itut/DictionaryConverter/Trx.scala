@@ -155,6 +155,11 @@ case class ClipElement(pos: String, side: String, part: String, queue: String, l
 case class TestElement(cond: ConditionElement) extends Indentable {
   def toXML: Node = <test>{cond.toXML}</test>
 }
+case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceElement {
+  private val shifting_text: String = if(shifting) "yes" else "no"
+
+  def toXML: Node = <reject-current-rule shifting={shifting_text}/>
+}
 
 case class DefMacro(name: String, numparams: String, comment: String,
                     actions: List[Action]) extends TransferElement {
