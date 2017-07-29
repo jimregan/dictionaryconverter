@@ -173,11 +173,17 @@ case class ListItem(value: String) extends TransferElement {
   def toXML: Node = <list-item v={value}/>
   override def toXMLString: String = "      " + toXML.toString
 }
-case class BeginsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement) extends ConditionElement {
+case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
 }
-case class EndsWithListElem(v: ValueElement, caseless: Boolean = false, l: ListElement) extends ConditionElement {
+case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
+  def toXML: Node = <begins-with>{l.toXML}{r.toXML}</begins-with>
+}
+case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
+}
+case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
+  def toXML: Node = <ends-with>{l.toXML}{r.toXML}</ends-with>
 }
 case class NotElement(v: ValueElement) extends ConditionElement {
   def toXML = <not>{v.toXML}</not>
@@ -271,9 +277,16 @@ object Trx {
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => {
-    //
+      val pos = getattrib(n, "pos")
+      val side = getattrib(n, "side")
+      val part = getattrib(n, "part")
+      val queue = getattrib(n, "queue")
+      val linkto = getattrib(n, "link-to")
+      val comment = getattrib(n, "c")
+      ClipElement(pos, side, part, queue, linkto, comment)
     }
     case <lit/> => LitElement(getattrib(n, "v"))
+    case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
     case <and>{_*}</and> => AndElement(n.child.map{nodeToValue}.toList)
@@ -283,6 +296,23 @@ object Trx {
       val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
       EqualElement(caseless, n.child.map{nodeToValue}.toList)
     }
+    case <begins-with>{_*}</begins-with> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val children = n.child.map{nodeToValue}.toList
+      if(children.length != 2) {
+        throw new Exception("<begins-with> can only contain two elements")
+      }
+      BeginsWithElement(children(0), children(1), caseless)
+    }
+    case <ends-with>{_*}</ends-with> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val children = n.child.map{nodeToValue}.toList
+      if(children.length != 2) {
+        throw new Exception("<ends-with> can only contain two elements")
+      }
+      EndsWithElement(children(0), children(1), caseless)
+    }
+    case _ => throw new Exception("Unrecognised element: " + n.label)
   }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
