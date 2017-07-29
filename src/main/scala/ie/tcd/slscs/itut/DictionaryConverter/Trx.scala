@@ -143,10 +143,10 @@ case class TagsElementType(children: List[TagElement]) extends Indentable {
 case class TagElement(child: ValueElement) extends Indentable {
   def toXML: Node = <tag>{child.toXML}</tag>
 }
-case class WithParam(pos: String) extends Indentable {
+case class WithParamElement(pos: String) extends Indentable {
   def toXML: Node = <with-param pos={pos}/>
 }
-case class CallMacro(name: String, params: List[WithParam]) extends Indentable {
+case class CallMacroElement(name: String, params: List[WithParamElement]) extends SentenceElement {
   def toXML: Node = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
 }
 case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
@@ -239,6 +239,12 @@ case class WhenElement(c: String, test: TestElement, children: List[SentenceElem
 case class OtherwiseElement(c: String, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <otherwise c={c}>{children.map{_.toXML}}</otherwise>
 }
+case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends SentenceElement {
+  def toXML: Node = <modify-case>{c.toXML}{s.toXML}</modify-case>
+}
+case class AppendElement(name: String, value: ValueElement) extends SentenceElement {
+  def toXML: Node = <append n={name}>{value.toXML}</append>
+}
 
 object Trx {
   import scala.xml._
@@ -291,11 +297,11 @@ object Trx {
   def nodeToList(n: Node): ListElement = ListElement((n \ "@n").text)
   def nodeToLit(n: Node): LitElement = LitElement((n \ "@v").text)
   def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
-  def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
-  def nodeToCallMacro(n: Node): CallMacro = {
+  def nodeToWithParam(n: Node): WithParamElement = WithParamElement((n \ "@pos").text)
+  def nodeToCallMacro(n: Node): CallMacroElement = {
     val name = (n \ "@n").text
     val children = (n \ "with-param").map{nodeToWithParam}.toList
-    CallMacro(name, children)
+    CallMacroElement(name, children)
   }
   def inlistornull(s: String, l: List[String]): String = if(l.contains(s)) s else null
   def nodeToClip(n: Node): ClipElement = {
@@ -418,10 +424,33 @@ object Trx {
     val other = if(othernode.length == 1) Some(nodeToOtherwise(othernode.head)) else None
     ChooseElement(c, when, other)
   }
+  def nodeToModifyCase(n: Node): ModifyCaseElement = {
+    if(n.child.length != 2) {
+      throw new Exception(incorrect("modify-case"))
+    }
+    val cont = nodeToContainer(n.child(0))
+    val value = nodeToStringValue(n.child(1))
+    ModifyCaseElement(cont, value)
+  }
+  def nodeToAppend(n: Node): AppendElement = {
+    if(n.child.length != 1) {
+      throw new Exception(incorrect("append"))
+    }
+    val name = getattrib(n, "n")
+    val value = nodeToValue(n.child(0))
+    AppendElement(name, value)
+  }
   def nodeToSentence(n: Node): SentenceElement = n match {
     case <let>{_*}</let> => nodeToLet(n)
     case <out>{_*}</out> => nodeToOut(n)
     case <choose>{_*}</choose> => nodeToChoose(n)
+    case <modify-case>{_*}</modify-case> => nodeToModifyCase(n)
+    case <call-macro>{_*}</call-macro> => nodeToCallMacro(n)
+    case <append>{_*}</append> => nodeToAppend(n)
+    case <reject-current-rule/> => {
+      val shift: Boolean = getattrib(n, "shifting") == "yes"
+      RejectCurrentRuleElement(shift)
+    }
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
