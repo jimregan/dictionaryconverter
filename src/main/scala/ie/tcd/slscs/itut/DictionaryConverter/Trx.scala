@@ -283,16 +283,20 @@ object Trx {
   }
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
-    case <clip/> => {
-      val pos = getattrib(n, "pos")
-      val side = getattrib(n, "side")
-      val part = getattrib(n, "part")
-      val queue = getattrib(n, "queue")
-      val linkto = getattrib(n, "link-to")
-      val comment = getattrib(n, "c")
-      ClipElement(pos, side, part, queue, linkto, comment)
-    }
+    case <clip/> => nodeToClip(n)
     case <lit/> => LitElement(getattrib(n, "v"))
+    case <lit-tag/> => LitTagElement(getattrib(n, "v"))
+    case <var/> => VarElement(getattrib(n, "n"))
+    case <lu-count/> => LUCountElement()
+
+    case _ => throw new Exception("Unrecognised element: " + n.label)
+  }
+  def nodeToStringValue(n: Node): StringValueElement = n match {
+    case <clip/> => nodeToClip(n)
+    case <lit/> => LitElement(getattrib(n, "v"))
+
+    case <lu-count/> => LUCountElement()
+
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
