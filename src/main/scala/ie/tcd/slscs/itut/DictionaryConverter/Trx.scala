@@ -133,7 +133,8 @@ case class LUElement(children: List[ValueElement]) extends ChunkElementType {
 case class LUCountElement() extends StringValueElement {
   def toXML: Node = <lu-count/>
 }
-case class ChunkElement(tags: TagsElementType, children: List[ValueElement]) extends OutElementType {
+case class ChunkElement(name: String, namefrom: String, ccase: String, c: String,
+                        tags: Option[TagsElementType], children: List[ValueElement]) extends OutElementType {
   def toXML: Node = <lu>{children.map{_.toXML}}</lu>
 }
 case class TagsElementType(children: List[TagElement]) extends Indentable {
@@ -215,8 +216,9 @@ case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends
 case class GetCaseFromElement(pos: String, child: StringValueElement) extends StringValueElement {
   def toXML: Node = <get-case-from pos={pos}>{child.toXML}</get-case-from>
 }
-
-(pos, child)
+case class CaseOfElement(pos: String, part: String) extends StringValueElement {
+  def toXML: Node = <case-of pos={pos} part={part}/>
+}
 
 object Trx {
   import scala.xml._
@@ -300,6 +302,30 @@ object Trx {
     }
     GetCaseFromElement(pos, child)
   }
+  def incorrect(name: String): String = "<$name> contains incorrect number of elements"
+  def nodeToTag(n: Node): TagElement = {
+    if(n.child.length != 1) {
+      throw new Exception(incorrect("tag"))
+    }
+    TagElement(nodeToValue(n.child.head))
+  }
+  def nodeToChunk(n: Node): ChunkElement = {
+    val name = getattrib(n, "name")
+    val namefrom = getattrib(n, "namefrom")
+    val ccase = getattrib(n, "case")
+    val comment = getattrib(n, "c")
+    if (n.child.length != 1 || n.child.length != 2) {
+      throw new Exception(incorrect("chunk"))
+    }
+    if(n.child.length == 2) {
+      val tags = (n \ "tags" \ "tag").map{nodeToTag}.toList
+      val values = n.child.tail.map{nodeToValue}.toList
+      ChunkElement(name, namefrom, ccase, comment, Some(TagsElementType(tags)), values)
+    } else {
+      val value = nodeToValue(n.child.head)
+      ChunkElement(name, namefrom, ccase, comment, None, List[ValueElement](value))
+    }
+  }
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => nodeToClip(n)
@@ -307,7 +333,10 @@ object Trx {
     case <lit-tag/> => LitTagElement(getattrib(n, "v"))
     case <var/> => VarElement(getattrib(n, "n"))
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
+    case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case <lu-count/> => LUCountElement()
+    case <concat>{_*}</concat> => ConcatElement(n.child.map{nodeToValue}.toList)
+    case <lu>{_*}</lu> => LUElement(n.child.map{nodeToValue}.toList)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
@@ -317,7 +346,7 @@ object Trx {
     case <var/> => VarElement(getattrib(n, "n"))
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <lu-count/> => LUCountElement()
-
+    case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
@@ -332,14 +361,14 @@ object Trx {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       val children = n.child.map{nodeToValue}.toList
       if(children.length != 2) {
-        throw new Exception("<begins-with> can only contain two elements")
+        throw new Exception(incorrect("begins-with"))
       }
       BeginsWithElement(children(0), children(1), caseless)
     }
     case <begins-with-list>{_*}</begins-with-list> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
-        throw new Exception("<begins-with-list> can only contain two elements")
+        throw new Exception(incorrect("begins-with-list"))
       }
       val value = nodeToValue(n.child.head)
       val listelem = nodeToList(n.child(1))
@@ -349,14 +378,14 @@ object Trx {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       val children = n.child.map{nodeToValue}.toList
       if(children.length != 2) {
-        throw new Exception("<ends-with> can only contain two elements")
+        throw new Exception(incorrect("ends-with"))
       }
       EndsWithElement(children(0), children(1), caseless)
     }
     case <ends-with-list>{_*}</ends-with-list> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
-        throw new Exception("<ends-with-list> can only contain two elements")
+        throw new Exception(incorrect("ends-with-list"))
       }
       val value = nodeToValue(n.child.head)
       val listelem = nodeToList(n.child(1))
@@ -365,16 +394,16 @@ object Trx {
     case <contains-substring>{_*}</contains-substring> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
-        throw new Exception("<contains-substring> can only contain two elements")
+        throw new Exception(incorrect("contains-substring"))
       }
       val left = nodeToValue(n.child(0))
       val right = nodeToValue(n.child(1))
-      ContainsSubstringElement(value, listelem, caseless)
+      ContainsSubstringElement(left, right, caseless)
     }
     case <in>{_*}</in> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
-        throw new Exception("<in> can only contain two elements")
+        throw new Exception(incorrect("in"))
       }
       val value = nodeToValue(n.child.head)
       val listelem = nodeToList(n.child(1))
