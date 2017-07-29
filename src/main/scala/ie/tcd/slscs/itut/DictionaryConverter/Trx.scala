@@ -179,6 +179,12 @@ case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Bool
 case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <begins-with>{l.toXML}{r.toXML}</begins-with>
 }
+case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
+  def toXML: Node = <contains-substring>{l.toXML}{r.toXML}</contains-substring>
+}
+case class InElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
+  def toXML: Node = <in>{l.toXML}{r.toXML}</in>
+}
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
 }
@@ -211,6 +217,14 @@ object Trx {
   import scala.xml._
   private def indLevel(l: Int, t: String = "  ") = (t * l)
   private def nullify(s: String): String = if(s != "") s else null
+  private def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
+    val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
+    if (nullify && attr.text != "") {
+      attr.text
+    } else {
+      null
+    }
+  }
 
   def nodeToCatItem(n: Node): CatItem = {
     val lemmaRaw = (n \ "@lemma").text
@@ -247,6 +261,7 @@ object Trx {
     DefList(name, items)
   }
   def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
+  def nodeToList(n: Node): ListElement = ListElement((n \ "@n").text)
   def nodeToLit(n: Node): LitElement = LitElement((n \ "@v").text)
   def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
   def nodeToWithParam(n: Node): WithParam = WithParam((n \ "@pos").text)
@@ -256,14 +271,6 @@ object Trx {
     CallMacro(name, children)
   }
   def inlistornull(s: String, l: List[String]): String = if(l.contains(s)) s else null
-  def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
-    val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
-    if (nullify && attr.text != "") {
-      attr.text
-    } else {
-      null
-    }
-  }
   def nodeToClip(n: Node): ClipElement = {
     val validside = List[String]("sl", "tl")
     val pos = (n \ "@pos").text
@@ -304,6 +311,15 @@ object Trx {
       }
       BeginsWithElement(children(0), children(1), caseless)
     }
+    case <begins-with-list>{_*}</begins-with-list> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      if(n.child.length != 2) {
+        throw new Exception("<begins-with-list> can only contain two elements")
+      }
+      val value = nodeToValue(n.child.head)
+      val listelem = nodeToList(n.child(1))
+      BeginsWithListElement(value, listelem, caseless)
+    }
     case <ends-with>{_*}</ends-with> => {
       val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
       val children = n.child.map{nodeToValue}.toList
@@ -311,6 +327,33 @@ object Trx {
         throw new Exception("<ends-with> can only contain two elements")
       }
       EndsWithElement(children(0), children(1), caseless)
+    }
+    case <ends-with-list>{_*}</ends-with-list> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      if(n.child.length != 2) {
+        throw new Exception("<ends-with-list> can only contain two elements")
+      }
+      val value = nodeToValue(n.child.head)
+      val listelem = nodeToList(n.child(1))
+      EndsWithListElement(value, listelem, caseless)
+    }
+    case <contains-substring>{_*}</contains-substring> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      if(n.child.length != 2) {
+        throw new Exception("<contains-substring> can only contain two elements")
+      }
+      val left = nodeToValue(n.child(0))
+      val right = nodeToValue(n.child(1))
+      ContainsSubstringElement(value, listelem, caseless)
+    }
+    case <in>{_*}</in> => {
+      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      if(n.child.length != 2) {
+        throw new Exception("<in> can only contain two elements")
+      }
+      val value = nodeToValue(n.child.head)
+      val listelem = nodeToList(n.child(1))
+      InElement(value, listelem, caseless)
     }
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
