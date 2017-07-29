@@ -224,6 +224,21 @@ case class GetCaseFromElement(pos: String, child: StringValueElement) extends St
 case class CaseOfElement(pos: String, part: String) extends StringValueElement {
   def toXML: Node = <case-of pos={pos} part={part}/>
 }
+case class LetElement(c: ContainerElement, v: ValueElement) extends SentenceElement {
+  def toXML: Node = <let>{c.toXML}{v.toXML}</let>
+}
+case class OutElement(children: List[OutElementType]) extends SentenceElement {
+  def toXML: Node = <out>{children.map{_.toXML}}</out>
+}
+case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
+  def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other != None) other.get.toXML}</choose>
+}
+case class WhenElement(c: String, test: TestElement, children: List[SentenceElement]) extends Indentable {
+  def toXML: Node = <when c={c}>{test.toXML}{children.map{_.toXML}}</when>
+}
+case class OtherwiseElement(c: String, children: List[SentenceElement]) extends Indentable {
+  def toXML: Node = <otherwise c={c}>{children.map{_.toXML}}</otherwise>
+}
 
 object Trx {
   import scala.xml._
@@ -352,6 +367,16 @@ object Trx {
     case <var/> => VarElement(getattrib(n, "n"))
     case <clip/> => nodeToClip(n)
 
+    case _ => throw new Exception("Unrecognised element: " + n.label)
+  }
+  def nodeToLet(n: Node): LetElement = {
+    if (n.child.length != 2) {
+      throw new Exception(incorrect("let"))
+    }
+    LetElement(nodeToContainer(n.child(0)), nodeToValue(n.child(1)))
+  }
+  def nodeToSentence(n: Node): SentenceElement = n match {
+    case <let>{_*}</let> => nodeToLet(n)
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
