@@ -152,8 +152,8 @@ case class CallMacro(name: String, params: List[WithParam]) extends Indentable {
 case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
   def toXML: Node = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
 }
-case class TestElement(cond: ConditionElement) extends Indentable {
-  def toXML: Node = <test>{cond.toXML}</test>
+case class TestElement(comment: String, cond: ConditionElement) extends Indentable {
+  def toXML: Node = <test c={comment}>{cond.toXML}</test>
 }
 case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceElement {
   private val shifting_text: String = if(shifting) "yes" else "no"
@@ -227,8 +227,8 @@ case class CaseOfElement(pos: String, part: String) extends StringValueElement {
 case class LetElement(c: ContainerElement, v: ValueElement) extends SentenceElement {
   def toXML: Node = <let>{c.toXML}{v.toXML}</let>
 }
-case class OutElement(children: List[OutElementType]) extends SentenceElement {
-  def toXML: Node = <out>{children.map{_.toXML}}</out>
+case class OutElement(c: String, children: List[OutElementType]) extends SentenceElement {
+  def toXML: Node = <out c={c}>{children.map{_.toXML}}</out>
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
   def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other != None) other.get.toXML}</choose>
@@ -363,6 +363,15 @@ object Trx {
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
+  def nodeToOutType(n: Node): OutElementType = n match {
+    case <b/> => BElement(getattrib(n, "pos"))
+    case <var/> => VarElement(getattrib(n, "n"))
+    case <lu>{_*}</lu> => nodeToLU(n)
+    case <mlu>{_*}</mlu> => MLUElement(n.child.map{nodeToLU}.toList)
+    case <chunk>{_*}</chunk> => nodeToChunk(n)
+
+    case _ => throw new Exception("Unrecognised element: " + n.label)
+  }
   def nodeToContainer(n: Node): ContainerElement = n match {
     case <var/> => VarElement(getattrib(n, "n"))
     case <clip/> => nodeToClip(n)
@@ -375,8 +384,44 @@ object Trx {
     }
     LetElement(nodeToContainer(n.child(0)), nodeToValue(n.child(1)))
   }
+  def nodeToOut(n: Node): OutElement = {
+    val c = getattrib(n, "c")
+    val children = n.child.map{nodeToOutType}.toList
+    OutElement(c, children)
+  }
+  def nodeToWhen(n: Node): WhenElement = {
+    val c = getattrib(n, "c")
+    val test = nodeToTest(n.child.head)
+    val actions = n.child.tail.map{nodeToSentence}.toList
+    WhenElement(c, test, actions)
+  }
+  def nodeToOtherwise(n: Node): OtherwiseElement = {
+    val c = getattrib(n, "c")
+    val actions = n.child.map{nodeToSentence}.toList
+    OtherwiseElement(c, actions)
+  }
+  def nodeToTest(n: Node): TestElement = {
+    val c = getattrib(n, "c")
+    if(n.child.length != 1) {
+      throw new Exception(incorrect("test"))
+    }
+    val children = nodeToConditional(n.child.head)
+    TestElement(c, children)
+  }
+  def nodeToChoose(n: Node): ChooseElement = {
+    val c = getattrib(n, "c")
+    val when = (n \ "when").map{nodeToWhen}.toList
+    val othernode = (n \ "otherwise")
+    if(othernode.length > 1) {
+      throw new Exception("<choose> can only contain one <otherwise>")
+    }
+    val other = if(othernode.length == 1) Some(nodeToOtherwise(othernode.head)) else None
+    ChooseElement(c, when, other)
+  }
   def nodeToSentence(n: Node): SentenceElement = n match {
     case <let>{_*}</let> => nodeToLet(n)
+    case <out>{_*}</out> => nodeToOut(n)
+    case <choose>{_*}</choose> => nodeToChoose(n)
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
