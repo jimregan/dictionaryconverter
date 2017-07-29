@@ -291,7 +291,7 @@ object Trx {
   def nodeToGetCaseFrom(n: Node): GetCaseFromElement = {
     val pos = getattrib(n, "pos")
     if (n.child.length != 1) {
-      throw new Exception("<get-case-from> can only contain one element")
+      throw new Exception(incorrect("get-case-from"))
     }
     val childn = n.child.head
     val child = childn match {
@@ -326,6 +326,7 @@ object Trx {
       ChunkElement(name, namefrom, ccase, comment, None, List[ValueElement](value))
     }
   }
+  def nodeToLU(n: Node) = LUElement(n.child.map {nodeToValue}.toList)
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => nodeToClip(n)
@@ -336,7 +337,15 @@ object Trx {
     case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case <lu-count/> => LUCountElement()
     case <concat>{_*}</concat> => ConcatElement(n.child.map{nodeToValue}.toList)
-    case <lu>{_*}</lu> => LUElement(n.child.map{nodeToValue}.toList)
+    case <lu>{_*}</lu> => nodeToLU(n)
+    case <mlu>{_*}</mlu> => MLUElement(n.child.map{nodeToLU}.toList)
+    case <chunk>{_*}</chunk> => nodeToChunk(n)
+
+    case _ => throw new Exception("Unrecognised element: " + n.label)
+  }
+  def nodeToContainer(n: Node): ContainerElement = n match {
+    case <var/> => VarElement(getattrib(n, "n"))
+    case <clip/> => nodeToClip(n)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
