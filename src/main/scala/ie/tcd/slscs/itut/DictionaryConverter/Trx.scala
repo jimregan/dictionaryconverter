@@ -119,40 +119,40 @@ case class VarElement(name: String) extends ContainerElement with ChunkElementTy
   def toXML: Node = <var n={name}/>
 }
 case class BElement(pos: String) extends ChunkElementType {
-  def toXML = <b pos={pos}/>
+  def toXML: Node = <b pos={pos}/>
 }
 case class ConcatElement(children: List[ValueElement]) extends ValueElement {
-  def toXML = <concat>{children.map{_.toXML}}</concat>
+  def toXML: Node = <concat>{children.map{_.toXML}}</concat>
 }
 case class MLUElement(children: List[LUElement]) extends ChunkElementType {
-  def toXML = <mlu>{children.map{_.toXML}}</mlu>
+  def toXML: Node = <mlu>{children.map{_.toXML}}</mlu>
 }
 case class LUElement(children: List[ValueElement]) extends ChunkElementType {
-  def toXML = <lu>{children.map{_.toXML}}</lu>
+  def toXML: Node = <lu>{children.map{_.toXML}}</lu>
 }
-case class LUCountElement(indent: String) extends StringValueElement {
-  def toXML = <lu-count/>
+case class LUCountElement() extends StringValueElement {
+  def toXML: Node = <lu-count/>
 }
 case class ChunkElement(tags: TagsElementType, children: List[ValueElement]) extends OutElementType {
-  def toXML = <lu>{children.map{_.toXML}}</lu>
+  def toXML: Node = <lu>{children.map{_.toXML}}</lu>
 }
 case class TagsElementType(children: List[TagElement]) extends Indentable {
-  def toXML = <tags>{children.map{_.toXML}}</tags>
+  def toXML: Node = <tags>{children.map{_.toXML}}</tags>
 }
 case class TagElement(child: ValueElement) extends Indentable {
-  def toXML = <tag>{child.toXML}</tag>
+  def toXML: Node = <tag>{child.toXML}</tag>
 }
 case class WithParam(pos: String) extends Indentable {
-  def toXML = <with-param pos={pos}/>
+  def toXML: Node = <with-param pos={pos}/>
 }
 case class CallMacro(name: String, params: List[WithParam]) extends Indentable {
-  def toXML = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
+  def toXML: Node = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
 }
-case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement {
-  def toXML = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
+case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
+  def toXML: Node = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
 }
 case class TestElement(cond: ConditionElement) extends Indentable {
-  def toXML = <test>{cond.toXML}</test>
+  def toXML: Node = <test>{cond.toXML}</test>
 }
 
 case class DefMacro(name: String, numparams: String, comment: String,
@@ -182,7 +182,7 @@ case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean
 case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <contains-substring>{l.toXML}{r.toXML}</contains-substring>
 }
-case class InElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
+case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false) extends ConditionElement {
   def toXML: Node = <in>{l.toXML}{r.toXML}</in>
 }
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
@@ -192,25 +192,25 @@ case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean =
   def toXML: Node = <ends-with>{l.toXML}{r.toXML}</ends-with>
 }
 case class NotElement(v: ValueElement) extends ConditionElement {
-  def toXML = <not>{v.toXML}</not>
+  def toXML: Node = <not>{v.toXML}</not>
 }
 case class AndElement(children: List[ValueElement]) extends ConditionElement {
-  def toXML = <and>{children.map{_.toXML}}</and>
+  def toXML: Node = <and>{children.map{_.toXML}}</and>
 }
 case class OrElement(children: List[ValueElement]) extends ConditionElement {
-  def toXML = <or>{children.map{_.toXML}}</or>
+  def toXML: Node = <or>{children.map{_.toXML}}</or>
 }
 case class ListElement(name: String) extends Indentable {
-  def toXML = <list n={name}/>
+  def toXML: Node = <list n={name}/>
 }
 case class LitElement(value: String) extends StringValueElement {
-  def toXML = <lit v={value}/>
+  def toXML: Node = <lit v={value}/>
 }
 case class LitTagElement(value: String) extends StringValueElement {
-  def toXML = <lit-tag v={value}/>
+  def toXML: Node = <lit-tag v={value}/>
 }
 case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends ConditionElement {
-  def toXML = <equal caseless={caseless}>{children.map{_.toXML}}</equal>
+  def toXML: Node = <equal caseless={caseless}>{children.map{_.toXML}}</equal>
 }
 
 object Trx {
@@ -304,11 +304,11 @@ object Trx {
     case <or>{_*}</or> => OrElement(n.child.map{nodeToValue}.toList)
     case <not>{_*}</not> => NotElement(nodeToValue(n.child.head))
     case <equal>{_*}</equal> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       EqualElement(caseless, n.child.map{nodeToValue}.toList)
     }
     case <begins-with>{_*}</begins-with> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       val children = n.child.map{nodeToValue}.toList
       if(children.length != 2) {
         throw new Exception("<begins-with> can only contain two elements")
@@ -316,7 +316,7 @@ object Trx {
       BeginsWithElement(children(0), children(1), caseless)
     }
     case <begins-with-list>{_*}</begins-with-list> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
         throw new Exception("<begins-with-list> can only contain two elements")
       }
@@ -325,7 +325,7 @@ object Trx {
       BeginsWithListElement(value, listelem, caseless)
     }
     case <ends-with>{_*}</ends-with> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       val children = n.child.map{nodeToValue}.toList
       if(children.length != 2) {
         throw new Exception("<ends-with> can only contain two elements")
@@ -333,7 +333,7 @@ object Trx {
       EndsWithElement(children(0), children(1), caseless)
     }
     case <ends-with-list>{_*}</ends-with-list> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
         throw new Exception("<ends-with-list> can only contain two elements")
       }
@@ -342,7 +342,7 @@ object Trx {
       EndsWithListElement(value, listelem, caseless)
     }
     case <contains-substring>{_*}</contains-substring> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
         throw new Exception("<contains-substring> can only contain two elements")
       }
@@ -351,7 +351,7 @@ object Trx {
       ContainsSubstringElement(value, listelem, caseless)
     }
     case <in>{_*}</in> => {
-      val caseless: Boolean = (n.attribute("caseless").get.text == "yes")
+      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
       if(n.child.length != 2) {
         throw new Exception("<in> can only contain two elements")
       }
