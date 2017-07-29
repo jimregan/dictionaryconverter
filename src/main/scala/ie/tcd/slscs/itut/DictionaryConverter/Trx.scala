@@ -88,11 +88,11 @@ case class DefVar(name: String, value: String = null) extends TransferElement {
   def toXML: Node = <def-var n={name} v={value} />
   override def toXMLString: String = "    " + toXML.toString
 }
-case class Rule(comment: String, pattern: List[PatternItem], action: Action)
+case class Rule(comment: String, pattern: List[PatternItem], action: ActionElement)
 case class PatternItem(n: String)
-case class Action(c: List[SentenceElement]) extends TransferElement {
-  def toXML: Node = <action>
-    { c.map{_.toXML} }
+case class ActionElement(c: String, children: List[SentenceElement]) extends Indentable {
+  def toXML: Node = <action c={c}>
+    { children.map{_.toXML} }
   </action>
 }
 
@@ -162,7 +162,7 @@ case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceEl
 }
 
 case class DefMacro(name: String, numparams: String, comment: String,
-                    actions: List[Action]) extends TransferElement {
+                    actions: List[ActionElement]) extends TransferElement {
   def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
     { actions.map{_.toXML} }
   </def-macro>
@@ -180,22 +180,28 @@ case class ListItem(value: String) extends TransferElement {
   override def toXMLString: String = "      " + toXML.toString
 }
 case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
 }
 case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <begins-with>{l.toXML}{r.toXML}</begins-with>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <begins-with caseless={clstring}>{l.toXML}{r.toXML}</begins-with>
 }
 case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <contains-substring>{l.toXML}{r.toXML}</contains-substring>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <contains-substring caseless={clstring}>{l.toXML}{r.toXML}</contains-substring>
 }
 case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <in>{l.toXML}{r.toXML}</in>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <in caseless={clstring}>{l.toXML}{r.toXML}</in>
 }
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <begins-with-list>{v.toXML}{l.toXML}</begins-with-list>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
 }
 case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  def toXML: Node = <ends-with>{l.toXML}{r.toXML}</ends-with>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <ends-with caseless={clstring}>{l.toXML}{r.toXML}</ends-with>
 }
 case class NotElement(v: ValueElement) extends ConditionElement {
   def toXML: Node = <not>{v.toXML}</not>
@@ -216,7 +222,8 @@ case class LitTagElement(value: String) extends StringValueElement {
   def toXML: Node = <lit-tag v={value}/>
 }
 case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends ConditionElement {
-  def toXML: Node = <equal caseless={caseless}>{children.map{_.toXML}}</equal>
+  val clstring = if(caseless) "yes" else "no"
+  def toXML: Node = <equal caseless={clstring}>{children.map{_.toXML}}</equal>
 }
 case class GetCaseFromElement(pos: String, child: StringValueElement) extends StringValueElement {
   def toXML: Node = <get-case-from pos={pos}>{child.toXML}</get-case-from>
@@ -439,6 +446,11 @@ object Trx {
     val name = getattrib(n, "n")
     val value = nodeToValue(n.child(0))
     AppendElement(name, value)
+  }
+  def nodeToAction(n: Node): ActionElement = {
+    val comment = getattrib(n, "c")
+    val values = n.child.map{nodeToSentence}.toList
+    ActionElement(comment, values)
   }
   def nodeToSentence(n: Node): SentenceElement = n match {
     case <let>{_*}</let> => nodeToLet(n)
