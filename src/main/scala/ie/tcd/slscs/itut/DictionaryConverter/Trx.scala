@@ -265,6 +265,17 @@ object Trx {
       null
     }
   }
+  def pruneNodes(l: List[Node]): List[Node] = {
+    def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
+      case scala.xml.Text(_) :: xs => pruneinner(xs, acc)
+      case scala.xml.Comment(_) :: xs => pruneinner(xs, acc)
+      case scala.xml.ProcInstr(_, _) :: xs => pruneinner(xs, acc)
+      case x :: xs => pruneinner(xs, acc :+ x)
+      case nil => acc
+    }
+    pruneinner(l, List.empty[Node])
+  }
+  def pruneNodes(n: Node): List[Node] = pruneNodes(n.child.toList)
 
   def nodeToCatItem(n: Node): CatItem = {
     val lemmaRaw = (n \ "@lemma").text
@@ -323,10 +334,11 @@ object Trx {
   }
   def nodeToGetCaseFrom(n: Node): GetCaseFromElement = {
     val pos = getattrib(n, "pos")
-    if (n.child.length != 1) {
+    val pruned = pruneNodes(n.child.toList)
+    if (pruned.length != 1) {
       throw new Exception(incorrect("get-case-from"))
     }
-    val childn = n.child.head
+    val childn = pruned.head
     val child = childn match {
       case <clip/> => nodeToClip(childn)
       case <lit/> => LitElement(getattrib(childn, "v"))
@@ -337,29 +349,31 @@ object Trx {
   }
   def incorrect(name: String): String = "<$name> contains incorrect number of elements"
   def nodeToTag(n: Node): TagElement = {
-    if(n.child.length != 1) {
+    val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 1) {
       throw new Exception(incorrect("tag"))
     }
-    TagElement(nodeToValue(n.child.head))
+    TagElement(nodeToValue(pruned.head))
   }
   def nodeToChunk(n: Node): ChunkElement = {
     val name = getattrib(n, "name")
     val namefrom = getattrib(n, "namefrom")
     val ccase = getattrib(n, "case")
     val comment = getattrib(n, "c")
-    if (n.child.length != 1 || n.child.length != 2) {
+    val pruned = pruneNodes(n.child.toList)
+    if (pruned.length != 1 || pruned.length != 2) {
       throw new Exception(incorrect("chunk"))
     }
-    if(n.child.length == 2) {
+    if(pruned.length == 2) {
       val tags = (n \ "tags" \ "tag").map{nodeToTag}.toList
-      val values = n.child.tail.map{nodeToValue}.toList
+      val values = pruned.tail.map{nodeToValue}.toList
       ChunkElement(name, namefrom, ccase, comment, Some(TagsElementType(tags)), values)
     } else {
-      val value = nodeToValue(n.child.head)
+      val value = nodeToValue(pruned.head)
       ChunkElement(name, namefrom, ccase, comment, None, List[ValueElement](value))
     }
   }
-  def nodeToLU(n: Node) = LUElement(n.child.map {nodeToValue}.toList)
+  def nodeToLU(n: Node) = LUElement(pruneNodes(n.child.toList).map {nodeToValue}.toList)
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => nodeToClip(n)
@@ -369,9 +383,9 @@ object Trx {
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case <lu-count/> => LUCountElement()
-    case <concat>{_*}</concat> => ConcatElement(n.child.map{nodeToValue}.toList)
+    case <concat>{_*}</concat> => ConcatElement(pruneNodes(n.child.toList).map{nodeToValue}.toList)
     case <lu>{_*}</lu> => nodeToLU(n)
-    case <mlu>{_*}</mlu> => MLUElement(n.child.map{nodeToLU}.toList)
+    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU}.toList)
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
@@ -380,7 +394,7 @@ object Trx {
     case <b/> => BElement(getattrib(n, "pos"))
     case <var/> => VarElement(getattrib(n, "n"))
     case <lu>{_*}</lu> => nodeToLU(n)
-    case <mlu>{_*}</mlu> => MLUElement(n.child.map{nodeToLU}.toList)
+    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU}.toList)
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
@@ -395,30 +409,35 @@ object Trx {
     if (n.child.length != 2) {
       throw new Exception(incorrect("let"))
     }
-    LetElement(nodeToContainer(n.child(0)), nodeToValue(n.child(1)))
+    val pruned = pruneNodes(n.child.toList)
+    LetElement(nodeToContainer(pruned(0)), nodeToValue(pruned(1)))
   }
   def nodeToOut(n: Node): OutElement = {
     val c = getattrib(n, "c")
-    val children = n.child.map{nodeToOutType}.toList
+    val pruned = pruneNodes(n.child.toList)
+    val children = pruned.map{nodeToOutType}.toList
     OutElement(c, children)
   }
   def nodeToWhen(n: Node): WhenElement = {
     val c = getattrib(n, "c")
-    val test = nodeToTest(n.child.head)
-    val actions = n.child.tail.map{nodeToSentence}.toList
+    val pruned = pruneNodes(n.child.toList)
+    val test = nodeToTest(pruned.head)
+    val actions = pruned.tail.map{nodeToSentence}.toList
     WhenElement(c, test, actions)
   }
   def nodeToOtherwise(n: Node): OtherwiseElement = {
     val c = getattrib(n, "c")
-    val actions = n.child.map{nodeToSentence}.toList
+    val pruned = pruneNodes(n.child.toList)
+    val actions = pruned.map{nodeToSentence}.toList
     OtherwiseElement(c, actions)
   }
   def nodeToTest(n: Node): TestElement = {
     val c = getattrib(n, "c")
-    if(n.child.length != 1) {
+    val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 1) {
       throw new Exception(incorrect("test"))
     }
-    val children = nodeToConditional(n.child.head)
+    val children = nodeToConditional(pruned.head)
     TestElement(c, children)
   }
   def nodeToChoose(n: Node): ChooseElement = {
@@ -432,24 +451,27 @@ object Trx {
     ChooseElement(c, when, other)
   }
   def nodeToModifyCase(n: Node): ModifyCaseElement = {
-    if(n.child.length != 2) {
+    val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 2) {
       throw new Exception(incorrect("modify-case"))
     }
-    val cont = nodeToContainer(n.child(0))
-    val value = nodeToStringValue(n.child(1))
+    val cont = nodeToContainer(pruned(0))
+    val value = nodeToStringValue(pruned(1))
     ModifyCaseElement(cont, value)
   }
   def nodeToAppend(n: Node): AppendElement = {
-    if(n.child.length != 1) {
+    val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 1) {
       throw new Exception(incorrect("append"))
     }
     val name = getattrib(n, "n")
-    val value = nodeToValue(n.child(0))
+    val value = nodeToValue(pruned(0))
     AppendElement(name, value)
   }
   def nodeToAction(n: Node): ActionElement = {
     val comment = getattrib(n, "c")
-    val values = n.child.map{nodeToSentence}.toList
+    val pruned = pruneNodes(n.child.toList)
+    val values = pruned.map{nodeToSentence}.toList
     ActionElement(comment, values)
   }
   def nodeToSentence(n: Node): SentenceElement = n match {
@@ -463,6 +485,7 @@ object Trx {
       val shift: Boolean = getattrib(n, "shifting") == "yes"
       RejectCurrentRuleElement(shift)
     }
+
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
@@ -475,16 +498,17 @@ object Trx {
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
-    case <and>{_*}</and> => AndElement(n.child.map{nodeToValue}.toList)
-    case <or>{_*}</or> => OrElement(n.child.map{nodeToValue}.toList)
-    case <not>{_*}</not> => NotElement(nodeToValue(n.child.head))
+    case <and>{_*}</and> => AndElement(pruneNodes(n.child.toList).map{nodeToValue})
+    case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToValue})
+    case <not>{_*}</not> => NotElement(nodeToValue(pruneNodes(n.child.toList).head))
     case <equal>{_*}</equal> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      EqualElement(caseless, n.child.map{nodeToValue}.toList)
+      EqualElement(caseless, pruneNodes(n.child.toList).map{nodeToValue})
     }
     case <begins-with>{_*}</begins-with> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      val children = n.child.map{nodeToValue}.toList
+      val pruned = pruneNodes(n.child.toList)
+      val children = pruned.map{nodeToValue}.toList
       if(children.length != 2) {
         throw new Exception(incorrect("begins-with"))
       }
@@ -492,16 +516,18 @@ object Trx {
     }
     case <begins-with-list>{_*}</begins-with-list> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      if(n.child.length != 2) {
+      val pruned = pruneNodes(n.child.toList)
+      if(pruned.length != 2) {
         throw new Exception(incorrect("begins-with-list"))
       }
-      val value = nodeToValue(n.child.head)
-      val listelem = nodeToList(n.child(1))
+      val value = nodeToValue(pruned.head)
+      val listelem = nodeToList(pruned(1))
       BeginsWithListElement(value, listelem, caseless)
     }
     case <ends-with>{_*}</ends-with> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      val children = n.child.map{nodeToValue}.toList
+      val pruned = pruneNodes(n.child.toList)
+      val children = pruned.map{nodeToValue}.toList
       if(children.length != 2) {
         throw new Exception(incorrect("ends-with"))
       }
@@ -509,7 +535,8 @@ object Trx {
     }
     case <ends-with-list>{_*}</ends-with-list> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      if(n.child.length != 2) {
+      val pruned = pruneNodes(n.child.toList)
+      if(pruned.length != 2) {
         throw new Exception(incorrect("ends-with-list"))
       }
       val value = nodeToValue(n.child.head)
@@ -518,7 +545,8 @@ object Trx {
     }
     case <contains-substring>{_*}</contains-substring> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      if(n.child.length != 2) {
+      val pruned = pruneNodes(n.child.toList)
+      if(pruned.length != 2) {
         throw new Exception(incorrect("contains-substring"))
       }
       val left = nodeToValue(n.child(0))
@@ -527,7 +555,8 @@ object Trx {
     }
     case <in>{_*}</in> => {
       val caseless: Boolean = n.attribute("caseless").get.text == "yes"
-      if(n.child.length != 2) {
+      val pruned = pruneNodes(n.child.toList)
+      if(pruned.length != 2) {
         throw new Exception(incorrect("in"))
       }
       val value = nodeToValue(n.child.head)
