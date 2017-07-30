@@ -319,7 +319,8 @@ object Trx {
     }
   }
   def pruneNodes(l: List[Node]): List[Node] = {
-    def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
+    @scala.annotation.tailrec
+    def pruneinner(l: List[Node], acc: List[Node]): Any = l match {
       case scala.xml.Text(_) :: xs => pruneinner(xs, acc)
       case scala.xml.Comment(_) :: xs => pruneinner(xs, acc)
       case scala.xml.ProcInstr(_, _) :: xs => pruneinner(xs, acc)
@@ -636,10 +637,13 @@ object Trx {
     }
     val pattern = nodeToPattern(pruned(0))
     val action = nodeToAction(pruned(1))
-    RuleElement(, )
+    RuleElement(name, rulecomment, comment, pattern, action)
   }
   def nodeToPattern(n: Node): PatternElement = {
-    (n \ "pattern-item").map{nodeToPatternItem}
+    PatternElement((n \ "pattern-item").map{nodeToPatternItem}.toList)
+  }
+  def nodeToPatternItem(n: Node): PatternItemElement = {
+    PatternItemElement(getattrib(n, "n"))
   }
 
   def mkDefAttr(s: String, l: List[String]): DefAttrElement = {
