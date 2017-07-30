@@ -198,6 +198,12 @@ case class WithParamElement(pos: String) extends Indentable {
 }
 case class CallMacroElement(name: String, params: List[WithParamElement]) extends SentenceElement {
   def toXML: Node = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<call-macro n=\"" + name + "\">" + nl +
+    params.map{_.toXMLString(i + 1, newline)}.mkString +
+    (indent_text * i) + "</call-macro>" + nl
+  }
 }
 case class ClipElement(pos: String, side: String, part: String,
                        queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
@@ -205,6 +211,13 @@ case class ClipElement(pos: String, side: String, part: String,
 }
 case class TestElement(comment: String, cond: ConditionElement) extends Indentable {
   def toXML: Node = <test c={comment}>{cond.toXML}</test>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    val c = if(comment != null) " c=\"" + comment + "\""
+    (indent_text * i) + "<test" + comment + ">" + nl +
+    cond.toXMLString(i + 1, newline) + nl +
+    (indent_text * i) + "</test>" + nl
+  }
 }
 case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceElement {
   private val shifting_text: String = if(shifting) "yes" else "no"
@@ -241,29 +254,83 @@ case class ListItemElement(value: String) extends TransferElement {
 case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<begins-with-list" + cless + ">" + nl +
+    v.toXMLString(i+1, newline) + nl +
+    l.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</begins-with-list>" + nl
+  }
 }
 case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with caseless={clstring}>{l.toXML}{r.toXML}</begins-with>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<begins-with" + cless + ">" + nl +
+    l.toXMLString(i+1, newline) + nl +
+    r.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</begins-with>" + nl
+  }
 }
 case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <contains-substring caseless={clstring}>{l.toXML}{r.toXML}</contains-substring>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<contains-substring" + cless + ">" + nl +
+    l.toXMLString(i+1, newline) + nl +
+    r.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</contains-substring>" + nl
+  }
 }
 case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <in caseless={clstring}>{l.toXML}{r.toXML}</in>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<in" + cless + ">" + nl +
+    l.toXMLString(i+1, newline) + nl +
+    r.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</in>" + nl
+  }
 }
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<ends-with-list" + cless + ">" + nl +
+    v.toXMLString(i+1, newline) + nl +
+    l.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</ends-with-list>" + nl
+  }
 }
 case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <ends-with caseless={clstring}>{l.toXML}{r.toXML}</ends-with>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    val cless = if(caseless) " caseless=\"yes\""
+    (indent_text * i) + "<ends-with" + cless + ">" + nl +
+    l.toXMLString(i+1, newline) + nl +
+    r.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</ends-with>" + nl
+  }
 }
 case class NotElement(v: ConditionElement) extends ConditionElement {
   def toXML: Node = <not>{v.toXML}</not>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<not>" + nl +
+    v.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</not>" + nl
+  }
 }
 case class AndElement(children: List[ConditionElement]) extends ConditionElement {
   def toXML: Node = <and>{children.map{_.toXML}}</and>
