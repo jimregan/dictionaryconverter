@@ -415,7 +415,7 @@ object Trx {
     }
     GetCaseFromElement(pos, child)
   }
-  def incorrect(name: String): String = "<{name}> contains incorrect number of elements"
+  def incorrect(name: String): String = s"""<{name}> contains incorrect number of elements"""
   def nodeToTag(n: Node): TagElement = {
     val pruned = pruneNodes(n.child.toList)
     if(pruned.length != 1) {
