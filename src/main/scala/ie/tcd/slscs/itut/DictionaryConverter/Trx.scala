@@ -236,7 +236,7 @@ case class DefMacroElement(name: String, numparams: String, comment: String,
     val c = if(comment != null) " c=\"" + comment + "\"" else ""
     "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + c + ">" + "\n" +
     actions.map{e => e.toXMLString(3, true)}.mkString + "\n" + 
-    "    </def-macro>"
+    "    </def-macro>\n"
   }
 }
 case class DefListElement(name: String, items: List[ListItemElement]) extends TransferElement {
@@ -399,7 +399,7 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<out" + comment + ">" + nl +
-    children.map{e => e.toXMLString(i+1, newline)} + nl +
+    children.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     (indent_text * i) + "</out>" + nl
   }
 }
@@ -432,7 +432,7 @@ case class OtherwiseElement(c: String, children: List[SentenceElement]) extends 
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<otherwise" + comment + ">" + nl +
-    children.map{_.toXMLString(i+1, newline)} + nl +
+    children.map{_.toXMLString(i+1, newline)}.mkString + nl +
     (indent_text * i) + "</otherwise>" + nl
   }
 }
@@ -451,7 +451,7 @@ case class AppendElement(name: String, values: List[ValueElement]) extends Sente
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<append n=\"" + name + "\">" + nl +
-    values.map{e => e.toXMLString(i+1, newline)} + nl +
+    values.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     (indent_text * i) + "</append>" + nl
   }
 }
