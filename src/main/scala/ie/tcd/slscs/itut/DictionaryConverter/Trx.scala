@@ -317,7 +317,7 @@ case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends
   def toXML: Node = <modify-case>{c.toXML}{s.toXML}</modify-case>
 }
 case class AppendElement(name: String, values: List[ValueElement]) extends SentenceElement {
-  def toXML: Node = <append n={name}>{value.map{_.toXML}}</append>
+  def toXML: Node = <append n={name}>{values.map{_.toXML}}</append>
 }
 
 object Trx {
@@ -529,7 +529,7 @@ object Trx {
   }
   def nodeToAppend(n: Node): AppendElement = {
     val pruned = pruneNodes(n.child.toList)
-    if(pruned.length != 1) {
+    if(pruned.length < 1) {
       throw new Exception(incorrect("append") + n.toString)
     }
     val name = getattrib(n, "n")
