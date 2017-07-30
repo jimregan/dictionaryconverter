@@ -529,9 +529,6 @@ object Trx {
   }
   def nodeToAppend(n: Node): AppendElement = {
     val pruned = pruneNodes(n.child.toList)
-    if(pruned.length != 1) {
-      throw new Exception(incorrect("append"))
-    }
     val name = getattrib(n, "n")
     val value = nodeToValue(pruned(0))
     AppendElement(name, value)
