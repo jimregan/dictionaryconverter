@@ -497,7 +497,7 @@ object Trx {
   }
   def nodeToDefVar(n: Node): DefVarElement = {
     val name = (n \ "@n").text
-    val value = getattrib(n, "value")
+    val value = getattrib(n, "v")
     DefVarElement(name, value)
   }
   def nodeToAttrItem(n: Node): AttrItemElement = {
