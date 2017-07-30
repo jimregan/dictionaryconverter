@@ -40,7 +40,7 @@ trait Indentable extends TransferElement {
     (indent_text * i) + toXMLString + nl
   }
 }
-case class TopLevel(kind: String, defcats: List[DefCat],
+case class TopLevel(kind: String, defcats: List[DefCatElement],
                     defattrs: List[DefAttrElement], vars: List[DefVarElement],
                     lists: List[DefListElement], macros: List[DefMacroElement],
                     rules: List[RuleElement]) extends TransferElement {
@@ -54,13 +54,24 @@ case class TopLevel(kind: String, defcats: List[DefCat],
   } else {
     "</" + kind + ">"
   }
-  def toXML: Node = <FIXME/>
+  override def toXMLString: String = {
+    getOpen + "\n" +
+    "  <section-def-cats>\n" +
+    defcats.map{_.toXMLString}.mkString("")
+    "  </section-def-cats>\n" +
+    "  <section-def-attrs>\n" +
+    defattrs.map{_.toXMLString}.mkString
+    "  </section-def-attrs>\n" +
+    //
+    getClose
+  }
+  def toXML: Node = scala.xml.XML.loadString(toXMLString)
 }
 case class CatItem(tags: String, lemma: String = null) extends TransferElement {
   def toXML: Node = <cat-item lemma={lemma} tags={tags} />
   override def toXMLString: String = "      " + toXML.toString
 }
-case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
+case class DefCatElement(n: String, l: List[CatItem]) extends TransferElement {
   def toXML: Node = {
     <def-cat n={n}>
     { l.map { c => c.toXML } }
@@ -157,7 +168,8 @@ case class WithParamElement(pos: String) extends Indentable {
 case class CallMacroElement(name: String, params: List[WithParamElement]) extends SentenceElement {
   def toXML: Node = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
 }
-case class ClipElement(pos: String, side: String, part: String, queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
+case class ClipElement(pos: String, side: String, part: String,
+                       queue: String, linkto: String, c: String) extends ContainerElement with StringValueElement {
   def toXML: Node = <clip pos={pos} side={side} part={part} queue={queue} link-to={linkto} c={c} />
 }
 case class TestElement(comment: String, cond: ConditionElement) extends Indentable {
@@ -291,10 +303,10 @@ object Trx {
     val tags = (n \ "@tags").text
     CatItem(tags, lemma)
   }
-  def nodeToDefCat(n: Node): DefCat = {
+  def nodeToDefCat(n: Node): DefCatElement = {
     val name = (n \ "@n").text
     val children = (n \ "cat-item").toList.map{nodeToCatItem}
-    DefCat(name, children)
+    DefCatElement(name, children)
   }
   def nodeToVar(n: Node): VarElement = {
     val name = (n \ "@n").text
