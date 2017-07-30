@@ -410,7 +410,7 @@ case class ChooseElement(c: String, when: List[WhenElement], other: Option[Other
     val nl = if(newline) "\n" else ""
     val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
     (indent_text * i) + "<choose" + comment + ">" + nl +
-    when.map{e => e.toXMLString(i+1, newline)} + nl +
+    when.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     otherstring + nl +
     (indent_text * i) + "</choose>" + nl
   }
@@ -421,7 +421,8 @@ case class WhenElement(c: String, test: TestElement, children: List[SentenceElem
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<when" + comment + ">" + nl +
-    children.map{e => e.toXMLString(i+1, newline)} + nl +
+    test.toXMLString(i+1, newline) + nl +
+    children.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     (indent_text * i) + "</when>" + nl
   }
 }
