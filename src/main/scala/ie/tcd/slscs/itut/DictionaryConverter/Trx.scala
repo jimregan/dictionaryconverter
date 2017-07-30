@@ -633,8 +633,8 @@ object Trx {
       val values = pruned.tail.map{nodeToValue}.toList
       ChunkElement(name, namefrom, ccase, comment, Some(TagsElementType(tags)), values)
     } else {
-      val value = nodeToValue(pruned.head)
-      ChunkElement(name, namefrom, ccase, comment, None, List[ValueElement](value))
+      val values = pruned.map{nodeToValue}.toList
+      ChunkElement(name, namefrom, ccase, comment, None, values)
     }
   }
   def nodeToLU(n: Node) = LUElement(pruneNodes(n.child.toList).map{nodeToValue})
