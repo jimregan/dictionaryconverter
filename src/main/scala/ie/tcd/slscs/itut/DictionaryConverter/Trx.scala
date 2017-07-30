@@ -42,7 +42,7 @@ trait Indentable extends TransferElement {
 }
 case class TopLevel(kind: String, defcats: List[DefCat],
                     defattrs: List[AttrCat], vars: List[DefVar],
-                    lists: List[DefList], macros: List[DefMacro],
+                    lists: List[DefListElement], macros: List[DefMacroElement],
                     rules: List[Rule]) extends TransferElement {
   def getOpen: String = if(kind == "chunk") {
     "<transfer default=\"chunk\">"
@@ -161,13 +161,13 @@ case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceEl
   def toXML: Node = <reject-current-rule shifting={shifting_text}/>
 }
 
-case class DefMacro(name: String, numparams: String, comment: String,
-                    actions: List[ActionElement]) extends TransferElement {
+case class DefMacroElement(name: String, numparams: String, comment: String,
+                           actions: List[SentenceElement]) extends TransferElement {
   def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
     { actions.map{_.toXML} }
   </def-macro>
 }
-case class DefList(name: String, items: List[ListItem]) extends TransferElement {
+case class DefListElement(name: String, items: List[ListItemElement]) extends TransferElement {
   override def toXML: Node = <def-list n={name}>
     { items.map{_.toXML} }
   </def-list>
@@ -175,7 +175,7 @@ case class DefList(name: String, items: List[ListItem]) extends TransferElement 
     items.map{_.toXMLString}.mkString("\n") +
     "    </def-list>\n"
 }
-case class ListItem(value: String) extends TransferElement {
+case class ListItemElement(value: String) extends TransferElement {
   def toXML: Node = <list-item v={value}/>
   override def toXMLString: String = "      " + toXML.toString
 }
@@ -306,12 +306,12 @@ object Trx {
     val items = (n \ "attr-item").map{nodeToAttrItem}.toList
     AttrCat(name, items)
   }
-  def nodeToDefList(n: Node): DefList = {
+  def nodeToDefList(n: Node): DefListElement = {
     val name = (n \ "@n").text
     val items = (n \ "list-item").map{nodeToListItem}.toList
-    DefList(name, items)
+    DefListElement(name, items)
   }
-  def nodeToListItem(n: Node): ListItem = ListItem((n \ "@v").text)
+  def nodeToListItem(n: Node): ListItemElement = ListItemElement((n \ "@v").text)
   def nodeToList(n: Node): ListElement = ListElement((n \ "@n").text)
   def nodeToLit(n: Node): LitElement = LitElement((n \ "@v").text)
   def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
@@ -373,7 +373,7 @@ object Trx {
       ChunkElement(name, namefrom, ccase, comment, None, List[ValueElement](value))
     }
   }
-  def nodeToLU(n: Node) = LUElement(pruneNodes(n.child.toList).map {nodeToValue}.toList)
+  def nodeToLU(n: Node) = LUElement(pruneNodes(n.child.toList).map{nodeToValue})
   def nodeToValue(n: Node): ValueElement = n match {
     case <b/> => BElement(getattrib(n, "pos"))
     case <clip/> => nodeToClip(n)
@@ -383,9 +383,9 @@ object Trx {
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case <lu-count/> => LUCountElement()
-    case <concat>{_*}</concat> => ConcatElement(pruneNodes(n.child.toList).map{nodeToValue}.toList)
+    case <concat>{_*}</concat> => ConcatElement(pruneNodes(n.child.toList).map{nodeToValue})
     case <lu>{_*}</lu> => nodeToLU(n)
-    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU}.toList)
+    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU})
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
@@ -394,7 +394,7 @@ object Trx {
     case <b/> => BElement(getattrib(n, "pos"))
     case <var/> => VarElement(getattrib(n, "n"))
     case <lu>{_*}</lu> => nodeToLU(n)
-    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU}.toList)
+    case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU})
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
     case _ => throw new Exception("Unrecognised element: " + n.label)
@@ -422,13 +422,13 @@ object Trx {
     val c = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
     val test = nodeToTest(pruned.head)
-    val actions = pruned.tail.map{nodeToSentence}.toList
+    val actions = pruned.tail.map{nodeToSentence}
     WhenElement(c, test, actions)
   }
   def nodeToOtherwise(n: Node): OtherwiseElement = {
     val c = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    val actions = pruned.map{nodeToSentence}.toList
+    val actions = pruned.map{nodeToSentence}
     OtherwiseElement(c, actions)
   }
   def nodeToTest(n: Node): TestElement = {
@@ -471,7 +471,7 @@ object Trx {
   def nodeToAction(n: Node): ActionElement = {
     val comment = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    val values = pruned.map{nodeToSentence}.toList
+    val values = pruned.map{nodeToSentence}
     ActionElement(comment, values)
   }
   def nodeToSentence(n: Node): SentenceElement = n match {
@@ -565,6 +565,14 @@ object Trx {
     }
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
+  def nodeToDefMacro(n: Node): DefMacroElement = {
+    val name = getattrib(n, "n")
+    val numparams = getattrib(n, "npar")
+    val comment = getattrib(n, "c")
+    val pruned = pruneNodes(n.child.toList)
+    val children = pruned.map{nodeToSentence}
+    DefMacroElement(name, numparams, comment, children)
+  }
 
   def mkAttrCat(s: String, l: List[String]): AttrCat = {
     AttrCat(s, l.map{e => AttrItem(e)})
@@ -587,6 +595,6 @@ object Trx {
     val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}.toList
     val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToDefVar}.toList
     val deflists = (xml \ "section-def-lists" \ "def-list").map{nodeToDefList}.toList
-    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacro], List.empty[Rule])
+    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacroElement], List.empty[Rule])
   }
 }
