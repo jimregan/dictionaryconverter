@@ -150,7 +150,7 @@ case class PatternElement(children: List[PatternItemElement]) extends TransferEl
   override def toXMLString: String = {
     val nl = if(newline) "\n" else ""
     indent(3) + "<pattern>" + nl +
-    children.map{_.toXMLString(4, newline)}.mkString +
+    children.map{_.toXMLString(4, true)}.mkString +
     indent(3) + "</pattern>" + nl
   }
 }
