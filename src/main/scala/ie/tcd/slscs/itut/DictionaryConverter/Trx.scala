@@ -685,4 +685,10 @@ object Trx {
     val defrules = (xml \ "section-rules" \ "rule ").map{nodeToRule}.toList
     TopLevel(kind, defcats, defattrs, defvars, deflists, defmacros, defrules)
   }
+  def save(topLevel: TopLevel, file: String): Unit = {
+    import java.io._
+    val outfile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))
+    outfile.write(topLevel.toXMLString)
+    outfile.close()
+  }
 }
