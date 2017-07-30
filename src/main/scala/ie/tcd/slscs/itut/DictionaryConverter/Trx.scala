@@ -281,18 +281,18 @@ case class DefMacroElement(name: String, numparams: String, comment: String,
   }
   override def toXMLString: String = {
     val c = if(comment != null) " c=\"" + comment + "\"" else ""
-    "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + c + ">" + "\n" +
-    actions.map{e => e.toXMLString(3, true)}.mkString + "\n" + 
-    "    </def-macro>\n"
+    indent(2) + "<def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + c + ">" + "\n" +
+    actions.map{e => e.toXMLString(3, true)}.mkString + "\n" +
+    indent(2) + "</def-macro>\n"
   }
 }
 case class DefListElement(name: String, items: List[ListItemElement]) extends TransferElement {
   override def toXML: Node = <def-list n={name}>
     { items.map{_.toXML} }
   </def-list>
-  override def toXMLString: String = "    <def-list n=\"" + name + "\">\n" +
+  override def toXMLString: String = indent(2) + "<def-list n=\"" + name + "\">\n" +
     items.map{_.toXMLString}.mkString("\n") + "\n" +
-    "    </def-list>\n"
+    indent(2) + "</def-list>\n"
 }
 case class ListItemElement(value: String) extends TransferElement {
   def toXML: Node = <list-item v={value}/>
