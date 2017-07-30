@@ -29,15 +29,16 @@ package ie.tcd.slscs.itut.DictionaryConverter
 import scala.xml._
 
 trait TransferElement {
+  val indent_text: String = "  "
+  def indent(i: Int): String = indent_text * i
   def toXML: scala.xml.Node
   def toXMLString: String = toXML.toString + "\n"
 }
 trait Indentable extends TransferElement {
-  val indent_text: String = "  "
   override def toXMLString: String = toXML.toString
   def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + toXMLString + nl
+    indent(i) + toXMLString + nl
   }
 }
 case class TopLevel(kind: String, defcats: List[DefCatElement],
@@ -122,9 +123,9 @@ case class DefAttrElement(n: String, l: List[AttrItemElement]) extends TransferE
     { l.map { c => c.toXML } }
     </def-attr>
   }
-  override def toXMLString: String = "    <def-attr n=\"" + n + "\">\n" +
+  override def toXMLString: String = indent(2) + "<def-attr n=\"" + n + "\">\n" +
     l.map{_.toXMLString}.mkString("\n") + "\n" +
-    "    </def-attr>\n"
+    indent(2) + "</def-attr>\n"
 }
 case class DefVarElement(name: String, value: String = null) extends TransferElement {
   def toXML: Node = <def-var n={name} v={value} />
@@ -133,6 +134,16 @@ case class DefVarElement(name: String, value: String = null) extends TransferEle
 case class RuleElement(ruleid: String, rulecomment: String, comment: String,
                        pattern: PatternElement, action: ActionElement) extends TransferElement {
   def toXML: Node = <rule id={ruleid} comment={rulecomment} c={comment}>{pattern.toXML}{action.toXML}</rule>
+  override def toXMLString: String = {
+    val nl = "\n"
+    val idtext = if(ruleid != null) " id=\"" + ruleid + "\"" else ""
+    val commenttext = if(rulecomment != null) " comment=\"" + rulecomment + "\"" else ""
+    val ctext = if(comment != null) " c=\"" + comment + "\"" else ""
+    indent(2) + "<rule" + idtext + commenttext + ctext + ">" + nl +
+    pattern.toXMLString + nl +
+    action.toXMLString(3, true) +
+    indent(2) + "</rule>" + nl
+  }
 }
 case class PatternElement(children: List[PatternItemElement]) extends TransferElement {
   def toXML: Node = <pattern>{children.map{_.toXML}}</pattern>
@@ -173,22 +184,58 @@ case class BElement(pos: String) extends ChunkElementType {
 }
 case class ConcatElement(children: List[ValueElement]) extends ValueElement {
   def toXML: Node = <concat>{children.map{_.toXML}}</concat>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    indent(i) + "<concat>" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</concat>" + nl
+  }
 }
 case class MLUElement(children: List[LUElement]) extends ChunkElementType {
   def toXML: Node = <mlu>{children.map{_.toXML}}</mlu>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    indent(i) + "<mlu>" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</mlu>" + nl
+  }
 }
 case class LUElement(children: List[ValueElement]) extends ChunkElementType {
   def toXML: Node = <lu>{children.map{_.toXML}}</lu>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    indent(i) + "<lu>" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</lu>" + nl
+  }
 }
 case class LUCountElement() extends StringValueElement {
   def toXML: Node = <lu-count/>
 }
 case class ChunkElement(name: String, namefrom: String, ccase: String, c: String,
                         tags: Option[TagsElementType], children: List[ValueElement]) extends OutElementType {
-  def toXML: Node = <lu>{children.map{_.toXML}}</lu>
+  def toXML: Node = <chunk name={name} namefrom={namefrom} case={ccase} c={c}>{if(tags != None){tags.get.toXML}}{children.map{_.toXML}}</chunk>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    val nametext = if(name != null) " name=\"" + name + "\"" else ""
+    val namefromtext = if(namefrom != null) " namefrom=\"" + namefrom + "\"" else ""
+    val casetext = if(ccase != null) " case=\"" + ccase + "\"" else ""
+    val ctext = if(c != null) " c=\"" + c + "\"" else ""
+    val tagstext = if(tags != None) tags.get.toXMLString(i + 1, newline) + nl else ""
+    indent(i) + "<chunk" + nametext + namefromtext + casetext + ctext + ">" + nl +
+    tagstext +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</chunk>" + nl
+  }
 }
 case class TagsElementType(children: List[TagElement]) extends Indentable {
   def toXML: Node = <tags>{children.map{_.toXML}}</tags>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    indent(i) + "<tags>" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</tags>" + nl
+  }
 }
 case class TagElement(child: ValueElement) extends Indentable {
   def toXML: Node = <tag>{child.toXML}</tag>
@@ -200,9 +247,9 @@ case class CallMacroElement(name: String, params: List[WithParamElement]) extend
   def toXML: Node = <call-macro n={name}>{params.map{_.toXML}}</call-macro>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<call-macro n=\"" + name + "\">" + nl +
+    indent(i) + "<call-macro n=\"" + name + "\">" + nl +
     params.map{_.toXMLString(i + 1, newline)}.mkString +
-    (indent_text * i) + "</call-macro>" + nl
+    indent(i) + "</call-macro>" + nl
   }
 }
 case class ClipElement(pos: String, side: String, part: String,
@@ -214,9 +261,9 @@ case class TestElement(comment: String, cond: ConditionElement) extends Indentab
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
     val c = if(comment != null) " c=\"" + comment + "\"" else ""
-    (indent_text * i) + "<test" + c + ">" + nl +
+    indent(i) + "<test" + c + ">" + nl +
     cond.toXMLString(i + 1, newline) + nl +
-    (indent_text * i) + "</test>" + nl
+    indent(i) + "</test>" + nl
   }
 }
 case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceElement {
@@ -257,10 +304,10 @@ case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Bool
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<begins-with-list" + cless + ">" + nl +
+    indent(i) + "<begins-with-list" + cless + ">" + nl +
     v.toXMLString(i+1, newline) + nl +
     l.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</begins-with-list>" + nl
+    indent(i) + "</begins-with-list>" + nl
   }
 }
 case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
@@ -269,10 +316,10 @@ case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<begins-with" + cless + ">" + nl +
+    indent(i) + "<begins-with" + cless + ">" + nl +
     l.toXMLString(i+1, newline) + nl +
     r.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</begins-with>" + nl
+    indent(i) + "</begins-with>" + nl
   }
 }
 case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
@@ -281,10 +328,10 @@ case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: 
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<contains-substring" + cless + ">" + nl +
+    indent(i) + "<contains-substring" + cless + ">" + nl +
     l.toXMLString(i+1, newline) + nl +
     r.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</contains-substring>" + nl
+    indent(i) + "</contains-substring>" + nl
   }
 }
 case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false) extends ConditionElement {
@@ -293,10 +340,10 @@ case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false)
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<in" + cless + ">" + nl +
+    indent(i) + "<in" + cless + ">" + nl +
     l.toXMLString(i+1, newline) + nl +
     r.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</in>" + nl
+    indent(i) + "</in>" + nl
   }
 }
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
@@ -305,10 +352,10 @@ case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolea
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<ends-with-list" + cless + ">" + nl +
+    indent(i) + "<ends-with-list" + cless + ">" + nl +
     v.toXMLString(i+1, newline) + nl +
     l.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</ends-with-list>" + nl
+    indent(i) + "</ends-with-list>" + nl
   }
 }
 case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
@@ -317,44 +364,47 @@ case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean =
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     val cless = if(caseless) " caseless=\"yes\""
-    (indent_text * i) + "<ends-with" + cless + ">" + nl +
+    indent(i) + "<ends-with" + cless + ">" + nl +
     l.toXMLString(i+1, newline) + nl +
     r.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</ends-with>" + nl
+    indent(i) + "</ends-with>" + nl
   }
 }
 case class NotElement(v: ConditionElement) extends ConditionElement {
   def toXML: Node = <not>{v.toXML}</not>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<not>" + nl +
+    indent(i) + "<not>" + nl +
     v.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</not>" + nl
+    indent(i) + "</not>" + nl
   }
 }
 case class AndElement(children: List[ConditionElement]) extends ConditionElement {
   def toXML: Node = <and>{children.map{_.toXML}}</and>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<and>" + nl +
+    indent(i) + "<and>" + nl +
     children.map{_.toXMLString(i + 1, newline)}.mkString +
-    (indent_text * i) + "</and>" + nl
+    indent(i) + "</and>" + nl
   }
 }
 case class OrElement(children: List[ConditionElement]) extends ConditionElement {
   def toXML: Node = <or>{children.map{_.toXML}}</or>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<or>" + nl +
+    indent(i) + "<or>" + nl +
     children.map{_.toXMLString(i + 1, newline)}.mkString +
-    (indent_text * i) + "</or>" + nl
+    indent(i) + "</or>" + nl
   }
 }
 case class ListElement(name: String) extends Indentable {
   def toXML: Node = <list n={name}/>
 }
 case class LitElement(value: String) extends StringValueElement {
-  def toXML: Node = <lit v={value}/>
+  def toXML: Node = {
+    val vtext = if(value == null) "" else value
+    <lit v={vtext}/>
+  }
 }
 case class LitTagElement(value: String) extends StringValueElement {
   def toXML: Node = <lit-tag v={value}/>
@@ -366,18 +416,18 @@ case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends
   override def toXMLString(i: Int, newline: Boolean): String = {
     val casestr = if(caseless) " caseless=\"yes\"" else ""
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<equal" + casestr + ">" + nl +
+    indent(i) + "<equal" + casestr + ">" + nl +
     children.map{_.toXMLString(i + 1, newline)}.mkString +
-    (indent_text * i) + "</equal>" + nl
+    indent(i) + "</equal>" + nl
   }
 }
 case class GetCaseFromElement(pos: String, child: StringValueElement) extends StringValueElement {
   def toXML: Node = <get-case-from pos={pos}>{child.toXML}</get-case-from>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<get-case-from pos=\"" + pos + "\">" + nl +
+    indent(i) + "<get-case-from pos=\"" + pos + "\">" + nl +
     child.toXMLString(i + 1, newline) + nl +
-    (indent_text * i) + "</get-case-from>" + nl
+    indent(i) + "</get-case-from>" + nl
   }
 }
 case class CaseOfElement(pos: String, part: String) extends StringValueElement {
@@ -387,10 +437,10 @@ case class LetElement(c: ContainerElement, v: ValueElement) extends SentenceElem
   def toXML: Node = <let>{c.toXML}{v.toXML}</let>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<let>" + nl +
+    indent(i) + "<let>" + nl +
     c.toXMLString(i+1, newline) +
     v.toXMLString(i+1, newline) +
-    (indent_text * i) + "</let>"
+    indent(i) + "</let>" + nl
   }
 }
 case class OutElement(c: String, children: List[OutElementType]) extends SentenceElement {
@@ -398,9 +448,9 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
   override def toXMLString(i: Int, newline: Boolean) = {
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<out" + comment + ">" + nl +
+    indent(i) + "<out" + comment + ">" + nl +
     children.map{e => e.toXMLString(i+1, newline)}.mkString +
-    (indent_text * i) + "</out>"
+    indent(i) + "</out>"
   }
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
@@ -409,10 +459,10 @@ case class ChooseElement(c: String, when: List[WhenElement], other: Option[Other
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
-    (indent_text * i) + "<choose" + comment + ">" + nl +
+    indent(i) + "<choose" + comment + ">" + nl +
     when.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     otherstring + nl +
-    (indent_text * i) + "</choose>"
+    indent(i) + "</choose>" + nl
   }
 }
 case class WhenElement(c: String, test: TestElement, children: List[SentenceElement]) extends Indentable {
@@ -420,10 +470,10 @@ case class WhenElement(c: String, test: TestElement, children: List[SentenceElem
   override def toXMLString(i: Int, newline: Boolean) = {
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<when" + comment + ">" + nl +
+    indent(i) + "<when" + comment + ">" + nl +
     test.toXMLString(i+1, newline) + nl +
     children.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
-    (indent_text * i) + "</when>"
+    indent(i) + "</when>" + nl
   }
 }
 case class OtherwiseElement(c: String, children: List[SentenceElement]) extends Indentable {
@@ -431,28 +481,28 @@ case class OtherwiseElement(c: String, children: List[SentenceElement]) extends 
   override def toXMLString(i: Int, newline: Boolean) = {
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<otherwise" + comment + ">" + nl +
+    indent(i) + "<otherwise" + comment + ">" + nl +
     children.map{_.toXMLString(i+1, newline)}.mkString + nl +
-    (indent_text * i) + "</otherwise>"
+    indent(i) + "</otherwise>"
   }
 }
 case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends SentenceElement {
   def toXML: Node = <modify-case>{c.toXML}{s.toXML}</modify-case>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<modify-case>" + nl +
+    indent(i) + "<modify-case>" + nl +
     c.toXMLString(i+1, newline) + nl +
     s.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</modify-case>" + nl
+    indent(i) + "</modify-case>" + nl
   }
 }
 case class AppendElement(name: String, values: List[ValueElement]) extends SentenceElement {
   def toXML: Node = <append n={name}>{values.map{_.toXML}}</append>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
-    (indent_text * i) + "<append n=\"" + name + "\">" + nl +
+    indent(i) + "<append n=\"" + name + "\">" + nl +
     values.map{e => e.toXMLString(i+1, newline)}.mkString +
-    (indent_text * i) + "</append>" + nl
+    indent(i) + "</append>" + nl
   }
 }
 
@@ -517,7 +567,7 @@ object Trx {
   }
   def nodeToListItem(n: Node): ListItemElement = ListItemElement((n \ "@v").text)
   def nodeToList(n: Node): ListElement = ListElement((n \ "@n").text)
-  def nodeToLit(n: Node): LitElement = LitElement((n \ "@v").text)
+  def nodeToLit(n: Node): LitElement = LitElement(getattrib(n, "v", false))
   def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
   def nodeToWithParam(n: Node): WithParamElement = WithParamElement((n \ "@pos").text)
   def nodeToCallMacro(n: Node): CallMacroElement = {
@@ -565,10 +615,7 @@ object Trx {
     val ccase = getattrib(n, "case")
     val comment = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    if (pruned.length != 1 && pruned.length != 2) {
-      throw new Exception(incorrect("chunk") + pruned.length)
-    }
-    if(pruned.length == 2) {
+    if((n \ "tags" \ "tag").length == 1) {
       val tags = (n \ "tags" \ "tag").map{nodeToTag}.toList
       val values = pruned.tail.map{nodeToValue}.toList
       ChunkElement(name, namefrom, ccase, comment, Some(TagsElementType(tags)), values)
@@ -818,13 +865,13 @@ object Trx {
     val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToDefVar}.toList
     val deflists = (xml \ "section-def-lists" \ "def-list").map{nodeToDefList}.toList
     val defmacros = (xml \ "section-def-macros" \ "def-macro").map{nodeToDefMacro}.toList
-    val defrules = (xml \ "section-rules" \ "rule ").map{nodeToRule}.toList
+    val defrules = (xml \ "section-rules" \ "rule").map{nodeToRule}.toList
     TopLevel(kind, defcats, defattrs, defvars, deflists, defmacros, defrules)
   }
   def save(topLevel: TopLevel, file: String): Unit = {
     import java.io._
     val outfile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))
-    outfile.write(topLevel.toXMLString)
+    outfile.write(topLevel.toXMLString.replaceAll("\\n+", "\n"))
     outfile.close()
   }
 }
