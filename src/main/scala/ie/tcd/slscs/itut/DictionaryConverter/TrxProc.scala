@@ -27,7 +27,7 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
                    defattrs: Map[String, List[String]],
                    vars: Map[String, String],
                    lists: Map[String, List[String]],
-                   macros: Map[String, List[ActionElement]], rules: List[Rule]) {
+                   macros: Map[String, List[SentenceElement]], rules: List[RuleElement]) {
   val variables = collection.mutable.Map.empty[String, String] ++ vars
   val validVariables: List[String] = vars.keys.toList
   def getVar(s: String): Option[String] = {

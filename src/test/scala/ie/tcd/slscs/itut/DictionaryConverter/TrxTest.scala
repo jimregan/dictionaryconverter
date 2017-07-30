@@ -38,14 +38,14 @@ class TrxTest extends FlatSpec {
       <attr-item tags="sp"/>
       <attr-item tags="ND"/>
     </def-attr>
-    val exp = AttrCat("nbr", List[AttrItem](AttrItem("sg"), AttrItem("pl"), AttrItem("sp"), AttrItem("ND")))
+    val exp = DefAttrElement("nbr", List[AttrItemElement](AttrItemElement("sg"), AttrItemElement("pl"), AttrItemElement("sp"), AttrItemElement("ND")))
     val out = nodeToDefAttr(in)
     assert(exp == out)
   }
 
   "readAttrItem" should "read an attr-item node" in {
     val in = <attr-item tags="sg"/>
-    val exp = AttrItem("sg")
+    val exp = AttrItemElement("sg")
     val out = nodeToAttrItem(in)
     assert(exp == out)
   }

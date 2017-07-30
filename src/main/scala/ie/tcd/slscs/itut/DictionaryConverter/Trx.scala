@@ -41,9 +41,9 @@ trait Indentable extends TransferElement {
   }
 }
 case class TopLevel(kind: String, defcats: List[DefCat],
-                    defattrs: List[AttrCat], vars: List[DefVar],
+                    defattrs: List[DefAttrElement], vars: List[DefVarElement],
                     lists: List[DefListElement], macros: List[DefMacroElement],
-                    rules: List[Rule]) extends TransferElement {
+                    rules: List[RuleElement]) extends TransferElement {
   def getOpen: String = if(kind == "chunk") {
     "<transfer default=\"chunk\">"
   } else {
@@ -70,11 +70,11 @@ case class DefCat(n: String, l: List[CatItem]) extends TransferElement {
     l.map{_.toXMLString}.mkString("\n") +
     "    </def-cat>\n"
 }
-case class AttrItem(tags: String) extends TransferElement {
+case class AttrItemElement(tags: String) extends TransferElement {
   def toXML: Node = <attr-item tags={tags} />
   override def toXMLString: String = "      " + toXML.toString
 }
-case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
+case class DefAttrElement(n: String, l: List[AttrItemElement]) extends TransferElement {
   def toXML: Node = {
     <def-attr n={n}>
     { l.map { c => c.toXML } }
@@ -84,12 +84,20 @@ case class AttrCat(n: String, l: List[AttrItem]) extends TransferElement {
     l.map{_.toXMLString}.mkString("\n") +
     "    </def-attr>\n"
 }
-case class DefVar(name: String, value: String = null) extends TransferElement {
+case class DefVarElement(name: String, value: String = null) extends TransferElement {
   def toXML: Node = <def-var n={name} v={value} />
   override def toXMLString: String = "    " + toXML.toString
 }
-case class Rule(comment: String, pattern: List[PatternItem], action: ActionElement)
-case class PatternItem(n: String)
+case class RuleElement(ruleid: String, rulecomment: String, comment: String,
+                       pattern: PatternElement, action: ActionElement) extends TransferElement {
+  def toXML: Node = <rule id={ruleid} comment={rulecomment} c={comment}>{pattern.toXML}{action.toXML}</rule>
+}
+case class PatternElement(children: List[PatternItemElement]) extends TransferElement {
+  def toXML: Node = <pattern>{children.map{_.toXML}}</pattern>
+}
+case class PatternItemElement(n: String) extends TransferElement {
+  def toXML: Node = <pattern-item n={n}/>
+}
 case class ActionElement(c: String, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <action c={c}>
     { children.map{_.toXML} }
@@ -292,19 +300,19 @@ object Trx {
     val name = (n \ "@n").text
     VarElement(name)
   }
-  def nodeToDefVar(n: Node): DefVar = {
+  def nodeToDefVar(n: Node): DefVarElement = {
     val name = (n \ "@n").text
     val value = getattrib(n, "value")
-    DefVar(name, value)
+    DefVarElement(name, value)
   }
-  def nodeToAttrItem(n: Node): AttrItem = {
+  def nodeToAttrItem(n: Node): AttrItemElement = {
     val tags = (n \ "@tags").text
-    AttrItem(tags)
+    AttrItemElement(tags)
   }
-  def nodeToDefAttr(n: Node): AttrCat = {
+  def nodeToDefAttr(n: Node): DefAttrElement = {
     val name = (n \ "@n").text
     val items = (n \ "attr-item").map{nodeToAttrItem}.toList
-    AttrCat(name, items)
+    DefAttrElement(name, items)
   }
   def nodeToDefList(n: Node): DefListElement = {
     val name = (n \ "@n").text
@@ -573,9 +581,24 @@ object Trx {
     val children = pruned.map{nodeToSentence}
     DefMacroElement(name, numparams, comment, children)
   }
+  def nodeToRule(n: Node): RuleElement = {
+    val name = getattrib(n, "id")
+    val rulecomment = getattrib(n, "comment")
+    val comment = getattrib(n, "c")
+    val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 2) {
+      throw new Exception(incorrect("rule"))
+    }
+    val pattern = nodeToPattern(pruned(0))
+    val action = nodeToAction(pruned(1))
+    RuleElement(, )
+  }
+  def nodeToPattern(n: Node): PatternElement = {
+    (n \ "pattern-item").map{nodeToPatternItem}
+  }
 
-  def mkAttrCat(s: String, l: List[String]): AttrCat = {
-    AttrCat(s, l.map{e => AttrItem(e)})
+  def mkDefAttr(s: String, l: List[String]): DefAttrElement = {
+    DefAttrElement(s, l.map{ e => AttrItemElement(e) })
   }
 
   def load(file: String): TopLevel = {
@@ -595,6 +618,6 @@ object Trx {
     val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}.toList
     val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToDefVar}.toList
     val deflists = (xml \ "section-def-lists" \ "def-list").map{nodeToDefList}.toList
-    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacroElement], List.empty[Rule])
+    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacroElement], List.empty[RuleElement])
   }
 }
