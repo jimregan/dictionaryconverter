@@ -256,13 +256,13 @@ case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean =
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <ends-with caseless={clstring}>{l.toXML}{r.toXML}</ends-with>
 }
-case class NotElement(v: ValueElement) extends ConditionElement {
+case class NotElement(v: ConditionElement) extends ConditionElement {
   def toXML: Node = <not>{v.toXML}</not>
 }
-case class AndElement(children: List[ValueElement]) extends ConditionElement {
+case class AndElement(children: List[ConditionElement]) extends ConditionElement {
   def toXML: Node = <and>{children.map{_.toXML}}</and>
 }
-case class OrElement(children: List[ValueElement]) extends ConditionElement {
+case class OrElement(children: List[ConditionElement]) extends ConditionElement {
   def toXML: Node = <or>{children.map{_.toXML}}</or>
 }
 case class ListElement(name: String) extends Indentable {
@@ -456,7 +456,7 @@ object Trx {
     case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU})
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
-    case _ => throw new Exception("Unrecognised element: " + n.label)
+    case _ => throw new Exception("Unrecognised element: " + n.label + n.toString)
   }
   def nodeToOutType(n: Node): OutElementType = n match {
     case <b/> => BElement(getattrib(n, "pos"))
@@ -530,7 +530,7 @@ object Trx {
   def nodeToAppend(n: Node): AppendElement = {
     val pruned = pruneNodes(n.child.toList)
     if(pruned.length < 1) {
-      throw new Exception(incorrect("append") + n.toString)
+      throw new Exception(incorrect("append"))
     }
     val name = getattrib(n, "n")
     val values = pruned.map{nodeToValue}
@@ -566,9 +566,9 @@ object Trx {
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToConditional(n: Node): ConditionElement = n match {
-    case <and>{_*}</and> => AndElement(pruneNodes(n.child.toList).map{nodeToValue})
-    case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToValue})
-    case <not>{_*}</not> => NotElement(nodeToValue(pruneNodes(n.child.toList).head))
+    case <and>{_*}</and> => AndElement(pruneNodes(n.child.toList).map{nodeToConditional})
+    case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToConditional})
+    case <not>{_*}</not> => NotElement(nodeToConditional(pruneNodes(n.child.toList).head))
     case <equal>{_*}</equal> => {
       val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       EqualElement(caseless, pruneNodes(n.child.toList).map{nodeToValue})
