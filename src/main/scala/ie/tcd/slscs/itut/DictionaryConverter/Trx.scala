@@ -570,11 +570,11 @@ object Trx {
     case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToValue})
     case <not>{_*}</not> => NotElement(nodeToValue(pruneNodes(n.child.toList).head))
     case <equal>{_*}</equal> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       EqualElement(caseless, pruneNodes(n.child.toList).map{nodeToValue})
     }
     case <begins-with>{_*}</begins-with> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       val children = pruned.map{nodeToValue}.toList
       if(children.length != 2) {
@@ -583,7 +583,7 @@ object Trx {
       BeginsWithElement(children(0), children(1), caseless)
     }
     case <begins-with-list>{_*}</begins-with-list> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("begins-with-list"))
@@ -593,7 +593,7 @@ object Trx {
       BeginsWithListElement(value, listelem, caseless)
     }
     case <ends-with>{_*}</ends-with> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       val children = pruned.map{nodeToValue}
       if(children.length != 2) {
@@ -602,7 +602,7 @@ object Trx {
       EndsWithElement(children(0), children(1), caseless)
     }
     case <ends-with-list>{_*}</ends-with-list> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("ends-with-list"))
@@ -612,7 +612,7 @@ object Trx {
       EndsWithListElement(value, listelem, caseless)
     }
     case <contains-substring>{_*}</contains-substring> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("contains-substring"))
@@ -622,7 +622,7 @@ object Trx {
       ContainsSubstringElement(left, right, caseless)
     }
     case <in>{_*}</in> => {
-      val caseless: Boolean = n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("in"))
