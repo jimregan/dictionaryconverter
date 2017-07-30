@@ -78,8 +78,11 @@ class TrxTest extends FlatSpec {
       </out>
     </action>
     val cm = CallMacroElement("firstWord", List[WithParamElement](WithParamElement("1")))
-
-    val exp = ActionElement("test", List[SentenceElement](cm))
+    val clip1 = ClipElement("2","sl","gen",null,null,null)
+    val clip2 = ClipElement("2","tl","nbr",null,null,null)
+    val clip3 = ClipElement("2","tl","whole",null,null,null)
+    val tags = List(TagElement(LitTagElement("SN")), TagElement(clip1), TagElement(clip2))
+    val exp = ActionElement("test",List(cm, OutElement(null,List(ChunkElement("ant",null,"caseFirstWord",null,Some(TagsElementType(tags)),List(LUElement(List(clip3))))))))
     val out = nodeToAction(in)
     assert(exp == out)
   }

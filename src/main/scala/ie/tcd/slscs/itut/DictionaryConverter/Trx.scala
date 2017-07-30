@@ -414,8 +414,8 @@ object Trx {
     val ccase = getattrib(n, "case")
     val comment = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    if (pruned.length != 1 || pruned.length != 2) {
-      throw new Exception(incorrect("chunk"))
+    if (pruned.length != 1 && pruned.length != 2) {
+      throw new Exception(incorrect("chunk") + pruned.length)
     }
     if(pruned.length == 2) {
       val tags = (n \ "tags" \ "tag").map{nodeToTag}.toList
