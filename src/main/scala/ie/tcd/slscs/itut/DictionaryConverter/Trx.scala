@@ -320,7 +320,7 @@ object Trx {
   }
   def pruneNodes(l: List[Node]): List[Node] = {
     @scala.annotation.tailrec
-    def pruneinner(l: List[Node], acc: List[Node]): Any = l match {
+    def pruneinner(l: List[Node], acc: List[Node]): List[Node] = l match {
       case scala.xml.Text(_) :: xs => pruneinner(xs, acc)
       case scala.xml.Comment(_) :: xs => pruneinner(xs, acc)
       case scala.xml.ProcInstr(_, _) :: xs => pruneinner(xs, acc)
