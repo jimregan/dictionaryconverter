@@ -474,10 +474,10 @@ object Trx {
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToLet(n: Node): LetElement = {
-    if (n.child.length != 2) {
+    val pruned = pruneNodes(n.child.toList)
+    if (pruned.length != 2) {
       throw new Exception(incorrect("let"))
     }
-    val pruned = pruneNodes(n.child.toList)
     LetElement(nodeToContainer(pruned(0)), nodeToValue(pruned(1)))
   }
   def nodeToOut(n: Node): OutElement = {
