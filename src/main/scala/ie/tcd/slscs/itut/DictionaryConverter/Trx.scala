@@ -44,17 +44,17 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
                     defattrs: List[DefAttrElement], vars: List[DefVarElement],
                     lists: List[DefListElement], macros: List[DefMacroElement],
                     rules: List[RuleElement]) extends TransferElement {
-  def getOpen: String = if(kind == "chunk") {
-    "<transfer default=\"chunk\">"
-  } else {
-    "<" + kind + ">"
-  }
-  def getClose: String = if(kind == "chunk") {
-    "</transfer>"
-  } else {
-    "</" + kind + ">"
-  }
   override def toXMLString: String = {
+    val opentag = if(kind == "chunk") {
+      "<transfer default=\"chunk\">"
+    } else {
+      "<" + kind + ">"
+    }
+    val closetag = if(kind == "chunk") {
+      "</transfer>"
+    } else {
+      "</" + kind + ">"
+    }
     val attrssect = if(defattrs.size != 0) {
       "  <section-def-attrs>\n" +
       defattrs.map{_.toXMLString}.mkString
@@ -83,7 +83,7 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     } else {
       ""
     }
-    getOpen + "\n" +
+    opentag + "\n" +
     "  <section-def-cats>\n" +
     defcats.map{_.toXMLString}.mkString
     "  </section-def-cats>\n" +
@@ -94,7 +94,7 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     "  <section-def-rules>\n" +
     rules.map{_.toXMLString}.mkString
     "  </section-def-rules>\n" +
-    getClose
+    closetag
   }
   def toXML: Node = scala.xml.XML.loadString(toXMLString)
 }
@@ -277,9 +277,23 @@ case class LitTagElement(value: String) extends StringValueElement {
 case class EqualElement(caseless: Boolean, children: List[ValueElement]) extends ConditionElement {
   val clstring = if(caseless) "yes" else "no"
   def toXML: Node = <equal caseless={clstring}>{children.map{_.toXML}}</equal>
+
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val casestr = if(caseless) " caseless=\"yes\"" else ""
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<equal" + casestr + ">" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    (indent_text * i) + "</equal>" + nl
+  }
 }
 case class GetCaseFromElement(pos: String, child: StringValueElement) extends StringValueElement {
   def toXML: Node = <get-case-from pos={pos}>{child.toXML}</get-case-from>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<get-case-from pos=\"" + pos + "\">" + nl +
+    child.toXMLString(i + 1, newline) +
+    (indent_text * i) + "</get-case-from>" + nl
+  }
 }
 case class CaseOfElement(pos: String, part: String) extends StringValueElement {
   def toXML: Node = <case-of pos={pos} part={part}/>
