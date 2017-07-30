@@ -316,17 +316,41 @@ case class ChooseElement(c: String, when: List[WhenElement], other: Option[Other
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
-    
+    (indent_text * i) + "<choose" + comment + ">" + nl +
+    when.map{_.toXMLString(i+1, newline)} + nl +
+    otherstring + nl +
+    (indent_text * i) + "</choose>" + nl
   }
 }
 case class WhenElement(c: String, test: TestElement, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <when c={c}>{test.toXML}{children.map{_.toXML}}</when>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val comment = if(c != null) " c=\"" + c + "\"" else ""
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<when" + comment + ">" + nl +
+    children.map{_.toXMLString(i+1, newline)} + nl +
+    (indent_text * i) + "</when>" + nl
+  }
 }
 case class OtherwiseElement(c: String, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <otherwise c={c}>{children.map{_.toXML}}</otherwise>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val comment = if(c != null) " c=\"" + c + "\"" else ""
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<otherwise" + comment + ">" + nl +
+    children.map{_.toXMLString(i+1, newline)} + nl +
+    (indent_text * i) + "</otherwise>" + nl
+  }
 }
 case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends SentenceElement {
   def toXML: Node = <modify-case>{c.toXML}{s.toXML}</modify-case>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val nl = if(newline) "\n" else ""
+    (indent_text * i) + "<modify-case>" + nl +
+    c.toXMLString(i+1, newline) + nl +
+    s.toXMLString(i+1, newline) + nl +
+    (indent_text * i) + "</modify-case>" + nl
+  }
 }
 case class AppendElement(name: String, values: List[ValueElement]) extends SentenceElement {
   def toXML: Node = <append n={name}>{values.map{_.toXML}}</append>
