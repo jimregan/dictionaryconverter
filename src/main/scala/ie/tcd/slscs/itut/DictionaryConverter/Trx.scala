@@ -55,14 +55,45 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     "</" + kind + ">"
   }
   override def toXMLString: String = {
+    val attrssect = if(defattrs.size != 0) {
+      "  <section-def-attrs>\n" +
+      defattrs.map{_.toXMLString}.mkString
+      "  </section-def-attrs>\n"
+    } else {
+      ""
+    }
+    val varssect = if(vars.size != 0) {
+      "  <section-def-vars>\n" +
+      vars.map{_.toXMLString}.mkString +
+      "  </section-def-vars>\n"
+    } else {
+      ""
+    }
+    val listssect = if(lists.size != 0) {
+      "  <section-def-lists>\n" +
+      lists.map{_.toXMLString}.mkString +
+      "  </section-def-lists>\n"
+    } else {
+      ""
+    }
+    val macrossect = if(macros.size != 0) {
+      "  <section-def-macros>\n" +
+      macros.map{_.toXMLString}.mkString +
+      "  </section-def-macros>\n"
+    } else {
+      ""
+    }
     getOpen + "\n" +
     "  <section-def-cats>\n" +
-    defcats.map{_.toXMLString}.mkString("")
+    defcats.map{_.toXMLString}.mkString
     "  </section-def-cats>\n" +
-    "  <section-def-attrs>\n" +
-    defattrs.map{_.toXMLString}.mkString
-    "  </section-def-attrs>\n" +
-    //
+    attrssect +
+    varssect +
+    listssect +
+    macrossect +
+    "  <section-def-rules>\n" +
+    rules.map{_.toXMLString}.mkString
+    "  </section-def-rules>\n" +
     getClose
   }
   def toXML: Node = scala.xml.XML.loadString(toXMLString)
