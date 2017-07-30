@@ -91,9 +91,9 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     varssect +
     listssect +
     macrossect +
-    "  <section-def-rules>\n" +
+    "  <section-rules>\n" +
     rules.map{_.toXMLString}.mkString
-    "  </section-def-rules>\n" +
+    "  </section-rules>\n" +
     closetag
   }
   def toXML: Node = scala.xml.XML.loadString(toXMLString)
@@ -681,6 +681,8 @@ object Trx {
     val defattrs = (xml \ "section-def-attrs" \ "def-attr").map{nodeToDefAttr}.toList
     val defvars = (xml \ "section-def-vars" \ "def-var").map{nodeToDefVar}.toList
     val deflists = (xml \ "section-def-lists" \ "def-list").map{nodeToDefList}.toList
-    TopLevel(kind, defcats, defattrs, defvars, deflists, List.empty[DefMacroElement], List.empty[RuleElement])
+    val defmacros = (xml \ "section-def-macros" \ "def-macro").map{nodeToDefMacro}.toList
+    val defrules = (xml \ "section-rules" \ "rule ").map{nodeToRule}.toList
+    TopLevel(kind, defcats, defattrs, defvars, deflists, defmacros, defrules)
   }
 }
