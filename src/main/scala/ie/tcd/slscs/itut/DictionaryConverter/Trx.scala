@@ -213,8 +213,8 @@ case class TestElement(comment: String, cond: ConditionElement) extends Indentab
   def toXML: Node = <test c={comment}>{cond.toXML}</test>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
-    val c = if(comment != null) " c=\"" + comment + "\""
-    (indent_text * i) + "<test" + comment + ">" + nl +
+    val c = if(comment != null) " c=\"" + comment + "\"" else ""
+    (indent_text * i) + "<test" + c + ">" + nl +
     cond.toXMLString(i + 1, newline) + nl +
     (indent_text * i) + "</test>" + nl
   }
@@ -388,9 +388,9 @@ case class LetElement(c: ContainerElement, v: ValueElement) extends SentenceElem
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<let>" + nl +
-    c.toXMLString(i+1, newline) + nl +
-    v.toXMLString(i+1, newline) + nl +
-    (indent_text * i) + "</let>" + nl
+    c.toXMLString(i+1, newline) +
+    v.toXMLString(i+1, newline) +
+    (indent_text * i) + "</let>"
   }
 }
 case class OutElement(c: String, children: List[OutElementType]) extends SentenceElement {
@@ -399,8 +399,8 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<out" + comment + ">" + nl +
-    children.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
-    (indent_text * i) + "</out>" + nl
+    children.map{e => e.toXMLString(i+1, newline)}.mkString +
+    (indent_text * i) + "</out>"
   }
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
@@ -412,7 +412,7 @@ case class ChooseElement(c: String, when: List[WhenElement], other: Option[Other
     (indent_text * i) + "<choose" + comment + ">" + nl +
     when.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     otherstring + nl +
-    (indent_text * i) + "</choose>" + nl
+    (indent_text * i) + "</choose>"
   }
 }
 case class WhenElement(c: String, test: TestElement, children: List[SentenceElement]) extends Indentable {
@@ -423,7 +423,7 @@ case class WhenElement(c: String, test: TestElement, children: List[SentenceElem
     (indent_text * i) + "<when" + comment + ">" + nl +
     test.toXMLString(i+1, newline) + nl +
     children.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
-    (indent_text * i) + "</when>" + nl
+    (indent_text * i) + "</when>"
   }
 }
 case class OtherwiseElement(c: String, children: List[SentenceElement]) extends Indentable {
@@ -433,7 +433,7 @@ case class OtherwiseElement(c: String, children: List[SentenceElement]) extends 
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<otherwise" + comment + ">" + nl +
     children.map{_.toXMLString(i+1, newline)}.mkString + nl +
-    (indent_text * i) + "</otherwise>" + nl
+    (indent_text * i) + "</otherwise>"
   }
 }
 case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends SentenceElement {
@@ -451,7 +451,7 @@ case class AppendElement(name: String, values: List[ValueElement]) extends Sente
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<append n=\"" + name + "\">" + nl +
-    values.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
+    values.map{e => e.toXMLString(i+1, newline)}.mkString +
     (indent_text * i) + "</append>" + nl
   }
 }
