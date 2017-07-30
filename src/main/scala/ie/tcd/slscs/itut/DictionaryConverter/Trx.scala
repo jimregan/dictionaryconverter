@@ -615,7 +615,7 @@ object Trx {
     val ccase = getattrib(n, "case")
     val comment = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    if((n \ "tags" \ "tag").length == 1) {
+    if((n \ "tags").length == 1) {
       val tags = (n \ "tags" \ "tag").map{nodeToTag}.toList
       val values = pruned.tail.map{nodeToValue}.toList
       ChunkElement(name, namefrom, ccase, comment, Some(TagsElementType(tags)), values)
@@ -639,7 +639,7 @@ object Trx {
     case <mlu>{_*}</mlu> => MLUElement(pruneNodes(n.child.toList).map{nodeToLU})
     case <chunk>{_*}</chunk> => nodeToChunk(n)
 
-    case _ => throw new Exception("Unrecognised element: " + n.label + n.toString)
+    case _ => throw new Exception("Unrecognised element: " + n.label)
   }
   def nodeToOutType(n: Node): OutElementType = n match {
     case <b/> => BElement(getattrib(n, "pos"))
