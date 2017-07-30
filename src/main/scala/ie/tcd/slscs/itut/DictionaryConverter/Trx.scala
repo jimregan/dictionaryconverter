@@ -108,8 +108,8 @@ case class DefCatElement(n: String, l: List[CatItem]) extends TransferElement {
     { l.map { c => c.toXML } }
     </def-cat>
   }
-  override def toXMLString: String = "    <def-cat n=\"$n\">\n" +
-    l.map{_.toXMLString}.mkString("\n") +
+  override def toXMLString: String = "    <def-cat n=\"" + n + "\">\n" +
+    l.map{_.toXMLString}.mkString("\n") + "\n" +
     "    </def-cat>\n"
 }
 case class AttrItemElement(tags: String) extends TransferElement {
@@ -122,13 +122,13 @@ case class DefAttrElement(n: String, l: List[AttrItemElement]) extends TransferE
     { l.map { c => c.toXML } }
     </def-attr>
   }
-  override def toXMLString: String = "    <def-attr n=\"$n\">\n" +
-    l.map{_.toXMLString}.mkString("\n") +
+  override def toXMLString: String = "    <def-attr n=\"" + n + "\">\n" +
+    l.map{_.toXMLString}.mkString("\n") + "\n" +
     "    </def-attr>\n"
 }
 case class DefVarElement(name: String, value: String = null) extends TransferElement {
   def toXML: Node = <def-var n={name} v={value} />
-  override def toXMLString: String = "    " + toXML.toString
+  override def toXMLString: String = "    " + toXML.toString + "\n"
 }
 case class RuleElement(ruleid: String, rulecomment: String, comment: String,
                        pattern: PatternElement, action: ActionElement) extends TransferElement {
@@ -154,7 +154,7 @@ trait ConditionElement extends Indentable
 /** 'container' elements: var and clip */
 trait ContainerElement extends ValueElement
 /** 'sentence' elements: let, out, choose, modify-case, call-macro, append, and reject-current-rule */
-trait SentenceElement extends TransferElement
+trait SentenceElement extends Indentable
 /** 'value' elements: b, clip, lit, lit-tag, var, get-case-from, case-of, concat, lu, mlu, and chunk */
 trait ValueElement extends Indentable
 /** 'stringvalue' elements: clip, lit, var, get-case-from, lu-count, and case-of */
@@ -219,13 +219,19 @@ case class DefMacroElement(name: String, numparams: String, comment: String,
       {actions.map{ _.toXML }}
     </def-macro>
   }
+  override def toXMLString: String = {
+    val c = if(comment == null) " c=\"" + comment + "\"" else ""
+    "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + comment + ">" +
+    actions.map{e => e.toXMLString(3, true)}.mkString + "\n" + 
+    "    </def-macro>"
+  }
 }
 case class DefListElement(name: String, items: List[ListItemElement]) extends TransferElement {
   override def toXML: Node = <def-list n={name}>
     { items.map{_.toXML} }
   </def-list>
-  override def toXMLString: String = "    <def-list n=\"$name\">\n" +
-    items.map{_.toXMLString}.mkString("\n") +
+  override def toXMLString: String = "    <def-list n=\"" + name + "\">\n" +
+    items.map{_.toXMLString}.mkString("\n") + "\n" +
     "    </def-list>\n"
 }
 case class ListItemElement(value: String) extends TransferElement {
@@ -306,6 +312,12 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
   def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other != None) other.get.toXML}</choose>
+  override def toXMLString(i: Int, newline: Boolean) = {
+    val comment = if(c != null) " c=\"" + c + "\"" else ""
+    val nl = if(newline) "\n" else ""
+    val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
+    
+  }
 }
 case class WhenElement(c: String, test: TestElement, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <when c={c}>{test.toXML}{children.map{_.toXML}}</when>
