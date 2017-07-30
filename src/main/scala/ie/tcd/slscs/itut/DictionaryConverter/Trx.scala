@@ -234,7 +234,7 @@ case class DefMacroElement(name: String, numparams: String, comment: String,
   }
   override def toXMLString: String = {
     val c = if(comment != null) " c=\"" + comment + "\"" else ""
-    "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + comment + ">" +
+    "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + c + ">" + "\n" +
     actions.map{e => e.toXMLString(3, true)}.mkString + "\n" + 
     "    </def-macro>"
   }
