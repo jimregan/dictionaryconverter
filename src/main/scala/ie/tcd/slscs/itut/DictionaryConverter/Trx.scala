@@ -233,7 +233,7 @@ case class DefMacroElement(name: String, numparams: String, comment: String,
     </def-macro>
   }
   override def toXMLString: String = {
-    val c = if(comment == null) " c=\"" + comment + "\"" else ""
+    val c = if(comment != null) " c=\"" + comment + "\"" else ""
     "    <def-macro n=\"" + name + "\" npar=\"" + numparams + "\"" + comment + ">" +
     actions.map{e => e.toXMLString(3, true)}.mkString + "\n" + 
     "    </def-macro>"
@@ -399,7 +399,7 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<out" + comment + ">" + nl +
-    children.map{_.toXMLString(i+1, newline)} + nl +
+    children.map{e => e.toXMLString(i+1, newline)} + nl +
     (indent_text * i) + "</out>" + nl
   }
 }
@@ -410,7 +410,7 @@ case class ChooseElement(c: String, when: List[WhenElement], other: Option[Other
     val nl = if(newline) "\n" else ""
     val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
     (indent_text * i) + "<choose" + comment + ">" + nl +
-    when.map{_.toXMLString(i+1, newline)} + nl +
+    when.map{e => e.toXMLString(i+1, newline)} + nl +
     otherstring + nl +
     (indent_text * i) + "</choose>" + nl
   }
@@ -421,7 +421,7 @@ case class WhenElement(c: String, test: TestElement, children: List[SentenceElem
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<when" + comment + ">" + nl +
-    children.map{_.toXMLString(i+1, newline)} + nl +
+    children.map{e => e.toXMLString(i+1, newline)} + nl +
     (indent_text * i) + "</when>" + nl
   }
 }
@@ -450,7 +450,7 @@ case class AppendElement(name: String, values: List[ValueElement]) extends Sente
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
     (indent_text * i) + "<append n=\"" + name + "\">" + nl +
-    values.map{_.toXMLString(i+1, newline)} + nl +
+    values.map{e => e.toXMLString(i+1, newline)} + nl +
     (indent_text * i) + "</append>" + nl
   }
 }
