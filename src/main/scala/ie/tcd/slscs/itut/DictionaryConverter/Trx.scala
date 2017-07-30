@@ -214,9 +214,11 @@ case class RejectCurrentRuleElement(shifting: Boolean = true) extends SentenceEl
 
 case class DefMacroElement(name: String, numparams: String, comment: String,
                            actions: List[SentenceElement]) extends TransferElement {
-  def toXML: Node = <def-macro n={name} npar={numparams} c={comment}>
-    { actions.map{_.toXML} }
-  </def-macro>
+  def toXML: Node = {
+    <def-macro n={name} npar={numparams} c={comment}>
+      {actions.map{ _.toXML }}
+    </def-macro>
+  }
 }
 case class DefListElement(name: String, items: List[ListItemElement]) extends TransferElement {
   override def toXML: Node = <def-list n={name}>
