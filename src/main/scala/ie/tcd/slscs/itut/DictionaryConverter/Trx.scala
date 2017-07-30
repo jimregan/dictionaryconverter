@@ -316,8 +316,8 @@ case class OtherwiseElement(c: String, children: List[SentenceElement]) extends 
 case class ModifyCaseElement(c: ContainerElement, s: StringValueElement) extends SentenceElement {
   def toXML: Node = <modify-case>{c.toXML}{s.toXML}</modify-case>
 }
-case class AppendElement(name: String, value: ValueElement) extends SentenceElement {
-  def toXML: Node = <append n={name}>{value.toXML}</append>
+case class AppendElement(name: String, values: List[ValueElement]) extends SentenceElement {
+  def toXML: Node = <append n={name}>{value.map{_.toXML}}</append>
 }
 
 object Trx {
@@ -415,7 +415,7 @@ object Trx {
     }
     GetCaseFromElement(pos, child)
   }
-  def incorrect(name: String): String = s"""<{name}> contains incorrect number of elements"""
+  def incorrect(name: String): String = s"""<$name> contains incorrect number of elements"""
   def nodeToTag(n: Node): TagElement = {
     val pruned = pruneNodes(n.child.toList)
     if(pruned.length != 1) {
@@ -529,9 +529,12 @@ object Trx {
   }
   def nodeToAppend(n: Node): AppendElement = {
     val pruned = pruneNodes(n.child.toList)
+    if(pruned.length != 1) {
+      throw new Exception(incorrect("append") + n.toString)
+    }
     val name = getattrib(n, "n")
-    val value = nodeToValue(pruned(0))
-    AppendElement(name, value)
+    val values = pruned.map{nodeToValue}
+    AppendElement(name, values)
   }
   def nodeToAction(n: Node): ActionElement = {
     val comment = getattrib(n, "c")
