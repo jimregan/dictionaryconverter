@@ -85,14 +85,14 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     }
     opentag + "\n" +
     "  <section-def-cats>\n" +
-    defcats.map{_.toXMLString}.mkString
+    defcats.map{_.toXMLString}.mkString +
     "  </section-def-cats>\n" +
     attrssect +
     varssect +
     listssect +
     macrossect +
     "  <section-rules>\n" +
-    rules.map{_.toXMLString}.mkString
+    rules.map{_.toXMLString}.mkString +
     "  </section-rules>\n" +
     closetag
   }
