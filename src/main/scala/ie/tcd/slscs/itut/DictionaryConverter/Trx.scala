@@ -148,7 +148,7 @@ case class RuleElement(ruleid: String, rulecomment: String, comment: String,
 case class PatternElement(children: List[PatternItemElement]) extends TransferElement {
   def toXML: Node = <pattern>{children.map{_.toXML}}</pattern>
   override def toXMLString: String = {
-    val nl = if(newline) "\n" else ""
+    val nl = "\n"
     indent(3) + "<pattern>" + nl +
     children.map{_.toXMLString(4, true)}.mkString +
     indent(3) + "</pattern>" + nl
