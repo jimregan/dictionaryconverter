@@ -147,14 +147,27 @@ case class RuleElement(ruleid: String, rulecomment: String, comment: String,
 }
 case class PatternElement(children: List[PatternItemElement]) extends TransferElement {
   def toXML: Node = <pattern>{children.map{_.toXML}}</pattern>
+  override def toXMLString: String = {
+    val nl = if(newline) "\n" else ""
+    indent(3) + "<pattern>" + nl +
+    children.map{_.toXMLString(4, newline)}.mkString +
+    indent(3) + "</pattern>" + nl
+  }
 }
-case class PatternItemElement(n: String) extends TransferElement {
+case class PatternItemElement(n: String) extends Indentable {
   def toXML: Node = <pattern-item n={n}/>
 }
 case class ActionElement(c: String, children: List[SentenceElement]) extends Indentable {
   def toXML: Node = <action c={c}>
     { children.map{_.toXML} }
   </action>
+  override def toXMLString(i: Int, newline: Boolean): String = {
+    val ctext = if(c != null) " c=\"" + c + "\"" else ""
+    val nl = if(newline) "\n" else ""
+    indent(i) + "<action" + ctext + ">" + nl +
+    children.map{_.toXMLString(i + 1, newline)}.mkString +
+    indent(i) + "</action>" + nl
+  }
 }
 
 /**
