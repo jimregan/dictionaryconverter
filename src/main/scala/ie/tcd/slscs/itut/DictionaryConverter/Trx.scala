@@ -627,8 +627,8 @@ object Trx {
       if(pruned.length != 2) {
         throw new Exception(incorrect("in"))
       }
-      val value = nodeToValue(n.child.head)
-      val listelem = nodeToList(n.child(1))
+      val value = nodeToValue(pruned.head)
+      val listelem = nodeToList(pruned(1))
       InElement(value, listelem, caseless)
     }
     case _ => throw new Exception("Unrecognised element: " + n.label)
