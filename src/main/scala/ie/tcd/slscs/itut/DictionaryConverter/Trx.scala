@@ -57,42 +57,42 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     }
     val attrssect = if(defattrs.size != 0) {
       "  <section-def-attrs>\n" +
-      defattrs.map{_.toXMLString}.mkString
+      defattrs.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-attrs>\n"
     } else {
       ""
     }
     val varssect = if(vars.size != 0) {
       "  <section-def-vars>\n" +
-      vars.map{_.toXMLString}.mkString +
+      vars.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-vars>\n"
     } else {
       ""
     }
     val listssect = if(lists.size != 0) {
       "  <section-def-lists>\n" +
-      lists.map{_.toXMLString}.mkString +
+      lists.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-lists>\n"
     } else {
       ""
     }
     val macrossect = if(macros.size != 0) {
       "  <section-def-macros>\n" +
-      macros.map{_.toXMLString}.mkString +
+      macros.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-macros>\n"
     } else {
       ""
     }
     opentag + "\n" +
     "  <section-def-cats>\n" +
-    defcats.map{_.toXMLString}.mkString +
+    defcats.map{_.toXMLString}.mkString + "\n" +
     "  </section-def-cats>\n" +
     attrssect +
     varssect +
     listssect +
     macrossect +
     "  <section-rules>\n" +
-    rules.map{_.toXMLString}.mkString +
+    rules.map{_.toXMLString}.mkString + "\n" +
     "  </section-rules>\n" +
     closetag
   }
