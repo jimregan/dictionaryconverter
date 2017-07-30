@@ -463,7 +463,7 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
     val nl = if(newline) "\n" else ""
     indent(i) + "<out" + comment + ">" + nl +
     children.map{e => e.toXMLString(i+1, newline)}.mkString +
-    indent(i) + "</out>"
+    indent(i) + "</out>" + nl
   }
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
