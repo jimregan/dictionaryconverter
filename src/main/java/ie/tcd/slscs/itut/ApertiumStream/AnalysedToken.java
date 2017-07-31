@@ -27,6 +27,7 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class AnalysedToken extends StreamToken {
@@ -43,6 +44,22 @@ public class AnalysedToken extends StreamToken {
 
     @Override
     public String getContent() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(surface);
+        sb.append('/');
+        Iterator<SingleAnalysis> it = analyses.iterator();
+        if (it.hasNext()) {
+            sb.append(it.next().getContent());
+        }
+        while (it.hasNext()) {
+            sb.append('/');
+            sb.append(it.next().getContent());
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "^" + getContent() + "$";
     }
 }

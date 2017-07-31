@@ -31,8 +31,8 @@ import java.util.List;
 
 public class WordToken extends StreamToken {
     List<String> tags;
-    String lemh;
-    String lemq;
+    String lemh = "";
+    String lemq = "";
     WordToken() {
         tags = new ArrayList<String>();
     }
@@ -41,7 +41,7 @@ public class WordToken extends StreamToken {
         this.lemq = lemq;
         this.tags = tags;
     }
-    WordToken(String s) {
+    WordToken(String s) throws Exception {
         WordToken tmp = WordToken.fromString(s);
         this.lemh = tmp.lemh;
         this.lemq = tmp.lemq;
@@ -82,8 +82,59 @@ public class WordToken extends StreamToken {
     }
 
     // FIXME
-    static WordToken fromString(String s) {
+    static WordToken fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
-        return new WordToken("", "", tags);
+        String lemh = "";
+        String lemq = "";
+        char chars[] = s.toCharArray();
+        String cur = "";
+        boolean inLemma = true;
+        boolean sawHash = false;
+        int start = 0;
+        if (chars[0] == '^') {
+            start = 1;
+        }
+        if (chars.length == 0) {
+            throw new Exception("Input cannot be an empty string");
+        }
+        int end = chars.length - 1;
+        if (chars[end] == '$') {
+            end -= 1;
+        }
+        for (int i = start; i <= end; i++) {
+            if (ApertiumStream.isEscape(chars[i]) && (i + 1) < end) {
+                cur += chars[i + 1];
+                i += 2;
+            }
+            if (inLemma) {
+                if (chars[i] == '#') {
+                    lemh = cur;
+                    cur = "#";
+                    sawHash = true;
+                } else if (chars[i] == '<') {
+                    inLemma = false;
+                    if (sawHash) {
+                        lemh = cur;
+                    } else {
+                        lemq = cur;
+                    }
+                    cur = "";
+                } else {
+                    cur += chars[i];
+                }
+            } else {
+                if (chars[i] == '<') {
+                    i++;
+                }
+                if (chars[i] == '>') {
+                    tags.add(cur);
+                    cur = "";
+                } else {
+                    cur += chars[i];
+                }
+            }
+        }
+        System.out.println(lemh + " " + lemq);
+        return new WordToken(lemh, lemq, tags);
     }
 }

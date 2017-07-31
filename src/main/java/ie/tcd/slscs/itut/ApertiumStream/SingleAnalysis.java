@@ -27,5 +27,14 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class SingleAnalysis {
+public class SingleAnalysis extends StreamToken {
+    @Override
+    public String getContent() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return null;
+    }
 }
