@@ -27,6 +27,7 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class WordToken extends StreamToken {
@@ -63,9 +64,13 @@ public class WordToken extends StreamToken {
     public String getTagsString() {
         StringBuilder s = new StringBuilder();
         s.append('<');
-        for(String tag : tags) {
-            s.append(tag);
+        Iterator<String> it = tags.iterator();
+        if (it.hasNext()) {
+            s.append(it.next());
+        }
+        while (it.hasNext()) {
             s.append("><");
+            s.append(it.next());
         }
         s.append('>');
         return s.toString();
@@ -81,7 +86,6 @@ public class WordToken extends StreamToken {
         return "^" + getContent() + "$";
     }
 
-    // FIXME
     static WordToken fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
         String lemh = "";
