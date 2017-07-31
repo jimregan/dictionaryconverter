@@ -102,7 +102,7 @@ public class WordToken extends StreamToken {
             end -= 1;
         }
         for (int i = start; i <= end; i++) {
-            if (ApertiumStream.isEscape(chars[i]) && (i + 1) < end) {
+            if (chars[i] == '\\' && (i + 1) < end && ApertiumStream.isEscape(chars[i + 1])) {
                 cur += chars[i + 1];
                 i += 2;
             }
@@ -114,9 +114,9 @@ public class WordToken extends StreamToken {
                 } else if (chars[i] == '<') {
                     inLemma = false;
                     if (sawHash) {
-                        lemh = cur;
-                    } else {
                         lemq = cur;
+                    } else {
+                        lemh = cur;
                     }
                     cur = "";
                 } else {
@@ -134,7 +134,6 @@ public class WordToken extends StreamToken {
                 }
             }
         }
-        System.out.println(lemh + " " + lemq);
         return new WordToken(lemh, lemq, tags);
     }
 }

@@ -37,15 +37,39 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 public class WordTokenTest extends TestCase {
-    public void testFromString() {
+    public void testFromStringSimple() throws Exception {
         List<String> tags = Arrays.asList(new String[]{"n", "sg"});
         WordToken exp = new WordToken("simple", "", tags);
         WordToken out = WordToken.fromString("^simple<n><sg>$");
-        System.out.println(out.getLemh());
-        System.out.println(out.getLemq());
-        System.out.println(out.getTags().toString());
-        assert (out.getLemq().equals(exp.getLemq()));
-        assert (out.getLemh().equals(exp.getLemh()));
+        assert(out.getLemq().equals(exp.getLemq()));
+        assert(out.getLemh().equals(exp.getLemh()));
+        assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
+
+    public void testFromStringQueue() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("simple", "# test", tags);
+        WordToken out = WordToken.fromString("^simple# test<n><sg>$");
+        assert(out.getLemq().equals(exp.getLemq()));
+        assert(out.getLemh().equals(exp.getLemh()));
+        assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
+
+    public void testFromStringEscaped() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("simple/", "# test@", tags);
+        WordToken out = WordToken.fromString("^simple\\/# test\\@<n><sg>$");
+        assert(out.getLemq().equals(exp.getLemq()));
+        assert(out.getLemh().equals(exp.getLemh()));
+        assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
+
+    public void testFromStringNodelims() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("simple/", "# test@", tags);
+        WordToken out = WordToken.fromString("simple\\/# test\\@<n><sg>");
+        assert(out.getLemq().equals(exp.getLemq()));
+        assert(out.getLemh().equals(exp.getLemh()));
         assert(Utils.equalLists(exp.getTags(), out.getTags()));
     }
 }
