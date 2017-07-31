@@ -99,8 +99,8 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
   }
   def toXML: Node = scala.xml.XML.loadString(toXMLString)
 }
-case class CatItem(tags: String, lemma: String = null) extends TransferElement {
-  def toXML: Node = <cat-item lemma={lemma} tags={tags} />
+case class CatItem(tags: String = null, lemma: String = null, name: String = null) extends TransferElement {
+  def toXML: Node = <cat-item lemma={lemma} tags={tags} name={name} />
   override def toXMLString: String = "      " + toXML.toString
 }
 case class DefCatElement(n: String, l: List[CatItem]) extends TransferElement {
@@ -545,10 +545,10 @@ object Trx {
   def pruneNodes(n: Node): List[Node] = pruneNodes(n.child.toList)
 
   def nodeToCatItem(n: Node): CatItem = {
-    val lemmaRaw = (n \ "@lemma").text
-    val lemma = nullify((n \ "@lemma").text)
-    val tags = (n \ "@tags").text
-    CatItem(tags, lemma)
+    val name = getattrib(n, "name")
+    val lemma = getattrib(n, "lemma")
+    val tags = getattrib(n, "tags")
+    CatItem(tags, lemma, name)
   }
   def nodeToDefCat(n: Node): DefCatElement = {
     val name = (n \ "@n").text
