@@ -68,4 +68,31 @@ public class WordTokenTest extends TestCase {
         assertEquals(out.getLemh(), exp.getLemh());
         assert(Utils.equalLists(exp.getTags(), out.getTags()));
     }
+
+    public void testGetTagsString() {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken in = new WordToken("simple", "# test", tags);
+        String exp = "<n><sg>";
+        assertEquals(exp, in.getTagsString());
+    }
+    public void testGetLemh() {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken in = new WordToken("simple", "# test", tags);
+        String exp = "simple";
+        assertEquals(exp, in.getLemh());
+    }
+    public void testGetLemq() {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken in = new WordToken("simple", "# test", tags);
+        String exp = "# test";
+        assertEquals(exp, in.getLemq());
+    }
+    public void testGetStringCtor() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("simple", "# test", tags);
+        WordToken out = new WordToken("^simple# test<n><sg>$");
+        assertEquals(out.getLemq(), exp.getLemq());
+        assertEquals(out.getLemh(), exp.getLemh());
+        assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
 }
