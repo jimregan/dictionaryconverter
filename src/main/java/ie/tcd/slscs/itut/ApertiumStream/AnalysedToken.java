@@ -26,22 +26,23 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class BlankToken extends StreamToken {
-    private String content;
-    BlankToken() {
-        this.content = "";
+import java.util.ArrayList;
+import java.util.List;
+
+public class AnalysedToken extends StreamToken {
+    String surface;
+    List<SingleAnalysis> analyses;
+
+    AnalysedToken() {
+        analyses = new ArrayList<SingleAnalysis>();
     }
-    BlankToken(String s) {
-        this.content = s;
+
+    public String getSurface() {
+        return surface;
     }
 
     @Override
     public String getContent() {
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        return getContent();
+        return null;
     }
 }

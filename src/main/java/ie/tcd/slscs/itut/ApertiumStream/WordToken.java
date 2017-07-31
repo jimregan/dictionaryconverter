@@ -73,7 +73,12 @@ public class WordToken extends StreamToken {
 
     @Override
     public String getContent() {
-        return null;
+        return getLemh() + getTagsString() + getLemq();
+    }
+
+    @Override
+    public String toString() {
+        return "^" + getContent() + "$";
     }
 
     // FIXME

@@ -24,24 +24,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class BlankToken extends StreamToken {
-    private String content;
-    BlankToken() {
-        this.content = "";
-    }
-    BlankToken(String s) {
-        this.content = s;
-    }
-
-    @Override
-    public String getContent() {
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        return getContent();
-    }
+public class SingleAnalysis {
 }

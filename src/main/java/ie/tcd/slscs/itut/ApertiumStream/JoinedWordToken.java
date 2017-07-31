@@ -26,22 +26,5 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class BlankToken extends StreamToken {
-    private String content;
-    BlankToken() {
-        this.content = "";
-    }
-    BlankToken(String s) {
-        this.content = s;
-    }
-
-    @Override
-    public String getContent() {
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        return getContent();
-    }
+public class JoinedWordToken {
 }

@@ -28,4 +28,5 @@ package ie.tcd.slscs.itut.ApertiumStream;
 
 public abstract class StreamToken {
     public abstract String getContent();
+    public abstract String toString();
 }
