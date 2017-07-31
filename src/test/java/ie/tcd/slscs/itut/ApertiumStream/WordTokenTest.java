@@ -87,6 +87,12 @@ public class WordTokenTest extends TestCase {
         String exp = "# test";
         assertEquals(exp, in.getLemq());
     }
+    public void testGetLemma() {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken in = new WordToken("simple", "# test", tags);
+        String exp = "simple# test";
+        assertEquals(exp, in.getLemma());
+    }
     public void testGetStringCtor() throws Exception {
         List<String> tags = Arrays.asList(new String[]{"n", "sg"});
         WordToken exp = new WordToken("simple", "# test", tags);

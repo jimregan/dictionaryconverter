@@ -38,11 +38,13 @@ public class WordToken extends StreamToken {
         tags = new ArrayList<String>();
     }
     WordToken(String lemh, String lemq, List<String> tags) {
+        this();
         this.lemh = lemh;
         this.lemq = lemq;
         this.tags = tags;
     }
     WordToken(String s) throws Exception {
+        this();
         WordToken tmp = WordToken.fromString(s);
         this.lemh = tmp.lemh;
         this.lemq = tmp.lemq;
