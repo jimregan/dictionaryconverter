@@ -1,0 +1,84 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package ie.tcd.slscs.itut.ApertiumStream;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class WordToken extends StreamToken {
+    List<String> tags;
+    String lemh;
+    String lemq;
+    WordToken() {
+        tags = new ArrayList<String>();
+    }
+    WordToken(String lemh, String lemq, List<String> tags) {
+        this.lemh = lemh;
+        this.lemq = lemq;
+        this.tags = tags;
+    }
+    WordToken(String s) {
+        WordToken tmp = WordToken.fromString(s);
+        this.lemh = tmp.lemh;
+        this.lemq = tmp.lemq;
+        this.tags = tmp.tags;
+    }
+    public String getLemma() {
+        return lemh + lemq;
+    }
+    public String getLemh() {
+        return lemh;
+    }
+
+    public String getLemq() {
+        return lemq;
+    }
+    public List<String> getTags() {
+        return tags;
+    }
+    public String getTagsString() {
+        StringBuilder s = new StringBuilder();
+        s.append('<');
+        for(String tag : tags) {
+            s.append(tag);
+            s.append("><");
+        }
+        s.append('>');
+        return s.toString();
+    }
+
+    @Override
+    public String getContent() {
+        return null;
+    }
+
+    // FIXME
+    static WordToken fromString(String s) {
+        List<String> tags = new ArrayList<String>();
+        return new WordToken("", "", tags);
+    }
+}
