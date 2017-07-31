@@ -26,6 +26,26 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class ApertiumStream {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+public class ApertiumStream {
+    public final static List<Character> escapes;
+    static {
+        escapes = Collections.unmodifiableList(toCharacterList("[]{}^$/\\@<>"));
+    }
+    static List<Character> toCharacterList(String s) {
+        List<Character> ret = new ArrayList<Character>();
+        for (char c : s.toCharArray()) {
+            ret.add(new Character(c));
+        }
+        return ret;
+    }
+    public static boolean isEscape(Character c) {
+        return escapes.contains(c);
+    }
+    public static boolean isEscape(char c) {
+        return escapes.contains(new Character(c));
+    }
 }
