@@ -64,7 +64,10 @@ public class ChunkTokenTest extends TestCase {
         List<StreamToken> kids = new ArrayList<StreamToken>();
         kids.add(new WordToken("a", "", tags2));
         kids.add(new BlankToken(""));
-        kids.add(new WordToken("small", "", tags3));
+        List<WordToken> kids2 = new ArrayList<WordToken>();
+        kids2.add(new WordToken("small", "", tags3));
+        kids2.add(new WordToken("ish", "", Arrays.asList(new String[]{"blah"})));
+        kids.add(new MLUToken(kids2));
         kids.add(new BlankToken(" "));
         kids.add(new WordToken("test", "", tags1));
         ChunkToken out = ChunkToken.fromString("^simple<n><sg>{^a<det>$^small<adj>+ish<blah>$ ^test<n><sg>$}$");
