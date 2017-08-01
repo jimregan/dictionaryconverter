@@ -89,7 +89,7 @@ public class MLUToken extends StreamToken {
         }
         String cur = "";
         String queue = "";
-        int last = start;
+        boolean haveQueue = false;
         for (int i = start; i <= end; i++) {
             if (s.charAt(i) == '\\' && (i + 1) < end && ApertiumStream.isEscape(s.charAt(i + 1))) {
                 cur += s.charAt(i + 1);
@@ -101,6 +101,10 @@ public class MLUToken extends StreamToken {
                     cur = "";
                 } else if (s.charAt(i) == '#') {
                     lus.add(new WordToken(cur));
+                    if (haveQueue) {
+                        System.err.println("Second queue found in input: " + s);
+                    }
+                    haveQueue = true;
                     cur = "#";
                     inLU = false;
                 } else if (i == end) {
@@ -113,15 +117,15 @@ public class MLUToken extends StreamToken {
             } else {
                 if (s.charAt(i) == '+') {
                     inLU = true;
-                    if (!"".equals(queue)) {
+                    if ("".equals(queue)) {
                         queue = cur;
-                    } else {
-                        System.err.println("Second queue found in input: " + s);
                     }
                     cur = "";
                 } else if (i == end) {
                     cur += s.charAt(i);
-                    queue = cur;
+                    if ("".equals(queue)) {
+                        queue = cur;
+                    }
                 } else {
                     cur += s.charAt(i);
                 }
