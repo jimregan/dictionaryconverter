@@ -50,16 +50,9 @@ class TrxUtilsTest extends FlatSpec {
   "isSimpleEntry" should "return true for simple dix <e> entry" in {
     val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
     val ident = <e><i>test<s n="n"/></i></e>
-    val re = <e><re>[a-z]</re></e>
-    val complex = <e><i>test<s n="n"/></i><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
     val outpair = Dix.nodetoe(pair)
     val outident = Dix.nodetoe(ident)
-    val outre = Dix.nodetoe(re)
-    val outcomplex = Dix.nodetoe(complex)
-    print(outpair.toXMLString)
     assert(true, outpair)
-    assert(true, outident)
-    assert(true, outre)
-    assert(false, outcomplex)
+    assert(false, outident)
   }
 }
