@@ -60,6 +60,14 @@ public class MLUToken extends StreamToken {
         return Utils.join(tmp, "+") + queue;
     }
 
+    /**
+     * Creates either a WordToken or MLUToken from the input
+     * @param s the string to convert
+     * @return a WordToken if the input contains a single lexical unit,
+     * or an MLUToken if the input contains a multi lexical unit (two or
+     * more LUs joined with '+').
+     * @throws Exception if the input is empty
+     */
     static StreamToken fromString(String s) throws Exception {
         if (s == null || s.length() == 0) {
             throw new Exception("Input cannot be empty");
