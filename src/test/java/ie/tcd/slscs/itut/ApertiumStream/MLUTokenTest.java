@@ -37,9 +37,10 @@ import junit.framework.TestCase;
 import static junit.framework.Assert.assertEquals;
 
 public class MLUTokenTest extends TestCase {
+    List<String> tags1 = Arrays.asList(new String[]{"adj"});
+    List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
     public void testFromStringBackout() throws Exception {
-        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
-        WordToken exp = new WordToken("simple", "", tags);
+        WordToken exp = new WordToken("simple", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<n><sg>$");
         assertEquals((out instanceof WordToken), true);
         assertEquals(((WordToken) out).getLemq(), exp.getLemq());
@@ -47,8 +48,7 @@ public class MLUTokenTest extends TestCase {
         assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
     }
     public void testFromStringBackoutEscaped() throws Exception {
-        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
-        WordToken exp = new WordToken("sim+ple", "", tags);
+        WordToken exp = new WordToken("sim+ple", "", tags2);
         StreamToken out = MLUToken.fromString("^sim+ple<n><sg>$");
         assertEquals((out instanceof WordToken), true);
         assertEquals(((WordToken) out).getLemq(), exp.getLemq());
@@ -56,9 +56,7 @@ public class MLUTokenTest extends TestCase {
         assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
     }
     public void testGetContentSimple() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "", tags1);
-        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
         WordToken wt2 = new WordToken("test", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<adj>+test<n><sg>$");
         List<WordToken> wtlist = new ArrayList<WordToken>();
@@ -69,9 +67,7 @@ public class MLUTokenTest extends TestCase {
         assertEquals(mlu.getContent(), "simple<adj>+test<n><sg>");
     }
     public void testFromStringSimple() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "", tags1);
-        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
         WordToken wt2 = new WordToken("test", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<adj>+test<n><sg>$");
         List<WordToken> wtlist = new ArrayList<WordToken>();
@@ -84,9 +80,7 @@ public class MLUTokenTest extends TestCase {
         assertEquals(mlu.getLUs().get(1).getLemh(), "test");
     }
     public void testFromStringQueue() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "# queue", tags1);
-        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
         WordToken wt2 = new WordToken("test", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<adj>+test<n><sg># queue$");
         List<WordToken> wtlist = new ArrayList<WordToken>();
@@ -100,11 +94,9 @@ public class MLUTokenTest extends TestCase {
         assertEquals(mlu.getLUs().get(1).getLemh(), "test");
     }
     public void testFromStringComplexQueue() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "# queue", tags1);
         WordToken wt2 = new WordToken("basic", "", tags1);
-        List<String> tags3 = Arrays.asList(new String[]{"n", "sg"});
-        WordToken wt3 = new WordToken("test", "", tags3);
+        WordToken wt3 = new WordToken("test", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<adj>+basic<adj># queue+test<n><sg>$");
         List<WordToken> wtlist = new ArrayList<WordToken>();
         wtlist.add(wt1);
@@ -120,11 +112,9 @@ public class MLUTokenTest extends TestCase {
     }
 
     public void testFromStringSecondQueue() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "# queue", tags1);
         WordToken wt2 = new WordToken("basic", "", tags1);
-        List<String> tags3 = Arrays.asList(new String[]{"n", "sg"});
-        WordToken wt3 = new WordToken("test", "", tags3);
+        WordToken wt3 = new WordToken("test", "", tags2);
         StreamToken out = MLUToken.fromString("^simple<adj>+basic<adj># queue+test<n><sg># foo$");
         List<WordToken> wtlist = new ArrayList<WordToken>();
         wtlist.add(wt1);

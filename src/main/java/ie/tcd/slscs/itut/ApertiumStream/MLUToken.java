@@ -139,4 +139,49 @@ public class MLUToken extends StreamToken {
         }
         return new MLUToken(lus);
     }
+    static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
+        List<StreamToken> out = new ArrayList<StreamToken>();
+        char chars[] = s.toCharArray();
+        int start = 0;
+        String cur = "";
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
+        int end = s.length() - 1;
+        while(chars[start] != '^') {
+            start++;
+        }
+        boolean inToken = true;
+        while(chars[end] != '$') {
+            end--;
+        }
+        for (int i = start; i <= end; i++) {
+            if (chars[i] == '\\' && (i + 1) < end && ApertiumStream.isEscape(chars[i + 1])) {
+                cur += chars[i + 1];
+                i += 2;
+            }
+            if (inToken) {
+                if (chars[i] != '$') {
+                    cur += chars[i];
+                } else {
+                    cur += chars[i];
+                    inToken = false;
+                    out.add(fromString(cur));
+                    cur = "";
+                }
+            } else {
+                if (chars[i] != '^') {
+                    cur += chars[i];
+                } else {
+                    inToken = true;
+                    if (space_only && !cur.equals("")) {
+                        cur = " ";
+                    }
+                    out.add(new BlankToken(cur));
+                    cur = "";
+                }
+            }
+        }
+        return out;
+    }
 }
