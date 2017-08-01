@@ -56,9 +56,14 @@ public class WordToken extends StreamToken {
     public String getLemh() {
         return lemh;
     }
-
+    public void setLemh(String lemh) {
+        this.lemh = lemh;
+    }
     public String getLemq() {
         return lemq;
+    }
+    public void setLemq(String lemq) {
+        this.lemq = lemq;
     }
     public List<String> getTags() {
         return tags;
