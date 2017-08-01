@@ -27,6 +27,7 @@ package ie.tcd.slscs.itut.ApertiumStream;
 import junit.framework.TestCase;
 import ie.tcd.slscs.itut.gramadanj.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -100,5 +101,26 @@ public class WordTokenTest extends TestCase {
         assertEquals(out.getLemq(), exp.getLemq());
         assertEquals(out.getLemh(), exp.getLemh());
         assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
+
+    public void testListFromString() throws Exception {
+        List<String> tags1 = Arrays.asList(new String[]{"adj"});
+        WordToken exp1 = new WordToken("simple", "", tags1);
+        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp2 = new WordToken("test", "", tags2);
+        BlankToken b = new BlankToken(" ");
+        List<StreamToken> exp = new ArrayList<StreamToken>();
+        exp.add(exp1);
+        exp.add(b);
+        exp.add(exp2);
+        List<StreamToken> out = WordToken.listFromString("^simple<adj>$ ^test<n><sg>$", true);
+        assertEquals(out.size(), 3);
+        assertEquals(((WordToken) out.get(0)).getLemq(), exp1.getLemq());
+        assertEquals(((WordToken) out.get(0)).getLemh(), exp1.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(0)).getTags(), exp1.getTags()));
+        assertEquals(((BlankToken) out.get(1)).getContent(), b.getContent());
+        assertEquals(((WordToken) out.get(2)).getLemq(), exp2.getLemq());
+        assertEquals(((WordToken) out.get(2)).getLemh(), exp2.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(2)).getTags(), exp1.getTags()));
     }
 }

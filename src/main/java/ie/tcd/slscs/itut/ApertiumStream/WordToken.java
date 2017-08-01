@@ -142,4 +142,53 @@ public class WordToken extends StreamToken {
         }
         return new WordToken(lemh, lemq, tags);
     }
+
+    static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
+        List<StreamToken> out = new ArrayList<StreamToken>();
+        boolean inToken = false;
+        char chars[] = s.toCharArray();
+        int start = 0;
+        String cur = "";
+        if (s.length() == 0) {
+            throw new Exception("Input cannot be an empty string");
+        }
+        int end = s.length() - 1;
+        while(chars[start] != '^') {
+            start++;
+        }
+        int tokstart = start;
+        while(chars[end] != '$') {
+            end--;
+        }
+        for (int i = start; i <= end; i++) {
+            if (chars[i] == '\\' && (i + 1) < end && ApertiumStream.isEscape(chars[i + 1])) {
+                cur += chars[i + 1];
+                i += 2;
+            }
+            if (inToken) {
+                if (chars[i] != '$') {
+                    cur += chars[i];
+                } else {
+                    cur += chars[i];
+                    inToken = false;
+                    out.add(new WordToken(cur));
+                    cur = "";
+                }
+            } else {
+                if (chars[i] != '^') {
+                    cur += chars[i];
+                } else {
+                    inToken = true;
+                    if (space_only) {
+                        cur = "";
+                    }
+//                    if(i != end && !cur.equals("")) {
+                        out.add(new BlankToken(cur));
+//                    }
+                    cur = "";
+                }
+            }
+        }
+        return out;
+    }
 }
