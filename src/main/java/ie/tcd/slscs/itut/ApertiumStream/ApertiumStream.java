@@ -58,4 +58,11 @@ public class ApertiumStream {
         }
         return out;
     }
+    public static List<String> escapeStringList(List<String> list) {
+        List<String> out = new ArrayList<String>();
+        for (String s : list) {
+            out.add(escapeString(s));
+        }
+        return out;
+    }
 }

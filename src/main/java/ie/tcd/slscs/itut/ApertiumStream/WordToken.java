@@ -73,11 +73,11 @@ public class WordToken extends StreamToken {
         s.append('<');
         Iterator<String> it = tags.iterator();
         if (it.hasNext()) {
-            s.append(it.next());
+            s.append(ApertiumStream.escapeString(it.next()));
         }
         while (it.hasNext()) {
             s.append("><");
-            s.append(it.next());
+            s.append(ApertiumStream.escapeString(it.next()));
         }
         s.append('>');
         return s.toString();
@@ -85,7 +85,11 @@ public class WordToken extends StreamToken {
 
     @Override
     public String getContent() {
-        return getLemh() + getTagsString() + getLemq();
+        String outlemq = "";
+        if (getLemq().startsWith("#")) {
+            outlemq = "#" + ApertiumStream.escapeString(getLemq().substring(1));
+        }
+        return ApertiumStream.escapeString(getLemh()) + getTagsString() + outlemq;
     }
 
     public String getContentMinusQueue() {
