@@ -34,11 +34,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Utils {
 
@@ -241,4 +237,24 @@ public class Utils {
         }
         return false;
     }
+
+    /**
+     * join a list of strings with the specified delimiter
+     * @param l the list of strings
+     * @param delim the delimiter to join them with
+     * @return
+     */
+    public String join(List<String> l, String delim) {
+        StringBuilder s = new StringBuilder();
+        Iterator<String> it = l.iterator();
+        if (it.hasNext()) {
+            s.append(it.next());
+        }
+        while (it.hasNext()) {
+            s.append(delim);
+            s.append(it.next());
+        }
+        return s.toString();
+    }
+
 }
