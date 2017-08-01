@@ -43,6 +43,15 @@ public class WordTokenTest extends TestCase {
         assert(Utils.equalLists(exp.getTags(), out.getTags()));
     }
 
+    public void testFromStringEmptyLemma() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("", "", tags);
+        WordToken out = WordToken.fromString("^<n><sg>$");
+        assertEquals(out.getLemq(), exp.getLemq());
+        assertEquals(out.getLemh(), exp.getLemh());
+        assert(Utils.equalLists(exp.getTags(), out.getTags()));
+    }
+
     public void testFromStringQueue() throws Exception {
         List<String> tags = Arrays.asList(new String[]{"n", "sg"});
         WordToken exp = new WordToken("simple", "# test", tags);
