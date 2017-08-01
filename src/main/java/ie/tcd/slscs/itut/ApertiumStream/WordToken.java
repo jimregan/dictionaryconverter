@@ -145,7 +145,6 @@ public class WordToken extends StreamToken {
 
     static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
         List<StreamToken> out = new ArrayList<StreamToken>();
-        boolean inToken = false;
         char chars[] = s.toCharArray();
         int start = 0;
         String cur = "";
@@ -156,6 +155,7 @@ public class WordToken extends StreamToken {
         while(chars[start] != '^') {
             start++;
         }
+        boolean inToken = true;
         int tokstart = start;
         while(chars[end] != '$') {
             end--;
@@ -179,12 +179,11 @@ public class WordToken extends StreamToken {
                     cur += chars[i];
                 } else {
                     inToken = true;
-                    if (space_only) {
-                        cur = "";
+                    tokstart = i;
+                    if (space_only && !cur.equals("")) {
+                        cur = " ";
                     }
-//                    if(i != end && !cur.equals("")) {
-                        out.add(new BlankToken(cur));
-//                    }
+                    out.add(new BlankToken(cur));
                     cur = "";
                 }
             }
