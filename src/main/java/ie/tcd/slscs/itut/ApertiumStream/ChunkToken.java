@@ -39,7 +39,23 @@ public class ChunkToken extends StreamToken {
         tags = new ArrayList<String>();
         children = new ArrayList<StreamToken>();
     }
-
+    ChunkToken(String lemma, List<String> tags, List<StreamToken> children) {
+        this();
+        this.lemma = lemma;
+        this.tags = tags;
+        this.children = children;
+    }
+    private void fromWordToken(WordToken wt) {
+        lemma = wt.getLemh();
+        tags = wt.getTags();
+    }
+    public String getFirstTag() {
+        if (tags.size() != 0) {
+            return tags.get(0);
+        } else {
+            return "";
+        }
+    }
     @Override
     public String getContent() {
         return null;
@@ -50,8 +66,27 @@ public class ChunkToken extends StreamToken {
         return null;
     }
 
-    public ChunkToken fromString(String s) {
-
-        return new ChunkToken();
+    public static ChunkToken fromString(String s) throws Exception {
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
+        int start = 0;
+        if (s.charAt(1) == '^') {
+            start++;
+        }
+        int end = s.length() - 1;
+        if (s.contains("}$")) {
+            end = s.lastIndexOf("}$");
+        }
+        int chunk_start = start;
+        for (int i = chunk_start; i < end; i++) {
+            if(s.charAt(i) == '{' && s.charAt(i - 1) != '\\') {
+                chunk_start = i;
+                break;
+            }
+        }
+        WordToken chunk_lemma = WordToken.fromString(s.substring(start, chunk_start));
+        List<StreamToken> tokens = MLUToken.listFromString(s.substring(chunk_start + 1, end), true);
+        return new ChunkToken(chunk_lemma.getLemh(), chunk_lemma.getTags(), tokens);
     }
 }
