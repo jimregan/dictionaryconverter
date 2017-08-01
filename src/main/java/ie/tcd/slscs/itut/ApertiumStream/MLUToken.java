@@ -46,9 +46,14 @@ public class MLUToken extends StreamToken {
     @Override
     public String getContent() {
         List<String> tmp = new ArrayList<String>();
-        for (WordToken lu : lus) {
-            tmp.add(lu.getContent());
+        String queue = "";
+        if (lus.size() == 0) {
+            return "";
         }
-        return Utils.join(tmp, "+");
+        queue = lus.get(0).getLemq();
+        for (WordToken lu : lus) {
+            tmp.add(lu.getContentMinusQueue());
+        }
+        return Utils.join(tmp, "+") + queue;
     }
 }

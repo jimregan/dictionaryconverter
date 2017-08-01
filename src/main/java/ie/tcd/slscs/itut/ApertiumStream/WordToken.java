@@ -83,6 +83,9 @@ public class WordToken extends StreamToken {
         return getLemh() + getTagsString() + getLemq();
     }
 
+    public String getContentMinusQueue() {
+        return getLemh() + getTagsString();
+    }
     @Override
     public String toString() {
         return "^" + getContent() + "$";
