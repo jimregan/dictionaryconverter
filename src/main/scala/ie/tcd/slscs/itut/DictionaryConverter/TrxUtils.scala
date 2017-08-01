@@ -67,15 +67,15 @@ object TrxUtils {
     case S(_) => false
     case _ => false
   }
-  def isTag(t: TextLike): Boolean = t match {
-    case S(_) => true
-    case _ => false
+  def getTextFromTextLike(t: TextLike): String = t match {
+    case Txt(t) => t
+    case G(l) => l.map{getTextFromTextLike}.mkString
   }
-  def isNotTag(t: TextLike): Boolean = !isTag(t)
+
   def dixEntryToWhen(entry: E): WhenElement = entry.children match {
     case P(l, r) :: nil => {
       val ltxt = l.content.takeWhile{nonTagTextPiece}
-      val ltag = l.content.dropWhile{isNotTag}
+      val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}.mkString(".")
 
     }
   }
