@@ -39,7 +39,7 @@ class TrxUtilsTest extends FlatSpec {
     val outa = TrxUtils.defvarToLet(defvara)
     val outb = TrxUtils.defvarToLet(defvarb)
     //assert(expa == outa)
-    println(outa.toXMLString(0,true))
+    println(outa.toXML.toString)
     assert(expb == outb)
   }
 
