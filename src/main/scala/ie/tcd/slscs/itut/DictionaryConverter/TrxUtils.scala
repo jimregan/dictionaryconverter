@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken
+import scala.collection.JavaConverters._
+
 object TrxUtils {
   def defvarToLet(defvar: DefVarElement): LetElement = {
     val to = if(defvar.value == null) "" else defvar.value
@@ -36,5 +39,16 @@ object TrxUtils {
   def mkResetVarsMacro(vars: List[DefVarElement], name: String = "resetVars") = {
     val out = vars.map{defvarToLet}
     DefMacroElement(name, "0", null, out)
+  }
+  def WordTokenToLiteralLU(wt: WordToken): LUElement = {
+    val lemhlit = LitElement(wt.getLemh)
+    val lemqlit = LitElement(wt.getLemq)
+    val tags = wt.getTags.asScala.toList.map{e => LitTagElement(e)}
+    val outlist = List[StringValueElement](lemhlit) ++ tags
+    if(wt.getLemq != "") {
+      LUElement(outlist ++ List[StringValueElement](lemqlit))
+    } else {
+      LUElement(outlist)
+    }
   }
 }
