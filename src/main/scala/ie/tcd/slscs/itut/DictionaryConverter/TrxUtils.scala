@@ -61,7 +61,22 @@ object TrxUtils {
     case P(_, _) :: nil => true
     case _ => false
   }
-//  def dixEntryToWhen(entry: E): WhenElement = {
+  def nonTagTextPiece(t: TextLike): Boolean = t match {
+    case Txt(_) => true
+    case G(_) => true
+    case S(_) => false
+    case _ => false
+  }
+  def isTag(t: TextLike): Boolean = t match {
+    case S(_) => true
+    case _ => false
+  }
+  def isNotTag(t: TextLike): Boolean = !isTag(t)
+  def dixEntryToWhen(entry: E): WhenElement = entry.children match {
+    case P(l, r) :: nil => {
+      val ltxt = l.content.takeWhile{nonTagTextPiece}
+      val ltag = l.content.dropWhile{isNotTag}
 
-//  }
+    }
+  }
 }
