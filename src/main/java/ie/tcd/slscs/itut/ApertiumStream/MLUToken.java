@@ -119,6 +119,11 @@ public class MLUToken extends StreamToken {
                         System.err.println("Second queue found in input: " + s);
                     }
                     cur = "";
+                } else if (i == end) {
+                    cur += s.charAt(i);
+                    queue = cur;
+                } else {
+                    cur += s.charAt(i);
                 }
             }
         }
