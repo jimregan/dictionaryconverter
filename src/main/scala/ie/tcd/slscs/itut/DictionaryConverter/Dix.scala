@@ -68,13 +68,13 @@ case class Sdef(n: String, c: String = null) {
 }
 
 trait TextLike extends DixElement
-case class B extends TextLike {
+case class B() extends TextLike {
   def toXML = <b/>
 }
-case class J extends TextLike {
+case class J() extends TextLike {
   def toXML = <j/>
 }
-case class Prm extends TextLike {
+case class Prm() extends TextLike {
   def toXML = <prm/>
 }
 case class Txt(s: String) extends TextLike {
@@ -127,26 +127,30 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
 
 abstract class Parts() extends DixElement
 
-abstract class TextLikeContainer(content: List[TextLike]) extends DixElement
-case class L(content: List[TextLike]) extends TextLikeContainer(content) {
+trait TextLikeContainer extends DixElement {
+  val content: List[TextLike]
+}
+case class L(content: List[TextLike]) extends TextLikeContainer with TextLike {
   def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
-case class R(content: List[TextLike]) extends TextLikeContainer(content) {
+case class R(content: List[TextLike]) extends TextLikeContainer with TextLike {
   def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
-case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
+case class G(content: List[TextLike]) extends TextLikeContainer with TextLike {
   def toXML = { <g>{ content.map{c => c.toXML} }</g> }
 }
-case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
+case class Par(name: String, sa: String = null, prm: String = null) extends TextLike {
   def toXML = { <par n={name} sa={sa} prm={prm} /> }
 }
-case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
+case class RE(regex: String) extends TextLikeContainer {
+  override val content: List[TextLike] = List[TextLike](Txt(regex))
   def toXML = { <re>{regex}</re> }
 }
-case class I(content: List[TextLike]) extends TextLikeContainer(content) {
+case class I(content: List[TextLike]) extends TextLikeContainer {
   def toXML = { <i>{ content.map{c => c.toXML} }</i> }
 }
-case class P(l: L, r: R) extends TextLikeContainer(List[TextLike]()) {
+case class P(l: L, r: R) extends TextLikeContainer {
+  override val content: List[TextLike] = List[TextLike](l, r)
   def toXML = { <p>{l.toXML}{r.toXML}</p> }
 }
 
