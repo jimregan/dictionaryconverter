@@ -58,7 +58,7 @@ object TrxUtils {
 
 //  }
   def isSimpleEntry(entry: E): Boolean = entry.children match {
-    case P(_, _, _) :: nil => true
+    case P(_, _) :: nil => true
     case _ => false
   }
 //  def dixEntryToWhen(entry: E): WhenElement = {
