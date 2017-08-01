@@ -107,6 +107,9 @@ public class WordToken extends StreamToken {
         List<String> tags = new ArrayList<String>();
         String lemh = "";
         String lemq = "";
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
         char chars[] = s.toCharArray();
         String cur = "";
         boolean inLemma = true;
@@ -114,9 +117,6 @@ public class WordToken extends StreamToken {
         int start = 0;
         if (chars[0] == '^') {
             start = 1;
-        }
-        if (chars.length == 0) {
-            throw new Exception("Input cannot be an empty string");
         }
         int end = chars.length - 1;
         if (chars[end] == '$') {
@@ -163,8 +163,8 @@ public class WordToken extends StreamToken {
         char chars[] = s.toCharArray();
         int start = 0;
         String cur = "";
-        if (s.length() == 0) {
-            throw new Exception("Input cannot be an empty string");
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
         }
         int end = s.length() - 1;
         while(chars[start] != '^') {

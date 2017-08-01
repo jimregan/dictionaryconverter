@@ -37,7 +37,10 @@ public class MLUToken extends StreamToken {
     MLUToken() {
         lus = new ArrayList<WordToken>();
     }
-
+    MLUToken(List<WordToken> l) {
+        this();
+        this.lus = l;
+    }
     @Override
     public String toString() {
         return "^" + getContent() + "$";
@@ -55,5 +58,66 @@ public class MLUToken extends StreamToken {
             tmp.add(lu.getContentMinusQueue());
         }
         return Utils.join(tmp, "+") + queue;
+    }
+
+    static StreamToken fromString(String s) throws Exception {
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
+        if (!s.contains("+")) {
+            return WordToken.fromString(s);
+        }
+        List<WordToken> lus = new ArrayList<WordToken>();
+        boolean inLU = true;
+        int start = 0;
+        if (s.charAt(start) == '^') {
+            start++;
+        }
+        int end = s.length() - 1;
+        if (s.charAt(end) == '$') {
+            end--;
+        }
+        String cur = "";
+        String queue = "";
+        int last = start;
+        for (int i = start; i <= end; i++) {
+            if (s.charAt(i) == '\\' && (i + 1) < end && ApertiumStream.isEscape(s.charAt(i + 1))) {
+                cur += s.charAt(i + 1);
+                i += 2;
+            }
+            if (inLU) {
+                if (s.charAt(i) == '+') {
+                    lus.add(new WordToken(cur));
+                    cur = "";
+                } else if (s.charAt(i) == '#') {
+                    lus.add(new WordToken(cur));
+                    cur = "#";
+                    inLU = false;
+                } else if (i == end) {
+                    cur += s.charAt(i);
+                    lus.add(new WordToken(cur));
+                    cur = "";
+                } else {
+                    cur += s.charAt(i);
+                }
+            } else {
+                if (s.charAt(i) == '+') {
+                    inLU = true;
+                    if (!"".equals(queue)) {
+                        queue = cur;
+                    } else {
+                        System.err.println("Second queue found in input: " + s);
+                    }
+                    cur = "";
+                }
+            }
+        }
+        if (lus.size() > 0 && !"".equals(queue)) {
+            lus.get(0).setLemq(queue);
+        }
+        if (lus.size() == 1) {
+            return lus.get(0);
+        }
+        return new MLUToken(lus);
     }
 }
