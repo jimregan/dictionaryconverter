@@ -68,13 +68,13 @@ case class Sdef(n: String, c: String = null) {
 }
 
 trait TextLike extends DixElement
-case class B extends TextLike {
+case class B() extends TextLike {
   def toXML = <b/>
 }
-case class J extends TextLike {
+case class J() extends TextLike {
   def toXML = <j/>
 }
-case class Prm extends TextLike {
+case class Prm() extends TextLike {
   def toXML = <prm/>
 }
 case class Txt(s: String) extends TextLike {
