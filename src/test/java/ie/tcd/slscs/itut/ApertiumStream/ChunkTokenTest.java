@@ -37,11 +37,11 @@ import junit.framework.TestCase;
 import static junit.framework.Assert.assertEquals;
 
 public class ChunkTokenTest extends TestCase {
-    public void testFromString() throws Exception {
-        List<String> tags1 = Arrays.asList(new String[]{"n", "sg"});
-        List<String> tags2 = Arrays.asList(new String[]{"det"});
-        List<String> tags3 = Arrays.asList(new String[]{"adj"});
+    List<String> tags1 = Arrays.asList(new String[]{"n", "sg"});
+    List<String> tags2 = Arrays.asList(new String[]{"det"});
+    List<String> tags3 = Arrays.asList(new String[]{"adj"});
 
+    public void testFromString() throws Exception {
         List<StreamToken> kids = new ArrayList<StreamToken>();
         kids.add(new WordToken("a", "", tags2));
         kids.add(new BlankToken(""));
@@ -52,6 +52,12 @@ public class ChunkTokenTest extends TestCase {
         ChunkToken exp = new ChunkToken("simple", tags1, kids);
         assertEquals(exp.getLemma(), out.getLemma());
         assertEquals(5, out.getChildren().size());
+        assertEquals("", out.getChildren().get(1).getContent());
+        assertEquals(" ", out.getChildren().get(3).getContent());
+        assertEquals(exp.getTags(), out.getTags());
+        assertEquals(true, (out.getChildren().get(4) instanceof WordToken));
+        WordToken outwt = (WordToken) out.getChildren().get(4);
+        assertEquals("test", outwt.getLemh());
     }
 
 }
