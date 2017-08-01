@@ -29,6 +29,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -61,6 +62,15 @@ public class UtilsTest extends TestCase {
         assertEquals(true, Utils.equalLists(a, b));
     }
 
+    public void testListStartsWithList() {
+        List<String> a = Arrays.asList(new String[]{"ay", "bee", "cee"});
+        List<String> b = Arrays.asList(new String[]{"ay", "bee"});
+        assertEquals(Utils.listStartsWithList(a, b), true);
+        List<String> c = Arrays.asList(new String[]{"ay", "bee", "cee", "dee"});
+        assertEquals(Utils.listStartsWithList(a, c), false);
+        List<String> d = Arrays.asList(new String[]{"ay", "cee", "bee"});
+        assertEquals(Utils.listStartsWithList(a, d), false);
+    }
     public void testTrim() {
         assertEquals("", Utils.trim("     "));
         assertEquals("aaa", Utils.trim("  aaa   "));
@@ -72,5 +82,13 @@ public class UtilsTest extends TestCase {
         assertEquals("endings", Utils.expandFGB("ending", "~s"));
         assertEquals("chasing", Utils.expandFGB("chase", "-sing"));
         assertEquals("truncálann", Utils.expandFGB("truncáil", "-álann"));
+    }
+
+    public void testJoin() {
+        List<String> in = Arrays.asList(new String[]{"foo", "bar", "baz"});
+        String delim = "::";
+        String exp = "foo::bar::baz";
+        String out = Utils.join(in, delim);
+        assertEquals(exp, out);
     }
 }
