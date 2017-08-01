@@ -580,7 +580,11 @@ object Trx {
   }
   def nodeToListItem(n: Node): ListItemElement = ListItemElement((n \ "@v").text)
   def nodeToList(n: Node): ListElement = ListElement((n \ "@n").text)
-  def nodeToLit(n: Node): LitElement = LitElement(getattrib(n, "v", false))
+  def nodeToLit(n: Node): LitElement = {
+    val vatt = getattrib(n, "v", false)
+    val v = if(vatt == null) "" else vatt
+    LitElement(v)
+  }
   def nodeToLitTag(n: Node): LitTagElement = LitTagElement((n \ "@v").text)
   def nodeToWithParam(n: Node): WithParamElement = WithParamElement((n \ "@pos").text)
   def nodeToCallMacro(n: Node): CallMacroElement = {
@@ -679,7 +683,7 @@ object Trx {
   def nodeToOut(n: Node): OutElement = {
     val c = getattrib(n, "c")
     val pruned = pruneNodes(n.child.toList)
-    val children = pruned.map{nodeToOutType}.toList
+    val children = pruned.map{nodeToOutType}
     OutElement(c, children)
   }
   def nodeToWhen(n: Node): WhenElement = {
@@ -754,7 +758,7 @@ object Trx {
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
     case <clip/> => nodeToClip(n)
-    case <lit/> => LitElement(getattrib(n, "v"))
+    case <lit/> => LitElement(getattrib(n, "v", false))
     case <var/> => VarElement(getattrib(n, "n"))
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <lu-count/> => LUCountElement()
