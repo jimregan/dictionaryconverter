@@ -57,10 +57,10 @@ object TrxUtils {
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 
 //  }
-  def isSimplePair(entry: E): Boolean = entry.children match {
+  def isSimpleEntry(entry: E): Boolean = entry.children match {
     case P(L(_), R(_)) => true
     case I(_) => true
-    case RE(_) => true
+    //case RE(_) => true
     case _ => false
   }
 //  def dixEntryToWhen(entry: E): WhenElement = {
