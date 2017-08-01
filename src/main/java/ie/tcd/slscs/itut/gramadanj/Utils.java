@@ -151,6 +151,31 @@ public class Utils {
         return a.equals(b);
     }
 
+    public static <T extends Comparable<? super T>> boolean equalListsUnsorted(List<T> a, List<T> b) {
+        return a.equals(b);
+    }
+
+    public static <T extends Comparable<? super T>> boolean listStartsWithList(List<T> a, List<T> b) {
+        if(a == null && b == null) {
+            return true;
+        }
+        if(a == null && b != null) {
+            return false;
+        }
+        if(a != null && b == null) {
+            return false;
+        }
+        if(a.size() <= b.size()) {
+            return false;
+        }
+        for (int i = 0; i < b.size(); i++) {
+            if (!a.get(i).equals(b.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Converts a string to a Node, mainly for use with tests
      * @param s The XML string to convert

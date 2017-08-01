@@ -62,6 +62,23 @@ public class UtilsTest extends TestCase {
         assertEquals(true, Utils.equalLists(a, b));
     }
 
+    public void testEqualsListsUnsorted() {
+        List<String> a = Arrays.asList(new String[]{"ay", "bee", "cee"});
+        List<String> b = Arrays.asList(new String[]{"ay", "bee", "cee"});
+        List<String> c = Arrays.asList(new String[]{"ay", "cee", "bee"});
+        assertEquals(Utils.equalListsUnsorted(a, b), true);
+        assertEquals(Utils.equalListsUnsorted(a, c), false);
+    }
+
+    public void testListStartsWithList() {
+        List<String> a = Arrays.asList(new String[]{"ay", "bee", "cee"});
+        List<String> b = Arrays.asList(new String[]{"ay", "bee"});
+        assertEquals(Utils.listStartsWithList(a, b), true);
+        List<String> c = Arrays.asList(new String[]{"ay", "bee", "cee", "dee"});
+        assertEquals(Utils.listStartsWithList(a, c), false);
+        List<String> d = Arrays.asList(new String[]{"ay", "cee", "bee"});
+        assertEquals(Utils.listStartsWithList(a, d), false);
+    }
     public void testTrim() {
         assertEquals("", Utils.trim("     "));
         assertEquals("aaa", Utils.trim("  aaa   "));
