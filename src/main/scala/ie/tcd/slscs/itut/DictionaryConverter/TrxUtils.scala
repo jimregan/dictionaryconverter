@@ -28,6 +28,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.WordToken
+import ie.tcd.slscs.itut.DictionaryConverter.dix._
+
 import scala.collection.JavaConverters._
 
 object TrxUtils {
@@ -51,4 +53,17 @@ object TrxUtils {
       LUElement(outlist)
     }
   }
+
+//  def dixSectionToChoose(sect: Section): ChooseElement = {
+
+//  }
+  def isSimplePair(entry: E): Boolean = entry.children match {
+    case P(L(_), R(_)) => true
+    case I(_) => true
+    case RE(_) => true
+    case _ => false
+  }
+//  def dixEntryToWhen(entry: E): WhenElement = {
+
+//  }
 }
