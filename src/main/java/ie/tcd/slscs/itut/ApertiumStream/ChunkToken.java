@@ -101,4 +101,9 @@ public class ChunkToken extends StreamToken {
         List<StreamToken> tokens = MLUToken.listFromString(s.substring(chunk_start + 1, end), true);
         return new ChunkToken(chunk_lemma.getLemh(), chunk_lemma.getTags(), tokens);
     }
+    static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
+        List<StreamToken> out = new ArrayList<StreamToken>();
+        // TODO
+        return out;
+    }
 }
