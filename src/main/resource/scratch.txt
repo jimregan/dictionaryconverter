@@ -11,7 +11,7 @@
 ^be_ger<VP><vblex><pri><PD><ND>{^<vblex><3><4><5>$ ^<vblex><ger>$}$
 ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^ag_ger<VP><vblex><subs><PD><ND>{^ag<pr>$ ^<vblex><subs>$}$
 
-^be_ger_enc<SV><vblex><pri><p3><sg>{^estar<vblex><3><4><5>$ ^ir<vblex><ger>$ ^prpers<prn><obj><4><m><5>$}$
+^be_ger_enc<SV><vblex><pri><p3><sg>{^<vblex><3><4><5>$ ^<vblex><ger>$ ^prpers<prn><obj><4><m><5>$}$
 ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^do_pos_ger<VP><vblex><subs><PD><ND>{^do<pr>+<prn><obj><p3><m><sg>$ ^<vblex><subs><len>$}$
 ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^do_pos_ger<VP><vblex><subs><PD><ND>{^do<pr>+<prn><obj><p3><f><sg>$ ^<vblex><subs>$}$
 
