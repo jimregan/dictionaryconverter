@@ -90,6 +90,13 @@ public class WordToken extends StreamToken {
     public String toString() {
         return "^" + getContent() + "$";
     }
+    public String getFirstTag() {
+        if (tags.size() > 0) {
+            return tags.get(0);
+        } else {
+            return "";
+        }
+    }
 
     static WordToken fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
