@@ -244,7 +244,7 @@ public class Utils {
      * @param delim the delimiter to join them with
      * @return
      */
-    public String join(List<String> l, String delim) {
+    public static String join(List<String> l, String delim) {
         StringBuilder s = new StringBuilder();
         Iterator<String> it = l.iterator();
         if (it.hasNext()) {

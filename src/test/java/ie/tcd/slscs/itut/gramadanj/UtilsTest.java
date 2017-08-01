@@ -29,6 +29,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -72,5 +73,13 @@ public class UtilsTest extends TestCase {
         assertEquals("endings", Utils.expandFGB("ending", "~s"));
         assertEquals("chasing", Utils.expandFGB("chase", "-sing"));
         assertEquals("truncálann", Utils.expandFGB("truncáil", "-álann"));
+    }
+
+    public void testJoin() {
+        List<String> in = Arrays.asList(new String[]{"foo", "bar", "baz"});
+        String delim = "::";
+        String exp = "foo::bar::baz";
+        String out = Utils.join(in, delim);
+        assertEquals(exp, out);
     }
 }
