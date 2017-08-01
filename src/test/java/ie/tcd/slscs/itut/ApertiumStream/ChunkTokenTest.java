@@ -60,4 +60,22 @@ public class ChunkTokenTest extends TestCase {
         assertEquals("test", outwt.getLemh());
     }
 
+    public void testFromStringMLU() throws Exception {
+        List<StreamToken> kids = new ArrayList<StreamToken>();
+        kids.add(new WordToken("a", "", tags2));
+        kids.add(new BlankToken(""));
+        kids.add(new WordToken("small", "", tags3));
+        kids.add(new BlankToken(" "));
+        kids.add(new WordToken("test", "", tags1));
+        ChunkToken out = ChunkToken.fromString("^simple<n><sg>{^a<det>$^small<adj>+ish<blah>$ ^test<n><sg>$}$");
+        ChunkToken exp = new ChunkToken("simple", tags1, kids);
+        assertEquals(exp.getLemma(), out.getLemma());
+        assertEquals(5, out.getChildren().size());
+        assertEquals("", out.getChildren().get(1).getContent());
+        assertEquals(" ", out.getChildren().get(3).getContent());
+        assertEquals(exp.getTags(), out.getTags());
+        assertEquals(true, (out.getChildren().get(2) instanceof MLUToken));
+        WordToken outwt = (WordToken) out.getChildren().get(4);
+        assertEquals("test", outwt.getLemh());
+    }
 }
