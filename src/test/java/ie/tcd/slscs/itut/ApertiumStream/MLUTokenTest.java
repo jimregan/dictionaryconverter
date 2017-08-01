@@ -46,5 +46,14 @@ public class MLUTokenTest extends TestCase {
         assertEquals(((WordToken) out).getLemh(), exp.getLemh());
         assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
     }
+    public void testFromStringBackoutEscaped() throws Exception {
+        List<String> tags = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp = new WordToken("simple\\+", "", tags);
+        StreamToken out = MLUToken.fromString("^simple\\+<n><sg>$");
+        assertEquals((out instanceof WordToken), true);
+        assertEquals(((WordToken) out).getLemq(), exp.getLemq());
+        assertEquals(((WordToken) out).getLemh(), exp.getLemh());
+        assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
+    }
 
 }
