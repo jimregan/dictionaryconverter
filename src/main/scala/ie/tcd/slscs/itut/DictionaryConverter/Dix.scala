@@ -216,9 +216,13 @@ object Dix {
         case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => {
           val myl = L(l.toList.map{nodetocontent})
           val myr = R(List[TextLike](G(g.toList.map{nodetocontent})))
-          P(myl, myr)
+          P(myl, myr, List[TextLike](myl, myr))
         }
-        case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => P(L(l.toList.map{nodetocontent}), R(r.toList.map{nodetocontent}))
+        case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => {
+          val myl = L(l.toList.map{nodetocontent})
+          val myr = R(r.toList.map{nodetocontent})
+          P(myl, myr, List[TextLike](myl, myr))
+        }
         case _ => throw new Exception("Error reading p: " + tmp.toString)
       }
     }
