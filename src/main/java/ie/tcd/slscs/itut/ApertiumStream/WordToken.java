@@ -190,4 +190,18 @@ public class WordToken extends StreamToken {
         }
         return out;
     }
+
+    static boolean isRuleBasis(List<StreamToken> tokens) {
+        for (StreamToken st : tokens) {
+            if (st instanceof BlankToken) {
+                continue;
+            } else if (st instanceof WordToken) {
+                WordToken wt = (WordToken) st;
+                if (!wt.getLemh().equals("") || !wt.getLemq().equals("")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

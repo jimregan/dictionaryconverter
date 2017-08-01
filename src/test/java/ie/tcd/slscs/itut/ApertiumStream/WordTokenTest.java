@@ -174,4 +174,13 @@ public class WordTokenTest extends TestCase {
         assertEquals(((WordToken) out.get(2)).getLemh(), exp2.getLemh());
         assert(Utils.equalLists(((WordToken) out.get(2)).getTags(), exp2.getTags()));
     }
+
+    public void testIsRuleBasis() throws Exception {
+        List<StreamToken> out1 = WordToken.listFromString("^simple<adj>$[blah foo bar]^test<n><sg>$", true);
+        List<StreamToken> out2 = WordToken.listFromString("^<adj>$ ^<n><sg>$", true);
+        List<StreamToken> out3 = WordToken.listFromString("^<adj>$ ^test<n><sg>$", true);
+        assertEquals(WordToken.isRuleBasis(out1), false);
+        assertEquals(WordToken.isRuleBasis(out2), true);
+        assertEquals(WordToken.isRuleBasis(out3), false);
+    }
 }
