@@ -128,25 +128,25 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
 abstract class Parts() extends DixElement
 
 abstract class TextLikeContainer(content: List[TextLike]) extends DixElement
-case class L(content: List[TextLike]) extends TextLikeContainer(content) {
+case class L(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
   def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
-case class R(content: List[TextLike]) extends TextLikeContainer(content) {
+case class R(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
   def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
 case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
   def toXML = { <g>{ content.map{c => c.toXML} }</g> }
 }
-case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
+case class Par(name: String, sa: String = null, prm: String = null, content: List[TextLike] = List.empty[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <par n={name} sa={sa} prm={prm} /> }
 }
-case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
+case class RE(regex: String, content: List[TextLike] = List.empty[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <re>{regex}</re> }
 }
 case class I(content: List[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <i>{ content.map{c => c.toXML} }</i> }
 }
-case class P(l: L, r: R) extends TextLikeContainer(List[TextLike]()) {
+case class P(l: L, r: R, content: List[TextLike] = List.empty[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <p>{l.toXML}{r.toXML}</p> }
 }
 
@@ -213,7 +213,11 @@ object Dix {
     case p @ Elem(ns, "p", attribs, scope, children @ _*) => {
       val tmp = Elem(ns, "p", attribs, scope, pruneNodes(children.toList) :_*)
       tmp match {
-        case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => P(L(l.toList.map{nodetocontent}), R(List[TextLike](G(g.toList.map{nodetocontent}))))
+        case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => {
+          val myl = L(l.toList.map{nodetocontent})
+          val myr = R(List[TextLike](G(g.toList.map{nodetocontent})))
+          P(myl, myr)
+        }
         case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => P(L(l.toList.map{nodetocontent}), R(r.toList.map{nodetocontent}))
         case _ => throw new Exception("Error reading p: " + tmp.toString)
       }
