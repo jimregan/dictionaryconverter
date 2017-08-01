@@ -83,4 +83,20 @@ public class MLUTokenTest extends TestCase {
         assertEquals(mlu.getLUs().get(0).getLemh(), "simple");
         assertEquals(mlu.getLUs().get(1).getLemh(), "test");
     }
+    public void testFromStringQueue() throws Exception {
+        List<String> tags1 = Arrays.asList(new String[]{"adj"});
+        WordToken wt1 = new WordToken("simple", "# queue", tags1);
+        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
+        WordToken wt2 = new WordToken("test", "", tags2);
+        StreamToken out = MLUToken.fromString("^simple<adj>+test<n><sg># queue$");
+        List<WordToken> wtlist = new ArrayList<WordToken>();
+        wtlist.add(wt1);
+        wtlist.add(wt2);
+        assertEquals((out instanceof MLUToken), true);
+        MLUToken mlu = (MLUToken) out;
+        assertEquals(mlu.getLUs().size(), 2);
+        assertEquals(mlu.getLUs().get(0).getLemh(), "simple");
+        assertEquals(mlu.getLUs().get(0).getLemq(), "# queue");
+        assertEquals(mlu.getLUs().get(1).getLemh(), "test");
+    }
 }
