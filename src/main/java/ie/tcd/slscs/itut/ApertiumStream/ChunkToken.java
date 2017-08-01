@@ -77,6 +77,8 @@ public class ChunkToken extends StreamToken {
         int end = s.length() - 1;
         if (s.contains("}$")) {
             end = s.lastIndexOf("}$");
+        } else {
+            throw new Exception("Input does not appear to contain a chunk");
         }
         int chunk_start = start;
         for (int i = chunk_start; i < end; i++) {
