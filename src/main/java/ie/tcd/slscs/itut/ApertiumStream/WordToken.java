@@ -191,6 +191,14 @@ public class WordToken extends StreamToken {
         return out;
     }
 
+    /**
+     * For apertium-transfer-tools like input: checks if the stream of tokens
+     * is full delexicalised (i.e., that the tokens only contain tags): if so,
+     * the list of tokens may be used as the basis of a rule
+     * TODO: a version of this that accepts a set of lexicalisable tags
+     * @param tokens the stream of WordTokens and BlankTokens to be checked
+     * @return true if fully delexicalised
+     */
     static boolean isRuleBasis(List<StreamToken> tokens) {
         for (StreamToken st : tokens) {
             if (st instanceof BlankToken) {
