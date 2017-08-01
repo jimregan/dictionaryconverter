@@ -151,10 +151,6 @@ public class Utils {
         return a.equals(b);
     }
 
-    public static <T extends Comparable<? super T>> boolean equalListsUnsorted(List<T> a, List<T> b) {
-        return a.equals(b);
-    }
-
     public static <T extends Comparable<? super T>> boolean listStartsWithList(List<T> a, List<T> b) {
         if(a == null && b == null) {
             return true;
