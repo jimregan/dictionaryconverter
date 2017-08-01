@@ -114,12 +114,49 @@ public class WordTokenTest extends TestCase {
         exp.add(b);
         exp.add(exp2);
         List<StreamToken> out = WordToken.listFromString("^simple<adj>$ ^test<n><sg>$", true);
-        //assertEquals(out.size(), 3);
-        int i = 0;
-        for(StreamToken st : out) {
-            System.out.println(i + st.toString());
-            i++;
-        }
+        assertEquals(out.size(), 3);
+        assertEquals(((WordToken) out.get(0)).getLemq(), exp1.getLemq());
+        assertEquals(((WordToken) out.get(0)).getLemh(), exp1.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(0)).getTags(), exp1.getTags()));
+        assertEquals(((BlankToken) out.get(1)).getContent(), b.getContent());
+        assertEquals(((WordToken) out.get(2)).getLemq(), exp2.getLemq());
+        assertEquals(((WordToken) out.get(2)).getLemh(), exp2.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(2)).getTags(), exp2.getTags()));
+    }
+
+    public void testListFromStringSuper() throws Exception {
+        List<String> tags1 = Arrays.asList(new String[]{"adj"});
+        WordToken exp1 = new WordToken("simple", "", tags1);
+        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp2 = new WordToken("test", "", tags2);
+        BlankToken b = new BlankToken("[blah foo bar]");
+        List<StreamToken> exp = new ArrayList<StreamToken>();
+        exp.add(exp1);
+        exp.add(b);
+        exp.add(exp2);
+        List<StreamToken> out = WordToken.listFromString("^simple<adj>$[blah foo bar]^test<n><sg>$", false);
+        assertEquals(out.size(), 3);
+        assertEquals(((WordToken) out.get(0)).getLemq(), exp1.getLemq());
+        assertEquals(((WordToken) out.get(0)).getLemh(), exp1.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(0)).getTags(), exp1.getTags()));
+        assertEquals(((BlankToken) out.get(1)).getContent(), b.getContent());
+        assertEquals(((WordToken) out.get(2)).getLemq(), exp2.getLemq());
+        assertEquals(((WordToken) out.get(2)).getLemh(), exp2.getLemh());
+        assert(Utils.equalLists(((WordToken) out.get(2)).getTags(), exp2.getTags()));
+    }
+
+    public void testListFromStringSuperTrim() throws Exception {
+        List<String> tags1 = Arrays.asList(new String[]{"adj"});
+        WordToken exp1 = new WordToken("simple", "", tags1);
+        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
+        WordToken exp2 = new WordToken("test", "", tags2);
+        BlankToken b = new BlankToken(" ");
+        List<StreamToken> exp = new ArrayList<StreamToken>();
+        exp.add(exp1);
+        exp.add(b);
+        exp.add(exp2);
+        List<StreamToken> out = WordToken.listFromString("^simple<adj>$[blah foo bar]^test<n><sg>$", true);
+        assertEquals(out.size(), 3);
         assertEquals(((WordToken) out.get(0)).getLemq(), exp1.getLemq());
         assertEquals(((WordToken) out.get(0)).getLemh(), exp1.getLemh());
         assert(Utils.equalLists(((WordToken) out.get(0)).getTags(), exp1.getTags()));
