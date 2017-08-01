@@ -46,17 +46,28 @@ public class MLUTokenTest extends TestCase {
         assertEquals(((WordToken) out).getLemh(), exp.getLemh());
         assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
     }
-    /*
     public void testFromStringBackoutEscaped() throws Exception {
         List<String> tags = Arrays.asList(new String[]{"n", "sg"});
         WordToken exp = new WordToken("sim+ple", "", tags);
-        StreamToken out = MLUToken.fromString("^sim\\+ple<n><sg>$");
+        StreamToken out = MLUToken.fromString("^sim+ple<n><sg>$");
         assertEquals((out instanceof WordToken), true);
         assertEquals(((WordToken) out).getLemq(), exp.getLemq());
         assertEquals(((WordToken) out).getLemh(), exp.getLemh());
         assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
     }
-*/
+    public void testGetContentSimple() throws Exception {
+        List<String> tags1 = Arrays.asList(new String[]{"adj"});
+        WordToken wt1 = new WordToken("simple", "", tags1);
+        List<String> tags2 = Arrays.asList(new String[]{"n", "sg"});
+        WordToken wt2 = new WordToken("test", "", tags2);
+        StreamToken out = MLUToken.fromString("^simple<adj>+test<n><sg>$");
+        List<WordToken> wtlist = new ArrayList<WordToken>();
+        wtlist.add(wt1);
+        wtlist.add(wt2);
+        assertEquals((out instanceof MLUToken), true);
+        MLUToken mlu = (MLUToken) out;
+        assertEquals(mlu.getContent(), "simple<adj>+test<n><sg>");
+    }
     public void testFromStringSimple() throws Exception {
         List<String> tags1 = Arrays.asList(new String[]{"adj"});
         WordToken wt1 = new WordToken("simple", "", tags1);
@@ -67,8 +78,9 @@ public class MLUTokenTest extends TestCase {
         wtlist.add(wt1);
         wtlist.add(wt2);
         assertEquals((out instanceof MLUToken), true);
-        //assertEquals(((WordToken) out).getLemq(), exp.getLemq());
-        //assertEquals(((WordToken) out).getLemh(), exp.getLemh());
-        //assert(Utils.equalLists(exp.getTags(), ((WordToken) out).getTags()));
+        MLUToken mlu = (MLUToken) out;
+        assertEquals(mlu.getLUs().size(), 2);
+        assertEquals(mlu.getLUs().get(0).getLemh(), "simple");
+        assertEquals(mlu.getLUs().get(1).getLemh(), "test");
     }
 }

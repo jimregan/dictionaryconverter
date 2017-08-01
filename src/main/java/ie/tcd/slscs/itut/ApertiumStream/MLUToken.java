@@ -59,7 +59,9 @@ public class MLUToken extends StreamToken {
         }
         return Utils.join(tmp, "+") + queue;
     }
-
+    public List<WordToken> getLUs() {
+        return lus;
+    }
     /**
      * Creates either a WordToken or MLUToken from the input
      * @param s the string to convert
@@ -72,7 +74,7 @@ public class MLUToken extends StreamToken {
         if (s == null || s.length() == 0) {
             throw new Exception("Input cannot be empty");
         }
-        if (!s.contains("+")) {
+        if (!s.contains("+") && !s.contains("~")) {
             return WordToken.fromString(s);
         }
         List<WordToken> lus = new ArrayList<WordToken>();
@@ -94,7 +96,7 @@ public class MLUToken extends StreamToken {
                 i += 2;
             }
             if (inLU) {
-                if (s.charAt(i) == '+') {
+                if ((s.charAt(i) == '+' || s.charAt(i) == '~') && s.charAt(i - 1) == '>') {
                     lus.add(new WordToken(cur));
                     cur = "";
                 } else if (s.charAt(i) == '#') {
