@@ -66,6 +66,16 @@ public class ChunkToken extends StreamToken {
         return null;
     }
 
+    public String getLemma() {
+        return lemma;
+    }
+    public List<String> getTags() {
+        return tags;
+    }
+    public List<StreamToken> getChildren() {
+        return children;
+    }
+
     public static ChunkToken fromString(String s) throws Exception {
         if (s == null || s.length() == 0) {
             throw new Exception("Input cannot be empty");
