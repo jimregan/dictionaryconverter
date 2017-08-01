@@ -48,4 +48,14 @@ public class ApertiumStream {
     public static boolean isEscape(char c) {
         return escapes.contains(new Character(c));
     }
+    public static String escapeString(String s) {
+        String out = "";
+        for (int i = 0; i < s.length(); i++) {
+            if (isEscape(s.charAt(i))) {
+                out += '\\';
+            }
+            out += s.charAt(i);
+        }
+        return out;
+    }
 }
