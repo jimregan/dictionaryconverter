@@ -38,8 +38,12 @@ class TrxUtilsTest extends FlatSpec {
     val expb = Trx.nodeToLet(<let><var n="foo"/><lit v="bar"/></let>)
     val outa = TrxUtils.defvarToLet(defvara)
     val outb = TrxUtils.defvarToLet(defvarb)
-    //assert(expa == outa)
-    println(outa.toXML.toString)
+    val outas = s"""<let>
+  <var n="foo"/>
+  <lit v=""/>
+</let>
+"""
+    assert(outas == outa.toXMLString(0, true))
     assert(expb == outb)
   }
 
