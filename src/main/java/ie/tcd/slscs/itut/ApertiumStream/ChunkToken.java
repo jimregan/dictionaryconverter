@@ -49,4 +49,9 @@ public class ChunkToken extends StreamToken {
     public String toString() {
         return null;
     }
+
+    public ChunkToken fromString(String s) {
+
+        return new ChunkToken();
+    }
 }
