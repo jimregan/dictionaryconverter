@@ -26,35 +26,49 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import scala.util.parsing.combinator.testing.Str;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+// TODO: fromString
 public class AnalysedToken extends StreamToken {
     String surface;
-    List<SingleAnalysis> analyses;
+    List<StreamToken> analyses;
 
     AnalysedToken() {
-        analyses = new ArrayList<SingleAnalysis>();
+        analyses = new ArrayList<StreamToken>();
     }
-
+    AnalysedToken(String s, List<StreamToken> list) {
+        surface = s;
+        analyses = list;
+    }
     public String getSurface() {
         return surface;
     }
-
+    public List<StreamToken> getAnalyses() {
+        return analyses;
+    }
+    public static boolean validAnalyses(List<StreamToken> list) {
+        for (StreamToken st : list) {
+            if(!(st instanceof WordToken) && !(st instanceof MLUToken)) {
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     public String getContent() {
         StringBuilder sb = new StringBuilder();
         sb.append(surface);
         sb.append('/');
-        Iterator<SingleAnalysis> it = analyses.iterator();
-        if (it.hasNext()) {
-            sb.append(it.next().getContent());
+        List<String> tokcontent = new ArrayList<String>();
+        for (StreamToken st : analyses) {
+            tokcontent.add(st.getContent());
         }
-        while (it.hasNext()) {
-            sb.append('/');
-            sb.append(it.next().getContent());
-        }
+        sb.append(Utils.join(tokcontent, "/"));
         return sb.toString();
     }
 
