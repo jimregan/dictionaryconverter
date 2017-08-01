@@ -754,7 +754,7 @@ object Trx {
   }
   def nodeToStringValue(n: Node): StringValueElement = n match {
     case <clip/> => nodeToClip(n)
-    case <lit/> => LitElement(getattrib(n, "v"))
+    case <lit/> => LitElement(getattrib(n, "v", false))
     case <var/> => VarElement(getattrib(n, "n"))
     case <get-case-from>{_*}</get-case-from> => nodeToGetCaseFrom(n)
     case <lu-count/> => LUCountElement()
