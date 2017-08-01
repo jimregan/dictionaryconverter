@@ -69,14 +69,20 @@ object TrxUtils {
   }
   def getTextFromTextLike(t: TextLike): String = t match {
     case Txt(t) => t
-    case G(l) => l.map{getTextFromTextLike}.mkString
+    case B() => " "
+    case Entity(t) => t
+    case G(l) => "# " + l.map{getTextFromTextLike}.mkString
+    case _ => throw new Exception("Not a text-like piece")
   }
 
-  def dixEntryToWhen(entry: E): WhenElement = entry.children match {
+  def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
-      val ltxt = l.content.takeWhile{nonTagTextPiece}
-      val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}.mkString(".")
-
+      val ltxt = l.content.takeWhile{nonTagTextPiece}.map{getTextFromTextLike}.mkString
+      val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
+      val rtxt = r.content.takeWhile{nonTagTextPiece}.map{getTextFromTextLike}.mkString
+      val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
+      val ltxtck = TestElement(null, EqualElement(true, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(ltxt))))
+      val rtxtck = LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(rtxt))
     }
   }
 }
