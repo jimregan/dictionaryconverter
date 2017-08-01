@@ -30,11 +30,23 @@ package ie.tcd.slscs.itut.ApertiumStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChunkToken {
+public class ChunkToken extends StreamToken {
     String lemma;
     List<String> tags;
+    List<StreamToken> children;
 
     ChunkToken() {
         tags = new ArrayList<String>();
+        children = new ArrayList<StreamToken>();
+    }
+
+    @Override
+    public String getContent() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
