@@ -59,6 +59,8 @@ object TrxUtils {
 //  }
   def isSimpleEntry(entry: E): Boolean = entry.children match {
     case P(_, _) :: nil => true
+    case x :: xs => false
+    case x :: nil => false
     case _ => false
   }
   def nonTagTextPiece(t: TextLike): Boolean = t match {

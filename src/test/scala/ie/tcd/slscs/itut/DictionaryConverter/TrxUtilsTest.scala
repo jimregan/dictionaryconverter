@@ -53,6 +53,6 @@ class TrxUtilsTest extends FlatSpec {
     val outpair = Dix.nodetoe(pair)
     val outident = Dix.nodetoe(ident)
     assert(true, outpair)
-    //assert(false, outident)
+    assert(false, outident)
   }
 }
