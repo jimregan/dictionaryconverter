@@ -130,7 +130,7 @@ public class ChunkToken extends StreamToken {
                     if (s.charAt(i - 1) == '}') {
                         out.add(fromString(cur));
                     } else {
-                        out.add(MLUToken.fromString(cur))
+                        out.add(MLUToken.fromString(cur));
                     }
                     cur = "";
                 }
