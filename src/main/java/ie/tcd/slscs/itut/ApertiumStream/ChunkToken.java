@@ -109,28 +109,43 @@ public class ChunkToken extends StreamToken {
             throw new Exception("Input cannot be empty");
         }
         int end = s.length() - 1;
-        while(s.charAt(start) != '^') {
+        if(s.charAt(start) == '^') {
             start++;
         }
         boolean inToken = true;
-        while(s.charAt(end) != '$') {
-            end--;
-        }
+        boolean inChunk = false;
         for (int i = start; i <= end; i++) {
             if (s.charAt(i) == '\\' && (i + 1) < end && ApertiumStream.isEscape(s.charAt(i + 1))) {
                 cur += s.charAt(i + 1);
                 i += 2;
             }
             if (inToken) {
+                if (s.charAt(i) == '{') {
+                    cur += s.charAt(i);
+                    inChunk = true;
+                    continue;
+                }
                 if (s.charAt(i) != '$') {
                     cur += s.charAt(i);
                 } else {
                     cur += s.charAt(i);
                     inToken = false;
-                    if (((i + 2) <= end) && s.charAt(i + 1) == '}' && s.charAt(i + 2) == '$') {
-                        out.add(fromString(cur + "}$"));
-                        i += 3;
+                    if(inChunk) {
+                        if (((i + 1) <= end) && s.charAt(i + 1) == '}') {
+                            System.out.println('"' + cur + '"');
+                            cur += '}';
+                            i += 2;
+                            inChunk = false;
+                            if(i <= end && s.charAt(i) == '$') {
+                                cur += '$';
+                                i++;
+                            }
+                            out.add(fromString(cur));
+                        } else {
+                            cur += '$';
+                        }
                     } else {
+                        System.out.println('"' + cur + '"');
                         out.add(MLUToken.fromString(cur));
                     }
                     cur = "";
