@@ -56,11 +56,13 @@ public class ChunkToken extends StreamToken {
             return "";
         }
     }
+    // TODO
     @Override
     public String getContent() {
         return null;
     }
 
+    // TODO
     @Override
     public String toString() {
         return null;
@@ -100,5 +102,68 @@ public class ChunkToken extends StreamToken {
         WordToken chunk_lemma = WordToken.fromString(s.substring(start, chunk_start));
         List<StreamToken> tokens = MLUToken.listFromString(s.substring(chunk_start + 1, end), true);
         return new ChunkToken(chunk_lemma.getLemh(), chunk_lemma.getTags(), tokens);
+    }
+    static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
+        List<StreamToken> out = new ArrayList<StreamToken>();
+        int start = 0;
+        String cur = "";
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
+        int end = s.length() - 1;
+        if(s.charAt(start) == '^') {
+            start++;
+        }
+        boolean inToken = true;
+        boolean inChunk = false;
+        for (int i = start; i <= end; i++) {
+            if (s.charAt(i) == '\\' && (i + 1) < end && ApertiumStream.isEscape(s.charAt(i + 1))) {
+                cur += s.charAt(i + 1);
+                i += 2;
+            }
+            if (inToken) {
+                if (s.charAt(i) == '{') {
+                    cur += s.charAt(i);
+                    inChunk = true;
+                    continue;
+                }
+                if (s.charAt(i) != '$') {
+                    cur += s.charAt(i);
+                } else {
+                    cur += s.charAt(i);
+                    if(inChunk) {
+                        if (((i + 1) <= end) && s.charAt(i + 1) == '}') {
+                            cur += '}';
+                            i += 2;
+                            inChunk = false;
+                            inToken = false;
+                            if(i <= end && s.charAt(i) == '$') {
+                                cur += '$';
+                            }
+                            out.add(fromString(cur));
+                            cur = "";
+                        } else {
+                            cur += '$';
+                        }
+                    } else {
+                        inToken = false;
+                        out.add(MLUToken.fromString(cur));
+                        cur = "";
+                    }
+                }
+            } else {
+                if (s.charAt(i) != '^') {
+                    cur += s.charAt(i);
+                } else {
+                    inToken = true;
+                    if (space_only && !cur.equals("")) {
+                        cur = " ";
+                    }
+                    out.add(new BlankToken(cur));
+                    cur = "";
+                }
+            }
+        }
+        return out;
     }
 }
