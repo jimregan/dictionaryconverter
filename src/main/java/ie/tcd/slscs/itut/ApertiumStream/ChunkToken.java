@@ -136,6 +136,7 @@ public class ChunkToken extends StreamToken {
                             cur += '}';
                             i += 2;
                             inChunk = false;
+                            inToken = false;
                             if(i <= end && s.charAt(i) == '$') {
                                 cur += '$';
                                 i++;
@@ -145,6 +146,7 @@ public class ChunkToken extends StreamToken {
                             cur += '$';
                         }
                     } else {
+                        inToken = false;
                         System.out.println('"' + cur + '"');
                         out.add(MLUToken.fromString(cur));
                     }
@@ -158,6 +160,7 @@ public class ChunkToken extends StreamToken {
                     if (space_only && !cur.equals("")) {
                         cur = " ";
                     }
+                    System.out.println('"' + cur + '"');
                     out.add(new BlankToken(cur));
                     cur = "";
                 }
