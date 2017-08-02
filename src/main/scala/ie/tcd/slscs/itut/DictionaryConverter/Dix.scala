@@ -158,7 +158,8 @@ object Dix {
     case <b/> => B()
     case <j/> => J()
     case <prm/> => Prm()
-    case s @ <s/> => S(s.attribute("n").head.text)
+    case <s/> => S(getattrib(node, "n"))
+    case <g>{_*}</g> => G(node.child.map{nodetocontent}.toList)
     case _ => throw new Exception("Error reading content " + node.toString)
   }
   /**

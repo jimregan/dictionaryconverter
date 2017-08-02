@@ -75,6 +75,7 @@ object TrxUtils {
     case _ => throw new Exception("Not a text-like piece")
   }
 
+  // TODO: only checks the text. If even.
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
       val ltxt = l.content.takeWhile{nonTagTextPiece}.map{getTextFromTextLike}.mkString
@@ -83,6 +84,7 @@ object TrxUtils {
       val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
       val ltxtck = TestElement(null, EqualElement(true, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(ltxt))))
       val rtxtck = LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(rtxt))
+      WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
 }
