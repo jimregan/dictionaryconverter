@@ -67,24 +67,32 @@ case class Sdef(n: String, c: String = null) {
   def toXMLString = toXML.toString
 }
 
-trait TextLike extends DixElement
+trait TextLike extends DixElement {
+  def asText: String
+}
 case class B extends TextLike {
   def toXML = <b/>
+  def asText: String = " "
 }
 case class J extends TextLike {
   def toXML = <j/>
+  def asText: String = "+"
 }
 case class Prm extends TextLike {
   def toXML = <prm/>
+  def asText = ""
 }
 case class Txt(s: String) extends TextLike {
   def toXML = new scala.xml.Text(s)
+  def asText = s
 }
 case class Entity(s: String) extends TextLike {
   def toXML = new scala.xml.EntityRef(s)
+  def asText = s
 }
 case class S(n: String) extends TextLike {
   def toXML = <s n={n}/>
+  def asText = "<" + n + ">"
 }
 
 abstract class EntryContainer(name: String, entries: List[E])
