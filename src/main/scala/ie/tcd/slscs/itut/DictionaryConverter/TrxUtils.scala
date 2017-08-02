@@ -52,6 +52,11 @@ object TrxUtils {
       LUElement(outlist)
     }
   }
+  /*
+  TODO
+  Inner tags for chunk:
+
+   */
   def mkChunkTagTransfer(tag: String, pos: String, map: Map[String, String]): TagElement = {
     if(tag.startsWith("*")) {
       val name = tag.substring(1)
