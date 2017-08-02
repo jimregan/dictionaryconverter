@@ -127,8 +127,9 @@ public class ChunkToken extends StreamToken {
                 } else {
                     cur += s.charAt(i);
                     inToken = false;
-                    if (s.charAt(i - 1) == '}') {
-                        out.add(fromString(cur));
+                    if (((i + 2) <= end) && s.charAt(i + 1) == '}' && s.charAt(i + 2) == '$') {
+                        out.add(fromString(cur + "}$"));
+                        i += 3;
                     } else {
                         out.add(MLUToken.fromString(cur));
                     }
