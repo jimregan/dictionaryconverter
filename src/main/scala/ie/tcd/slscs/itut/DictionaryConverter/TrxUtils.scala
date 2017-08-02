@@ -55,7 +55,6 @@ object TrxUtils {
   }
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
-
 //  }
   def isSimpleEntry(entry: E): Boolean = entry.children match {
     case P(_, _) :: nil => true
@@ -77,7 +76,7 @@ object TrxUtils {
   // TODO: only checks the text. If even.
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
-      val ltxt = l.content.takeWhile{nonTagTextPiece}.map{getTextFromTextLike}.mkString
+      val ltxt = l.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
       val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
       val rtxt = r.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
       val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
