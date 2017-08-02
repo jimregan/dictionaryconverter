@@ -65,7 +65,11 @@ object TrxUtils {
   }
   def nonTagTextPiece(t: TextLike): Boolean = t match {
     case Txt(_) => true
+    case Entity(_) => true
     case G(_) => true
+    case B() => true
+    case J() => true
+    case Prm() => true
     case S(_) => false
     case _ => false
   }
