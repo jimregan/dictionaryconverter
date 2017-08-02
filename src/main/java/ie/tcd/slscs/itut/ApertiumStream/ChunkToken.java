@@ -129,7 +129,6 @@ public class ChunkToken extends StreamToken {
                     cur += s.charAt(i);
                 } else {
                     cur += s.charAt(i);
-                    inToken = false;
                     if(inChunk) {
                         if (((i + 1) <= end) && s.charAt(i + 1) == '}') {
                             System.out.println('"' + cur + '"');
