@@ -1,0 +1,3 @@
+^n<SN><UNDET><*num>{^<n><3>$}$ | ^n<SN><UNDET><m><sg>{^<n><3><4>$}$ | 1-1
+^det n<SN><UNDET><sg>{^a<det><ind><sg>$ ^<n><3>$}$ | ^n<SN><UNDET><*=gen><*num>{^<n><3><4>$}$ | 2-1
+^det n<SN><UNDET><sg>{^the<det><def><sp>$ ^<n><3>$}$ | ^n<SN><UNDET><*=gen><*num><*@cas><*@mut><><*=><*NEG>{^<n><3><4>$}$ | 2-1
