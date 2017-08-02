@@ -103,7 +103,50 @@ public class ChunkToken extends StreamToken {
     }
     static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
         List<StreamToken> out = new ArrayList<StreamToken>();
-        // TODO
+        int start = 0;
+        String cur = "";
+        if (s == null || s.length() == 0) {
+            throw new Exception("Input cannot be empty");
+        }
+        int end = s.length() - 1;
+        while(s.charAt(start) != '^') {
+            start++;
+        }
+        boolean inToken = true;
+        while(s.charAt(end) != '$') {
+            end--;
+        }
+        for (int i = start; i <= end; i++) {
+            if (s.charAt(i) == '\\' && (i + 1) < end && ApertiumStream.isEscape(s.charAt(i + 1))) {
+                cur += s.charAt(i + 1);
+                i += 2;
+            }
+            if (inToken) {
+                if (s.charAt(i) != '$') {
+                    cur += s.charAt(i);
+                } else {
+                    cur += s.charAt(i);
+                    inToken = false;
+                    if (s.charAt(i - 1) == '}') {
+                        out.add(fromString(cur));
+                    } else {
+                        out.add(MLUToken.fromString(cur))
+                    }
+                    cur = "";
+                }
+            } else {
+                if (s.charAt(i) != '^') {
+                    cur += s.charAt(i);
+                } else {
+                    inToken = true;
+                    if (space_only && !cur.equals("")) {
+                        cur = " ";
+                    }
+                    out.add(new BlankToken(cur));
+                    cur = "";
+                }
+            }
+        }
         return out;
     }
 }
