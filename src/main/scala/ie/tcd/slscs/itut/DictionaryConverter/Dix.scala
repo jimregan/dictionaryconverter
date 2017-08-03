@@ -135,7 +135,9 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
 
 abstract class Parts() extends DixElement
 
-abstract class TextLikeContainer(content: List[TextLike]) extends DixElement
+abstract class TextLikeContainer(content: List[TextLike]) extends DixElement {
+  def getContent: List[TextLike] = content
+}
 case class L(content: List[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
