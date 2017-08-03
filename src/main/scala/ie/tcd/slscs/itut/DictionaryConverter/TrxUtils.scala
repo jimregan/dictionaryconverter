@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.ApertiumStream.{ChunkToken, WordToken}
 import ie.tcd.slscs.itut.ApertiumStream.WordToken
 import ie.tcd.slscs.itut.DictionaryConverter.dix._
 
@@ -53,6 +54,31 @@ object TrxUtils {
       LUElement(outlist)
     }
   }
+  /*
+  TODO
+  Inner tags for chunk:
+
+   */
+  def mkChunkTagTransfer(tag: String, pos: String, map: Map[String, String]): TagElement = {
+    if(tag.startsWith("*")) {
+      val name = tag.substring(1)
+      if(map.contains(name)) {
+        TagElement(ClipElement(pos, "tl", map.get(name).get, null, null, null))
+      } else {
+        TagElement(LitTagElement(name))
+      }
+      val part = map.getOrElse(name, name)
+    } else {
+      TagElement(LitTagElement(tag))
+    }
+  }
+  def mkChunkTagsTransfer(list: List[String], pos: String, map: Map[String, String]): TagsElementType = {
+    TagsElementType(list.map{e => mkChunkTagTransfer(e, pos, map)})
+  }
+  def mkChunkTransfer(chunkToken: ChunkToken, pos: String, map: Map[String, String]): ChunkElement = {
+    val name = chunkToken.getLemma
+    val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
+    ChunkElement(name, null, null, null, Some(tags), children)
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 //  }
