@@ -1,0 +1,5 @@
+
+^be_ger<VP><vblex><pri><PD><ND>{^<vblex><3><4><5>$ ^<vblex><ger>$}$ ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^ag_ger<VP><vblex><subs><PD><ND>{^ag<pr>$ ^<vblex><subs>$}$    1-1 0-2 2-3
+^be_ger_enc<SV><vblex><pri><p3><sg>{^<vblex><3><4><5>$ ^<vblex><ger>$ ^prpers<prn><obj><4><m><5>$}$ ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^do_pos_subs<VP><vblex><subs><PD><ND>{^do<pr>+prpers<prn><obj><p3><m><sg>$ ^<vblex><subs><len>$}$   
+^be_ger_enc<SV><vblex><pri><p3><sg>{^<vblex><3><4><5>$ ^<vblex><ger>$ ^prpers<prn><obj><4><m><5>$}$ ^bí<VP><vblex><pri><p3><sg>{^<vblex><3><4><5>$}$ ^do_pos_subs<VP><vblex><subs><PD><ND>{^do<pr>+prpers<prn><obj><p3><f><sg>$ ^<vblex><subs>$}$
+

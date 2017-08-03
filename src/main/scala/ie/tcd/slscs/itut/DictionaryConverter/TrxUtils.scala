@@ -28,6 +28,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.{ChunkToken, WordToken}
+import ie.tcd.slscs.itut.ApertiumStream.WordToken
+import ie.tcd.slscs.itut.DictionaryConverter.dix._
 
 import scala.collection.JavaConverters._
 
@@ -77,5 +79,36 @@ object TrxUtils {
     val name = chunkToken.getLemma
     val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
     ChunkElement(name, null, null, null, Some(tags), children)
+
+//  def dixSectionToChoose(sect: Section): ChooseElement = {
+//  }
+  def isSimpleEntry(entry: E): Boolean = entry.children match {
+    case P(_, _) :: nil => true
+    case x :: xs => false
+    case x :: nil => false
+    case _ => false
+  }
+  def nonTagTextPiece(t: TextLike): Boolean = t match {
+    case Txt(_) => true
+    case Entity(_) => true
+    case G(_) => true
+    case B() => true
+    case J() => true
+    case Prm() => true
+    case S(_) => false
+    case _ => false
+  }
+
+  // TODO: only checks the text. If even.
+  def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
+    case P(l, r) :: nil => {
+      val ltxt = l.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+      val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
+      val rtxt = r.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+      val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
+      val ltxtck = TestElement(null, EqualElement(true, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(ltxt))))
+      val rtxtck = LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(rtxt))
+      WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
+    }
   }
 }

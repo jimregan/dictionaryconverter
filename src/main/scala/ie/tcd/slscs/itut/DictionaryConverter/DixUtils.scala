@@ -27,32 +27,13 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
-import org.scalatest.FlatSpec
+import ie.tcd.slscs.itut.DictionaryConverter.dix.{S, TextLike}
 
-class TrxUtilsTest extends FlatSpec {
+object DixUtils {
+  def isTag(t: TextLike): Boolean = t match {
+    case S(_) => true
+    case _ => false
+  }
+  def isNotTag(t: TextLike): Boolean = !isTag(t)
 
-  "defVarToLet" should "create a <let> element matching a <def-var>" in {
-    val defvara = Trx.nodeToDefVar(<def-var n="foo"/>)
-    val defvarb = Trx.nodeToDefVar(<def-var n="foo" v="bar" />)
-    val expa = Trx.nodeToLet(<let><var n="foo"/><lit v=""/></let>)
-    val expb = Trx.nodeToLet(<let><var n="foo"/><lit v="bar"/></let>)
-    val outa = TrxUtils.defvarToLet(defvara)
-    val outb = TrxUtils.defvarToLet(defvarb)
-    val outas = s"""<let>
-  <var n="foo"/>
-  <lit v=""/>
-</let>
-"""
-    assert(outas == outa.toXMLString(0, true))
-    assert(expb == outb)
-  }
-  "isSimpleEntry" should "return true for simple dix <e> entry" in {
-    val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
-    val ident = <e><i>test<s n="n"/></i></e>
-    val outpair = Dix.nodetoe(pair)
-    val outident = Dix.nodetoe(ident)
-    assert(true, outpair)
-    assert(false, outident)
-  }
 }

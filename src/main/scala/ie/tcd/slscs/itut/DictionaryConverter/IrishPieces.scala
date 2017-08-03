@@ -57,4 +57,7 @@ object IrishPieces {
                    ClipElement(pos,"tl","nbr_no_sp",null,"4",null),
                    ClipElement(pos,"tl","nbr_sp",null,null,null)))
   }
+  def mkWhole(pos: String): LUElement = {
+    LUElement(List(ClipElement(pos,"tl","whole",null,null,null)))
+  }
 }
