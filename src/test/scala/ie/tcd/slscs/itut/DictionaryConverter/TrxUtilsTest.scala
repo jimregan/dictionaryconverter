@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
 import org.scalatest.FlatSpec
 
 class TrxUtilsTest extends FlatSpec {
@@ -46,5 +47,12 @@ class TrxUtilsTest extends FlatSpec {
     assert(outas == outa.toXMLString(0, true))
     assert(expb == outb)
   }
-
+  "isSimpleEntry" should "return true for simple dix <e> entry" in {
+    val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
+    val ident = <e><i>test<s n="n"/></i></e>
+    val outpair = Dix.nodetoe(pair)
+    val outident = Dix.nodetoe(ident)
+    assert(true, outpair)
+    assert(false, outident)
+  }
 }

@@ -28,6 +28,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.WordToken
+import ie.tcd.slscs.itut.DictionaryConverter.dix._
+
 import scala.collection.JavaConverters._
 
 object TrxUtils {
@@ -49,6 +51,32 @@ object TrxUtils {
       LUElement(outlist ++ List[StringValueElement](lemqlit))
     } else {
       LUElement(outlist)
+    }
+  }
+
+//  def dixSectionToChoose(sect: Section): ChooseElement = {
+
+//  }
+  def isSimpleEntry(entry: E): Boolean = entry.children match {
+    case P(_, _) :: nil => true
+    case _ => false
+  }
+  def nonTagTextPiece(t: TextLike): Boolean = t match {
+    case Txt(_) => true
+    case G(_) => true
+    case S(_) => false
+    case _ => false
+  }
+  def isTag(t: TextLike): Boolean = t match {
+    case S(_) => true
+    case _ => false
+  }
+  def isNotTag(t: TextLike): Boolean = !isTag(t)
+  def dixEntryToWhen(entry: E): WhenElement = entry.children match {
+    case P(l, r) :: nil => {
+      val ltxt = l.content.takeWhile{nonTagTextPiece}
+      val ltag = l.content.dropWhile{isNotTag}
+
     }
   }
 }

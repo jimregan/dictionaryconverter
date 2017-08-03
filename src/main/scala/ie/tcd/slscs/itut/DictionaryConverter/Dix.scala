@@ -74,11 +74,11 @@ case class B extends TextLike {
   def toXML = <b/>
   def asText: String = " "
 }
-case class J extends TextLike {
+case class J() extends TextLike {
   def toXML = <j/>
   def asText: String = "+"
 }
-case class Prm extends TextLike {
+case class Prm() extends TextLike {
   def toXML = <prm/>
   def asText = ""
 }
