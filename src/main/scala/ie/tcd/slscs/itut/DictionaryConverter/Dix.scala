@@ -70,7 +70,7 @@ case class Sdef(n: String, c: String = null) {
 trait TextLike extends DixElement {
   def asText: String
 }
-case class B extends TextLike {
+case class B() extends TextLike {
   def toXML = <b/>
   def asText: String = " "
 }
@@ -143,13 +143,18 @@ case class R(content: List[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
 case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
+  override def asText: String = "# " + content.map{_.asText}.mkString
   def toXML = { <g>{ content.map{c => c.toXML} }</g> }
 }
-case class Par(name: String, sa: String = null, prm: String = null) extends TextLikeContainer(List[TextLike]()) {
+case class Par(name: String, sa: String = null, prm: String = null, content: List[TextLike] = List.empty[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <par n={name} sa={sa} prm={prm} /> }
 }
-case class RE(regex: String) extends TextLikeContainer(List[TextLike]()) {
+case class RE(regex: String, content: List[TextLike]) extends TextLikeContainer(content) {
+  def this(regex: String) = this(regex, List[TextLike](Txt(regex)))
   def toXML = { <re>{regex}</re> }
+}
+object RE {
+  def apply(regex: String): RE = new RE(regex)
 }
 case class I(content: List[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <i>{ content.map{c => c.toXML} }</i> }
