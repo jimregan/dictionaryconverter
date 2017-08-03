@@ -81,4 +81,19 @@ public class ChunkTokenTest extends TestCase {
         WordToken outwt = (WordToken) out.getChildren().get(4);
         assertEquals("test", outwt.getLemh());
     }
+
+    public void testListFromString() throws Exception {
+        String input = "^simple<n><sg>{^a<det>$^small<adj>+ish<blah>$ ^test<n><sg>$}$ ^test<n><sg>$";
+        List<StreamToken> out = ChunkToken.listFromString(input, true);
+        assertEquals(3, out.size());
+        assertEquals(true, (out.get(0) instanceof ChunkToken));
+        assertEquals(true, (out.get(1) instanceof BlankToken));
+        assertEquals(true, (out.get(2) instanceof WordToken));
+    }
+    public void testListFromStringSingle() throws Exception {
+        String input = "^simple<n><sg>{^a<det>$^small<adj>+ish<blah>$ ^test<n><sg>$}$";
+        List<StreamToken> out = ChunkToken.listFromString(input, true);
+        assertEquals(1, out.size());
+        assertEquals(true, (out.get(0) instanceof ChunkToken));
+    }
 }
