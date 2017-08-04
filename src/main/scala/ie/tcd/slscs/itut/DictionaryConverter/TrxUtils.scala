@@ -66,7 +66,6 @@ object TrxUtils {
       } else {
         TagElement(LitTagElement(name))
       }
-      val part = map.getOrElse(name, name)
     } else {
       TagElement(LitTagElement(tag))
     }
