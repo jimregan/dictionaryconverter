@@ -55,6 +55,19 @@ class DixTest extends FlatSpec {
     </section>
   </dictionary>
 
+  val simple_dix_nopardefs = <dictionary>
+    <alphabet>abcdefghijklmonpqrstuvwxyz</alphabet>
+    <sdefs>
+      <sdef n="one"/>
+      <sdef n="two" c="comment" />
+    </sdefs>
+    <section id="main" type="standard">
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      <e><p><l>bar</l><r>barbar<s n="one"/></r></p><par n="first"/></e>
+      <e><p><l>foo</l><r>bars<s n="one"/></r></p><par n="second"/></e>
+    </section>
+  </dictionary>
+
   "e" should "read <e> element" in {
     val xml = <e><i>txt</i></e>
     val prs = E(List(I(List(Txt("txt")))))
@@ -69,6 +82,18 @@ class DixTest extends FlatSpec {
     assert(dix.pardefs.size == 2)
     assert(dix.pardefs(0).name == "first")
     assert(dix.pardefs(0).entries.size == 2)
+    assert(dix.sections.size == 1)
+    assert(dix.sections(0).name == "main")
+    assert(dix.sections(0).entries.size == 3)
+    assert(dix.sections(0).entries(1).children.size == 2)
+  }
+
+  "wholeNoPardefs" should "read whole dictionary" in {
+    val dix = Dix.load(simple_dix_nopardefs)
+    assert(dix.alphabet.length == 26)
+    assert(dix.sdefs.size == 2)
+    assert(dix.sdefs(0).n == "one")
+    assert(dix.pardefs.size == 0)
     assert(dix.sections.size == 1)
     assert(dix.sections(0).name == "main")
     assert(dix.sections(0).entries.size == 3)
