@@ -63,5 +63,15 @@ class DixTest extends FlatSpec {
 
   "whole" should "read whole dictionary" in {
     val dix = Dix.load(simple_dix)
+    assert(dix.alphabet.length == 26)
+    assert(dix.sdefs.size == 2)
+    assert(dix.sdefs(0).n == "one")
+    assert(dix.pardefs.size == 2)
+    assert(dix.pardefs(0).name == "first")
+    assert(dix.pardefs(0).entries.size == 2)
+    assert(dix.sections.size == 1)
+    assert(dix.sections(0).name == "main")
+    assert(dix.sections(0).entries.size == 3)
+    assert(dix.sections(0).entries(1).children.size == 2)
   }
 }
