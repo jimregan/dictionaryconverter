@@ -28,7 +28,6 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.{ChunkToken, WordToken}
-import ie.tcd.slscs.itut.ApertiumStream.WordToken
 import ie.tcd.slscs.itut.DictionaryConverter.dix._
 
 import scala.collection.JavaConverters._
@@ -67,7 +66,6 @@ object TrxUtils {
       } else {
         TagElement(LitTagElement(name))
       }
-      val part = map.getOrElse(name, name)
     } else {
       TagElement(LitTagElement(tag))
     }
@@ -78,7 +76,8 @@ object TrxUtils {
   def mkChunkTransfer(chunkToken: ChunkToken, pos: String, map: Map[String, String]): ChunkElement = {
     val name = chunkToken.getLemma
     val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
-    ChunkElement(name, null, null, null, Some(tags), children)
+    ChunkElement(name, null, null, null, Some(tags), List.empty[ValueElement])
+  }
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 //  }
@@ -99,16 +98,24 @@ object TrxUtils {
     case _ => false
   }
 
+  def getTextPieces(t: TextLikeContainer): String = t.getContent.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+  def mkSLLemmaTest(s: String, clip: String, caseless: Boolean = true): TestElement = {
+    TestElement(null, EqualElement(caseless, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(s))))
+  }
+  def mkTLLemmaLet(s: String, clip: String): LetElement = {
+    LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(s))
+  }
   // TODO: only checks the text. If even.
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
-      val ltxt = l.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+      val ltxt = getTextPieces(l)
       val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
-      val rtxt = r.content.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+      val rtxt = getTextPieces(r)
       val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
-      val ltxtck = TestElement(null, EqualElement(true, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(ltxt))))
-      val rtxtck = LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(rtxt))
+      val ltxtck = mkSLLemmaTest(ltxt, clip)
+      val rtxtck = mkTLLemmaLet(rtxt, clip)
       WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
 }
+

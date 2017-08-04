@@ -135,7 +135,9 @@ case class E(children: List[TextLikeContainer], lm: String = null, r: String = n
 
 abstract class Parts() extends DixElement
 
-abstract class TextLikeContainer(content: List[TextLike]) extends DixElement
+abstract class TextLikeContainer(content: List[TextLike]) extends DixElement {
+  def getContent: List[TextLike] = content
+}
 case class L(content: List[TextLike]) extends TextLikeContainer(content) {
   def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
@@ -279,12 +281,21 @@ object Dix {
   }
   def load(file: String): Dix = {
     val xml = XML.loadFile(file)
+    load(xml)
+  }
+  def loadString(s: String): Dix = {
+    val xml = XML.loadString(s)
+    load(xml)
+  }
+
+  def load(xml: Elem) = {
     val alph = (xml \ "alphabet").head.text
-    val sdefs = (xml \ "sdefs" \ "sdef").toList.map{nodetosdef}
-    val pardefs = (xml \ "pardefs" \ "pardef").toList.map{nodetopardef}
-    val sections = (xml \ "section").toList.map{nodetosection}
+    val sdefs = (xml \ "sdefs" \ "sdef").toList.map {nodetosdef}
+    val pardefs = (xml \ "pardefs" \ "pardef").toList.map {nodetopardef}
+    val sections = (xml \ "section").toList.map {nodetosection}
     Dix(alph, sdefs, pardefs, sections)
   }
+
   def save(file: String, d: Dix) {
     import java.io._
     val outfile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"))

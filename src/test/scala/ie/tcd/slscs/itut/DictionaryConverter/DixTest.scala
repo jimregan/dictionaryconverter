@@ -33,9 +33,45 @@ import ie.tcd.slscs.itut.DictionaryConverter.EID._
 import ie.tcd.slscs.itut.DictionaryConverter.dix.{Dix, E, I, Txt}
 
 class DixTest extends FlatSpec {
+  val simple_dix = <dictionary>
+    <alphabet>abcdefghijklmonpqrstuvwxyz</alphabet>
+    <sdefs>
+      <sdef n="one"/>
+      <sdef n="two" c="comment" />
+    </sdefs>
+    <pardefs>
+      <pardef n="first">
+        <e><i>foo</i></e>
+        <e><p><l/><r><s n="one"/></r></p></e>
+      </pardef>
+      <pardef n="second">
+        <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      </pardef>
+    </pardefs>
+    <section id="main" type="standard">
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      <e><p><l>bar</l><r>barbar<s n="one"/></r></p><par n="first"/></e>
+      <e><p><l>foo</l><r>bars<s n="one"/></r></p><par n="second"/></e>
+    </section>
+  </dictionary>
+
   "e" should "read <e> element" in {
     val xml = <e><i>txt</i></e>
     val prs = E(List(I(List(Txt("txt")))))
     assert(prs == Dix.nodetoe(xml))
+  }
+
+  "whole" should "read whole dictionary" in {
+    val dix = Dix.load(simple_dix)
+    assert(dix.alphabet.length == 26)
+    assert(dix.sdefs.size == 2)
+    assert(dix.sdefs(0).n == "one")
+    assert(dix.pardefs.size == 2)
+    assert(dix.pardefs(0).name == "first")
+    assert(dix.pardefs(0).entries.size == 2)
+    assert(dix.sections.size == 1)
+    assert(dix.sections(0).name == "main")
+    assert(dix.sections(0).entries.size == 3)
+    assert(dix.sections(0).entries(1).children.size == 2)
   }
 }
