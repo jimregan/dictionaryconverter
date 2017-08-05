@@ -36,53 +36,21 @@ class DixTest extends FlatSpec {
     <alphabet>abcdefghijklmonpqrstuvwxyz</alphabet>
     <sdefs>
       <sdef n="one"/>
-      <sdef n="two" c="comment"/>
+      <sdef n="two" c="comment" />
     </sdefs>
     <pardefs>
       <pardef n="first">
-        <e>
-          <i>foo</i>
-        </e>
-        <e>
-          <p>
-            <l/> <r>
-            <s n="one"/>
-          </r>
-          </p>
-        </e>
+        <e><i>foo</i></e>
+        <e><p><l/><r><s n="one"/></r></p></e>
       </pardef>
       <pardef n="second">
-        <e>
-          <p>
-            <l>foo</l> <r>bar
-            <s n="one"/>
-          </r>
-          </p>
-        </e>
+        <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
       </pardef>
     </pardefs>
     <section id="main" type="standard">
-      <e>
-        <p>
-          <l>foo</l> <r>bar
-          <s n="one"/>
-        </r>
-        </p>
-      </e>
-      <e>
-        <p>
-          <l>bar</l> <r>barbar
-          <s n="one"/>
-        </r>
-        </p> <par n="first"/>
-      </e>
-      <e>
-        <p>
-          <l>foo</l> <r>bars
-          <s n="one"/>
-        </r>
-        </p> <par n="second"/>
-      </e>
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      <e><p><l>bar</l><r>barbar<s n="one"/></r></p><par n="first"/></e>
+      <e><p><l>foo</l><r>bars<s n="one"/></r></p><par n="second"/></e>
     </section>
   </dictionary>
 
@@ -90,30 +58,12 @@ class DixTest extends FlatSpec {
     <alphabet>abcdefghijklmonpqrstuvwxyz</alphabet>
     <sdefs>
       <sdef n="one"/>
-      <sdef n="two" c="comment"/>
+      <sdef n="two" c="comment" />
     </sdefs>
     <section id="main" type="standard">
-      <e>
-        <p>
-          <l>foo</l> <r>bar
-          <s n="one"/>
-        </r>
-        </p>
-      </e>
-      <e>
-        <p>
-          <l>bar</l> <r>barbar
-          <s n="one"/>
-        </r>
-        </p> <par n="first"/>
-      </e>
-      <e>
-        <p>
-          <l>foo</l> <r>bars
-          <s n="one"/>
-        </r>
-        </p> <par n="second"/>
-      </e>
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      <e><p><l>bar</l><r>barbar<s n="one"/></r></p><par n="first"/></e>
+      <e><p><l>foo</l><r>bars<s n="one"/></r></p><par n="second"/></e>
     </section>
   </dictionary>
 
@@ -121,39 +71,15 @@ class DixTest extends FlatSpec {
     <alphabet>abcdefghijklmonpqrstuvwxyz</alphabet>
     <sdefs>
       <sdef n="one"/>
-      <sdef n="two" c="comment"/>
+      <sdef n="two" c="comment" />
     </sdefs>
     <section id="main" type="standard">
-      <e>
-        <p>
-          <l>foo</l> <r>bar
-          <s n="one"/>
-        </r>
-        </p>
-      </e>
-      <e>
-        <p>
-          <l>bar</l> <r>barbar
-          <s n="one"/>
-        </r>
-        </p> <par n="first"/>
-      </e>
-      <e>
-        <p>
-          <l>foo</l> <r>bars
-          <s n="one"/>
-        </r>
-        </p> <par n="second"/>
-      </e>
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
+      <e><p><l>bar</l><r>barbar<s n="one"/></r></p><par n="first"/></e>
+      <e><p><l>foo</l><r>bars<s n="one"/></r></p><par n="second"/></e>
     </section>
     <section id="other" type="standard">
-      <e>
-        <p>
-          <l>foo</l> <r>bar
-          <s n="one"/>
-        </r>
-        </p>
-      </e>
+      <e><p><l>foo</l><r>bar<s n="one"/></r></p></e>
     </section>
   </dictionary>
 
