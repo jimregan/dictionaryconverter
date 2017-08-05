@@ -125,7 +125,7 @@ class DixTest extends FlatSpec {
   }
 
   "wholeTwoSections" should "read whole dictionary" in {
-    val dix = Dix.load(simple_dix_nopardefs)
+    val dix = Dix.load(simple_dix_twosections)
     assert(dix.alphabet.length == 26)
     assert(dix.sdefs.size == 2)
     assert(dix.sdefs(0).n == "one")
@@ -134,8 +134,8 @@ class DixTest extends FlatSpec {
     assert(dix.sections(0).name == "main")
     assert(dix.sections(0).entries.size == 3)
     assert(dix.sections(0).entries(1).children.size == 2)
-    assert(dix.sections(0).name == "other")
-    assert(dix.sections(0).entries.size == 1)
-    assert(dix.sections(0).entries(1).children.size == 1)
+    assert(dix.sections(1).name == "other")
+    assert(dix.sections(1).entries.size == 1)
+    assert(dix.sections(1).entries(0).children.size == 1)
   }
 }
