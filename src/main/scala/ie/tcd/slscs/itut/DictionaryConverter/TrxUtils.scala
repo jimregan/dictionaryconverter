@@ -56,8 +56,8 @@ object TrxUtils {
   /*
   TODO
   Inner tags for chunk:
-
    */
+
   def mkChunkTagTransfer(tag: String, pos: String, map: Map[String, String]): TagElement = {
     if(tag.startsWith("*")) {
       val name = tag.substring(1)
@@ -94,7 +94,7 @@ object TrxUtils {
     case B() => true
     case J() => true
     case Prm() => true
-    case S(_) => false
+    case S(_, _) => false
     case _ => false
   }
 
