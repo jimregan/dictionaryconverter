@@ -56,8 +56,8 @@ object TrxUtils {
   /*
   TODO
   Inner tags for chunk:
-
    */
+
   def mkChunkTagTransfer(tag: String, pos: String, map: Map[String, String]): TagElement = {
     if(tag.startsWith("*")) {
       val name = tag.substring(1)
@@ -84,7 +84,6 @@ object TrxUtils {
   def isSimpleEntry(entry: E): Boolean = entry.children match {
     case P(_, _) :: nil => true
     case x :: xs => false
-    case x :: nil => false
     case _ => false
   }
   def nonTagTextPiece(t: TextLike): Boolean = t match {
@@ -94,7 +93,7 @@ object TrxUtils {
     case B() => true
     case J() => true
     case Prm() => true
-    case S(_) => false
+    case S(_, _) => false
     case _ => false
   }
 

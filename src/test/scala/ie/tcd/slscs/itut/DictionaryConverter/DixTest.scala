@@ -29,8 +29,7 @@ package ie.tcd.slscs.itut.DictionaryConverter
 import org.scalatest.FlatSpec
 
 import scala.xml._
-import ie.tcd.slscs.itut.DictionaryConverter.EID._
-import ie.tcd.slscs.itut.DictionaryConverter.dix.{Dix, E, I, Txt}
+import ie.tcd.slscs.itut.DictionaryConverter.dix._
 
 class DixTest extends FlatSpec {
   val simple_dix = <dictionary>
@@ -85,9 +84,18 @@ class DixTest extends FlatSpec {
   </dictionary>
 
   "e" should "read <e> element" in {
-    val xml = <e><i>txt</i></e>
+    val xml = <e>
+      <i>txt</i>
+    </e>
     val prs = E(List(I(List(Txt("txt")))))
     assert(prs == Dix.nodetoe(xml))
+  }
+
+  "pWithMWRules" should "read <p> with mwrule attributes" in {
+    val in = <p><l mwrule="foo">a</l><r mwrule="baz">bar</r></p>
+    val out = Dix.nodetocontainer(in)
+    val exp = P(L(List[TextLike](Txt("a")), "foo"), R(List[TextLike](Txt("bar")), "baz"))
+    assert(out == exp)
   }
 
   "whole" should "read whole dictionary" in {
@@ -117,7 +125,7 @@ class DixTest extends FlatSpec {
   }
 
   "wholeTwoSections" should "read whole dictionary" in {
-    val dix = Dix.load(simple_dix_nopardefs)
+    val dix = Dix.load(simple_dix_twosections)
     assert(dix.alphabet.length == 26)
     assert(dix.sdefs.size == 2)
     assert(dix.sdefs(0).n == "one")
@@ -126,8 +134,8 @@ class DixTest extends FlatSpec {
     assert(dix.sections(0).name == "main")
     assert(dix.sections(0).entries.size == 3)
     assert(dix.sections(0).entries(1).children.size == 2)
-    assert(dix.sections(0).name == "other")
-    assert(dix.sections(0).entries.size == 1)
-    assert(dix.sections(0).entries(1).children.size == 1)
+    assert(dix.sections(1).name == "other")
+    assert(dix.sections(1).entries.size == 1)
+    assert(dix.sections(1).entries(0).children.size == 1)
   }
 }
