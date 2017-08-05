@@ -521,7 +521,6 @@ case class AppendElement(name: String, values: List[ValueElement]) extends Sente
 
 object Trx {
   import scala.xml._
-  private def indLevel(l: Int, t: String = "  ") = (t * l)
   private def nullify(s: String): String = if(s != "") s else null
   private def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
     val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
