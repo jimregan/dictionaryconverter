@@ -26,7 +26,7 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-object LexRule {
+class LexRule {
   abstract class Grouping(name: String, repeated: Boolean) {
     def getName = name
     def getRegex: String
@@ -57,4 +57,7 @@ object LexRule {
   case class Rule(name: String, children: List[SubRule])
   case class SubRule(name: String, matcher: String, children: List[Entry])
   case class Entry(tags: String, text: String)
+}
+object LexRule {
+
 }
