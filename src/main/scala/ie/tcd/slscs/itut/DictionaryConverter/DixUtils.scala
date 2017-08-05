@@ -31,7 +31,7 @@ import ie.tcd.slscs.itut.DictionaryConverter.dix.{S, TextLike}
 
 object DixUtils {
   def isTag(t: TextLike): Boolean = t match {
-    case S(_) => true
+    case S(_, _) => true
     case _ => false
   }
   def isNotTag(t: TextLike): Boolean = !isTag(t)
