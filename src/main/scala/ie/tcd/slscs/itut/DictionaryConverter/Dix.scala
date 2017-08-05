@@ -90,7 +90,7 @@ case class Entity(s: String) extends TextLike {
   def toXML = new scala.xml.EntityRef(s)
   def asText = s
 }
-case class S(n: String) extends TextLike {
+case class S(n: String, rule: String = null) extends TextLike {
   def toXML = <s n={n}/>
   def asText = "<" + n + ">"
 }
@@ -174,7 +174,7 @@ object Dix {
     case <b/> => B()
     case <j/> => J()
     case <prm/> => Prm()
-    case <s/> => S(getattrib(node, "n"))
+    case <s/> => S(getattrib(node, "n"), getattrib(node, "rule"))
     case <g>{_*}</g> => G(node.child.map{nodetocontent}.toList)
     case _ => throw new Exception("Error reading content " + node.toString)
   }
