@@ -56,28 +56,28 @@ case class TopLevel(kind: String, defcats: List[DefCatElement],
     } else {
       "</" + kind + ">"
     }
-    val attrssect = if(defattrs.size != 0) {
+    val attrssect = if(defattrs.nonEmpty) {
       "  <section-def-attrs>\n" +
       defattrs.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-attrs>\n"
     } else {
       ""
     }
-    val varssect = if(vars.size != 0) {
+    val varssect = if(vars.nonEmpty) {
       "  <section-def-vars>\n" +
       vars.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-vars>\n"
     } else {
       ""
     }
-    val listssect = if(lists.size != 0) {
+    val listssect = if(lists.nonEmpty) {
       "  <section-def-lists>\n" +
       lists.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-lists>\n"
     } else {
       ""
     }
-    val macrossect = if(macros.size != 0) {
+    val macrossect = if(macros.nonEmpty) {
       "  <section-def-macros>\n" +
       macros.map{_.toXMLString}.mkString + "\n" +
       "  </section-def-macros>\n"
@@ -227,14 +227,14 @@ case class LUCountElement() extends StringValueElement {
 }
 case class ChunkElement(name: String, namefrom: String, ccase: String, c: String,
                         tags: Option[TagsElementType], children: List[ValueElement]) extends OutElementType {
-  def toXML: Node = <chunk name={name} namefrom={namefrom} case={ccase} c={c}>{if(tags != None){tags.get.toXML}}{children.map{_.toXML}}</chunk>
+  def toXML: Node = <chunk name={name} namefrom={namefrom} case={ccase} c={c}>{if(tags.isDefined){tags.get.toXML}}{children.map{_.toXML}}</chunk>
   override def toXMLString(i: Int, newline: Boolean): String = {
     val nl = if(newline) "\n" else ""
     val nametext = if(name != null) " name=\"" + name + "\"" else ""
     val namefromtext = if(namefrom != null) " namefrom=\"" + namefrom + "\"" else ""
     val casetext = if(ccase != null) " case=\"" + ccase + "\"" else ""
     val ctext = if(c != null) " c=\"" + c + "\"" else ""
-    val tagstext = if(tags != None) tags.get.toXMLString(i + 1, newline) + nl else ""
+    val tagstext = if(tags.isDefined) tags.get.toXMLString(i + 1, newline) + nl else ""
     indent(i) + "<chunk" + nametext + namefromtext + casetext + ctext + ">" + nl +
     tagstext +
     children.map{_.toXMLString(i + 1, newline)}.mkString +
@@ -312,7 +312,7 @@ case class ListItemElement(value: String) extends TransferElement {
   override def toXMLString: String = "      " + toXML.toString
 }
 case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -324,7 +324,7 @@ case class BeginsWithListElement(v: ValueElement, l: ListElement, caseless: Bool
   }
 }
 case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with caseless={clstring}>{l.toXML}{r.toXML}</begins-with>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -336,7 +336,7 @@ case class BeginsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean
   }
 }
 case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <contains-substring caseless={clstring}>{l.toXML}{r.toXML}</contains-substring>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -348,7 +348,7 @@ case class ContainsSubstringElement(l: ValueElement, r: ValueElement, caseless: 
   }
 }
 case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <in caseless={clstring}>{l.toXML}{r.toXML}</in>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -360,7 +360,7 @@ case class InElement(l: ValueElement, r: ListElement, caseless: Boolean = false)
   }
 }
 case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <begins-with-list caseless={clstring}>{v.toXML}{l.toXML}</begins-with-list>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -372,7 +372,7 @@ case class EndsWithListElement(v: ValueElement, l: ListElement, caseless: Boolea
   }
 }
 case class EndsWithElement(l: ValueElement, r: ValueElement, caseless: Boolean = false) extends ConditionElement {
-  val clstring = if(caseless) "yes" else "no"
+  val clstring: String = if(caseless) "yes" else "no"
   def toXML: Node = <ends-with caseless={clstring}>{l.toXML}{r.toXML}</ends-with>
   override def toXMLString(i: Int, newline: Boolean) = {
     val nl = if(newline) "\n" else ""
@@ -467,11 +467,11 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
   }
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
-  def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other != None) other.get.toXML}</choose>
+  def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other.isDefined) other.get.toXML}</choose>
   override def toXMLString(i: Int, newline: Boolean) = {
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
-    val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
+    val otherstring = if(other.isDefined) other.get.toXMLString(i+1, newline) + nl else ""
     indent(i) + "<choose" + comment + ">" + nl +
     when.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     otherstring + nl +
@@ -521,7 +521,6 @@ case class AppendElement(name: String, values: List[ValueElement]) extends Sente
 
 object Trx {
   import scala.xml._
-  private def indLevel(l: Int, t: String = "  ") = (t * l)
   private def nullify(s: String): String = if(s != "") s else null
   private def getattrib(n: Node, s: String, nullify: Boolean = true): String = {
     val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
@@ -765,25 +764,26 @@ object Trx {
     case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
+  private def nodeCaseless(n: Node): Boolean = n.attribute("caseless").isDefined && n.attribute("caseless").get.text == "yes"
   def nodeToConditional(n: Node): ConditionElement = n match {
     case <and>{_*}</and> => AndElement(pruneNodes(n.child.toList).map{nodeToConditional})
     case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToConditional})
     case <not>{_*}</not> => NotElement(nodeToConditional(pruneNodes(n.child.toList).head))
     case <equal>{_*}</equal> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       EqualElement(caseless, pruneNodes(n.child.toList).map{nodeToValue})
     }
     case <begins-with>{_*}</begins-with> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
-      val children = pruned.map{nodeToValue}.toList
+      val children = pruned.map{nodeToValue}
       if(children.length != 2) {
         throw new Exception(incorrect("begins-with"))
       }
       BeginsWithElement(children(0), children(1), caseless)
     }
     case <begins-with-list>{_*}</begins-with-list> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("begins-with-list"))
@@ -793,7 +793,7 @@ object Trx {
       BeginsWithListElement(value, listelem, caseless)
     }
     case <ends-with>{_*}</ends-with> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       val children = pruned.map{nodeToValue}
       if(children.length != 2) {
@@ -802,7 +802,7 @@ object Trx {
       EndsWithElement(children(0), children(1), caseless)
     }
     case <ends-with-list>{_*}</ends-with-list> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("ends-with-list"))
@@ -812,7 +812,7 @@ object Trx {
       EndsWithListElement(value, listelem, caseless)
     }
     case <contains-substring>{_*}</contains-substring> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("contains-substring"))
@@ -822,7 +822,7 @@ object Trx {
       ContainsSubstringElement(left, right, caseless)
     }
     case <in>{_*}</in> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("in"))
