@@ -139,10 +139,10 @@ abstract class Parts() extends DixElement
 abstract class TextLikeContainer(content: List[TextLike]) extends DixElement {
   def getContent: List[TextLike] = content
 }
-case class L(content: List[TextLike]) extends TextLikeContainer(content) {
+case class L(content: List[TextLike], mwrule: String = null) extends TextLikeContainer(content) {
   def toXML = { <l>{ content.map{c => c.toXML} }</l> }
 }
-case class R(content: List[TextLike]) extends TextLikeContainer(content) {
+case class R(content: List[TextLike], mwrule: String = null) extends TextLikeContainer(content) {
   def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
 case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
@@ -233,7 +233,13 @@ object Dix {
       val tmp = Elem(ns, "p", attribs, scope, pruneNodes(children.toList) :_*)
       tmp match {
         case <p><l>{l @ _*}</l><r><g>{g @ _*}</g></r></p> => P(L(l.toList.map{nodetocontent}), R(List[TextLike](G(g.toList.map{nodetocontent}))))
-        case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => P(L(l.toList.map{nodetocontent}), R(r.toList.map{nodetocontent}))
+        case <p><l>{l @ _*}</l><r>{r @ _*}</r></p> => {
+          val lchildren = l.toList.map{nodetocontent}
+          val rchildren = r.toList.map{nodetocontent}
+          val lmwrule = getattrib(node.child.toList(0), "mwrule")
+          val rmwrule = getattrib(node.child.toList(1), "mwrule")
+          P(L(lchildren, lmwrule), R(rchildren, rmwrule))
+        }
         case _ => throw new Exception("Error reading p: " + tmp.toString)
       }
     }
