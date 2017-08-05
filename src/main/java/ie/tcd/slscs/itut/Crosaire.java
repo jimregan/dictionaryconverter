@@ -71,9 +71,13 @@ public class Crosaire {
         String[] out = perms.toArray(new String[perms.size()]);
         return out;
     }
-
+    public static void print_anagram(String s) {
+        for(String anagram : permuter(s)) {
+            System.out.println(anagram);
+        }
+    }
     /**
-     * permutates the input
+     * permutes the input
      * @see https://stackoverflow.com/questions/4240080/generating-all-permutations-of-a-given-string
      * @param s string to permute
      * @return set of permutations of the string
