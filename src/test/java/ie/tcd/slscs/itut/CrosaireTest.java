@@ -42,5 +42,9 @@ public class CrosaireTest extends TestCase {
         assertEquals("banlee", Crosaire.stringDropsString("bandoleer", "rod"));
         assertEquals("", Crosaire.stringDropsString("bandoleer", "tom"));
     }
-
+    public void testAnagramify() {
+        String exp1[] = new String[]{"bca", "acb", "abc", "cba", "bac", "cab"};
+        String out1[] = Crosaire.anagramify("abc");
+        assertArrayEquals(exp1, out1);
+    }
 }

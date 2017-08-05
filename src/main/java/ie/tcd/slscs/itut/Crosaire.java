@@ -28,7 +28,9 @@
 package ie.tcd.slscs.itut;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Crosaire {
     public static List<Character> makeCharList(String s) {
@@ -62,5 +64,61 @@ public class Crosaire {
         } else {
             return "";
         }
+    }
+    /*
+    public static Set<String> generatePerm(String input)
+{
+    Set<String> set = new HashSet<String>();
+    if (input == "")
+        return set;
+
+    Character a = input.charAt(0);
+
+    if (input.length() > 1)
+    {
+        input = input.substring(1);
+
+        Set<String> permSet = generatePerm(input);
+
+        for (String x : permSet)
+        {
+            for (int i = 0; i <= x.length(); i++)
+            {
+                set.add(x.substring(0, i) + a + x.substring(i));
+            }
+        }
+    }
+    else
+    {
+        set.add(a + "");
+    }
+    return set;
+}
+     */
+    public static String[] anagramify(String s) {
+        Set<String> perms = permuter(s);
+        String[] out = perms.toArray(new String[perms.size()]);
+        return out;
+    }
+    private static Set<String> permuter(String s) {
+        Set<String> out = new HashSet<String>();
+        if(s == null || s.equals("")) {
+            return out;
+        }
+        if(s.length() > 1) {
+            String next = s.substring(1);
+            char first = s.charAt(0);
+            Set<String> rest = permuter(next);
+            for(String permutation : rest) {
+                for(int i = 0; i <= permutation.length(); i++) {
+                    String pfx = permutation.substring(0, i);
+                    String sfx = permutation.substring(i);
+                    out.add(pfx + first + sfx);
+                }
+            }
+        } else {
+            out.add(s);
+        }
+        return out;
     }
 }
