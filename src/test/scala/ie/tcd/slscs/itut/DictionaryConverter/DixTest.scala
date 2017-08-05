@@ -168,7 +168,7 @@ class DixTest extends FlatSpec {
   "pWithMWRules" should "read <p> with mwrule attributes" in {
     val in = <p><l mwrule="foo">a</l><r mwrule="baz">bar</r></p>
     val out = Dix.nodetocontainer(in)
-    val exp = P(L(List[TextLike](Txt("foo")), "a"), R(List[TextLike](Txt("bar")), "baz"))
+    val exp = P(L(List[TextLike](Txt("a")), "foo"), R(List[TextLike](Txt("bar")), "baz"))
     assert(out == exp)
   }
 
