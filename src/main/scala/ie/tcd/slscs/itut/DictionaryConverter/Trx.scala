@@ -467,11 +467,11 @@ case class OutElement(c: String, children: List[OutElementType]) extends Sentenc
   }
 }
 case class ChooseElement(c: String, when: List[WhenElement], other: Option[OtherwiseElement]) extends SentenceElement {
-  def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other != None) other.get.toXML}</choose>
+  def toXML: Node = <choose c={c}>{when.map{_.toXML}}{if (other.isDefined) other.get.toXML}</choose>
   override def toXMLString(i: Int, newline: Boolean) = {
     val comment = if(c != null) " c=\"" + c + "\"" else ""
     val nl = if(newline) "\n" else ""
-    val otherstring = if(other != None) other.get.toXMLString(i+1, newline) + nl else ""
+    val otherstring = if(other.isDefined) other.get.toXMLString(i+1, newline) + nl else ""
     indent(i) + "<choose" + comment + ">" + nl +
     when.map{e => e.toXMLString(i+1, newline)}.mkString + nl +
     otherstring + nl +
@@ -764,16 +764,17 @@ object Trx {
     case <case-of/> => CaseOfElement(getattrib(n, "pos"), getattrib(n, "part"))
     case _ => throw new Exception("Unrecognised element: " + n.label)
   }
+  private def nodeCaseless(n: Node): Boolean = n.attribute("caseless").isDefined && n.attribute("caseless").get.text == "yes"
   def nodeToConditional(n: Node): ConditionElement = n match {
     case <and>{_*}</and> => AndElement(pruneNodes(n.child.toList).map{nodeToConditional})
     case <or>{_*}</or> => OrElement(pruneNodes(n.child.toList).map{nodeToConditional})
     case <not>{_*}</not> => NotElement(nodeToConditional(pruneNodes(n.child.toList).head))
     case <equal>{_*}</equal> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       EqualElement(caseless, pruneNodes(n.child.toList).map{nodeToValue})
     }
     case <begins-with>{_*}</begins-with> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       val children = pruned.map{nodeToValue}.toList
       if(children.length != 2) {
@@ -782,7 +783,7 @@ object Trx {
       BeginsWithElement(children(0), children(1), caseless)
     }
     case <begins-with-list>{_*}</begins-with-list> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("begins-with-list"))
@@ -792,7 +793,7 @@ object Trx {
       BeginsWithListElement(value, listelem, caseless)
     }
     case <ends-with>{_*}</ends-with> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       val children = pruned.map{nodeToValue}
       if(children.length != 2) {
@@ -801,7 +802,7 @@ object Trx {
       EndsWithElement(children(0), children(1), caseless)
     }
     case <ends-with-list>{_*}</ends-with-list> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("ends-with-list"))
@@ -811,7 +812,7 @@ object Trx {
       EndsWithListElement(value, listelem, caseless)
     }
     case <contains-substring>{_*}</contains-substring> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("contains-substring"))
@@ -821,7 +822,7 @@ object Trx {
       ContainsSubstringElement(left, right, caseless)
     }
     case <in>{_*}</in> => {
-      val caseless: Boolean = n.attribute("caseless") != None && n.attribute("caseless").get.text == "yes"
+      val caseless: Boolean = nodeCaseless(n)
       val pruned = pruneNodes(n.child.toList)
       if(pruned.length != 2) {
         throw new Exception(incorrect("in"))
