@@ -31,6 +31,147 @@ import org.scalatest.FlatSpec
 import scala.xml._
 
 class LexRuleTest extends FlatSpec {
+  val xmlfile = <rules>
+    <group n="add_e" repeated="no">
+      <item>ch</item>
+      <item>sh</item>
+      <item>x</item>
+    </group>
+    <chargroup name="double" repeated="no">bdgtnmp</chargroup>
+    <chargroup name="vowel" repeated="no">aeiou</chargroup>
+    <chargroup name="nonvowel" repeated="no" negates="vowel" />
+    <word-rules>
+      <rule name="adj.sint">
+        <subrule match="~&vowel;&double;">
+          <entry tags="-" ending="~" />
+          <entry tags="comp" ending="~&double;er" />
+          <entry tags="sup" ending="~&double;est" />
+        </subrule>
+        <subrule match="~&vowel;y">
+          <entry tags="-" ending="~" />
+          <entry tags="comp" ending="~er" />
+          <entry tags="sup" ending="~est" />
+        </subrule>
+        <!-- a name is needed here, because happy:happier, but sly:slyer and shy:shier or shyer -->
+        <subrule match="~y">
+          <entry tags="-" ending="~" />
+          <entry tags="comp" ending="-ier" />
+          <entry tags="sup" ending="-iest" />
+        </subrule>
+        <subrule match="~e">
+          <entry tags="-" ending="~" />
+          <entry tags="comp" ending="~r" />
+          <entry tags="sup" ending="~st" />
+        </subrule>
+        <subrule match="~&add_e;" equals="~&vowel;y" />
+        <subrule default="yes" equals="~&vowel;y" />
+      </rule>
+      <rule name="n">
+        <subrule match="~&vowel;y">
+          <entry tags="sg" ending="~" />
+          <entry tags="pl" ending="-s" />
+        </subrule>
+        <subrule match="~y">
+          <entry tags="sg" ending="~" />
+          <entry tags="pl" ending="-ies" />
+        </subrule>
+        <subrule match="~&add_e;">
+          <entry tags="sg" ending="~" />
+          <entry tags="pl" ending="~es" />
+        </subrule>
+        <subrule match="~is" name="prognosis">
+          <entry tags="sg" ending="~" />
+          <entry tags="pl" ending="-es" />
+        </subrule>
+      </rule>
+      <rule name="v">
+        <common>
+          <entry tags="pres" equals="inf" />
+          <entry tags="pprs" equals="ger" />
+          <entry tags="subs" equals="ger" />
+        </common>
+        <subrule default="yes">
+          <entry tags="inf" ending="~" />
+          <entry tags="pri.p3.sg" ending="~s" />
+          <entry tags="past" ending="~ed" />
+          <entry tags="pp" equals="past" />
+          <entry tags="ger" ending="~ing" />
+        </subrule>
+        <subrule match="~e">
+          <entry tags="inf" ending="~" />
+          <entry tags="pri.p3.sg" ending="~s" />
+          <entry tags="past" ending="~d" />
+          <entry tags="pp" equals="past" />
+          <entry tags="ger" ending="-ing" />
+        </subrule>
+      </rule>
+    </word-rules>
+    <multiword-rules>
+      <rule name="adj_n" phrase="np">
+        <entry tags="sg">
+          <word tags="adj"/>
+          <word tags="n.sg"/>
+        </entry>
+        <entry tags="pl">
+          <word tags="adj"/>
+          <word tags="n.pl"/>
+        </entry>
+      </rule>
+      <rule name="nsg_n" phrase="np">
+        <entry tags="sg">
+          <word tags="n.sg"/>
+          <word tags="n.sg"/>
+        </entry>
+        <entry tags="pl">
+          <word tags="n.sg"/>
+          <word tags="n.pl"/>
+        </entry>
+      </rule>
+      <rule name="n_pr_n" phrase="np">
+        <entry tags="sg">
+          <word tags="n.sg"/>
+          <queue phrase="pp">
+            <word tags="pr"/>
+            <phrase n="np">
+              <word tags="n.sg"/>
+            </phrase>
+          </queue>
+        </entry>
+        <entry tags="pl">
+          <word tags="n.pl"/>
+          <queue phrase="pp">
+            <word tags="pr"/>
+            <phrase n="np">
+              <word tags="n.sg"/>
+            </phrase>
+          </queue>
+        </entry>
+      </rule>
+    <!-- son of a bitch (sg); sons of bitches (pl) -->
+      <rule name="son_of_a_bitch" phrase="np">
+        <entry tags="sg">
+          <word tags="n.sg"/>
+          <queue phrase="pp">
+            <word tags="pr"/>
+            <phrase n="np">
+              <word tags="det.ind.sg"/>
+              <word tags="n.sg"/>
+            </phrase>
+          </queue>
+        </entry>
+        <entry tags="pl">
+          <word tags="n.pl"/>
+          <queue phrase="pp">
+            <word tags="pr"/>
+            <phrase n="np">
+              <word tags="n.pl"/>
+            </phrase>
+          </queue>
+        </entry>
+      </rule>
+    </multiword-rules>
+  </rules>
+
   val cg_doublexml = <chargroup name="double" repeated="no">bdgtnmp</chargroup>
   val cg_vowelxml = <chargroup name="vowel" repeated="no">aeiou</chargroup>
   val cg_nonvowelxml = <chargroup name="nonvowel" repeated="no" negates="vowel" />
