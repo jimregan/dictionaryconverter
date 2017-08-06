@@ -42,46 +42,50 @@ class LexRuleTest extends FlatSpec {
     <chargroup name="nonvowel" repeated="no" negates="vowel" />
     <word-rules>
       <rule name="adj.sint">
-        <subrule match="~&vowel;&double;">
-          <entry tags="-" ending="~" />
-          <entry tags="comp" ending="~&double;er" />
-          <entry tags="sup" ending="~&double;est" />
+        <subrule name="big">
+          <match>~&vowel;&double;</match>
+          <entry tags="-" text="~" />
+          <entry tags="comp">~&double;er</entry>
+          <entry tags="sup">~&double;est</entry>
         </subrule>
-        <subrule match="~&vowel;y">
-          <entry tags="-" ending="~" />
-          <entry tags="comp" ending="~er" />
-          <entry tags="sup" ending="~est" />
+        <subrule name="toy">
+          <match>~&vowel;y</match>
+          <entry tags="-" text="~" />
+          <entry tags="comp" text="~er" />
+          <entry tags="sup" text="~est" />
         </subrule>
         <!-- a name is needed here, because happy:happier, but sly:slyer and shy:shier or shyer -->
         <subrule match="~y">
-          <entry tags="-" ending="~" />
-          <entry tags="comp" ending="-ier" />
-          <entry tags="sup" ending="-iest" />
+          <entry tags="-" text="~" />
+          <entry tags="comp" text="-ier" />
+          <entry tags="sup" text="-iest" />
         </subrule>
         <subrule match="~e">
-          <entry tags="-" ending="~" />
-          <entry tags="comp" ending="~r" />
-          <entry tags="sup" ending="~st" />
+          <entry tags="-" text="~" />
+          <entry tags="comp" text="~r" />
+          <entry tags="sup" text="~st" />
         </subrule>
-        <subrule match="~&add_e;" equals="~&vowel;y" />
-        <subrule default="yes" equals="~&vowel;y" />
+        <subrule name="rich" equals="toy"><match>~&add_e;</match></subrule>
+        <subrule default="yes" equals="toy" />
       </rule>
       <rule name="n">
-        <subrule match="~&vowel;y">
-          <entry tags="sg" ending="~" />
-          <entry tags="pl" ending="-s" />
+        <subrule>
+          <match>~&vowel;y</match>
+          <entry tags="sg" text="~" />
+          <entry tags="pl" text="-s" />
         </subrule>
         <subrule match="~y">
-          <entry tags="sg" ending="~" />
-          <entry tags="pl" ending="-ies" />
+          <entry tags="sg" text="~" />
+          <entry tags="pl" text="-ies" />
         </subrule>
-        <subrule match="~&add_e;">
-          <entry tags="sg" ending="~" />
-          <entry tags="pl" ending="~es" />
+        <subrule>
+          <match>~&add_e;</match>
+          <entry tags="sg" text="~" />
+          <entry tags="pl" text="~es" />
         </subrule>
         <subrule match="~is" name="prognosis">
-          <entry tags="sg" ending="~" />
-          <entry tags="pl" ending="-es" />
+          <entry tags="sg" text="~" />
+          <entry tags="pl" text="-es" />
         </subrule>
       </rule>
       <rule name="v">
@@ -91,18 +95,18 @@ class LexRuleTest extends FlatSpec {
           <entry tags="subs" equals="ger" />
         </common>
         <subrule default="yes">
-          <entry tags="inf" ending="~" />
-          <entry tags="pri.p3.sg" ending="~s" />
-          <entry tags="past" ending="~ed" />
+          <entry tags="inf" text="~" />
+          <entry tags="pri.p3.sg" text="~s" />
+          <entry tags="past" text="~ed" />
           <entry tags="pp" equals="past" />
-          <entry tags="ger" ending="~ing" />
+          <entry tags="ger" text="~ing" />
         </subrule>
         <subrule match="~e">
-          <entry tags="inf" ending="~" />
-          <entry tags="pri.p3.sg" ending="~s" />
-          <entry tags="past" ending="~d" />
+          <entry tags="inf" text="~" />
+          <entry tags="pri.p3.sg" text="~s" />
+          <entry tags="past" text="~d" />
           <entry tags="pp" equals="past" />
-          <entry tags="ger" ending="-ing" />
+          <entry tags="ger" text="-ing" />
         </subrule>
       </rule>
     </word-rules>
@@ -147,7 +151,7 @@ class LexRuleTest extends FlatSpec {
           </queue>
         </entry>
       </rule>
-    <!-- son of a bitch (sg); sons of bitches (pl) -->
+     <!-- son of a bitch (sg); sons of bitches (pl) -->
       <rule name="son_of_a_bitch" phrase="np">
         <entry tags="sg">
           <word tags="n.sg"/>
