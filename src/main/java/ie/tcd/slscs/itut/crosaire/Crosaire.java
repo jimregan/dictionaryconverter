@@ -25,7 +25,7 @@
  *  SOFTWARE.
  */
 
-package ie.tcd.slscs.itut;
+package ie.tcd.slscs.itut.crosaire;
 
 import java.util.ArrayList;
 import java.util.HashSet;

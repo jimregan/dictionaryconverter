@@ -25,14 +25,9 @@
  *  SOFTWARE.
  */
 
-package ie.tcd.slscs.itut;
+package ie.tcd.slscs.itut.crosaire;
 
 import junit.framework.TestCase;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
