@@ -46,7 +46,7 @@ class LexRuleTest extends FlatSpec {
           <match>~&vowel;&double;</match>
           <entry tags="-" text="~" />
           <entry tags="comp">~&double;er</entry>
-          <entry tags="sup">~&double;est</entry>
+          <entry tags="sup">~&double_1;est</entry>
         </subrule>
         <subrule name="toy">
           <match>~&vowel;y</match>
@@ -151,7 +151,7 @@ class LexRuleTest extends FlatSpec {
           </queue>
         </entry>
       </rule>
-     <!-- son of a bitch (sg); sons of bitches (pl) -->
+      <!-- son of a bitch (sg); sons of bitches (pl) -->
       <rule name="son_of_a_bitch" phrase="np">
         <entry tags="sg">
           <word tags="n.sg"/>
