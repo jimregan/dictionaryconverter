@@ -77,7 +77,7 @@ object LexRule {
   }
   def nodeToGrouping(n: Node): Grouping = n match {
     case <chargroup/> | <chargroup>{_*}</chargroup> => {
-      val repeat: Boolean = getattrib (n, "repeated") == "no"
+      val repeat: Boolean = getattrib(n, "repeated") != "no"
       val name = getattrib(n, "name")
       val negates = getattrib(n, "negates")
       val text: String = if(n.child.nonEmpty) n.child.head.text.trim else null
