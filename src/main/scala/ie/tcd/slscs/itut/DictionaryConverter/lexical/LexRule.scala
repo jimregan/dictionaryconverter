@@ -35,20 +35,20 @@ case class Groups(children: List[Grouping]) {
   lazy val mapinner: Map[String, Grouping] = children.foldLeft(Map[String, Grouping]()) { (m, c) => m + (c.getName -> c) }
   def getMap = mapinner
 }
-case class CharGroup(g: String, name: String, repeated: Boolean) extends Grouping(name, repeated) {
+case class CharGroup(name: String, group: String, repeated: Boolean) extends Grouping(name, repeated) {
   private def getRegexInner(neg: Boolean): String = {
     val negs = if (neg) "^" else ""
     val rep = if (repeated) "+" else ""
-    val out = "[" + negs + g + "]" + rep
+    val out = "[" + negs + group + "]" + rep
     out
   }
   def getRegex: String = getRegexInner(false)
   def getNegatedRegex: String = getRegexInner(true)
 }
-case class NegatedCharGroup(negates: CharGroup, name: String, repeated: Boolean) extends Grouping(name, repeated) {
+case class NegatedCharGroup(name: String, negates: CharGroup, repeated: Boolean) extends Grouping(name, repeated) {
   override def getRegex: String = negates.getNegatedRegex
 }
-case class NegatedCharGroupRef(negates: String, name: String, repeated: Boolean) extends Grouping(name, repeated) {
+case class NegatedCharGroupRef(name: String, negates: String, repeated: Boolean) extends Grouping(name, repeated) {
   override def getRegex: String = null
 }
 case class Item(content: String)
@@ -80,13 +80,24 @@ object LexRule {
       val repeat: Boolean = getattrib (n, "repeated") == "no"
       val name = getattrib(n, "name")
       val negates = getattrib(n, "negates")
-      val text: String = if(n.child.nonEmpty) n.child.head.text else null
+      val text: String = if(n.child.nonEmpty) n.child.head.text.trim else null
       if(negates == null) {
-        CharGroup(text, name, repeat)
+        CharGroup(name, text, repeat)
       } else {
-        NegatedCharGroupRef(negates, name, repeat)
+        NegatedCharGroupRef(name, negates, repeat)
       }
     }
     case _ => throw new Exception("Unexpected element: " + n.label)
+  }
+  def negatedCharGroupRefToNegatedCharGroup(in: NegatedCharGroupRef, map: Map[String, Grouping]): NegatedCharGroup = {
+    if(!map.contains(in.negates)) {
+      throw new Exception("chargroup \"" + in.name + "\" negates non-existent chargroup \"" + in.negates + "\"")
+    }
+    val other: CharGroup = map.get(in.negates).get match {
+      case n: CharGroup => n
+      case _ => throw new Exception("chargroup \"" + in.name + "\" negates non chargroup " + in.negates + "\"")
+    }
+
+    NegatedCharGroup(in.name, other, in.repeated)
   }
 }
