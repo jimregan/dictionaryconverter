@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.DictionaryConverter.dix.DixUtils
+
 import scala.xml.Node
 
 class Lrx {
@@ -73,6 +75,28 @@ class Lrx {
     }
     case _ => throw new Exception("Expected <match>")
   }
+  /* TODO make this a list, so the non-select part has a translation? */
+  def selectToENoSlr(s: SelectMatch, lr: Boolean = true): dix.E = {
+    if(lr) {
+      val e = DixUtils.makeSimpleBilEntry(s.lemma + "__" + s.select.lemma, s.tags, s.select.lemma, s.select.tags)
+      dix.E(e.children, null, "LR")
+    } else {
+      val e = DixUtils.makeSimpleBilEntry(s.select.lemma, s.select.tags, s.lemma + "__" + s.select.lemma, s.tags)
+      dix.E(e.children, null, "RL")
+    }
+  }
+  def selectToE(s: SelectMatch, lr: Boolean = true, slr: Boolean = false): dix.E = {
+    if(slr) {
+      selectToENoSlr(s, lr)
+    } else {
+      if(lr) {
+        val e = DixUtils.makeSimpleBilEntry(s.lemma, s.tags, s.select.lemma, s.select.tags)
+        dix.E(e.children, null, null, null, null, false, null, s.select.lemma)
 
-
+      } else {
+        val e = DixUtils.makeSimpleBilEntry(s.select.lemma, s.select.tags, s.lemma, s.tags)
+        dix.E(e.children, null, null, null, null, false, null, null, s.select.lemma)
+      }
+    }
+  }
 }

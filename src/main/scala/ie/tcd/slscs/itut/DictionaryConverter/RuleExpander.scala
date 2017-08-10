@@ -116,11 +116,9 @@ object RuleExpander {
     * @return map of target positions to source tokens tokens
     */
   def populateTLMap(a: Array[Treeish], m: Map[Int, Array[Int]]): Map[Int, Array[Treeish]] = {
-    def highest_val(i: Iterable[Array[Int]]): Int = {
-      i.toSeq.map(_.toSeq).flatten.reduceLeft(_ max _)
-    }
+    def highest_val(i: Iterable[Array[Int]]): Int = i.toSeq.flatMap(_.toSeq).max
     val mlast = highest_val(m.values)
-    if (a.size != mlast) {
+    if (a.length != mlast) {
       throw new AlignmentException("Alignment mismatch: " + a.size + " vs " + mlast)
     }
     def mkTLArray(ant: Array[Treeish], anum: Array[Int]): Array[Treeish] = {

@@ -78,42 +78,30 @@ object TrxUtils {
     val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
     ChunkElement(name, null, null, null, Some(tags), List.empty[ValueElement])
   }
+  // TODO: mkChunkInterchunk
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 //  }
-  def isSimpleEntry(entry: E): Boolean = entry.children match {
-    case P(_, _) :: nil => true
-    case _ => false
-  }
-  def nonTagTextPiece(t: TextLike): Boolean = t match {
-    case Txt(_) => true
-    case Entity(_) => true
-    case G(_) => true
-    case B() => true
-    case J() => true
-    case Prm() => true
-    case S(_, _) => false
-    case _ => false
-  }
-
-  def getTextPieces(t: TextLikeContainer): String = t.getContent.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
   def mkSLLemmaTest(s: String, clip: String, caseless: Boolean = true): TestElement = {
     TestElement(null, EqualElement(caseless, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(s))))
   }
   def mkTLLemmaLet(s: String, clip: String): LetElement = {
     LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(s))
   }
-  // TODO: only checks the text. If even.
+  // TODO:
+  // test
+  // generate action/right portion
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
-      val ltxt = getTextPieces(l)
+      val ltxt = DixUtils.getTextPieces(l)
       val ltag = l.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
-      val rtxt = getTextPieces(r)
+      val rtxt = DixUtils.getTextPieces(r)
       val rtag = r.content.dropWhile{DixUtils.isNotTag}.takeWhile{DixUtils.isTag}
       val ltxtck = mkSLLemmaTest(ltxt, clip)
       val rtxtck = mkTLLemmaLet(rtxt, clip)
       WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
+  // TODO
 }
 

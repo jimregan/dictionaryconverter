@@ -52,5 +52,18 @@ class DixUtilsTest extends FlatSpec {
     val exp = E(List(P(L(List[TextLike](Txt("foo"), S("n"), S("sg"))), R(List[TextLike](Txt("bar"), S("n"), S("m"), S("sg"))))))
     assert(out == exp)
   }
+  "isSimpleEntry p" should "return true for simple dix <e> entry with p" in {
+    val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
+    val epair = Dix.nodetoe(pair)
+    val outpair = DixUtils.isSimpleEntry(epair)
+    assert(outpair == true)
+  }
+
+  "isSimpleEntry i" should "return false for simple dix <e> entry with i" in {
+    val ident = <e><i>test<s n="n"/></i></e>
+    val eident = Dix.nodetoe(ident)
+    val outident = DixUtils.isSimpleEntry(eident)
+    assert(outident == false)
+  }
 
 }

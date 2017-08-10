@@ -36,9 +36,35 @@ object DixUtils {
     case S(_, _) => false
     case _ => true
   }
+  def isSimpleEntry(entry: E): Boolean = entry.children match {
+    case P(_, _) :: nil => true
+    case _ => false
+  }
   def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String) = {
     val leftish: List[TextLike] = List[TextLike](Txt(src)) ++ srctags.split("\\.").map{e => S(e)}
     val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split("\\.").map{e => S(e)}
     E(List(P(L(leftish), R(rightish))))
   }
+  def swapSimpleBilEntry(e: E): E = {
+    if(!isSimpleEntry(e)) {
+      e
+    } else {
+      val r = if(e.r == "LR") "RL" else if (e.r == "RL") "LR" else null
+      val lcontent = e.children(0).getContent
+      val rcontent = e.children(1).getContent
+      val children = List(P(L(rcontent), R(lcontent)))
+      E(children, e.lm, r, e.a, e.c, e.i, e.srl, e.slr, e.alt, e.v, e.vr, e.vl)
+    }
+  }
+  def nonTagTextPiece(t: TextLike): Boolean = t match {
+    case Txt(_) => true
+    case Entity(_) => true
+    case G(_) => true
+    case B() => true
+    case J() => true
+    case Prm() => true
+    case S(_, _) => false
+    case _ => false
+  }
+  def getTextPieces(t: TextLikeContainer): String = t.getContent.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
 }

@@ -121,12 +121,11 @@ ${entries.map{e => "    " + e.toXMLString}.mkString("\n") }
   </section>
 """
 }
-
 case class E(children: List[TextLikeContainer], lm: String = null,
              r: String = null, a: String = null, c: String = null,
              i: Boolean = false, slr: String = null, srl: String = null,
-             alt: String = null, v: String = null, vr: String = null,
-             vl: String = null, trule: String = null, tokenise: String = null) {
+             alt: String = null, v: String = null, vl: String = null,
+             vr: String = null, trule: String = null, tokenise: String = null) {
   def toXML = {
     val itxt = if(i) "yes" else null
     <e lm={lm} r={r} a={a} c={c} i={itxt} slr={slr} srl={srl} v={v} vr={vr} vl={vl} alt={alt}>{ children.map{_.toXML} }</e>
@@ -223,7 +222,7 @@ object Dix {
       val srl = getattrib(e, "srl")
       val trule = getattrib(e, "trule")
       val tokenise = getattrib(e, "tokenise")
-      E(pruneNodes(e).map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vr, vl, trule, tokenise)
+      E(pruneNodes(e).map{nodetocontainer}, lm, r, a, c, i, slr, srl, alt, v, vl, vr, trule, tokenise)
     }
     case _ => throw new Exception("Expected <e>" + e.toString)
   }
