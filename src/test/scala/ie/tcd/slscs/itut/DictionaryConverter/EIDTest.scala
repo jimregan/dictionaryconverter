@@ -47,7 +47,7 @@ class EIDTest extends FlatSpec {
       case _ => throw new Exception("Could not cast")
     }
     assert(exp == out)
-    //assert(ent.getLabels.toList == List("a.", "s."))
+    assert(ent.getLabels.toList == List("a.", "s."))
   }
 
   "check empty sense" should "read whole XML entry with empty sense" in {
