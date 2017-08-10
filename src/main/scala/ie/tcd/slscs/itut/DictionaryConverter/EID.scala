@@ -56,17 +56,20 @@ object EID {
 
   abstract class BaseXML()
   abstract class RawXML(s: String) extends BaseXML
+  abstract class LabelBase(label: String) extends BaseXML {
+    def s: String = label
+  }
   trait Target
   case class Src(s: String) extends RawXML(s)
   case class Trg(s: String) extends RawXML(s) with Target
   case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s) with Target
   case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s) with Target
   case class MultiTrg(children: List[BaseXML]) extends BaseXML with Target
-  case class Label(s: String) extends RawXML(s)
-  case class GrammaticalLabel(label: String) extends Label(label)
-  case class DomainLabel(label: String) extends Label(label)
-  case class GrammaticalLabels(raw: String, labels: Array[String]) extends Label(raw)
-  case class DomainLabels(raw: String, labels: Array[String]) extends Label(raw)
+  case class Label(label: String) extends LabelBase(label)
+  case class GrammaticalLabel(label: String) extends LabelBase(label)
+  case class DomainLabel(label: String) extends LabelBase(label)
+  case class GrammaticalLabels(raw: String, labels: Array[String]) extends LabelBase(raw)
+  case class DomainLabels(raw: String, labels: Array[String]) extends LabelBase(raw)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
   case class SATxt(s: String) extends RawXML(s)
@@ -139,7 +142,7 @@ object EID {
       case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}.toList
     }
   }
-  def fixLabel(l: Label): Label = {
+  def fixLabel(l: LabelBase): LabelBase = {
     val getpos = LabelMap.getPoS(l.s)
     val getlbl = LabelMap.fixMultipartTags(l.s)
     if(getpos != null) {
@@ -158,7 +161,7 @@ object EID {
       l
     }
   }
-  def labelToStringArray(l: Label): Array[String] = l match {
+  def labelToStringArray(l: LabelBase): Array[String] = l match {
     case DomainLabels(t, a) => a
     case GrammaticalLabels(t, a) => a
     case DomainLabel(t) => Array[String](t)
