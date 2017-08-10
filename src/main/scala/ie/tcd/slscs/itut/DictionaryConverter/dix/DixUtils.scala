@@ -53,7 +53,7 @@ object DixUtils {
       val lcontent = e.children(0).getContent
       val rcontent = e.children(1).getContent
       val children = List(P(L(rcontent), R(lcontent)))
-      E(children, e.lm, r, e.a, e.c, e.i, e.srl, e.slr, e.alt, e.v, e.vl, e.vr)
+      E(children, e.lm, r, e.a, e.c, e.i, e.srl, e.slr, e.alt, e.v, e.vr, e.vl)
     }
   }
   def nonTagTextPiece(t: TextLike): Boolean = t match {
