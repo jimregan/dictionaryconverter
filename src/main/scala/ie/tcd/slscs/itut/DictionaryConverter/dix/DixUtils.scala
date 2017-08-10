@@ -53,7 +53,7 @@ object DixUtils {
       val lcontent = e.children(0).getContent
       val rcontent = e.children(1).getContent
       val children = List(P(L(rcontent), R(lcontent)))
-      E(children, e.lm, r, e.a, e.c, e.i, null, null, e.alt, e.v, e.vr, e.vl)
+      E(children, e.lm, r, e.a, e.c, e.i, e.srl, e.slr, e.alt, e.v, e.vr, e.vl)
     }
   }
 }
