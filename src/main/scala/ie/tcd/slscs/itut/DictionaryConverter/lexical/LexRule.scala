@@ -64,6 +64,13 @@ case class Rule(name: String, children: List[SubRule])
 case class SubRule(name: String, matcher: String, children: List[Entry])
 case class Entry(tags: String, text: String)
 
+trait MWPiece
+case class MWRule(name: String, phrase: String, children: List[MWPiece])
+case class MWEntry(tags: String, children: List[MWWord]) extends MWPiece
+case class MWQueue(phrase: String, children: List[MWPiece]) extends MWPiece
+case class MWPhrase(name: String, children: List[MWPiece]) extends MWPiece
+case class MWWord(tags: String)
+
 class LexRule {
 }
 object LexRule {
