@@ -45,14 +45,15 @@ object DixUtils {
     val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split("\\.").map{e => S(e)}
     E(List(P(L(leftish), R(rightish))))
   }
-  /* TODO: finish
   def swapSimpleBilEntry(e: E): E = {
-    val r = if(e.r == "LR") "RL" else if (e.r == "RL") "LR" else null
     if(!isSimpleEntry(e)) {
       e
     } else {
-
+      val r = if(e.r == "LR") "RL" else if (e.r == "RL") "LR" else null
+      val lcontent = e.children(0).getContent
+      val rcontent = e.children(1).getContent
+      val children = List(P(L(rcontent), R(lcontent)))
+      E(children, e.lm, r, e.a, e.c, e.i, null, null, e.alt, e.v, e.vr, e.vl)
     }
   }
-  */
 }
