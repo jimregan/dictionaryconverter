@@ -183,13 +183,22 @@ class LexRuleTest extends FlatSpec {
   val cg_vowel = CharGroup("vowel", "aeiou", false)
   val cg_nonvowel = NegatedCharGroupRef("nonvowel", "vowel", false)
 
+  val groupxml =     <group n="add_e" repeated="no">
+    <item>ch</item>
+    <item>sh</item>
+    <item>x</item>
+  </group>
+  val groupexp = StringGroup("add_e", false, List(GroupItem("ch"), GroupItem("sh"), GroupItem("x")))
+
   "nodeToGrouping" should "test XML conversion" in {
     val outone = LexRule.nodeToGrouping(cg_doublexml)
     val outtwo = LexRule.nodeToGrouping(cg_vowelxml)
     val outthree = LexRule.nodeToGrouping(cg_nonvowelxml)
+    val outgroup = LexRule.nodeToGrouping(groupxml)
     assert(cg_double == outone)
     assert(cg_vowel == outtwo)
     assert(cg_nonvowel == outthree)
+    assert(groupexp == outgroup)
   }
   "testNegatedCharGroupConversion" should "convert a reference to a chargroup" in {
     val map = Map[String, Grouping]("vowel" -> cg_vowel)

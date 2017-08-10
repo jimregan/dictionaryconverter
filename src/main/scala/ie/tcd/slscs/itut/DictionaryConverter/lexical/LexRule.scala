@@ -51,8 +51,8 @@ case class NegatedCharGroup(name: String, negates: CharGroup, repeated: Boolean)
 case class NegatedCharGroupRef(name: String, negates: String, repeated: Boolean) extends Grouping(name, repeated) {
   override def getRegex: String = null
 }
-case class Item(content: String)
-case class Group(name: String, repeated: Boolean, items: List[Item]) extends Grouping(name, repeated) {
+case class GroupItem(content: String)
+case class StringGroup(name: String, repeated: Boolean, items: List[GroupItem]) extends Grouping(name, repeated) {
   def getRegex: String = {
     val strings = items.map{i => i.content}
     val out = "(" + strings.sortWith(_.length > _.length).mkString("|") + ")"
@@ -93,6 +93,12 @@ object LexRule {
       } else {
         NegatedCharGroupRef(name, negates, repeat)
       }
+    }
+    case <group>{_*}</group> => {
+      val name: String = getattrib(n, "n")
+      val repeat: Boolean = getattrib(n, "repeated") != "no"
+      val items: List[GroupItem] = (n \ "item").map{ e => GroupItem(e.text)}.toList
+      StringGroup(name, repeat, items)
     }
     case _ => throw new Exception("Unexpected element: " + n.label)
   }
