@@ -157,8 +157,6 @@ object EID {
 
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     def doWordSenses(in: String, acc: List[BaseXML], l: List[BaseXML]): List[BaseXML] = l match {
-      //case Title(Seq(Trg(t), Txt(".")) :: xs => doWordSenses("", acc :+ Title(Seq(t)), xs)
-      case Title(t) :: xs => doWordSenses("", acc :+ Title(t), xs)
       case Sense(s) :: xs => xs match {
         case Sense(t) :: xx => doWordSenses(t, acc :+ EmptySense(s), xx)
         case Line(l) :: xx => doWordSenses("", acc :+ WordSense(s, "", l), xx)
@@ -167,20 +165,14 @@ object EID {
           case SubSense(subb) :: xx => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
           case Nil => acc :+ EmptySenseSub(s, sub)
         }
+        case Nil => acc :+ EmptySense(s)
       }
-      case Sense(s) :: SubSense(sub) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, sub, l), xs)
-      case Sense(s) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, "", l), xs)
-      //case Trg(t) :: Txt("; ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
-      //case Trg(t) :: Txt(". ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
-      case Line(l) :: Nil => acc :+ Line(l)
-      case Line(l) :: xs => doWordSenses(in, acc :+ Line(l), xs)
-      case Sense(s) :: Nil => acc :+ EmptySense(s)
-      case Sense(s) :: xs => doWordSenses(in, acc :+ Sense(s), xs)
       case SubSense(sub) :: xs => xs match {
         case Line(l) :: xx => doWordSenses(in, acc :+ WordSense(in, sub, l), xx)
         case SubSense(subb) :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
         case Nil => acc :+ EmptySubSense(sub)
       }
+      case x :: xs => doWordSenses("", acc :+ x, xs)
       case Nil => acc
     }
     doWordSenses("", List.empty[BaseXML], seq)
