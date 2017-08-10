@@ -63,4 +63,11 @@ class EIDTest extends FlatSpec {
     val out = readSimpleEntry(in)
     assert(exp == out)
   }
+
+  "read complex trg" should "read trg with complex contents" in {
+    val in = <trg>Crios <label>m</label> (<label>g.</label> creasa)</trg>
+    val exp = MultiTrg(List(Txt("Crios "), Label("m"), Txt(" ("), Label("g."), Txt(" creasa)")))
+    val out = breakdownComplexEntry(in)
+    assert(exp == out)
+  }
 }

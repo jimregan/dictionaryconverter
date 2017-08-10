@@ -62,6 +62,8 @@ object EID {
   case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s) with Target
   case class MultiTrg(children: List[BaseXML]) extends BaseXML with Target
   case class Label(s: String) extends RawXML(s)
+  case class GrammaticalLabel(label: String) extends Label(label)
+  case class DomainLabel(label: String) extends Label(label)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
   case class SATxt(s: String) extends RawXML(s)
@@ -75,6 +77,7 @@ object EID {
   case class Title(s: Seq[BaseXML]) extends BaseXML
   case class WordSense(sense: String, subsense: String, line: Seq[BaseXML]) extends BaseXML
   case class EmptySense(s: String) extends RawXML(s)
+  case class EmptySenseSub(s: String, sub: String) extends RawXML(s)
   case class EmptySubSense(s: String) extends RawXML(s)
   case class Valency(src: String, trg: String) extends BaseXML
 
@@ -134,30 +137,38 @@ object EID {
     }
   }
 
-/*
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     def doWordSenses(in: String, acc: List[BaseXML], l: List[BaseXML]): List[BaseXML] = l match {
       //case Title(Seq(Trg(t), Txt(".")) :: xs => doWordSenses("", acc :+ Title(Seq(t)), xs)
       case Title(t) :: xs => doWordSenses("", acc :+ Title(t), xs)
+      case Sense(s) :: xs => xs match {
+        case Sense(t) :: xx => doWordSenses(t, acc :+ EmptySense(s), xx)
+        case Line(l) :: xx => doWordSenses("", acc :+ WordSense(s, "", l), xx)
+        case SubSense(sub) :: xx => xx match {
+          case Line(l) :: xy => doWordSenses("", acc :+ WordSense(in, sub, l), xy)
+          case SubSense(subb) :: xx => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
+          case Nil => acc :+ EmptySenseSub(s, sub)
+        }
+      }
       case Sense(s) :: SubSense(sub) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, sub, l), xs)
       case Sense(s) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, "", l), xs)
-      case SubSense(sub) :: Line(l) :: Nil => acc :+ WordSense(in, sub, l)
-      case SubSense(sub) :: Line(l) :: xs => doWordSenses(in, acc :+ WordSense(in, sub, l), xs)
       //case Trg(t) :: Txt("; ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
       //case Trg(t) :: Txt(". ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
       case Line(l) :: Nil => acc :+ Line(l)
       case Line(l) :: xs => doWordSenses(in, acc :+ Line(l), xs)
       case Sense(s) :: Nil => acc :+ EmptySense(s)
       case Sense(s) :: xs => doWordSenses(in, acc :+ Sense(s), xs)
-      //case SubSense(a) :: SubSense(b) :: SubSense(c) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b) :+ EmptySubSense(c)
-      //case SubSense(a) :: SubSense(b) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b)
-      //case SubSense(s) :: Nil => acc :+ EmptySubSense(s)
-      case SubSense(s) :: xs => doWordSenses(in, acc :+ SubSense2(in, s), xs)
+      case SubSense(sub) :: xs => xs match {
+        case Line(l) :: xx => doWordSenses(in, acc :+ WordSense(in, sub, l), xx)
+        case SubSense(subb) :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
+        case Nil => acc :+ EmptySubSense(sub)
+      }
       case Nil => acc
     }
-    doWordSenses("", List[BaseXML](), seq)
+    doWordSenses("", List.empty[BaseXML], seq)
   }
 
+  /*
   def cleanInner(seq: Seq[BaseXML]): Seq[BaseXML] = {
     val l = seq.toList
     l match {
