@@ -32,7 +32,10 @@ object DixUtils {
     case S(_, _) => true
     case _ => false
   }
-  def isNotTag(t: TextLike): Boolean = !isTag(t)
+  def isNotTag(t: TextLike): Boolean = t match {
+    case S(_, _) => false
+    case _ => true
+  }
   def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String) = {
     val leftish: List[TextLike] = List[TextLike](Txt(src)) ++ srctags.split("\\.").map{e => S(e)}
     val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split("\\.").map{e => S(e)}
