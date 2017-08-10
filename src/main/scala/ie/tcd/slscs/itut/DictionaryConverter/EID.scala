@@ -34,7 +34,7 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
 }
 trait Label {
   val lbl: String
-  private lazy val _label: EID.Label = EID.fixLabel(EID.Label(lbl))
+  private lazy val _label: EID.LabelBase = EID.fixLabel(EID.Label(lbl))
   def getLabels: Array[String] = EID.labelToStringArray(_label)
 }
 trait LabelEntry extends Label
