@@ -33,5 +33,9 @@ object DixUtils {
     case _ => false
   }
   def isNotTag(t: TextLike): Boolean = !isTag(t)
-
+  def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String) = {
+    val leftish: List[TextLike] = List[TextLike](Txt(src)) ++ srctags.split(".").map{e => S(e)}
+    val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split(".").map{e => S(e)}
+    E(List(P(L(leftish), R(rightish))))
+  }
 }
