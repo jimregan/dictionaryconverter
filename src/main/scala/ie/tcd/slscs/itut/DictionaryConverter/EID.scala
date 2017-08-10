@@ -55,10 +55,12 @@ object EID {
 
   abstract class BaseXML()
   abstract class RawXML(s: String) extends BaseXML
+  trait Target
   case class Src(s: String) extends RawXML(s)
-  case class Trg(s: String) extends RawXML(s)
-  case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s)
-  case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s)
+  case class Trg(s: String) extends RawXML(s) with Target
+  case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s) with Target
+  case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s) with Target
+  case class MultiTrg(children: List[BaseXML]) extends BaseXML with Target
   case class Label(s: String) extends RawXML(s)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
@@ -101,14 +103,13 @@ object EID {
     } else {
       txt.trim
     }
-
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
-      case <trg>{trg}</trg> => Trg(trg.text)
       case <trg>{trg}<label>{lbl}</label></trg> => Trg2(trg.text, lbl.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex></trg> => Trg2(trg.text, lbl.text, true)
       case <trg>{trg}<label>{lbl}</label>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text, true)
+      case <trg>{trg}</trg> => MultiTrg(n.child.map{breakdownComplexEntryPiece}.toList)
       case <noindex>(<label>v.n.</label> <trg>{vn}</trg>)</noindex> => VerbalNoun(vn.text)
       case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(optVNTrimmer(vn.text))
       case <noindex>(<src>{src}</src>, <trg>{trg}</trg>)</noindex> => Valency(src.text, trg.text)
