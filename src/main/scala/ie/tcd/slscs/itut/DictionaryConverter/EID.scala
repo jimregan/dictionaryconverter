@@ -32,9 +32,13 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
   def isAmbiguous: Boolean = trg.contains(",")
   def hasBrackets: Boolean = trg.contains("(")
 }
-trait Label
-abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with Label
-abstract class LabelEntry extends Entry with Label
+trait Label {
+  val lbl: String
+  private lazy val _label: EID.Label = EID.fixLabel(EID.Label(lbl))
+  def getLabels: Array[String] = EID.labelToStringArray(_label)
+}
+trait LabelEntry extends Label
+abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with LabelEntry
 case class SimpleEntry(src: String, lbl: String, trg: String) extends LabelTransEntry(src, lbl, trg)
 case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends LabelTransEntry(src, lbl, trg)
 case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends LabelTransEntry(src, lbl, trg)
@@ -154,7 +158,14 @@ object EID {
       l
     }
   }
-
+  def labelToStringArray(l: Label): Array[String] = l match {
+    case DomainLabels(t, a) => a
+    case GrammaticalLabels(t, a) => a
+    case DomainLabel(t) => Array[String](t)
+    case GrammaticalLabel(t) => Array[String](t)
+    case Label(t) => t.split(",")
+    case _ => null
+  }
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     def doWordSenses(in: String, acc: List[BaseXML], l: List[BaseXML]): List[BaseXML] = l match {
       case Sense(s) :: xs => xs match {
