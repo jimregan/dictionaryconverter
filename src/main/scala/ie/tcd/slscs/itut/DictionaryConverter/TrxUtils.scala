@@ -78,6 +78,7 @@ object TrxUtils {
     val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
     ChunkElement(name, null, null, null, Some(tags), List.empty[ValueElement])
   }
+  // TODO: mkChunkInterchunk
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 //  }
