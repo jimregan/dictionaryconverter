@@ -70,4 +70,11 @@ class EIDTest extends FlatSpec {
     val out = breakdownComplexEntry(in)
     assert(exp == out)
   }
+
+  "read simple src" should "read src element" in {
+    val in = <src>foo</src>
+    val exp = Src("foo")
+    val out = breakdownComplexEntry(in)
+    assert(exp == out)
+  }
 }
