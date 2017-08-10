@@ -32,10 +32,7 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
   def isAmbiguous: Boolean = trg.contains(",")
   def hasBrackets: Boolean = trg.contains("(")
 }
-trait Label {
-  def lbl: String
-  def getLabels: Array[String] = LabelMap.getPoS(lbl)
-}
+trait Label
 abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with Label
 abstract class LabelEntry extends Entry with Label
 case class SimpleEntry(src: String, lbl: String, trg: String) extends LabelTransEntry(src, lbl, trg)
@@ -64,6 +61,8 @@ object EID {
   case class Label(s: String) extends RawXML(s)
   case class GrammaticalLabel(label: String) extends Label(label)
   case class DomainLabel(label: String) extends Label(label)
+  case class GrammaticalLabels(raw: String, labels: Array[String]) extends Label(raw)
+  case class DomainLabels(raw: String, labels: Array[String]) extends Label(raw)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
   case class SATxt(s: String) extends RawXML(s)
@@ -116,7 +115,7 @@ object EID {
       case <noindex>(<label>v.n.</label> <trg>{vn}</trg>)</noindex> => VerbalNoun(vn.text)
       case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(optVNTrimmer(vn.text))
       case <noindex>(<src>{src}</src>, <trg>{trg}</trg>)</noindex> => Valency(src.text, trg.text)
-      case <label>{lbl @ _* }</label> => Label(lbl.map{_.text}.mkString)
+      case <label>{lbl @ _* }</label> => fixLabel(Label(lbl.map{_.text}.mkString))
       case <sense>{sns}</sense> => Sense(sns.text)
       case <subsense>{sns}</subsense> => SubSense(sns.text)
       case <supersense>{sns}</supersense> => SuperSense(sns.text)
@@ -134,6 +133,25 @@ object EID {
     e match {
       case <entry><title>{c @ _*}</title></entry> => c.map{breakdownComplexEntryPiece}.toList
       case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}.toList
+    }
+  }
+  def fixLabel(l: Label): Label = {
+    val getpos = LabelMap.getPoS(l.s)
+    val getlbl = LabelMap.fixMultipartTags(l.s)
+    if(getpos != null) {
+      if(getpos.length != 1) {
+        GrammaticalLabels(l.s, getpos)
+      } else {
+        GrammaticalLabel(getpos(0))
+      }
+    } else if(getlbl != null) {
+      if(getlbl.length != 1) {
+        DomainLabels(l.s, getlbl)
+      } else {
+        DomainLabel(getlbl(0))
+      }
+    } else {
+      l
     }
   }
 
