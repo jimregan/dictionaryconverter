@@ -118,7 +118,7 @@ object EID {
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex></trg> => Trg2(trg.text, lbl.text, true)
       case <trg>{trg}<label>{lbl}</label>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text, true)
-      case <trg>{trg}</trg> => MultiTrg(n.child.map{breakdownComplexEntryPiece}.toList)
+      case <trg>{trg @ _*}</trg> => MultiTrg(trg.map{breakdownComplexEntryPiece}.toList)
       case <noindex>(<label>v.n.</label> <trg>{vn}</trg>)</noindex> => VerbalNoun(vn.text)
       case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(optVNTrimmer(vn.text))
       case <noindex>(<src>{src}</src>, <trg>{trg}</trg>)</noindex> => Valency(src.text, trg.text)
