@@ -178,7 +178,8 @@ object EID {
         case Line(l) :: xx => doWordSenses("", acc :+ WordSense(s, "", l), xx)
         case SubSense(sub) :: xx => xx match {
           case Line(l) :: xy => doWordSenses("", acc :+ WordSense(in, sub, l), xy)
-          case SubSense(subb) :: xx => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
+          case SubSense(subb) :: xy => doWordSenses("", acc :+ EmptySenseSub(s, sub), xy)
+          case x :: xy => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
           case Nil => acc :+ EmptySenseSub(s, sub)
         }
         case Nil => acc :+ EmptySense(s)
@@ -186,6 +187,7 @@ object EID {
       case SubSense(sub) :: xs => xs match {
         case Line(l) :: xx => doWordSenses(in, acc :+ WordSense(in, sub, l), xx)
         case SubSense(subb) :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
+        case x :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
         case Nil => acc :+ EmptySubSense(sub)
       }
       case x :: xs => doWordSenses("", acc :+ x, xs)
