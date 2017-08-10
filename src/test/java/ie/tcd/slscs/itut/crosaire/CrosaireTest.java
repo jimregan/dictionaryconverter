@@ -25,39 +25,21 @@
  *  SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.crosaire;
 
-import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
-import org.scalatest.FlatSpec
+import junit.framework.TestCase;
 
-class TrxUtilsTest extends FlatSpec {
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
-  "defVarToLet" should "create a <let> element matching a <def-var>" in {
-    val defvara = Trx.nodeToDefVar(<def-var n="foo"/>)
-    val defvarb = Trx.nodeToDefVar(<def-var n="foo" v="bar" />)
-    val expa = Trx.nodeToLet(<let><var n="foo"/><lit v=""/></let>)
-    val expb = Trx.nodeToLet(<let><var n="foo"/><lit v="bar"/></let>)
-    val outa = TrxUtils.defvarToLet(defvara)
-    val outb = TrxUtils.defvarToLet(defvarb)
-    val outas = s"""<let>
-  <var n="foo"/>
-  <lit v=""/>
-</let>
-"""
-    assert(outas == outa.toXMLString(0, true))
-    assert(expb == outb)
-  }
-  "isSimpleEntry p" should "return true for simple dix <e> entry with p" in {
-    val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
-    val epair = Dix.nodetoe(pair)
-    val outpair = TrxUtils.isSimpleEntry(epair)
-    assert(outpair == true)
-  }
-
-  "isSimpleEntry i" should "return false for simple dix <e> entry with i" in {
-    val ident = <e><i>test<s n="n"/></i></e>
-    val eident = Dix.nodetoe(ident)
-    val outident = TrxUtils.isSimpleEntry(eident)
-    assert(outident == false)
-  }
+public class CrosaireTest extends TestCase {
+    public void testStringDropsString() throws Exception {
+        assertEquals("banlee", Crosaire.stringDropsString("bandoleer", "rod"));
+        assertEquals("", Crosaire.stringDropsString("bandoleer", "tom"));
+    }
+    public void testAnagramify() {
+        String exp1[] = new String[]{"bca", "acb", "abc", "cba", "bac", "cab"};
+        String out1[] = Crosaire.anagramify("abc");
+        assertArrayEquals(exp1, out1);
+    }
 }

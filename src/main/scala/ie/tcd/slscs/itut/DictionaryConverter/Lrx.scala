@@ -27,37 +27,52 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix
-import org.scalatest.FlatSpec
+import scala.xml.Node
 
-class TrxUtilsTest extends FlatSpec {
+class Lrx {
+  trait RulePart
+  case class Or(children: List[Match]) extends RulePart
+  trait Match extends RulePart
+  case class SelectMatch(lemma: String = null, tags: String = null, select: Select) extends Match
+  case class ItemMatch(lemma: String = null, tags: String = null) extends Match
+  case class EmptyMatch() extends Match
+  case class Select(lemma: String, tags: String)
+  case class Rule(weight: String, children: List[RulePart])
 
-  "defVarToLet" should "create a <let> element matching a <def-var>" in {
-    val defvara = Trx.nodeToDefVar(<def-var n="foo"/>)
-    val defvarb = Trx.nodeToDefVar(<def-var n="foo" v="bar" />)
-    val expa = Trx.nodeToLet(<let><var n="foo"/><lit v=""/></let>)
-    val expb = Trx.nodeToLet(<let><var n="foo"/><lit v="bar"/></let>)
-    val outa = TrxUtils.defvarToLet(defvara)
-    val outb = TrxUtils.defvarToLet(defvarb)
-    val outas = s"""<let>
-  <var n="foo"/>
-  <lit v=""/>
-</let>
-"""
-    assert(outas == outa.toXMLString(0, true))
-    assert(expb == outb)
-  }
-  "isSimpleEntry p" should "return true for simple dix <e> entry with p" in {
-    val pair = <e><p><l>test<s n="n"/></l><r>todo<g><b/>item</g><s n="n"/><s n="foo"/></r></p></e>
-    val epair = Dix.nodetoe(pair)
-    val outpair = TrxUtils.isSimpleEntry(epair)
-    assert(outpair == true)
+  /**
+   * Get attribute s from Node n
+   */
+  private def getattrib(n: Node, s: String): String = {
+    val attr = n.attribute(s).getOrElse(scala.xml.Text(""))
+    if (attr.text != "") {
+      attr.text
+    } else {
+      null
+    }
   }
 
-  "isSimpleEntry i" should "return false for simple dix <e> entry with i" in {
-    val ident = <e><i>test<s n="n"/></i></e>
-    val eident = Dix.nodetoe(ident)
-    val outident = TrxUtils.isSimpleEntry(eident)
-    assert(outident == false)
+  def nodeToMatch(n: Node): Match = n match {
+    case <match/> => {
+      val lemma = getattrib(n, "lemma")
+      val tags = getattrib(n, "tags")
+      if(lemma == null && tags == null) {
+        EmptyMatch()
+      } else {
+        ItemMatch(lemma, tags)
+      }
+    }
+    case <match><select/></match> => {
+      val lemma = getattrib(n, "lemma")
+      val tags = getattrib(n, "tags")
+      if(n.child.size != 1) {
+        throw new Exception("<match> contains more than one child: " + n.toString())
+      }
+      val sellemma = getattrib(n.child.head, "lemma")
+      val seltags = getattrib(n.child.head, "tags")
+      SelectMatch(lemma, tags, Select(sellemma, seltags))
+    }
+    case _ => throw new Exception("Expected <match>")
   }
+
+
 }

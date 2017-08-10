@@ -585,7 +585,7 @@ public class LabelMap {
         addEntry("Minting", "Q464780", "/m/022rbf", "", "Mint (facility)"); // closest match
         //addEntry("", "", "", "", "");
     }
-    String[] fixMultipartTags(String s) {
+    public static String[] fixMultipartTags(String s) {
         return multi.get(s);
     }
 

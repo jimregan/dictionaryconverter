@@ -25,9 +25,7 @@
  *  SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
-
-import ie.tcd.slscs.itut.DictionaryConverter.dix.{S, TextLike}
+package ie.tcd.slscs.itut.DictionaryConverter.dix
 
 object DixUtils {
   def isTag(t: TextLike): Boolean = t match {

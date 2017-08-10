@@ -33,17 +33,18 @@ abstract class TranslationEntry(src: String, trg: String) extends Entry {
   def hasBrackets: Boolean = trg.contains("(")
 }
 trait Label {
-  def lbl: String
-  def getLabels: Array[String] = LabelMap.getPoS(lbl)
+  val lbl: String
+  private lazy val _label: EID.LabelBase = EID.fixLabel(EID.Label(lbl))
+  def getLabels: Array[String] = EID.labelToStringArray(_label)
 }
-abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with Label
-abstract class LabelEntry extends Entry with Label
+trait LabelEntry extends Label
+abstract class LabelTransEntry(src: String, lbl: String, trg: String) extends TranslationEntry(src, trg) with LabelEntry
 case class SimpleEntry(src: String, lbl: String, trg: String) extends LabelTransEntry(src, lbl, trg)
 case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends LabelTransEntry(src, lbl, trg)
 case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends LabelTransEntry(src, lbl, trg)
 case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends LabelTransEntry(src, lbl, trg)
-case class EmptyEntry(src: String, lbl: String) extends LabelEntry
-case class EqualsEntry(src: String, lbl: String, eq: String) extends LabelEntry
+case class EmptyEntry(src: String, lbl: String) extends Entry with LabelEntry
+case class EqualsEntry(src: String, lbl: String, eq: String) extends Entry with LabelEntry
 
 class EID {
 }
@@ -55,11 +56,20 @@ object EID {
 
   abstract class BaseXML()
   abstract class RawXML(s: String) extends BaseXML
+  abstract class LabelBase(label: String) extends BaseXML {
+    def s: String = label
+  }
+  trait Target
   case class Src(s: String) extends RawXML(s)
-  case class Trg(s: String) extends RawXML(s)
-  case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s)
-  case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s)
-  case class Label(s: String) extends RawXML(s)
+  case class Trg(s: String) extends RawXML(s) with Target
+  case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s) with Target
+  case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s) with Target
+  case class MultiTrg(children: List[BaseXML]) extends BaseXML with Target
+  case class Label(label: String) extends LabelBase(label)
+  case class GrammaticalLabel(label: String) extends LabelBase(label)
+  case class DomainLabel(label: String) extends LabelBase(label)
+  case class GrammaticalLabels(raw: String, labels: Array[String]) extends LabelBase(raw)
+  case class DomainLabels(raw: String, labels: Array[String]) extends LabelBase(raw)
   case class Gen(s: String) extends RawXML(s)
   case class Txt(s: String) extends RawXML(s)
   case class SATxt(s: String) extends RawXML(s)
@@ -73,6 +83,7 @@ object EID {
   case class Title(s: Seq[BaseXML]) extends BaseXML
   case class WordSense(sense: String, subsense: String, line: Seq[BaseXML]) extends BaseXML
   case class EmptySense(s: String) extends RawXML(s)
+  case class EmptySenseSub(s: String, sub: String) extends RawXML(s)
   case class EmptySubSense(s: String) extends RawXML(s)
   case class Valency(src: String, trg: String) extends BaseXML
 
@@ -101,18 +112,19 @@ object EID {
     } else {
       txt.trim
     }
-
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
-      case <trg>{trg}</trg> => Trg(trg.text)
+/*
       case <trg>{trg}<label>{lbl}</label></trg> => Trg2(trg.text, lbl.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex></trg> => Trg2(trg.text, lbl.text, true)
       case <trg>{trg}<label>{lbl}</label>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text, true)
+      */
+      case <trg>{trg @ _*}</trg> => MultiTrg(trg.map{breakdownComplexEntryPiece}.toList)
       case <noindex>(<label>v.n.</label> <trg>{vn}</trg>)</noindex> => VerbalNoun(vn.text)
       case <noindex>(<label>v.n.</label>{vn}</noindex> => VerbalNoun(optVNTrimmer(vn.text))
       case <noindex>(<src>{src}</src>, <trg>{trg}</trg>)</noindex> => Valency(src.text, trg.text)
-      case <label>{lbl @ _* }</label> => Label(lbl.map{_.text}.mkString)
+      case <label>{lbl @ _* }</label> => fixLabel(Label(lbl.map{_.text}.mkString))
       case <sense>{sns}</sense> => Sense(sns.text)
       case <subsense>{sns}</subsense> => SubSense(sns.text)
       case <supersense>{sns}</supersense> => SuperSense(sns.text)
@@ -132,31 +144,60 @@ object EID {
       case <entry>{c @ _*}</entry> => c.map{breakdownComplexEntryPiece}.toList
     }
   }
-
-/*
+  def fixLabel(l: LabelBase): LabelBase = {
+    val getpos = LabelMap.getPoS(l.s)
+    val getlbl = LabelMap.fixMultipartTags(l.s)
+    if(getpos != null) {
+      if(getpos.length != 1) {
+        GrammaticalLabels(l.s, getpos)
+      } else {
+        GrammaticalLabel(getpos(0))
+      }
+    } else if(getlbl != null) {
+      if(getlbl.length != 1) {
+        DomainLabels(l.s, getlbl)
+      } else {
+        DomainLabel(getlbl(0))
+      }
+    } else {
+      l
+    }
+  }
+  def labelToStringArray(l: LabelBase): Array[String] = l match {
+    case DomainLabels(t, a) => a
+    case GrammaticalLabels(t, a) => a
+    case DomainLabel(t) => Array[String](t)
+    case GrammaticalLabel(t) => Array[String](t)
+    case Label(t) => t.split(",")
+    case _ => null
+  }
   def mkWordSenses(seq: List[BaseXML]): List[BaseXML] = {
     def doWordSenses(in: String, acc: List[BaseXML], l: List[BaseXML]): List[BaseXML] = l match {
-      //case Title(Seq(Trg(t), Txt(".")) :: xs => doWordSenses("", acc :+ Title(Seq(t)), xs)
-      case Title(t) :: xs => doWordSenses("", acc :+ Title(t), xs)
-      case Sense(s) :: SubSense(sub) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, sub, l), xs)
-      case Sense(s) :: Line(l) :: xs => doWordSenses(s, acc :+ WordSense(s, "", l), xs)
-      case SubSense(sub) :: Line(l) :: Nil => acc :+ WordSense(in, sub, l)
-      case SubSense(sub) :: Line(l) :: xs => doWordSenses(in, acc :+ WordSense(in, sub, l), xs)
-      //case Trg(t) :: Txt("; ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
-      //case Trg(t) :: Txt(". ") :: xs => doWordSenses(in, acc :+ Trg(t), xs)
-      case Line(l) :: Nil => acc :+ Line(l)
-      case Line(l) :: xs => doWordSenses(in, acc :+ Line(l), xs)
-      case Sense(s) :: Nil => acc :+ EmptySense(s)
-      case Sense(s) :: xs => doWordSenses(in, acc :+ Sense(s), xs)
-      //case SubSense(a) :: SubSense(b) :: SubSense(c) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b) :+ EmptySubSense(c)
-      //case SubSense(a) :: SubSense(b) :: Nil => acc :+ EmptySubSense(a) :+ EmptySubSense(b)
-      //case SubSense(s) :: Nil => acc :+ EmptySubSense(s)
-      case SubSense(s) :: xs => doWordSenses(in, acc :+ SubSense2(in, s), xs)
+      case Sense(s) :: xs => xs match {
+        case Sense(t) :: xx => doWordSenses(t, acc :+ EmptySense(s), xx)
+        case Line(l) :: xx => doWordSenses("", acc :+ WordSense(s, "", l), xx)
+        case SubSense(sub) :: xx => xx match {
+          case Line(l) :: xy => doWordSenses("", acc :+ WordSense(in, sub, l), xy)
+          case SubSense(subb) :: xy => doWordSenses("", acc :+ EmptySenseSub(s, sub), xy)
+          case x :: xy => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
+          case Nil => acc :+ EmptySenseSub(s, sub)
+        }
+        case x :: xx => doWordSenses("", acc :+ EmptySense(s), xx)
+        case Nil => acc :+ EmptySense(s)
+      }
+      case SubSense(sub) :: xs => xs match {
+        case Line(l) :: xx => doWordSenses(in, acc :+ WordSense(in, sub, l), xx)
+        case SubSense(subb) :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
+        case x :: xx => doWordSenses(in, acc :+ EmptySubSense(sub), xs)
+        case Nil => acc :+ EmptySubSense(sub)
+      }
+      case x :: xs => doWordSenses("", acc :+ x, xs)
       case Nil => acc
     }
-    doWordSenses("", List[BaseXML](), seq)
+    doWordSenses("", List.empty[BaseXML], seq)
   }
 
+  /*
   def cleanInner(seq: Seq[BaseXML]): Seq[BaseXML] = {
     val l = seq.toList
     l match {
