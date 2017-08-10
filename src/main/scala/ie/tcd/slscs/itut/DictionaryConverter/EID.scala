@@ -182,6 +182,7 @@ object EID {
           case x :: xy => doWordSenses("", acc :+ EmptySenseSub(s, sub), xx)
           case Nil => acc :+ EmptySenseSub(s, sub)
         }
+        case x :: xx => doWordSenses("", acc :+ EmptySense(s), xx)
         case Nil => acc :+ EmptySense(s)
       }
       case SubSense(sub) :: xs => xs match {
