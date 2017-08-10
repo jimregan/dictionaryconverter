@@ -121,7 +121,7 @@ ${entries.map{e => "    " + e.toXMLString}.mkString("\n") }
   </section>
 """
 }
-
+// TODO: swap vr and vl. Later.
 case class E(children: List[TextLikeContainer], lm: String = null,
              r: String = null, a: String = null, c: String = null,
              i: Boolean = false, slr: String = null, srl: String = null,
