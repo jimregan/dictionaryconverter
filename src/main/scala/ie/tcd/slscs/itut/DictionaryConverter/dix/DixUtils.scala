@@ -56,4 +56,15 @@ object DixUtils {
       E(children, e.lm, r, e.a, e.c, e.i, e.srl, e.slr, e.alt, e.v, e.vr, e.vl)
     }
   }
+  def nonTagTextPiece(t: TextLike): Boolean = t match {
+    case Txt(_) => true
+    case Entity(_) => true
+    case G(_) => true
+    case B() => true
+    case J() => true
+    case Prm() => true
+    case S(_, _) => false
+    case _ => false
+  }
+  def getTextPieces(t: TextLikeContainer): String = t.getContent.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
 }
