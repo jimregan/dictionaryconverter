@@ -66,14 +66,14 @@ class EIDTest extends FlatSpec {
 
   "read complex trg" should "read trg with complex contents" in {
     val in = <entry><trg>Crios <label>m</label> (<label>g.</label> creasa)</trg></entry>
-    val exp = MultiTrg(List(Txt("Crios "), Label("m"), Txt(" ("), Label("g."), Txt(" creasa)")))
+    val exp = List[BaseXML](MultiTrg(List(Txt("Crios "), Label("m"), Txt(" ("), Label("g."), Txt(" creasa)"))))
     val out = breakdownComplexEntry(in)
     assert(exp == out)
   }
 
   "read simple src" should "read src element" in {
     val in = <entry><src>foo</src></entry>
-    val exp = Src("foo")
+    val exp = List[BaseXML](Src("foo"))
     val out = breakdownComplexEntry(in)
     assert(exp == out)
   }
