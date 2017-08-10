@@ -43,8 +43,8 @@ case class SimpleEntry(src: String, lbl: String, trg: String) extends LabelTrans
 case class SimpleEntryDomain(src: String, lbl: String, trg: String, domain: String) extends LabelTransEntry(src, lbl, trg)
 case class SimpleNounEntry(src: String, lbl: String, trg: String, gen: String, opt: Boolean = true) extends LabelTransEntry(src, lbl, trg)
 case class SimpleNounEntryDomain(src: String, lbl: String, trg: String, gen: String, domain: String) extends LabelTransEntry(src, lbl, trg)
-case class EmptyEntry(src: String, lbl: String) extends LabelEntry
-case class EqualsEntry(src: String, lbl: String, eq: String) extends LabelEntry
+case class EmptyEntry(src: String, lbl: String) extends Entry with LabelEntry
+case class EqualsEntry(src: String, lbl: String, eq: String) extends Entry with LabelEntry
 
 class EID {
 }
