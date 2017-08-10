@@ -155,22 +155,22 @@ class LexRuleTest extends FlatSpec {
       <rule name="son_of_a_bitch" phrase="np">
         <entry tags="sg">
           <word tags="n.sg"/>
-          <queue phrase="pp">
+          <phrase n="pp">
             <word tags="pr"/>
             <phrase n="np">
               <word tags="det.ind.sg"/>
               <word tags="n.sg"/>
             </phrase>
-          </queue>
+          </phrase>
         </entry>
         <entry tags="pl">
           <word tags="n.pl"/>
-          <queue phrase="pp">
+          <phrase n="pp">
             <word tags="pr"/>
             <phrase n="np">
               <word tags="n.pl"/>
             </phrase>
-          </queue>
+          </phrase>
         </entry>
       </rule>
     </multiword-rules>
