@@ -75,7 +75,7 @@ class Lrx {
     }
     case _ => throw new Exception("Expected <match>")
   }
-
+  /* TODO make this a list, so the non-select part has a translation? */
   def selectToENoSlr(s: SelectMatch, lr: Boolean = true): dix.E = {
     if(lr) {
       val e = DixUtils.makeSimpleBilEntry(s.lemma + "__" + s.select.lemma, s.tags, s.select.lemma, s.select.tags)
