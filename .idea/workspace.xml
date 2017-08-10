@@ -21,31 +21,83 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EID.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala">
+      <file leaf-file-name="Trx.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-223">
-              <caret line="111" column="12" lean-forward="true" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
+            <state relative-caret-position="6443">
+              <caret line="783" column="5" lean-forward="true" selection-start-line="783" selection-start-column="5" selection-end-line="783" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EIDTest.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/EIDTest.scala">
+      <file leaf-file-name="Lrx.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="68" column="77" lean-forward="false" selection-start-line="68" selection-start-column="77" selection-end-line="68" selection-end-column="77" />
+            <state relative-caret-position="168">
+              <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
+              <folding>
+                <element signature="e#1422#1479#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DixUtils.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="287">
+              <caret line="55" column="45" lean-forward="true" selection-start-line="55" selection-start-column="45" selection-end-line="55" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrxUtilsTest.scala" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala">
+      <file leaf-file-name="DixUtilsTest.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="423">
-              <caret line="60" column="28" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
+              <caret line="63" column="29" lean-forward="false" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Dix.scala" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DixTest.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-884">
+              <caret line="30" column="6" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TrxProc.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="29" column="59" lean-forward="false" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TrxUtilsTest.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -54,11 +106,22 @@
       <file leaf-file-name="TrxUtils.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+            <state relative-caret-position="884">
+              <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
               <folding>
-                <marker date="1502394499157" expanded="true" signature="2364:2398" ph="/.../" />
-                <marker date="1502394499157" expanded="true" signature="3671:3706" ph="{...}" />
+                <marker date="1502402219784" expanded="true" signature="2364:2398" ph="/.../" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RuleExpander.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="253">
+              <caret line="118" column="54" lean-forward="true" selection-start-line="118" selection-start-column="54" selection-end-line="118" selection-end-column="60" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,7 +182,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="lrx" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
@@ -160,7 +223,6 @@
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx/scala.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/CrosaireTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/Crosaire.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
@@ -168,14 +230,18 @@
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/LexRule.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRule.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRuleTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/LabelMap.java" />
         <option value="$PROJECT_DIR$/.idea/copyright/tcd.xml" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/EIDTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala" />
       </list>
     </option>
   </component>
@@ -364,6 +430,15 @@
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="itut" type="462c0819:PsiDirectoryNode" />
+              <item name="crosaire" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DictionaryConverter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dictionaryconverter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="itut" type="462c0819:PsiDirectoryNode" />
               <item name="gramadanj" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -408,7 +483,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lttoolbox-java" />
     <property name="settings.editor.selected.configurable" value="copyright.profiles" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="ScalaTest" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
@@ -417,6 +492,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="ie.tcd.slscs.itut.DictionaryConverter.dix" />
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.lexical" />
       <recent name="ie.tcd.slscs.itut" />
       <recent name="ie.tcd.slscs.itut.ApertiumStream" />
@@ -433,6 +509,7 @@
       <recent name="ie.tcd.slscs.itut.ApertiumStream" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
+      <recent name="org.scalatest.FlatSpec" />
       <recent name="org.scalatest.FunSuite" />
       <recent name="" />
     </key>
@@ -673,104 +750,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1500964014076</updated>
-    </task>
-    <task id="LOCAL-00152" summary="fix mixed up params">
-      <created>1501924640995</created>
-      <option name="number" value="00152" />
-      <option name="presentableId" value="LOCAL-00152" />
-      <option name="project" value="LOCAL" />
-      <updated>1501924640995</updated>
-    </task>
-    <task id="LOCAL-00153" summary="bloody idea reformatting my xml">
-      <created>1501924789170</created>
-      <option name="number" value="00153" />
-      <option name="presentableId" value="LOCAL-00153" />
-      <option name="project" value="LOCAL" />
-      <updated>1501924789170</updated>
-    </task>
-    <task id="LOCAL-00154" summary="fix test">
-      <created>1501924874433</created>
-      <option name="number" value="00154" />
-      <option name="presentableId" value="LOCAL-00154" />
-      <option name="project" value="LOCAL" />
-      <updated>1501924874433</updated>
-    </task>
-    <task id="LOCAL-00155" summary="unused">
-      <created>1501933055662</created>
-      <option name="number" value="00155" />
-      <option name="presentableId" value="LOCAL-00155" />
-      <option name="project" value="LOCAL" />
-      <updated>1501933055662</updated>
-    </task>
-    <task id="LOCAL-00156" summary="refactor + some warnings">
-      <created>1501933338678</created>
-      <option name="number" value="00156" />
-      <option name="presentableId" value="LOCAL-00156" />
-      <option name="project" value="LOCAL" />
-      <updated>1501933338678</updated>
-    </task>
-    <task id="LOCAL-00157" summary="some warnings">
-      <created>1501933591499</created>
-      <option name="number" value="00157" />
-      <option name="presentableId" value="LOCAL-00157" />
-      <option name="project" value="LOCAL" />
-      <updated>1501933591499</updated>
-    </task>
-    <task id="LOCAL-00158" summary="start lrx - reader only, because ugh">
-      <created>1501933645955</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
-      <option name="project" value="LOCAL" />
-      <updated>1501933645955</updated>
-    </task>
-    <task id="LOCAL-00159" summary="Crosaire is a procrastination favourite">
-      <created>1501971595868</created>
-      <option name="number" value="00159" />
-      <option name="presentableId" value="LOCAL-00159" />
-      <option name="project" value="LOCAL" />
-      <updated>1501971595868</updated>
-    </task>
-    <task id="LOCAL-00160" summary="anagrams come up a lot">
-      <created>1501973142342</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1501973142342</updated>
-    </task>
-    <task id="LOCAL-00161" summary="doc">
-      <created>1501973251032</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1501973251032</updated>
-    </task>
-    <task id="LOCAL-00162" summary="printer">
-      <created>1501973421290</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
-      <option name="project" value="LOCAL" />
-      <updated>1501973421290</updated>
-    </task>
-    <task id="LOCAL-00163" summary="put in package">
-      <created>1502020602693</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
-      <option name="project" value="LOCAL" />
-      <updated>1502020602693</updated>
-    </task>
-    <task id="LOCAL-00164" summary="start parsing">
-      <created>1502023827755</created>
-      <option name="number" value="00164" />
-      <option name="presentableId" value="LOCAL-00164" />
-      <option name="project" value="LOCAL" />
-      <updated>1502023827755</updated>
-    </task>
-    <task id="LOCAL-00165" summary="convert">
-      <created>1502035379810</created>
-      <option name="number" value="00165" />
-      <option name="presentableId" value="LOCAL-00165" />
-      <option name="project" value="LOCAL" />
-      <updated>1502035379810</updated>
     </task>
     <task id="LOCAL-00166" summary="test">
       <created>1502036213943</created>
@@ -1017,7 +996,105 @@
       <option name="project" value="LOCAL" />
       <updated>1502394740089</updated>
     </task>
-    <option name="localTasksCounter" value="201" />
+    <task id="LOCAL-00201" summary="helper method to create simple bilingual dictionary entry">
+      <created>1502398864661</created>
+      <option name="number" value="00201" />
+      <option name="presentableId" value="LOCAL-00201" />
+      <option name="project" value="LOCAL" />
+      <updated>1502398864661</updated>
+    </task>
+    <task id="LOCAL-00202" summary="escape in split">
+      <created>1502399064613</created>
+      <option name="number" value="00202" />
+      <option name="presentableId" value="LOCAL-00202" />
+      <option name="project" value="LOCAL" />
+      <updated>1502399064613</updated>
+    </task>
+    <task id="LOCAL-00203" summary="redo isNotTag">
+      <created>1502399583430</created>
+      <option name="number" value="00203" />
+      <option name="presentableId" value="LOCAL-00203" />
+      <option name="project" value="LOCAL" />
+      <updated>1502399583431</updated>
+    </task>
+    <task id="LOCAL-00204" summary="generate entries">
+      <created>1502400696088</created>
+      <option name="number" value="00204" />
+      <option name="presentableId" value="LOCAL-00204" />
+      <option name="project" value="LOCAL" />
+      <updated>1502400696088</updated>
+    </task>
+    <task id="LOCAL-00205" summary="todo">
+      <created>1502400841664</created>
+      <option name="number" value="00205" />
+      <option name="presentableId" value="LOCAL-00205" />
+      <option name="project" value="LOCAL" />
+      <updated>1502400841664</updated>
+    </task>
+    <task id="LOCAL-00206" summary="move a dix utility">
+      <created>1502401509784</created>
+      <option name="number" value="00206" />
+      <option name="presentableId" value="LOCAL-00206" />
+      <option name="project" value="LOCAL" />
+      <updated>1502401509784</updated>
+    </task>
+    <task id="LOCAL-00207" summary="add todo">
+      <created>1502401850040</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1502401850040</updated>
+    </task>
+    <task id="LOCAL-00208" summary="finish. slr/srl nullified for now">
+      <created>1502401879869</created>
+      <option name="number" value="00208" />
+      <option name="presentableId" value="LOCAL-00208" />
+      <option name="project" value="LOCAL" />
+      <updated>1502401879869</updated>
+    </task>
+    <task id="LOCAL-00209" summary="it's a simple swap, duh">
+      <created>1502402051344</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1502402051344</updated>
+    </task>
+    <task id="LOCAL-00210" summary="move two more">
+      <created>1502402183238</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1502402183238</updated>
+    </task>
+    <task id="LOCAL-00211" summary="another todo">
+      <created>1502402234077</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1502402234077</updated>
+    </task>
+    <task id="LOCAL-00212" summary="some idea suggestions">
+      <created>1502402889324</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1502402889324</updated>
+    </task>
+    <task id="LOCAL-00213" summary="fix order of slr/srl. part 2 first">
+      <created>1502403201935</created>
+      <option name="number" value="00213" />
+      <option name="presentableId" value="LOCAL-00213" />
+      <option name="project" value="LOCAL" />
+      <updated>1502403201935</updated>
+    </task>
+    <task id="LOCAL-00214" summary="vr/vl. oops">
+      <created>1502403338977</created>
+      <option name="number" value="00214" />
+      <option name="presentableId" value="LOCAL-00214" />
+      <option name="project" value="LOCAL" />
+      <updated>1502403338977</updated>
+    </task>
+    <option name="localTasksCounter" value="215" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1054,7 +1131,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="260" y="22" width="1920" height="1044" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1063,7 +1139,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1101,20 +1177,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="put an explicit number for testing later" />
-    <MESSAGE value="change" />
-    <MESSAGE value="case classes for multiwords" />
-    <MESSAGE value="parse string groups; rename class to not conflict with the scala.xml Group" />
-    <MESSAGE value="move to package" />
-    <MESSAGE value="MultiTrg" />
-    <MESSAGE value="more" />
-    <MESSAGE value="fix labels by default, no extra context needed" />
-    <MESSAGE value="expose method" />
-    <MESSAGE value="tidy" />
-    <MESSAGE value="disable missing piece" />
-    <MESSAGE value="try this" />
-    <MESSAGE value="see if this fixes those extra spaces" />
-    <MESSAGE value="extends" />
     <MESSAGE value="fix error" />
     <MESSAGE value="comment out" />
     <MESSAGE value="try to silence warning" />
@@ -1126,7 +1188,21 @@
     <MESSAGE value="split into two" />
     <MESSAGE value="here too" />
     <MESSAGE value="change around" />
-    <option name="LAST_COMMIT_MESSAGE" value="change around" />
+    <MESSAGE value="helper method to create simple bilingual dictionary entry" />
+    <MESSAGE value="escape in split" />
+    <MESSAGE value="redo isNotTag" />
+    <MESSAGE value="generate entries" />
+    <MESSAGE value="todo" />
+    <MESSAGE value="move a dix utility" />
+    <MESSAGE value="add todo" />
+    <MESSAGE value="finish. slr/srl nullified for now" />
+    <MESSAGE value="it's a simple swap, duh" />
+    <MESSAGE value="move two more" />
+    <MESSAGE value="another todo" />
+    <MESSAGE value="some idea suggestions" />
+    <MESSAGE value="fix order of slr/srl. part 2 first" />
+    <MESSAGE value="vr/vl. oops" />
+    <option name="LAST_COMMIT_MESSAGE" value="vr/vl. oops" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1135,14 +1211,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/FGB.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1972">
-          <caret line="141" column="29" lean-forward="false" selection-start-line="141" selection-start-column="29" selection-end-line="141" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/WordTokenTest.scala" />
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/FileUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1124">
@@ -1230,13 +1298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="29" column="59" lean-forward="false" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.2-sources.jar!/scala/xml/factory/XMLLoader.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1245,13 +1306,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx/scala.scala" />
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="58" column="20" lean-forward="true" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-153">
@@ -1265,14 +1319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2822">
-          <caret line="191" column="0" lean-forward="false" selection-start-line="183" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1306,29 +1352,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="29" column="7" lean-forward="false" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/IrishPieces.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="28" column="7" lean-forward="false" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1337,16 +1364,6 @@
         <state relative-caret-position="9945">
           <caret line="587" column="11" lean-forward="false" selection-start-line="587" selection-start-column="11" selection-end-line="587" selection-end-column="11" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="801" column="30" lean-forward="false" selection-start-line="801" selection-start-column="30" selection-end-line="801" selection-end-column="30" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1362,7 +1379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1370,7 +1386,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1394,7 +1409,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1745">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1457,7 +1471,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-223">
-          <caret line="111" column="12" lean-forward="true" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
+          <caret line="111" column="12" lean-forward="false" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -1470,21 +1484,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+        <state relative-caret-position="-884">
+          <caret line="30" column="6" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
           <folding>
-            <marker date="1502394499157" expanded="true" signature="2364:2398" ph="/.../" />
-            <marker date="1502394499157" expanded="true" signature="3671:3706" ph="{...}" />
+            <element signature="e#1422#1479#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="63" column="29" lean-forward="false" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="29" column="59" lean-forward="false" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="60" column="28" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
+        <state relative-caret-position="391">
+          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+          <folding>
+            <marker date="1502402219784" expanded="true" signature="2364:2398" ph="/.../" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="118" column="54" lean-forward="true" selection-start-line="118" selection-start-column="54" selection-end-line="118" selection-end-column="60" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6443">
+          <caret line="783" column="5" lean-forward="true" selection-start-line="783" selection-start-column="5" selection-end-line="783" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="55" column="45" lean-forward="true" selection-start-line="55" selection-start-column="45" selection-end-line="55" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding />
         </state>
       </provider>
