@@ -36,9 +36,23 @@ object DixUtils {
     case S(_, _) => false
     case _ => true
   }
+  def isSimpleEntry(entry: E): Boolean = entry.children match {
+    case P(_, _) :: nil => true
+    case _ => false
+  }
   def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String) = {
     val leftish: List[TextLike] = List[TextLike](Txt(src)) ++ srctags.split("\\.").map{e => S(e)}
     val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split("\\.").map{e => S(e)}
     E(List(P(L(leftish), R(rightish))))
   }
+  /* TODO: finish
+  def swapSimpleBilEntry(e: E): E = {
+    val r = if(e.r == "LR") "RL" else if (e.r == "RL") "LR" else null
+    if(!isSimpleEntry(e)) {
+      e
+    } else {
+
+    }
+  }
+  */
 }

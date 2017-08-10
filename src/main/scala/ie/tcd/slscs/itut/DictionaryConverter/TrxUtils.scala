@@ -81,10 +81,6 @@ object TrxUtils {
 
 //  def dixSectionToChoose(sect: Section): ChooseElement = {
 //  }
-  def isSimpleEntry(entry: E): Boolean = entry.children match {
-    case P(_, _) :: nil => true
-    case _ => false
-  }
   def nonTagTextPiece(t: TextLike): Boolean = t match {
     case Txt(_) => true
     case Entity(_) => true
@@ -103,7 +99,9 @@ object TrxUtils {
   def mkTLLemmaLet(s: String, clip: String): LetElement = {
     LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(s))
   }
-  // TODO: only checks the text. If even.
+  // TODO:
+  // test
+  // generate action/right portion
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
       val ltxt = getTextPieces(l)
@@ -115,5 +113,6 @@ object TrxUtils {
       WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
+  // TODO
 }
 
