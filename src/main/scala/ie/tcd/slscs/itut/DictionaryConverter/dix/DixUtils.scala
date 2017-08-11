@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter.dix
 
+case class SimpleBil(src: String, srctags: String, trg: String, trgtags: String)
+
 object DixUtils {
   def isTag(t: TextLike): Boolean = t match {
     case S(_, _) => true
@@ -40,11 +42,23 @@ object DixUtils {
     case P(_, _) :: nil => true
     case _ => false
   }
-  def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String) = {
+  def getSimpleBilEntry(e: E): Option[SimpleBil] = {
+    if(isSimpleEntry(e)) {
+      val left = getTextPieces(e.children(0))
+      val right = getTextPieces(e.children(1))
+      val lefttags = getTagString(e.children(0))
+      val righttags = getTagString(e.children(1))
+      Some(SimpleBil(left, lefttags, right, righttags))
+    } else {
+      None
+    }
+  }
+  def makeSimpleBilEntry(src: String, srctags: String, trg: String, trgtags: String): E = {
     val leftish: List[TextLike] = List[TextLike](Txt(src)) ++ srctags.split("\\.").map{e => S(e)}
     val rightish: List[TextLike] = List[TextLike](Txt(trg)) ++ trgtags.split("\\.").map{e => S(e)}
     E(List(P(L(leftish), R(rightish))))
   }
+  def makeSimpleBilEntry(e: SimpleBil): E = makeSimpleBilEntry(e.src, e.srctags, e.trg, e.trgtags)
   def swapSimpleBilEntry(e: E): E = {
     if(!isSimpleEntry(e)) {
       e
@@ -67,4 +81,15 @@ object DixUtils {
     case _ => false
   }
   def getTextPieces(t: TextLikeContainer): String = t.getContent.takeWhile{nonTagTextPiece}.map{_.asText}.mkString
+  def getTags(t: TextLikeContainer): List[S] = {
+    val (a, tags) = t.getContent.span {nonTagTextPiece}
+    tags.flatMap{
+      case s: S => Some(s)
+      case _ => None
+    }
+  }
+  def getTagString(t: TextLikeContainer): String = {
+    val tags = getTags(t)
+    tags.map{_.n}.mkString(".")
+  }
 }
