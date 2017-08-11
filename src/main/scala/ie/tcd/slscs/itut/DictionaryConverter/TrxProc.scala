@@ -28,17 +28,19 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
                    vars: Map[String, String],
                    lists: Map[String, List[String]],
                    macros: Map[String, List[SentenceElement]], rules: List[RuleElement]) {
-  val variables = collection.mutable.Map.empty[String, String] ++ vars
-  val validVariables: List[String] = vars.keys.toList
-  def getVar(s: String): Option[String] = {
-    if (validVariables.contains(s)) {
-      variables.get(s)
-    } else {
-      None
-    }
-  }
+  private val variables = collection.mutable.Map.empty[String, String] ++ vars
+  def validVariables: List[String] = variables.keys.toList
+  def getVar(s: String): Option[String] = variables.get(s)
+  def hasVar(s: String): Boolean = variables.contains(s)
   def setVar(s: String, v: String) {
     variables(s) = v
+  }
+  private val _lists = collection.mutable.Map.empty[String, List[String]] ++ lists
+  def validLists: List[String] = _lists.keys.toList
+  def getList(s: String): Option[List[String]] = _lists.get(s)
+  def hasList(s: String): Boolean = _lists.contains(s)
+  def setList(s: String, v: List[String]): Unit = {
+    _lists(s) = v
   }
 }
 object TrxProc {
