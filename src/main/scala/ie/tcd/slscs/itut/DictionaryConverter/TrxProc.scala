@@ -23,6 +23,8 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.ApertiumStream.StreamToken
+
 case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
                    defattrs: Map[String, List[String]],
                    vars: Map[String, String],
@@ -95,6 +97,14 @@ object TrxProc {
   // TODO: check-if-macro-applies - use expanded defcats
   // TODO: macro generator
 
+  case class RuleMetadata(ruleid: String, rulecomment: String)
+  case class RuleProc(meta: RuleMetadata) // FIXME
+  trait LexicalUnit
+  trait SingleLexicalUnit extends LexicalUnit
+  case class LUProc(lemh: String, lemq: String, tags: List[String], alignment: Int) extends SingleLexicalUnit
+  case class LURef(index: Int, alignment: Int) extends SingleLexicalUnit
+  case class MLU(children: List[SingleLexicalUnit])
+  case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamToken]) // TODO: convert StreamToken
   /*
    * TODO: Rule output container:
    * * List of lexical units
