@@ -40,7 +40,6 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
       setVar(s, v)
     }
   }
-  // FIXME: Vars can have a pair of elements :/
   //def getVars: List[String]
   private val _lists = collection.mutable.Map.empty[String, List[String]] ++ lists
   def validLists: List[String] = _lists.keys.toList
