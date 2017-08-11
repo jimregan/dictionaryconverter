@@ -88,4 +88,10 @@ object TrxProc {
   }
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
+  // TODO helper: expand pattern string above with defcats - class method?
+  // TODO: finish getters and setters for elements
+  // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
+  // TODO: mutable macros? probably not going to want to edit them, just add
+  // TODO: check-if-macro-applies - use expanded defcats
+  // TODO: macro generator
 }
