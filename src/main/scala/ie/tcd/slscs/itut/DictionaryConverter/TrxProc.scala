@@ -40,7 +40,10 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
       setVar(s, v)
     }
   }
-  //def getVars: List[String]
+  def getVarMap = variables
+  def safeSetVars(vars: Map[String, String]) {
+    vars.map{e => safeSetVar(e._1, e._2)}
+  }
   private val _lists = collection.mutable.Map.empty[String, List[String]] ++ lists
   def validLists: List[String] = _lists.keys.toList
   def getList(s: String): Option[List[String]] = _lists.get(s)
@@ -48,10 +51,13 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
   def setList(s: String, v: List[String]) {
     _lists(s) = v
   }
-  def safeSetLit(s: String, v: List[String]) {
+  def safeSetList(s: String, v: List[String]) {
     if(!hasList(s)) {
       setList(s, v)
     }
+  }
+  def safeSetLists(lists: Map[String, List[String]]) {
+    lists.map{e => safeSetList(e._1, e._2)}
   }
   def getLists: List[List[String]] = _lists.values.toList
   def getListsMap = _lists
@@ -66,9 +72,19 @@ object TrxProc {
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
-    val out = fromTopLevel(a)
-    val tmp = fromTopLevel(b)
-
+    val tmpa = fromTopLevel(a)
+    val tmpb = fromTopLevel(b)
+    val out = merge(tmpa, tmpb)
     out
   }
+  def merge(a: TrxProc, b: TrxProc): TrxProc = {
+    val out = a
+    out.safeSetVars(b.getVarMap.toMap)
+    out.safeSetLists(b.getListsMap.toMap)
+    out
+  }
+  def mkDefAttr(name: String, attrs: List[String]): DefAttrElement = {
+    DefAttrElement(name, attrs.map{e => AttrItemElement(e)})
+  }
+  def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
 }
