@@ -75,7 +75,7 @@ class DixUtilsTest extends FlatSpec {
 
   "get tags" should "extract tags from entry piece" in {
     val testl = L(List[TextLike](Txt("word"), G(List[TextLike](B(), Txt("woo"))), S("n"), S("m")))
-    val exp = List[S](S("n"), S("m"))
+    val exp = Some(List[S](S("n"), S("m")))
     val out = DixUtils.getTags(testl)
     assert(exp == out)
   }
