@@ -44,10 +44,14 @@ object DixUtils {
   }
   def getSimpleBilEntry(e: E): Option[SimpleBil] = {
     if(isSimpleEntry(e)) {
-      val left = getTextPieces(e.children(0).l)
-      val right = getTextPieces(e.children(0).r)
-      val lefttags = getTagString(e.children(0).l)
-      val righttags = getTagString(e.children(0).r)
+      val ch = e.children.flatMap {
+        case p: P => Some(p)
+        case _ => None
+      }
+      val left = getTextPieces(ch(0).l)
+      val right = getTextPieces(ch(0).r)
+      val lefttags = getTagString(ch(0).l)
+      val righttags = getTagString(ch(0).r)
       Some(SimpleBil(left, lefttags, right, righttags))
     } else {
       None
