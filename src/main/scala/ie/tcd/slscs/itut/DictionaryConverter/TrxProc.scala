@@ -94,4 +94,12 @@ object TrxProc {
   // TODO: mutable macros? probably not going to want to edit them, just add
   // TODO: check-if-macro-applies - use expanded defcats
   // TODO: macro generator
+
+  /*
+   * TODO: Rule output container:
+   * * List of lexical units
+   * * List of chunks/mlus with lus replaced by index in list
+   * * Alignment?
+   * TODO: replace this PatternItem with one that can contain a target alignment
+   */
 }
