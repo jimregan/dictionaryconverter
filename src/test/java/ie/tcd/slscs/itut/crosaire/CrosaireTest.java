@@ -40,6 +40,7 @@ public class CrosaireTest extends TestCase {
     public void testStringDropsString() throws Exception {
         assertEquals("banlee", Crosaire.stringDropsString("bandoleer", "rod"));
         assertEquals("banlee", Crosaire.stringDropsString("ban dol eer", "ro d"));
+        assertEquals("doleer", Crosaire.stringDropsString("bandoleer", "ban"));
         assertEquals("", Crosaire.stringDropsString("bandoleer", "tom"));
     }
     public void testAnagramify() {
