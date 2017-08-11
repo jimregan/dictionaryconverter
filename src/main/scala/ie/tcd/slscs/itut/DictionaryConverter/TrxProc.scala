@@ -35,13 +35,27 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
   def setVar(s: String, v: String) {
     variables(s) = v
   }
+  def safeSetVar(s: String, v: String) {
+    if(!hasVar(s)) {
+      setVar(s, v)
+    }
+  }
+  // FIXME: Vars can have a pair of elements :/
+  //def getVars: List[String]
   private val _lists = collection.mutable.Map.empty[String, List[String]] ++ lists
   def validLists: List[String] = _lists.keys.toList
   def getList(s: String): Option[List[String]] = _lists.get(s)
   def hasList(s: String): Boolean = _lists.contains(s)
-  def setList(s: String, v: List[String]): Unit = {
+  def setList(s: String, v: List[String]) {
     _lists(s) = v
   }
+  def safeSetLit(s: String, v: List[String]) {
+    if(!hasList(s)) {
+      setList(s, v)
+    }
+  }
+  def getLists: List[List[String]] = _lists.values.toList
+  def getListsMap = _lists
 }
 object TrxProc {
   def fromTopLevel(t: TopLevel): TrxProc = {
@@ -51,5 +65,11 @@ object TrxProc {
     val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
+  }
+  def merge(a: TopLevel, b: TopLevel): TrxProc = {
+    val out = fromTopLevel(a)
+    val tmp = fromTopLevel(b)
+
+    out
   }
 }
