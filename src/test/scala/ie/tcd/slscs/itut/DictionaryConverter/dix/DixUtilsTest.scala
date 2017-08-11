@@ -75,7 +75,7 @@ class DixUtilsTest extends FlatSpec {
 
   "get tags" should "extract tags from entry piece" in {
     val testl = L(List[TextLike](Txt("word"), G(List[TextLike](B(), Txt("woo"))), S("n"), S("m")))
-    val exp = Some(List[S](S("n"), S("m")))
+    val exp = List[S](S("n"), S("m"))
     val out = DixUtils.getTags(testl)
     assert(exp == out)
   }
@@ -83,7 +83,7 @@ class DixUtilsTest extends FlatSpec {
   "get simplebil" should "convert simple entry to SimpleBil" in {
     val inraw = <e><p><l>foo<s n="n"/><s n="sg"/></l><r>bar<b/>bar<s n="n"/></r></p></e>
     val in = Dix.nodetoe(inraw)
-    val exp = SimpleBil("foo", "n.sg", "bar bar", "n")
+    val exp = Some(SimpleBil("foo", "n.sg", "bar bar", "n"))
     val out = DixUtils.getSimpleBilEntry(in)
     assert(exp == out)
   }
