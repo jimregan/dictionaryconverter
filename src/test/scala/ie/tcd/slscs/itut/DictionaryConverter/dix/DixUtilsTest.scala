@@ -43,8 +43,8 @@ class DixUtilsTest extends FlatSpec {
   it should "isTag" in {
     val tag = S("foo")
     val txt = Txt("bar")
-    assert(DixUtils.isNotTag(tag) == true)
-    assert(DixUtils.isNotTag(txt) == false)
+    assert(DixUtils.isTag(tag) == true)
+    assert(DixUtils.isTag(txt) == false)
   }
 
   it should "makeSimpleBilEntry" in {
