@@ -87,4 +87,5 @@ object TrxProc {
     DefAttrElement(name, attrs.map{e => AttrItemElement(e)})
   }
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
+  def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
 }
