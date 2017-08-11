@@ -29,8 +29,12 @@ package ie.tcd.slscs.itut.crosaire;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static ie.tcd.slscs.itut.gramadanj.Utils.equalLists;
 
 public class CrosaireTest extends TestCase {
     public void testStringDropsString() throws Exception {
@@ -41,6 +45,8 @@ public class CrosaireTest extends TestCase {
     public void testAnagramify() {
         String exp1[] = new String[]{"bca", "acb", "abc", "cba", "bac", "cab"};
         String out1[] = Crosaire.anagramify("abc");
-        assertArrayEquals(exp1, out1);
+        List<String> expl = Arrays.asList(exp1);
+        List<String> outl = Arrays.asList(out1);
+        assertEquals(true, equalLists(expl, outl));
     }
 }
