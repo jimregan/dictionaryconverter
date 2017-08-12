@@ -45,6 +45,13 @@ public class CatItem {
             return out;
         }
     }
+    public CatItem(String lemma, String tags) {
+        this.lemma = lemma;
+        this.tags = tags;
+    }
+    public CatItem(String name) {
+        this.name = name;
+    }
     public String getFirstTag() {
         return getTagsList().get(0);
     }
