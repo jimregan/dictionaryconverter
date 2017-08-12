@@ -37,6 +37,7 @@ public class DefCat {
         items = new ArrayList<CatItem>();
     }
     DefCat(String name, List<CatItem> items) {
+        this();
         this.name = name;
         this.items = items;
     }
