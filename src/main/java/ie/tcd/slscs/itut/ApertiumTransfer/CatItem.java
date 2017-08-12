@@ -55,6 +55,16 @@ public class CatItem {
     public String getFirstTag() {
         return getTagsList().get(0);
     }
+    public String getName() {
+        return name;
+    }
+    public String getLemma() {
+        return lemma;
+    }
+    public String getTags() {
+        return tags;
+    }
+
     /**
      * Checks if the tags match
      * @param other_tags list of strings containing the tags to match

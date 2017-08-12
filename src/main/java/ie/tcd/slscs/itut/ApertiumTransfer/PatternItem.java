@@ -29,7 +29,11 @@ package ie.tcd.slscs.itut.ApertiumTransfer;
 
 public class PatternItem {
     String name;
-    PatternItem(String s) {
+    public PatternItem(String s) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

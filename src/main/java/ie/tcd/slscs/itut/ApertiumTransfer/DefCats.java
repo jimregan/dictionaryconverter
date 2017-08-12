@@ -34,7 +34,7 @@ public class DefCats {
     DefCats() {
         categories = new ArrayList<DefCat>();
     }
-    DefCats(List<DefCat> in) {
+    public DefCats(List<DefCat> in) {
         this();
         this.categories = in;
     }
@@ -64,5 +64,9 @@ public class DefCats {
     }
     public DefCat get(String s) {
         return getMap().get(s);
+    }
+
+    public List<DefCat> getCategories() {
+        return categories;
     }
 }

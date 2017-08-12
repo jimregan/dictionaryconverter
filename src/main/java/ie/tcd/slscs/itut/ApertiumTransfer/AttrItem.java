@@ -27,20 +27,13 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Pattern {
-    List<PatternItem> items;
-    Pattern() {
-        items = new ArrayList<PatternItem>();
-    }
-    public Pattern(List<PatternItem> list) {
-        this();
-        this.items = list;
+public class AttrItem {
+    String tags;
+    public AttrItem(String s) {
+        this.tags = s;
     }
 
-    public List<PatternItem> getItems() {
-        return items;
+    public String getTags() {
+        return tags;
     }
 }

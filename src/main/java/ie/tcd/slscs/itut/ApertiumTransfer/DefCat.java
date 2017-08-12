@@ -37,12 +37,18 @@ public class DefCat {
     DefCat() {
         items = new ArrayList<CatItem>();
     }
-    DefCat(String name, List<CatItem> items) {
+    public DefCat(String name, List<CatItem> items) {
         this();
         this.name = name;
         this.items = items;
     }
 
+    public String getName() {
+        return name;
+    }
+    public List<CatItem> getItems() {
+        return items;
+    }
     /**
      * Checks if any of the cat-items contained by this def-cat
      * match the set of tags provided
