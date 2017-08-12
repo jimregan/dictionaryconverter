@@ -54,6 +54,30 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
       setCat(s, tmp)
     }
   }
+  private val attributes = collection.mutable.Map.empty[String, List[String]] ++ defattrs
+  def validAttributes = attributes.keys.toList
+  def getAttr(s: String): Option[List[String]] = attributes.get(s)
+  def hasAttr(s: String): Boolean = attributes.contains(s)
+  def setAttr(s: String, v: List[String]) {
+    attributes(s) = v
+  }
+  def safeSetAttr(s: String, v: List[String]) {
+    if(!hasAttr(s)) {
+      safeSetAttr(s, v)
+    }
+  }
+  def getAttrMap = attributes
+  def safeSetAttrs(attrs: Map[String, List[String]]) {
+    attrs.map{e => safeSetAttr(e._1, e._2)}
+  }
+  def addToAttr(s: String, a: String) {
+    if(!hasAttr(s)) {
+      attributes.put(s, List(a))
+    } else {
+      val tmp = getAttr(s).get :+ a
+      setAttr(s, tmp)
+    }
+  }
   private val variables = collection.mutable.Map.empty[String, String] ++ vars
   def validVariables: List[String] = variables.keys.toList
   def getVar(s: String): Option[String] = variables.get(s)
