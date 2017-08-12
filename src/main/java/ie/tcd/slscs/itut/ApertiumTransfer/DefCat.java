@@ -28,57 +28,31 @@
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class CatItem {
-    public String name; // post-chunk
-    public String lemma;
-    public String tags;
+public class DefCat {
+    String name;
+    List<CatItem> items;
+    DefCat() {
+        items = new ArrayList<CatItem>();
+    }
+    DefCat(String name, List<CatItem> items) {
+        this.name = name;
+        this.items = items;
+    }
 
-    public List<String> getTagsList() {
-        List<String> out = new ArrayList<String>();
-        if(this.tags == "") {
-            return out;
-        } else {
-            out = Arrays.asList(tags.split("\\."));
-            return out;
-        }
-    }
-    public String getFirstTag() {
-        return getTagsList().get(0);
-    }
     /**
-     * Checks if the tags match
-     * @param other_tags list of strings containing the tags to match
+     * Checks if any of the cat-items contained by this def-cat
+     * match the set of tags provided
+     * @param tags list of strings containing the tags to match
      * @return true if there is a match, false otherwise
      */
-    public boolean tagsMatch(List<String> other_tags) {
-        if(other_tags.size() != getTagsList().size()) {
-            return false;
-        }
-        for(int i = 0; i < getTagsList().size(); i++) {
-            if(!getTagsList().get(i).equals(other_tags.get(i)) && !getTagsList().get(i).equals("*")) {
-                return false;
-            }
-        }
-        return true;
-    }
-    public boolean isValidForTransferType(TransferType t) {
-        if(t == TransferType.Postchunk) {
-            if(name.equals("")) {
-                return false;
-            } else if(!"".equals(tags) || !"".equals(lemma)) {
-                return false;
-            } else {
+    public boolean tagsMatch(List<String> tags) {
+        for(CatItem ci : items) {
+            if(ci.tagsMatch(tags)) {
                 return true;
             }
-        } else if(!name.equals("")) {
-            return false;
-        } else if(tags.equals("")) {
-            return false;
-        } else {
-            return true;
         }
+        return false;
     }
 }
