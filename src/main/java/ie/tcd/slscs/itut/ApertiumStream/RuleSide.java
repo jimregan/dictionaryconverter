@@ -58,10 +58,12 @@ public class RuleSide {
             } else if(st instanceof BlankToken) {
                 tokens.add((BlankToken) st);
             } else if(st instanceof MLUToken) {
-                List<WordToken> mluchildren = new ArrayList<WordToken>();
+                MLUReference mluref = MLUReference.fromMLUToken((MLUToken) st, lucount);
                 for (WordToken wt : ((MLUToken) st).getLUs()) {
-
+                    lus.add(wt);
+                    lucount++;
                 }
+                tokens.add(mluref);
             }
         }
         return new RuleSide(lus, tokens);
