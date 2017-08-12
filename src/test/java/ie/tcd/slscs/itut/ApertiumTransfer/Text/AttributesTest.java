@@ -38,7 +38,7 @@ public class AttributesTest extends TestCase {
     public void testFromText() throws Exception {
         String in = "num = sg pl ND! sp?";
         String in2 = "gen = m f mf? GD!";
-        Attributes exp = new Attributes("num", "mf", "GD", Arrays.asList(new String[]{"sg", "pl", "ND"}));
+        Attributes exp = new Attributes("num", "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND"}));
         Attributes out = Attributes.fromText(in);
         assertEquals(exp.name, out.name);
         assertEquals(exp.any, out.any);
