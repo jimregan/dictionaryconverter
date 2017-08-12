@@ -27,17 +27,18 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class AttributesTest extends TestCase {
     public void testFromText() throws Exception {
         String in = "num = sg pl ND! sp?";
-        String in2 = "gen = m f mf? GD!";
         Attributes exp = new Attributes("num", "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND"}));
         Attributes out = Attributes.fromText(in);
         assertEquals(exp.name, out.name);
@@ -46,5 +47,10 @@ public class AttributesTest extends TestCase {
         assertEquals(exp.getItems().size(), out.getItems().size());
         assertEquals(exp.getItems().get(0), out.getItems().get(0));
     }
-
+    public void testFromAttributes() throws Exception {
+        String sin = "gen = m f mf? GD!";
+        Attributes in = Attributes.fromText(sin);
+        List<DefAttr> out = Attributes.fromAttributes(in);
+        assertEquals(3, out.size());
+    }
 }
