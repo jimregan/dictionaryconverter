@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe299b09-2024-448c-a612-25b15286ef11" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPattern.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/ChunkAlignment.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Alignment.java" afterPath="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Alignment.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/project/project/target/" />
@@ -24,61 +27,48 @@
       <file leaf-file-name="Trx.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6443">
-              <caret line="783" column="5" lean-forward="true" selection-start-line="783" selection-start-column="5" selection-end-line="783" selection-end-column="5" />
+            <state relative-caret-position="181">
+              <caret line="147" column="51" lean-forward="false" selection-start-line="147" selection-start-column="41" selection-end-line="147" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Lrx.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala">
+      <file leaf-file-name="CatItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
+            <state relative-caret-position="408">
+              <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
               <folding>
-                <element signature="e#1422#1479#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1668#1676#0" expanded="true" />
+                <element signature="e#1983#1984#0" expanded="true" />
+                <element signature="e#2015#2016#0" expanded="true" />
+                <element signature="e#2049#2050#0" expanded="true" />
+                <element signature="e#2092#2093#0" expanded="true" />
+                <element signature="e#2698#2699#0" expanded="true" />
+                <element signature="e#2748#2749#0" expanded="true" />
+                <element signature="e#2789#2790#0" expanded="true" />
+                <element signature="e#2837#2838#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DixUtils.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
+      <file leaf-file-name="DefCat.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="55" column="45" lean-forward="true" selection-start-line="55" selection-start-column="45" selection-end-line="55" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DixUtilsTest.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="63" column="29" lean-forward="false" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Dix.scala" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DixTest.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-884">
-              <caret line="30" column="6" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
-              <folding />
+            <state relative-caret-position="270">
+              <caret line="54" column="28" lean-forward="true" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1554#1555#0" expanded="true" />
+                <element signature="e#1602#1603#0" expanded="true" />
+                <element signature="e#2210#2211#0" expanded="true" />
+                <element signature="e#2260#2261#0" expanded="true" />
+                <element signature="e#2301#2302#0" expanded="true" />
+                <element signature="e#2349#2350#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,42 +76,69 @@
       <file leaf-file-name="TrxProc.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="29" column="59" lean-forward="false" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrxUtilsTest.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrxUtils.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+            <state relative-caret-position="2346">
+              <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
               <folding>
-                <marker date="1502402219784" expanded="true" signature="2364:2398" ph="/.../" />
+                <element signature="e#1191#1275#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RuleExpander.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala">
+      <file leaf-file-name="Pattern.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Pattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="118" column="54" lean-forward="true" selection-start-line="118" selection-start-column="54" selection-end-line="118" selection-end-column="60" />
+            <state relative-caret-position="255">
+              <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1518#1519#0" expanded="true" />
+                <element signature="e#1570#1571#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alignment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Alignment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PatternItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="32" column="25" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+              <folding>
+                <element signature="e#1470#1471#0" expanded="true" />
+                <element signature="e#1502#1503#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DefCats.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="59" column="47" lean-forward="false" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
+              <folding>
+                <element signature="e#1487#1488#0" expanded="true" />
+                <element signature="e#1539#1540#0" expanded="true" />
+                <element signature="e#1711#1727#0" expanded="true" />
+                <element signature="e#2096#2097#0" expanded="true" />
+                <element signature="e#2152#2153#0" expanded="true" />
+                <element signature="e#2198#2199#0" expanded="true" />
+                <element signature="e#2252#2253#0" expanded="true" />
+                <element signature="e#2285#2286#0" expanded="true" />
+                <element signature="e#2324#2325#0" expanded="true" />
+                <element signature="e#2358#2359#0" expanded="true" />
+                <element signature="e#2396#2397#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,17 +149,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
-        <option value="JUnit4 Test Class" />
         <option value="ScalaTest Class" />
+        <option value="Package Object" />
+        <option value="Enum" />
+        <option value="JUnit4 Test Class" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>append</find>
-      <find>ActionE</find>
-      <find>caseless=</find>
       <find>&lt;in</find>
       <find>Action</find>
       <find>n.child</find>
@@ -170,6 +187,9 @@
       <find>def get</find>
       <find>ending=&quot;</find>
       <find>&amp;#10;</find>
+      <find>toplevel</find>
+      <find>RuleEle</find>
+      <find>patternite</find>
     </findStrings>
     <replaceStrings>
       <replace>values.map{e =&gt; e.toXMLString(i+1</replace>
@@ -194,21 +214,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/FGBTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/FGB.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/ApertiumStream.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/StreamToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/BlankToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/WordToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/JoinedWordToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/StreamToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/BlankToken.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/SingleAnalysis.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/WordTokenTest.scala" />
-        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/WordTokenTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/UtilsTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/WordToken.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ApertiumStream.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/AnalysedToken.java" />
@@ -216,8 +221,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUToken.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/MLUTokenTest.java" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/ChunkTokenTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ChunkToken.java" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Dix.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/DixUtils.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.scala" />
@@ -226,7 +229,6 @@
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/CrosaireTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/Crosaire.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/LexRule.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRule.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRuleTest.scala" />
@@ -237,11 +239,32 @@
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/EIDTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/CrosaireTest.java" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUReference.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ChunkToken.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/ChunkTokenTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/RuleSideTest.java" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/package.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/TransferType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCatsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Pattern.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Alignment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/ChunkAlignment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPattern.java" />
       </list>
     </option>
   </component>
@@ -340,6 +363,24 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="itut" type="462c0819:PsiDirectoryNode" />
               <item name="ApertiumStream" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DictionaryConverter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dictionaryconverter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="itut" type="462c0819:PsiDirectoryNode" />
+              <item name="ApertiumTransfer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DictionaryConverter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dictionaryconverter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="itut" type="462c0819:PsiDirectoryNode" />
+              <item name="crosaire" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DictionaryConverter" type="b2602c69:ProjectViewProjectNode" />
@@ -483,8 +524,8 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lttoolbox-java" />
     <property name="settings.editor.selected.configurable" value="copyright.profiles" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="ScalaTest" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -492,11 +533,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="ie.tcd.slscs.itut.ApertiumTransfer" />
+      <recent name="ie.tcd.slscs.itut.ApertiumStream" />
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.dix" />
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.lexical" />
       <recent name="ie.tcd.slscs.itut" />
-      <recent name="ie.tcd.slscs.itut.ApertiumStream" />
-      <recent name="ie.tcd.slscs.itut.DictionaryConverter" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.DixUtils$" />
@@ -509,9 +550,9 @@
       <recent name="ie.tcd.slscs.itut.ApertiumStream" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
       <recent name="org.scalatest.FlatSpec" />
       <recent name="org.scalatest.FunSuite" />
-      <recent name="" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -751,350 +792,350 @@
       <option name="presentableId" value="Default" />
       <updated>1500964014076</updated>
     </task>
-    <task id="LOCAL-00166" summary="test">
-      <created>1502036213943</created>
-      <option name="number" value="00166" />
-      <option name="presentableId" value="LOCAL-00166" />
+    <task id="LOCAL-00219" summary="get contents">
+      <created>1502445057286</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
       <option name="project" value="LOCAL" />
-      <updated>1502036213943</updated>
+      <updated>1502445057286</updated>
     </task>
-    <task id="LOCAL-00167" summary="put here">
-      <created>1502037191546</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
+    <task id="LOCAL-00220" summary="Some">
+      <created>1502445198384</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
       <option name="project" value="LOCAL" />
-      <updated>1502037191546</updated>
+      <updated>1502445198384</updated>
     </task>
-    <task id="LOCAL-00168" summary="fix">
-      <created>1502038112921</created>
-      <option name="number" value="00168" />
-      <option name="presentableId" value="LOCAL-00168" />
+    <task id="LOCAL-00221" summary="it would help if I put it in the right place">
+      <created>1502445295911</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
       <option name="project" value="LOCAL" />
-      <updated>1502038112921</updated>
+      <updated>1502445295911</updated>
     </task>
-    <task id="LOCAL-00169" summary="put an explicit number for testing later">
-      <created>1502038312041</created>
-      <option name="number" value="00169" />
-      <option name="presentableId" value="LOCAL-00169" />
+    <task id="LOCAL-00222" summary="bug in the procrastination code">
+      <created>1502446926110</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
       <option name="project" value="LOCAL" />
-      <updated>1502038312041</updated>
+      <updated>1502446926110</updated>
     </task>
-    <task id="LOCAL-00170" summary="change">
-      <created>1502373916619</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
+    <task id="LOCAL-00223" summary="use equals list because order is not important">
+      <created>1502447399161</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
       <option name="project" value="LOCAL" />
-      <updated>1502373916619</updated>
+      <updated>1502447399161</updated>
     </task>
-    <task id="LOCAL-00171" summary="case classes for multiwords">
-      <created>1502373932041</created>
-      <option name="number" value="00171" />
-      <option name="presentableId" value="LOCAL-00171" />
+    <task id="LOCAL-00224" summary="more">
+      <created>1502454495704</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
       <option name="project" value="LOCAL" />
-      <updated>1502373932041</updated>
+      <updated>1502454495704</updated>
     </task>
-    <task id="LOCAL-00172" summary="parse string groups; rename class to not conflict with the scala.xml Group">
-      <created>1502375167195</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
+    <task id="LOCAL-00225" summary="more methods">
+      <created>1502460759088</created>
+      <option name="number" value="00225" />
+      <option name="presentableId" value="LOCAL-00225" />
       <option name="project" value="LOCAL" />
-      <updated>1502375167195</updated>
+      <updated>1502460759088</updated>
     </task>
-    <task id="LOCAL-00173" summary="move to package">
-      <created>1502375741513</created>
-      <option name="number" value="00173" />
-      <option name="presentableId" value="LOCAL-00173" />
+    <task id="LOCAL-00226" summary="more methods">
+      <created>1502461778187</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
       <option name="project" value="LOCAL" />
-      <updated>1502375741513</updated>
+      <updated>1502461778187</updated>
     </task>
-    <task id="LOCAL-00174" summary="move to package">
-      <created>1502375769630</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
+    <task id="LOCAL-00227" summary="vars are not a problem">
+      <created>1502470138820</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
       <option name="project" value="LOCAL" />
-      <updated>1502375769630</updated>
+      <updated>1502470138820</updated>
     </task>
-    <task id="LOCAL-00175" summary="MultiTrg">
-      <created>1502381199900</created>
-      <option name="number" value="00175" />
-      <option name="presentableId" value="LOCAL-00175" />
+    <task id="LOCAL-00228" summary="pieces for merge">
+      <created>1502471132796</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
       <option name="project" value="LOCAL" />
-      <updated>1502381199900</updated>
+      <updated>1502471132796</updated>
     </task>
-    <task id="LOCAL-00176" summary="more">
-      <created>1502384870021</created>
-      <option name="number" value="00176" />
-      <option name="presentableId" value="LOCAL-00176" />
+    <task id="LOCAL-00229" summary="another helper">
+      <created>1502471596020</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
       <option name="project" value="LOCAL" />
-      <updated>1502384870021</updated>
+      <updated>1502471596020</updated>
     </task>
-    <task id="LOCAL-00177" summary="fix labels by default, no extra context needed">
-      <created>1502385863729</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
+    <task id="LOCAL-00230" summary="todos for the rest of the evening">
+      <created>1502471809373</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
       <option name="project" value="LOCAL" />
-      <updated>1502385863729</updated>
+      <updated>1502471809373</updated>
     </task>
-    <task id="LOCAL-00178" summary="expose method">
-      <created>1502385924713</created>
-      <option name="number" value="00178" />
-      <option name="presentableId" value="LOCAL-00178" />
+    <task id="LOCAL-00231" summary="more todos; think I finally figured out a way to work this">
+      <created>1502479444966</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
       <option name="project" value="LOCAL" />
-      <updated>1502385924713</updated>
+      <updated>1502479444966</updated>
     </task>
-    <task id="LOCAL-00179" summary="tidy">
-      <created>1502386329736</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
+    <task id="LOCAL-00232" summary="more">
+      <created>1502479609165</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
       <option name="project" value="LOCAL" />
-      <updated>1502386329736</updated>
+      <updated>1502479609165</updated>
     </task>
-    <task id="LOCAL-00180" summary="disable missing piece">
-      <created>1502391029981</created>
-      <option name="number" value="00180" />
-      <option name="presentableId" value="LOCAL-00180" />
+    <task id="LOCAL-00233" summary="basically todo-ish">
+      <created>1502480192150</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
       <option name="project" value="LOCAL" />
-      <updated>1502391029981</updated>
+      <updated>1502480192150</updated>
     </task>
-    <task id="LOCAL-00181" summary="try this">
-      <created>1502391837848</created>
-      <option name="number" value="00181" />
-      <option name="presentableId" value="LOCAL-00181" />
+    <task id="LOCAL-00234" summary="category methods">
+      <created>1502559155365</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
       <option name="project" value="LOCAL" />
-      <updated>1502391837848</updated>
+      <updated>1502559155365</updated>
     </task>
-    <task id="LOCAL-00182" summary="try this">
-      <created>1502391847156</created>
-      <option name="number" value="00182" />
-      <option name="presentableId" value="LOCAL-00182" />
+    <task id="LOCAL-00235" summary="addToCat">
+      <created>1502559478576</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
       <option name="project" value="LOCAL" />
-      <updated>1502391847156</updated>
+      <updated>1502559478576</updated>
     </task>
-    <task id="LOCAL-00183" summary="see if this fixes those extra spaces">
-      <created>1502392026881</created>
-      <option name="number" value="00183" />
-      <option name="presentableId" value="LOCAL-00183" />
+    <task id="LOCAL-00236" summary="attr methods">
+      <created>1502560022505</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
       <option name="project" value="LOCAL" />
-      <updated>1502392026881</updated>
+      <updated>1502560022505</updated>
     </task>
-    <task id="LOCAL-00184" summary="extends">
-      <created>1502392471153</created>
-      <option name="number" value="00184" />
-      <option name="presentableId" value="LOCAL-00184" />
+    <task id="LOCAL-00237" summary="convert WordToken/MLUToken">
+      <created>1502561196574</created>
+      <option name="number" value="00237" />
+      <option name="presentableId" value="LOCAL-00237" />
       <option name="project" value="LOCAL" />
-      <updated>1502392471153</updated>
+      <updated>1502561196574</updated>
     </task>
-    <task id="LOCAL-00185" summary="fix error">
-      <created>1502392821233</created>
-      <option name="number" value="00185" />
-      <option name="presentableId" value="LOCAL-00185" />
+    <task id="LOCAL-00238" summary="do this in Java">
+      <created>1502562287015</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
       <option name="project" value="LOCAL" />
-      <updated>1502392821233</updated>
+      <updated>1502562287015</updated>
     </task>
-    <task id="LOCAL-00186" summary="fix error">
-      <created>1502392892636</created>
-      <option name="number" value="00186" />
-      <option name="presentableId" value="LOCAL-00186" />
+    <task id="LOCAL-00239" summary="constructor">
+      <created>1502562993141</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
       <option name="project" value="LOCAL" />
-      <updated>1502392892636</updated>
+      <updated>1502562993141</updated>
     </task>
-    <task id="LOCAL-00187" summary="fix error">
-      <created>1502393136683</created>
-      <option name="number" value="00187" />
-      <option name="presentableId" value="LOCAL-00187" />
+    <task id="LOCAL-00240" summary="start">
+      <created>1502563124874</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
       <option name="project" value="LOCAL" />
-      <updated>1502393136683</updated>
+      <updated>1502563124874</updated>
     </task>
-    <task id="LOCAL-00188" summary="comment out">
-      <created>1502393235912</created>
-      <option name="number" value="00188" />
-      <option name="presentableId" value="LOCAL-00188" />
+    <task id="LOCAL-00241" summary="create">
+      <created>1502563142938</created>
+      <option name="number" value="00241" />
+      <option name="presentableId" value="LOCAL-00241" />
       <option name="project" value="LOCAL" />
-      <updated>1502393235912</updated>
+      <updated>1502563142938</updated>
     </task>
-    <task id="LOCAL-00189" summary="try to silence warning">
-      <created>1502393404878</created>
-      <option name="number" value="00189" />
-      <option name="presentableId" value="LOCAL-00189" />
+    <task id="LOCAL-00242" summary="not sure if I want to do this here">
+      <created>1502563179576</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
       <option name="project" value="LOCAL" />
-      <updated>1502393404879</updated>
+      <updated>1502563179576</updated>
     </task>
-    <task id="LOCAL-00190" summary="try to silence warning">
-      <created>1502393564464</created>
-      <option name="number" value="00190" />
-      <option name="presentableId" value="LOCAL-00190" />
+    <task id="LOCAL-00243" summary="converter">
+      <created>1502563429613</created>
+      <option name="number" value="00243" />
+      <option name="presentableId" value="LOCAL-00243" />
       <option name="project" value="LOCAL" />
-      <updated>1502393564464</updated>
+      <updated>1502563429613</updated>
     </task>
-    <task id="LOCAL-00191" summary="test a simple element">
-      <created>1502393705856</created>
-      <option name="number" value="00191" />
-      <option name="presentableId" value="LOCAL-00191" />
+    <task id="LOCAL-00244" summary="do it differently">
+      <created>1502563668271</created>
+      <option name="number" value="00244" />
+      <option name="presentableId" value="LOCAL-00244" />
       <option name="project" value="LOCAL" />
-      <updated>1502393705856</updated>
+      <updated>1502563668271</updated>
     </task>
-    <task id="LOCAL-00192" summary="wrap in &lt;entry&gt;">
-      <created>1502393877524</created>
-      <option name="number" value="00192" />
-      <option name="presentableId" value="LOCAL-00192" />
+    <task id="LOCAL-00245" summary="duplicate that all for chunk innards">
+      <created>1502565251932</created>
+      <option name="number" value="00245" />
+      <option name="presentableId" value="LOCAL-00245" />
       <option name="project" value="LOCAL" />
-      <updated>1502393877525</updated>
+      <updated>1502565251932</updated>
     </task>
-    <task id="LOCAL-00193" summary="also wrap exp">
-      <created>1502393982499</created>
-      <option name="number" value="00193" />
-      <option name="presentableId" value="LOCAL-00193" />
+    <task id="LOCAL-00246" summary="test">
+      <created>1502566250953</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
       <option name="project" value="LOCAL" />
-      <updated>1502393982499</updated>
+      <updated>1502566250954</updated>
     </task>
-    <task id="LOCAL-00194" summary="put the actual test in">
-      <created>1502394251717</created>
-      <option name="number" value="00194" />
-      <option name="presentableId" value="LOCAL-00194" />
+    <task id="LOCAL-00247" summary="size, not $#">
+      <created>1502566381680</created>
+      <option name="number" value="00247" />
+      <option name="presentableId" value="LOCAL-00247" />
       <option name="project" value="LOCAL" />
-      <updated>1502394251717</updated>
+      <updated>1502566381680</updated>
     </task>
-    <task id="LOCAL-00195" summary="fix exp">
-      <created>1502394262415</created>
-      <option name="number" value="00195" />
-      <option name="presentableId" value="LOCAL-00195" />
+    <task id="LOCAL-00248" summary="I know the equals will fail, but I'd like to see junit's output">
+      <created>1502566458829</created>
+      <option name="number" value="00248" />
+      <option name="presentableId" value="LOCAL-00248" />
       <option name="project" value="LOCAL" />
-      <updated>1502394262415</updated>
+      <updated>1502566458829</updated>
     </task>
-    <task id="LOCAL-00196" summary="fix exp">
-      <created>1502394361002</created>
-      <option name="number" value="00196" />
-      <option name="presentableId" value="LOCAL-00196" />
+    <task id="LOCAL-00249" summary="this should hopefully cover it">
+      <created>1502566760891</created>
+      <option name="number" value="00249" />
+      <option name="presentableId" value="LOCAL-00249" />
       <option name="project" value="LOCAL" />
-      <updated>1502394361002</updated>
+      <updated>1502566760891</updated>
     </task>
-    <task id="LOCAL-00197" summary="split into two">
-      <created>1502394419525</created>
-      <option name="number" value="00197" />
-      <option name="presentableId" value="LOCAL-00197" />
+    <task id="LOCAL-00250" summary="debugging">
+      <created>1502566860091</created>
+      <option name="number" value="00250" />
+      <option name="presentableId" value="LOCAL-00250" />
       <option name="project" value="LOCAL" />
-      <updated>1502394419525</updated>
+      <updated>1502566860091</updated>
     </task>
-    <task id="LOCAL-00198" summary="split into two">
-      <created>1502394512181</created>
-      <option name="number" value="00198" />
-      <option name="presentableId" value="LOCAL-00198" />
+    <task id="LOCAL-00251" summary="debugging">
+      <created>1502566960109</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
       <option name="project" value="LOCAL" />
-      <updated>1502394512181</updated>
+      <updated>1502566960109</updated>
     </task>
-    <task id="LOCAL-00199" summary="here too">
-      <created>1502394600958</created>
-      <option name="number" value="00199" />
-      <option name="presentableId" value="LOCAL-00199" />
+    <task id="LOCAL-00252" summary="aaaah, empty blank">
+      <created>1502567042674</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
       <option name="project" value="LOCAL" />
-      <updated>1502394600958</updated>
+      <updated>1502567042674</updated>
     </task>
-    <task id="LOCAL-00200" summary="change around">
-      <created>1502394740089</created>
-      <option name="number" value="00200" />
-      <option name="presentableId" value="LOCAL-00200" />
+    <task id="LOCAL-00253" summary="check last position lu has right number">
+      <created>1502567210111</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
       <option name="project" value="LOCAL" />
-      <updated>1502394740089</updated>
+      <updated>1502567210111</updated>
     </task>
-    <task id="LOCAL-00201" summary="helper method to create simple bilingual dictionary entry">
-      <created>1502398864661</created>
-      <option name="number" value="00201" />
-      <option name="presentableId" value="LOCAL-00201" />
+    <task id="LOCAL-00254" summary="one todo checked">
+      <created>1502567969669</created>
+      <option name="number" value="00254" />
+      <option name="presentableId" value="LOCAL-00254" />
       <option name="project" value="LOCAL" />
-      <updated>1502398864661</updated>
+      <updated>1502567969669</updated>
     </task>
-    <task id="LOCAL-00202" summary="escape in split">
-      <created>1502399064613</created>
-      <option name="number" value="00202" />
-      <option name="presentableId" value="LOCAL-00202" />
+    <task id="LOCAL-00255" summary="add">
+      <created>1502568920062</created>
+      <option name="number" value="00255" />
+      <option name="presentableId" value="LOCAL-00255" />
       <option name="project" value="LOCAL" />
-      <updated>1502399064613</updated>
+      <updated>1502568920062</updated>
     </task>
-    <task id="LOCAL-00203" summary="redo isNotTag">
-      <created>1502399583430</created>
-      <option name="number" value="00203" />
-      <option name="presentableId" value="LOCAL-00203" />
+    <task id="LOCAL-00256" summary="tagsMatch">
+      <created>1502569340159</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
       <option name="project" value="LOCAL" />
-      <updated>1502399583431</updated>
+      <updated>1502569340159</updated>
     </task>
-    <task id="LOCAL-00204" summary="generate entries">
-      <created>1502400696088</created>
-      <option name="number" value="00204" />
-      <option name="presentableId" value="LOCAL-00204" />
+    <task id="LOCAL-00257" summary="docs">
+      <created>1502569674390</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
       <option name="project" value="LOCAL" />
-      <updated>1502400696088</updated>
+      <updated>1502569674390</updated>
     </task>
-    <task id="LOCAL-00205" summary="todo">
-      <created>1502400841664</created>
-      <option name="number" value="00205" />
-      <option name="presentableId" value="LOCAL-00205" />
+    <task id="LOCAL-00258" summary="useless this() call">
+      <created>1502569763620</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
       <option name="project" value="LOCAL" />
-      <updated>1502400841664</updated>
+      <updated>1502569763620</updated>
     </task>
-    <task id="LOCAL-00206" summary="move a dix utility">
-      <created>1502401509784</created>
-      <option name="number" value="00206" />
-      <option name="presentableId" value="LOCAL-00206" />
+    <task id="LOCAL-00259" summary="added this makemap function, then realised I don't need it">
+      <created>1502569972880</created>
+      <option name="number" value="00259" />
+      <option name="presentableId" value="LOCAL-00259" />
       <option name="project" value="LOCAL" />
-      <updated>1502401509784</updated>
+      <updated>1502569972880</updated>
     </task>
-    <task id="LOCAL-00207" summary="add todo">
-      <created>1502401850040</created>
-      <option name="number" value="00207" />
-      <option name="presentableId" value="LOCAL-00207" />
+    <task id="LOCAL-00260" summary="see? didn't need it">
+      <created>1502570030789</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
       <option name="project" value="LOCAL" />
-      <updated>1502401850040</updated>
+      <updated>1502570030789</updated>
     </task>
-    <task id="LOCAL-00208" summary="finish. slr/srl nullified for now">
-      <created>1502401879869</created>
-      <option name="number" value="00208" />
-      <option name="presentableId" value="LOCAL-00208" />
+    <task id="LOCAL-00261" summary="construct from list">
+      <created>1502570146000</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
       <option name="project" value="LOCAL" />
-      <updated>1502401879869</updated>
+      <updated>1502570146000</updated>
     </task>
-    <task id="LOCAL-00209" summary="it's a simple swap, duh">
-      <created>1502402051344</created>
-      <option name="number" value="00209" />
-      <option name="presentableId" value="LOCAL-00209" />
+    <task id="LOCAL-00262" summary="add and get">
+      <created>1502570251705</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
       <option name="project" value="LOCAL" />
-      <updated>1502402051344</updated>
+      <updated>1502570251705</updated>
     </task>
-    <task id="LOCAL-00210" summary="move two more">
-      <created>1502402183238</created>
-      <option name="number" value="00210" />
-      <option name="presentableId" value="LOCAL-00210" />
+    <task id="LOCAL-00263" summary="helpers">
+      <created>1502570400217</created>
+      <option name="number" value="00263" />
+      <option name="presentableId" value="LOCAL-00263" />
       <option name="project" value="LOCAL" />
-      <updated>1502402183238</updated>
+      <updated>1502570400217</updated>
     </task>
-    <task id="LOCAL-00211" summary="another todo">
-      <created>1502402234077</created>
-      <option name="number" value="00211" />
-      <option name="presentableId" value="LOCAL-00211" />
+    <task id="LOCAL-00264" summary="contructors help">
+      <created>1502572126798</created>
+      <option name="number" value="00264" />
+      <option name="presentableId" value="LOCAL-00264" />
       <option name="project" value="LOCAL" />
-      <updated>1502402234077</updated>
+      <updated>1502572126798</updated>
     </task>
-    <task id="LOCAL-00212" summary="some idea suggestions">
-      <created>1502402889324</created>
-      <option name="number" value="00212" />
-      <option name="presentableId" value="LOCAL-00212" />
+    <task id="LOCAL-00265" summary="test">
+      <created>1502572673510</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
       <option name="project" value="LOCAL" />
-      <updated>1502402889324</updated>
+      <updated>1502572673510</updated>
     </task>
-    <task id="LOCAL-00213" summary="fix order of slr/srl. part 2 first">
-      <created>1502403201935</created>
-      <option name="number" value="00213" />
-      <option name="presentableId" value="LOCAL-00213" />
+    <task id="LOCAL-00266" summary="helpers">
+      <created>1502572684323</created>
+      <option name="number" value="00266" />
+      <option name="presentableId" value="LOCAL-00266" />
       <option name="project" value="LOCAL" />
-      <updated>1502403201935</updated>
+      <updated>1502572684323</updated>
     </task>
-    <task id="LOCAL-00214" summary="vr/vl. oops">
-      <created>1502403338977</created>
-      <option name="number" value="00214" />
-      <option name="presentableId" value="LOCAL-00214" />
+    <task id="LOCAL-00267" summary="pattern">
+      <created>1502577509832</created>
+      <option name="number" value="00267" />
+      <option name="presentableId" value="LOCAL-00267" />
       <option name="project" value="LOCAL" />
-      <updated>1502403338977</updated>
+      <updated>1502577509832</updated>
     </task>
-    <option name="localTasksCounter" value="215" />
+    <option name="localTasksCounter" value="268" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1139,15 +1180,16 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977587" sideWeight="0.50208336" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="sbt-shell-toolwindow" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3127001" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977587" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1159,7 +1201,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1177,32 +1218,32 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix error" />
-    <MESSAGE value="comment out" />
-    <MESSAGE value="try to silence warning" />
-    <MESSAGE value="test a simple element" />
-    <MESSAGE value="wrap in &lt;entry&gt;" />
-    <MESSAGE value="also wrap exp" />
-    <MESSAGE value="put the actual test in" />
-    <MESSAGE value="fix exp" />
-    <MESSAGE value="split into two" />
-    <MESSAGE value="here too" />
-    <MESSAGE value="change around" />
-    <MESSAGE value="helper method to create simple bilingual dictionary entry" />
-    <MESSAGE value="escape in split" />
-    <MESSAGE value="redo isNotTag" />
-    <MESSAGE value="generate entries" />
-    <MESSAGE value="todo" />
-    <MESSAGE value="move a dix utility" />
-    <MESSAGE value="add todo" />
-    <MESSAGE value="finish. slr/srl nullified for now" />
-    <MESSAGE value="it's a simple swap, duh" />
-    <MESSAGE value="move two more" />
-    <MESSAGE value="another todo" />
-    <MESSAGE value="some idea suggestions" />
-    <MESSAGE value="fix order of slr/srl. part 2 first" />
-    <MESSAGE value="vr/vl. oops" />
-    <option name="LAST_COMMIT_MESSAGE" value="vr/vl. oops" />
+    <MESSAGE value="start" />
+    <MESSAGE value="create" />
+    <MESSAGE value="not sure if I want to do this here" />
+    <MESSAGE value="converter" />
+    <MESSAGE value="do it differently" />
+    <MESSAGE value="duplicate that all for chunk innards" />
+    <MESSAGE value="size, not $#" />
+    <MESSAGE value="I know the equals will fail, but I'd like to see junit's output" />
+    <MESSAGE value="this should hopefully cover it" />
+    <MESSAGE value="debugging" />
+    <MESSAGE value="aaaah, empty blank" />
+    <MESSAGE value="check last position lu has right number" />
+    <MESSAGE value="one todo checked" />
+    <MESSAGE value="add" />
+    <MESSAGE value="tagsMatch" />
+    <MESSAGE value="docs" />
+    <MESSAGE value="useless this() call" />
+    <MESSAGE value="added this makemap function, then realised I don't need it" />
+    <MESSAGE value="see? didn't need it" />
+    <MESSAGE value="construct from list" />
+    <MESSAGE value="add and get" />
+    <MESSAGE value="contructors help" />
+    <MESSAGE value="test" />
+    <MESSAGE value="helpers" />
+    <MESSAGE value="pattern" />
+    <option name="LAST_COMMIT_MESSAGE" value="pattern" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1211,170 +1252,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/FileUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1124">
-          <caret line="31" column="13" lean-forward="false" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/FileUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-138">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/BlankToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="44" column="27" lean-forward="false" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/JoinedWordToken.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/SingleAnalysis.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/StreamToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/AnalysedToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="59" column="20" lean-forward="false" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/MLUTokenTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/WordToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="211" column="0" lean-forward="true" selection-start-line="164" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-544">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ApertiumStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3">
-          <caret line="35" column="76" lean-forward="false" selection-start-line="35" selection-start-column="76" selection-end-line="35" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="186" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/ChunkTokenTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ChunkToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="58" column="11" lean-forward="false" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.2-sources.jar!/scala/xml/factory/XMLLoader.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="48" column="6" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx/scala.scala" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/CrosaireTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/WordTokenTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/UtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="41" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="41" />
-          <folding>
-            <marker date="1501599096062" expanded="true" signature="3806:3814" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRuleTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2788">
-          <caret line="190" column="43" lean-forward="false" selection-start-line="190" selection-start-column="43" selection-end-line="190" selection-end-column="43" />
-          <folding>
-            <element signature="e#1430#1459#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRule.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="99" column="40" lean-forward="false" selection-start-line="99" selection-start-column="40" selection-end-line="99" selection-end-column="40" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/IrishPieces.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="28" column="7" lean-forward="false" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/LabelMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9945">
-          <caret line="587" column="11" lean-forward="false" selection-start-line="587" selection-start-column="11" selection-end-line="587" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="18" lean-forward="false" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1468,14 +1345,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-223">
-          <caret line="111" column="12" lean-forward="false" selection-start-line="111" selection-start-column="12" selection-end-line="111" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/EIDTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="355">
@@ -1497,24 +1366,18 @@
         <state relative-caret-position="168">
           <caret line="78" column="9" lean-forward="false" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
           <folding>
-            <element signature="e#1422#1479#0" expanded="true" />
+            <element signature="e#1422#1479#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="63" column="29" lean-forward="false" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="29" column="59" lean-forward="false" selection-start-line="29" selection-start-column="59" selection-end-line="29" selection-end-column="59" />
-          <folding />
+        <state relative-caret-position="253">
+          <caret line="118" column="54" lean-forward="false" selection-start-line="118" selection-start-column="54" selection-end-line="118" selection-end-column="60" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1526,46 +1389,353 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="80" column="28" lean-forward="false" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
-          <folding>
-            <marker date="1502402219784" expanded="true" signature="2364:2398" ph="/.../" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="118" column="54" lean-forward="true" selection-start-line="118" selection-start-column="54" selection-end-line="118" selection-end-column="60" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6443">
-          <caret line="783" column="5" lean-forward="true" selection-start-line="783" selection-start-column="5" selection-end-line="783" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="55" column="45" lean-forward="true" selection-start-line="55" selection-start-column="45" selection-end-line="55" selection-end-column="45" />
+        <state relative-caret-position="391">
+          <caret line="53" column="42" lean-forward="false" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+        <state relative-caret-position="-624">
+          <caret line="163" column="11" lean-forward="false" selection-start-line="163" selection-start-column="11" selection-end-line="163" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="85" column="60" lean-forward="false" selection-start-line="85" selection-start-column="60" selection-end-line="85" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="129" column="6" lean-forward="false" selection-start-line="129" selection-start-column="6" selection-end-line="129" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="97" column="16" lean-forward="false" selection-start-line="97" selection-start-column="16" selection-end-line="97" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/CrosaireTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="42" column="28" lean-forward="false" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="104" column="33" lean-forward="false" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
+          <folding>
+            <marker date="1502459892275" expanded="true" signature="2364:2398" ph="/.../" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="32" column="6" lean-forward="false" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+          <folding>
+            <element signature="e#1400#1429#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.2-sources.jar!/scala/collection/mutable/Map.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="78" column="85" lean-forward="true" selection-start-line="78" selection-start-column="85" selection-end-line="78" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/AnalysedToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="59" column="20" lean-forward="false" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="46" column="5" lean-forward="true" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/StreamToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="32" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <element signature="e#1531#1532#0" expanded="true" />
+            <element signature="e#1576#1577#0" expanded="true" />
+            <element signature="e#1625#1626#0" expanded="true" />
+            <element signature="e#1673#1674#0" expanded="true" />
+            <element signature="e#1706#1707#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="56" column="42" lean-forward="false" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1549#1550#0" expanded="true" />
+            <element signature="e#1604#1605#0" expanded="true" />
+            <element signature="e#1647#1648#0" expanded="true" />
+            <element signature="e#1683#1684#0" expanded="true" />
+            <element signature="e#1731#1732#0" expanded="true" />
+            <element signature="e#1758#1759#0" expanded="true" />
+            <element signature="e#1804#1805#0" expanded="true" />
+            <element signature="e#1831#1832#0" expanded="true" />
+            <element signature="e#1955#1968#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="34" column="17" lean-forward="false" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1925#1936#0" expanded="false" />
+            <element signature="e#1988#2001#0" expanded="false" />
+            <element signature="e#2793#2806#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/MLUTokenTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/ChunkTokenTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/WordToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2567">
+          <caret line="199" column="35" lean-forward="true" selection-start-line="199" selection-start-column="35" selection-end-line="199" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ChunkToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="97" column="32" lean-forward="true" selection-start-line="97" selection-start-column="32" selection-end-line="97" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/TransferType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="29" column="26" lean-forward="true" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="52" column="25" lean-forward="false" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1668#1676#0" expanded="true" />
+            <element signature="e#1983#1984#0" expanded="true" />
+            <element signature="e#2015#2016#0" expanded="true" />
+            <element signature="e#2049#2050#0" expanded="true" />
+            <element signature="e#2092#2093#0" expanded="true" />
+            <element signature="e#2698#2699#0" expanded="true" />
+            <element signature="e#2748#2749#0" expanded="true" />
+            <element signature="e#2789#2790#0" expanded="true" />
+            <element signature="e#2837#2838#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="54" column="28" lean-forward="true" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1554#1555#0" expanded="true" />
+            <element signature="e#1602#1603#0" expanded="true" />
+            <element signature="e#2210#2211#0" expanded="true" />
+            <element signature="e#2260#2261#0" expanded="true" />
+            <element signature="e#2301#2302#0" expanded="true" />
+            <element signature="e#2349#2350#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/RuleSideTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="76" column="38" lean-forward="false" selection-start-line="76" selection-start-column="38" selection-end-line="76" selection-end-column="38" />
+          <folding>
+            <element signature="e#1907#1918#0" expanded="true" />
+            <element signature="e#2215#2228#0" expanded="true" />
+            <element signature="e#2319#2332#0" expanded="true" />
+            <element signature="e#2583#2591#0" expanded="true" />
+            <element signature="e#2691#2704#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCatsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="52" column="69" lean-forward="false" selection-start-line="52" selection-start-column="69" selection-end-line="52" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1650#1659#0" expanded="false" />
+            <element signature="e#1845#1854#0" expanded="false" />
+            <element signature="e#1994#2002#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="59" column="47" lean-forward="false" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
+          <folding>
+            <element signature="e#1487#1488#0" expanded="true" />
+            <element signature="e#1539#1540#0" expanded="true" />
+            <element signature="e#1711#1727#0" expanded="true" />
+            <element signature="e#2096#2097#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="e#2198#2199#0" expanded="true" />
+            <element signature="e#2252#2253#0" expanded="true" />
+            <element signature="e#2285#2286#0" expanded="true" />
+            <element signature="e#2324#2325#0" expanded="true" />
+            <element signature="e#2358#2359#0" expanded="true" />
+            <element signature="e#2396#2397#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2346">
+          <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+          <folding>
+            <element signature="e#1191#1275#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="147" column="51" lean-forward="false" selection-start-line="147" selection-start-column="41" selection-end-line="147" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Pattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1518#1519#0" expanded="true" />
+            <element signature="e#1570#1571#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="32" column="25" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+          <folding>
+            <element signature="e#1470#1471#0" expanded="true" />
+            <element signature="e#1502#1503#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/ChunkAlignment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="32" column="29" lean-forward="false" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Alignment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding />
         </state>
       </provider>
