@@ -64,6 +64,8 @@ public class RuleSideTest extends TestCase {
         exp.add(new WordToken("test", "", chtags));
 
         assertEquals(rs.lus.size(), 5);
+        assertEquals(rs.tokens.size(), 3);
+        assertEquals(rs, exp);
     }
 
 }
