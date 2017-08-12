@@ -23,7 +23,9 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.ApertiumStream.StreamToken
+import ie.tcd.slscs.itut.ApertiumStream.{MLUToken, StreamToken, WordToken}
+
+import scala.collection.JavaConverters._
 
 case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
                    defattrs: Map[String, List[String]],
@@ -139,14 +141,15 @@ object TrxProc {
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
   // TODO helper: expand pattern string above with defcats - class method?
-  // TODO: finish getters and setters for elements
+  // TODO: finish getters and setters for elements - done except for rules and macros
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: mutable macros? probably not going to want to edit them, just add
   // TODO: check-if-macro-applies - use expanded defcats
   // TODO: macro generator
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
-  case class RuleProc(meta: RuleMetadata) // FIXME
+
+  case class RuleProc(meta: RuleMetadata)
   trait LexicalUnit
   trait SingleLexicalUnit extends LexicalUnit
   case class LUProc(lemh: String, lemq: String, tags: List[String], alignment: Int) extends SingleLexicalUnit
@@ -155,6 +158,12 @@ object TrxProc {
   case class TagProc(value: String, isAttr: Boolean, itLit: Boolean)
   case class Chunk(lemma: String, tags: List[TagProc])
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamToken]) // TODO: convert StreamToken
+  def convertWordToken(lu: WordToken): LUProc = LUProc(lu.getLemh, lu.getLemq, lu.getTags.asScala.toList, 0)
+  def convertMLUToken(mlu: MLUToken, offset: Int): (MLU, List[LUProc]) = {
+    val lus: List[LUProc] = mlu.getLUs.asScala.map{convertWordToken}.toList
+    val refs: List[LURef] = mlu.getLUs.asScala.zipWithIndex.map{e => LURef(e._2 + offset, 0)}.toList
+    (MLU(refs), lus)
+  }
   /*
    * TODO: Rule output container:
    * * List of lexical units
