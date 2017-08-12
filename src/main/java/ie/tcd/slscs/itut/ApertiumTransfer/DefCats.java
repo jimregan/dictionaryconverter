@@ -56,4 +56,10 @@ public class DefCats {
         }
         return null;
     }
+    public void add(DefCat dc) {
+        this.categories.add(dc);
+    }
+    public DefCat get(String s) {
+        return getMap().get(s);
+    }
 }
