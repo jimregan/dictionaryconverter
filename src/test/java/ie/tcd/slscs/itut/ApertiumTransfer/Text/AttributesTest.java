@@ -52,5 +52,6 @@ public class AttributesTest extends TestCase {
         Attributes in = Attributes.fromText(sin);
         List<DefAttr> out = Attributes.fromAttributes(in);
         assertEquals(3, out.size());
+        // TODO: more checks here
     }
 }
