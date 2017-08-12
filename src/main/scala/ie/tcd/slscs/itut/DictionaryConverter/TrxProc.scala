@@ -158,11 +158,16 @@ object TrxProc {
   case class TagProc(value: String, isAttr: Boolean, itLit: Boolean)
   case class Chunk(lemma: String, tags: List[TagProc])
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamToken]) // TODO: convert StreamToken
+  case class Blank()
+
   def convertWordToken(lu: WordToken): LUProc = LUProc(lu.getLemh, lu.getLemq, lu.getTags.asScala.toList, 0)
   def convertMLUToken(mlu: MLUToken, offset: Int): (MLU, List[LUProc]) = {
     val lus: List[LUProc] = mlu.getLUs.asScala.map{convertWordToken}.toList
     val refs: List[LURef] = mlu.getLUs.asScala.zipWithIndex.map{e => LURef(e._2 + offset, 0)}.toList
     (MLU(refs), lus)
+  }
+  def convertRuleSide(l: List[StreamToken]): Unit = {
+
   }
   /*
    * TODO: Rule output container:
