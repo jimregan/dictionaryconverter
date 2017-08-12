@@ -46,6 +46,14 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
   def safeSetCats(cats: Map[String, List[CatItem]]) {
     cats.map{e => safeSetCat(e._1, e._2)}
   }
+  def addToCat(s: String, c: CatItem) {
+    if(!hasCat(s)) {
+      categories.put(s, List(c))
+    } else {
+      val tmp = getCat(s).get :+ c
+      setCat(s, tmp)
+    }
+  }
   private val variables = collection.mutable.Map.empty[String, String] ++ vars
   def validVariables: List[String] = variables.keys.toList
   def getVar(s: String): Option[String] = variables.get(s)
