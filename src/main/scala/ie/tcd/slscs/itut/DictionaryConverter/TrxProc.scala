@@ -30,6 +30,22 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
                    vars: Map[String, String],
                    lists: Map[String, List[String]],
                    macros: Map[String, List[SentenceElement]], rules: List[RuleElement]) {
+  private val categories = collection.mutable.Map.empty[String, List[CatItem]] ++ defcats
+  def validCategories = categories.keys.toList
+  def getCat(s: String): Option[List[CatItem]] = categories.get(s)
+  def hasCat(s: String): Boolean = categories.contains(s)
+  def setCat(s: String, v: List[CatItem]) {
+    categories(s) = v
+  }
+  def safeSetCat(s: String, v: List[CatItem]) {
+    if(!hasCat(s)) {
+      setCat(s, v)
+    }
+  }
+  def getCatMap = categories
+  def safeSetCats(cats: Map[String, List[CatItem]]) {
+    cats.map{e => safeSetCat(e._1, e._2)}
+  }
   private val variables = collection.mutable.Map.empty[String, String] ++ vars
   def validVariables: List[String] = variables.keys.toList
   def getVar(s: String): Option[String] = variables.get(s)
@@ -103,7 +119,9 @@ object TrxProc {
   trait SingleLexicalUnit extends LexicalUnit
   case class LUProc(lemh: String, lemq: String, tags: List[String], alignment: Int) extends SingleLexicalUnit
   case class LURef(index: Int, alignment: Int) extends SingleLexicalUnit
-  case class MLU(children: List[SingleLexicalUnit])
+  case class MLU(children: List[LURef])
+  case class TagProc(value: String, isAttr: Boolean, itLit: Boolean)
+  case class Chunk(lemma: String, tags: List[TagProc])
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamToken]) // TODO: convert StreamToken
   /*
    * TODO: Rule output container:
