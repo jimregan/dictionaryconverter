@@ -64,6 +64,27 @@ public class RuleSide {
                     lucount++;
                 }
                 tokens.add(mluref);
+            } else if(st instanceof ChunkToken) {
+                List<StreamToken> chtokens = new ArrayList<StreamToken>();
+                ChunkToken ch = (ChunkToken) st;
+                for(StreamToken st1 : ch.getChildren()) {
+                    if(st1 instanceof WordToken) {
+                        lus.add((WordToken) st1);
+                        LUReference ref = new LUReference(lucount);
+                        chtokens.add(ref);
+                        lucount++;
+                    } else if(st1 instanceof BlankToken) {
+                        chtokens.add((BlankToken) st1);
+                    } else if(st1 instanceof MLUToken) {
+                        MLUReference mluref = MLUReference.fromMLUToken((MLUToken) st1, lucount);
+                        for (WordToken wt : ((MLUToken) st1).getLUs()) {
+                            lus.add(wt);
+                            lucount++;
+                        }
+                        chtokens.add(mluref);
+                    }
+                }
+                tokens.add(new ChunkToken(ch.getLemma(), ch.getTags(), chtokens));
             }
         }
         return new RuleSide(lus, tokens);
