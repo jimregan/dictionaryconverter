@@ -23,7 +23,7 @@
  */
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.ApertiumStream.{MLUToken, StreamToken, WordToken}
+import ie.tcd.slscs.itut.ApertiumStream.{MLUToken, RuleSide, StreamToken, WordToken}
 
 import scala.collection.JavaConverters._
 
@@ -166,14 +166,10 @@ object TrxProc {
     val refs: List[LURef] = mlu.getLUs.asScala.zipWithIndex.map{e => LURef(e._2 + offset, 0)}.toList
     (MLU(refs), lus)
   }
-  def convertRuleSide(l: List[StreamToken]): Unit = {
+  def convertRuleSide(rs: RuleSide): Unit = {
 
   }
   /*
-   * TODO: Rule output container:
-   * * List of lexical units
-   * * List of chunks/mlus with lus replaced by index in list
-   * * Alignment?
    * TODO: replace this PatternItem with one that can contain a target alignment
    *
    * case class RuleElement(ruleid: String, rulecomment: String, comment: String,
