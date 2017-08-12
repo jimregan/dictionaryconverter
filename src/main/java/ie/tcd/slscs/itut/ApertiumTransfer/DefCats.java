@@ -45,6 +45,11 @@ public class DefCats {
         return out;
     }
     public String findTagMatch(List<String> tags) {
-
+        for(DefCat dc : categories) {
+            if(dc.tagsMatch(tags)) {
+                return dc.name;
+            }
+        }
+        return null;
     }
 }
