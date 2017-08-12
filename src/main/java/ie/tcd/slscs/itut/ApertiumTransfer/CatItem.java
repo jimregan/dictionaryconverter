@@ -45,6 +45,20 @@ public class CatItem {
             return out;
         }
     }
+    public String getFirstTag() {
+        return getTagsList().get(0);
+    }
+    public boolean tagsMatch(List<String> other_tags) {
+        if(other_tags.size() != getTagsList().size()) {
+            return false;
+        }
+        for(int i = 0; i < getTagsList().size(); i++) {
+            if(!getTagsList().get(i).equals(other_tags.get(i)) && !getTagsList().get(i).equals("*")) {
+                return false;
+            }
+        }
+        return true;
+    }
     public boolean isValidForTransferType(TransferType t) {
         if(t == TransferType.Postchunk) {
             if(name.equals("")) {
