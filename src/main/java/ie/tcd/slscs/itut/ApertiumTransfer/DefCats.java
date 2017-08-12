@@ -27,5 +27,24 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class DefCats {
+    List<DefCat> categories;
+    DefCats() {
+        categories = new ArrayList<DefCat>();
+    }
+    public Map<String, DefCat> getMap() {
+        Map<String, DefCat> out = new HashMap<String, DefCat>();
+        for (DefCat dc : categories) {
+            out.put(dc.name, dc);
+        }
+        return out;
+    }
+    public String findTagMatch(List<String> tags) {
+
+    }
 }
