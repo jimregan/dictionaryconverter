@@ -27,10 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DefCats {
     List<DefCat> categories;
@@ -55,6 +52,12 @@ public class DefCats {
             }
         }
         return null;
+    }
+    public String findTagMatch(String[] tags) {
+        return findTagMatch(Arrays.asList(tags));
+    }
+    public String findTagMatch(String tags) {
+        return findTagMatch(tags.split("\\."));
     }
     public void add(DefCat dc) {
         this.categories.add(dc);
