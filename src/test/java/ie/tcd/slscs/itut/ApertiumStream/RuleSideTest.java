@@ -72,6 +72,9 @@ public class RuleSideTest extends TestCase {
         assertEquals((ckt.getChildren().get(2) instanceof MLUReference), true);
         MLUReference mlur = (MLUReference) ckt.getChildren().get(2);
         assertEquals(mlur.children.get(0).position, 1);
+        assertEquals((rs.tokens.get(2) instanceof LUReference), true);
+        LUReference luref = (LUReference) rs.tokens.get(2);
+        assertEquals(luref.position, 4);
     }
 
 }
