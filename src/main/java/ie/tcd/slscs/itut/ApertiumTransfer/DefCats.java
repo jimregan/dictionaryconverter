@@ -37,6 +37,10 @@ public class DefCats {
     DefCats() {
         categories = new ArrayList<DefCat>();
     }
+    DefCats(List<DefCat> in) {
+        this();
+        this.categories = in;
+    }
     public Map<String, DefCat> getMap() {
         Map<String, DefCat> out = new HashMap<String, DefCat>();
         for (DefCat dc : categories) {
