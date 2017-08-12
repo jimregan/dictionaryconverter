@@ -35,6 +35,9 @@ public class MLUReference extends StreamToken {
     MLUReference() {
         children = new ArrayList<LUReference>();
     }
+    MLUReference(List<LUReference> mlus) {
+        this.children = mlus;
+    }
 
     @Override
     public String getContent() {
@@ -44,5 +47,13 @@ public class MLUReference extends StreamToken {
     @Override
     public String toString() {
         return null;
+    }
+    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
+        List<LUReference> children = new ArrayList<LUReference>();
+        for(WordToken wt : mlu.getLUs()) {
+            children.add(new LUReference(offset));
+            offset++;
+        }
+        return new MLUReference(children);
     }
 }
