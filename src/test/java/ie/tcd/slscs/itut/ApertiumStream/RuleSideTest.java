@@ -66,7 +66,8 @@ public class RuleSideTest extends TestCase {
         assertEquals(rs.lus.size(), 5);
         assertEquals(rs.tokens.size(), 3);
         assertEquals((rs.tokens.get(0) instanceof ChunkToken), true);
-        //ChunkToken ckt = (ChunkToken) rs.tokens.get(0);
+        ChunkToken ckt = (ChunkToken) rs.tokens.get(0);
+        assertEquals((ckt.getChildren().get(0) instanceof LUReference), true);
         //assertEquals((ckt.getChildren().get(1) instanceof MLUReference), true);
         //MLUReference mlur = (MLUReference) ckt.getChildren().get(1);
         //assertEquals(mlur.children.get(0).position, 1);
