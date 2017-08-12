@@ -64,6 +64,12 @@ public class CatItem {
         }
         return true;
     }
+    public boolean tagsMatch(String[] s) {
+        return tagsMatch(Arrays.asList(s));
+    }
+    public boolean tagsMatch(String s) {
+        return tagsMatch(s.split("\\."));
+    }
     public boolean isValidForTransferType(TransferType t) {
         if(t == TransferType.Postchunk) {
             if(name.equals("")) {

@@ -28,6 +28,7 @@
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DefCat {
@@ -55,5 +56,11 @@ public class DefCat {
             }
         }
         return false;
+    }
+    public boolean tagsMatch(String[] s) {
+        return tagsMatch(Arrays.asList(s));
+    }
+    public boolean tagsMatch(String s) {
+        return tagsMatch(s.split("\\."));
     }
 }
