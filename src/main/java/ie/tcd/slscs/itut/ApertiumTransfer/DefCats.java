@@ -67,6 +67,20 @@ public class DefCats {
     public DefCat get(String s) {
         return getMap().get(s);
     }
+    public String getNewName(String s) {
+        Map<String, DefCat> map = getMap();
+        if(!map.containsKey(s)) {
+            return s;
+        } else {
+            int i = 1;
+            String new_name = s + Integer.toString(i);
+            while(map.containsKey(new_name)) {
+                i++;
+                new_name = s + Integer.toString(i);
+            }
+            return new_name;
+        }
+    }
 
     public String findWordToken(WordToken wt) {
             for(DefCat dc : categories) {
