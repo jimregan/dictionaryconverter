@@ -42,4 +42,7 @@ public class AlignedPatternItem extends PatternItem {
     public boolean isSimpleAlignment() {
         return alignments.size() == 1;
     }
+    public boolean hasAlignment() {
+        return alignments.size() > 0;
+    }
 }
