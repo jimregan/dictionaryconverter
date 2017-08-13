@@ -27,8 +27,11 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.util.List;
+
 /**
  * This contains the action parts of the macro to be converted
  */
 public class SimpleTextMacroPart {
+    List<SimpleTextMacroEntry> entries;
 }
