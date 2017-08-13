@@ -68,12 +68,41 @@ public class Target {
     public class GrammarNote {
         String label;
         String wordform;
-        GrammarNote(String label, String wordform) {
+        boolean optional = false;
+        GrammarNote(String label, String wordform, boolean optional) {
             this.label = label;
             this.wordform = wordform;
+            this.optional = optional;
+        }
+        GrammarNote(String label, String wordform) {
+            this(label, wordform, false);
         }
     }
 
+    private static GrammarNote getNote(Node n) {
+        if(n.getNodeName() == "noindex") {
+            String label = "";
+            String form = "";
+            if(n.getChildNodes().getLength() == 3
+               && n.getChildNodes().item(0).getNodeName().equals("#text")
+               && n.getChildNodes().item(0).getTextContent().trim().equals("(")
+               && n.getChildNodes().item(1).getNodeName().equals("label")
+               && n.getChildNodes().item(1).getChildNodes().getLength() == 1
+               && n.getChildNodes().item(1).getChildNodes().item(0).getNodeName().equals("#text")
+               && n.getChildNodes().item(2).getNodeName().equals("#text")
+               && n.getChildNodes().item(2).getTextContent().trim().endsWith(")")) {
+                label = n.getChildNodes().item(1).getChildNodes().item(0).getTextContent();
+                form = n.getChildNodes().item(2).getTextContent().trim();
+                if(form.equals(")")) {
+                    form = "";
+                } else {
+                    form = form.substring(0, form.length() - 1);
+                }
+            }
+            return new Target.GrammarNote(label, form);
+        }
+        return null;
+    }
     /* FIXME
     public static Target fromNode(Node n) {
         if(n.getNodeName().equals("trg")) {
@@ -88,9 +117,12 @@ public class Target {
                         if(tmps.indexOf(')') + 1 < tmps.length()) {
                             tmps = tmps.substring(tmps.indexOf(')') + 1).trim();
                         }
+                        if(tmps.contains(",")) {
+
+                        }
                     }
                 }
             }
         }
-    }*/
+    } */
 }
