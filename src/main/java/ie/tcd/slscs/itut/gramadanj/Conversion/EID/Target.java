@@ -38,10 +38,11 @@ public class Target {
         pieces = new ArrayList<TargetPiece>();
     }
 
-    private static GrammarNote getNote(Node n) {
+    public static GrammarNote getNote(Node n) {
         if(n.getNodeName() == "noindex") {
             String label = "";
             String form = "";
+            boolean optional = false;
             if(n.getChildNodes().getLength() == 3
                && n.getChildNodes().item(0).getNodeName().equals("#text")
                && n.getChildNodes().item(0).getTextContent().trim().equals("(")
@@ -54,11 +55,12 @@ public class Target {
                 form = n.getChildNodes().item(2).getTextContent().trim();
                 if(form.equals(")")) {
                     form = "";
+                    optional = true;
                 } else {
                     form = form.substring(0, form.length() - 1);
                 }
             }
-            return new GrammarNote(label, form);
+            return new GrammarNote(label, form, optional);
         }
         return null;
     }
