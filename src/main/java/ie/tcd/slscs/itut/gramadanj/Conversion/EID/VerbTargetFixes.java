@@ -96,6 +96,6 @@ public class VerbTargetFixes {
         return verbs;
     }
     public static String getVerbLemma(String s) {
-        return verb_lemma_replacements.get(s);
+        return verb_lemma_replacements.get(s.toLowerCase().trim());
     }
 }
