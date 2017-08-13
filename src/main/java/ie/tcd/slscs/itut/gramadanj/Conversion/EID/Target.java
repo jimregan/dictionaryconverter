@@ -57,7 +57,11 @@ public class Target {
                     form = "";
                     optional = true;
                 } else {
-                    form = form.substring(0, form.length() - 1);
+                    int start = 0;
+                    if(form.startsWith(". ")) {
+                        start = 2;
+                    }
+                    form = form.substring(start, form.length() - 1);
                 }
             }
             return new GrammarNote(label, form, optional);
