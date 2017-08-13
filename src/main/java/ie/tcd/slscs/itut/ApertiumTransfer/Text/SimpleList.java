@@ -56,7 +56,7 @@ public class SimpleList {
             throw new Exception("Single '=' expected, got: " + s);
         }
         String name = tmp[0].trim();
-        tags = Arrays.asList(tmp[1].split(" "));
+        tags = Arrays.asList(tmp[1].trim().split(" "));
         return new SimpleList(name, tags);
     }
 
