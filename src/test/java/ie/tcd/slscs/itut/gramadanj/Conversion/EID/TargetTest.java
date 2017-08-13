@@ -60,12 +60,4 @@ public class TargetTest extends TestCase {
         GrammarNote out = Target.getNote(n1);
         assertEquals(null, out);
     }
-
-    public void testTotallyUnrelated() throws Exception {
-        String txt = "<trg>(Duine <label>m</label>, guth <label>m</label>) fann</trg>";
-        String xp = "(Duine m, guth m) fann";
-        Node n = Utils.stringToNode(txt);
-        String out = n.getTextContent();
-        assertEquals(xp, out);
-    }
 }
