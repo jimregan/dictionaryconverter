@@ -39,15 +39,14 @@ import java.util.List;
  *
  * For example:
  * <pre>
- * adj_grade | <adj> | <comp> | níos<adv> <comp> | 0-1 1-2
- *  | | <sup> | is<adv> <comp> | 0-1 1-2
+ * adj_grade | <adj> | <grade=comp> | níos<adv> <grade=comp> | 0-1 1-2
+ *  | | <grade=sup> | is<adv> <grade=comp> | 0-1 1-2
  * </pre>
  * The macro "adj_grade" applies to &lt;adj&gt; and has two actions:
  * one which inserts "níos" in front of the adjective, the other
  * which inserts "is", and sets the tag from sup to comp.
  * Insertion is marked with a 0 in the alignment piece.
- * FIXME: change notation to &lt;grade=comp&gt; to mark what is
- * being compared? Multiple attributes could contain these tags.
+ *
  * Example 2:
  * <pre>
  * det_type | <det> | no<det> | <negative=NEG> | 1-C
