@@ -27,12 +27,18 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AlignmentPair {
     String left;
     String right;
     public AlignmentPair(String left, String right) {
         this.left = left;
         this.right = right;
+    }
+    public boolean canMakeIndices() {
+        return left.matches("^([0-9]*)$") && right.matches("^([0-9]*)$");
     }
 
     public static AlignmentPair fromString(String s, char delim) throws Exception {
@@ -47,5 +53,15 @@ public class AlignmentPair {
     }
     public static AlignmentPair fromATTString(String s) throws Exception {
         return fromString(s, ':');
+    }
+    public static List<AlignmentPair> listFromString(String s, char delim) throws Exception {
+        List<AlignmentPair> out = new ArrayList<AlignmentPair>();
+        for(String ap : s.split(" ")) {
+            out.add(AlignmentPair.fromString(ap, delim));
+        }
+        return out;
+    }
+    public static List<AlignmentPair> listFromString(String s) throws Exception {
+        return listFromString(s, '-');
     }
 }
