@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,5 +84,13 @@ public class DefCat {
     }
     public boolean tagsStartWith(String s) {
         return tagsStartWith(s.split("\\."));
+    }
+    public boolean wordtokenMatches(WordToken wt) {
+        for(CatItem ci : items) {
+            if(ci.wordtokenMatches(wt)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
