@@ -30,7 +30,6 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import ie.tcd.slscs.itut.ApertiumTransfer.AttrItem;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 
-import javax.xml.stream.events.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

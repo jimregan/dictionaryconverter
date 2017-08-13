@@ -31,7 +31,6 @@ import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-import javax.xml.stream.events.Attribute;
 import java.util.Arrays;
 import java.util.List;
 
