@@ -34,4 +34,12 @@ public class VerbRulePair {
         this.rule = rule;
         this.verb = verb;
     }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public String getVerb() {
+        return verb;
+    }
 }
