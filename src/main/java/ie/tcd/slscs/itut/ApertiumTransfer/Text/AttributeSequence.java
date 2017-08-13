@@ -39,14 +39,14 @@ import java.util.Map;
  */
 public class AttributeSequence {
     String name;
-    List<String> items;
+    List<String> tags;
     AttributeSequence() {
-        this.items = new ArrayList<String>();
+        this.tags = new ArrayList<String>();
     }
     AttributeSequence(String name, List<String> tags) {
         this();
         this.name = name;
-        this.items = items;
+        this.tags = tags;
     }
     public static AttributeSequence fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
