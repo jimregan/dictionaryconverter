@@ -27,7 +27,7 @@
 
 package ie.tcd.slscs.itut.gramadanj.Conversion.EID;
 
-import scala.util.parsing.combinator.testing.Str;
+import ie.tcd.slscs.itut.gramadanj.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,13 +41,18 @@ import java.util.Map;
 public class VerbTargetFixes {
     private static final InputStream is;
     final static Map<String, List<VerbRulePair>> replacements;
+    private static final InputStream isvlr;
+    final static Map<String, String> verb_lemma_replacements;
     static {
         is = VerbTargetFixes.class.getClassLoader().getResourceAsStream("ie/tcd/slscs/itut/gramadanj/Conversion/EID/manual-verb-tweaks.tsv");
+        isvlr = VerbTargetFixes.class.getClassLoader().getResourceAsStream("ie/tcd/slscs/itut/gramadanj/Conversion/EID/verb-lemmas.tsv");
         try {
             replacements = fromInputStream(is);
-        } catch (IOException e) {
+            verb_lemma_replacements = Utils.readTSV(isvlr);
+        } catch (Exception e) {
             throw new RuntimeException(e.getCause());
         }
+
     }
     private static Map<String, List<VerbRulePair>> fromInputStream(InputStream ins) throws IOException {
         Map<String, List<VerbRulePair>> out = new HashMap<String, List<VerbRulePair>>();
@@ -89,5 +94,8 @@ public class VerbTargetFixes {
             }
         }
         return verbs;
+    }
+    public static String getVerbLemma(String s) {
+        return verb_lemma_replacements.get(s);
     }
 }
