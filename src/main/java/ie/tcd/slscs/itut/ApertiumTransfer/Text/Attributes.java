@@ -49,6 +49,7 @@ public class Attributes {
         this.name = name;
         this.any = any;
         this.undefined = undefined;
+        this.fromDictionary = fromDictionary;
         this.items = items;
     }
 
