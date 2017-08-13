@@ -65,19 +65,6 @@ public class Target {
             this.notes = notes;
         }
     }
-    public class GrammarNote {
-        String label;
-        String wordform;
-        boolean optional = false;
-        GrammarNote(String label, String wordform, boolean optional) {
-            this.label = label;
-            this.wordform = wordform;
-            this.optional = optional;
-        }
-        GrammarNote(String label, String wordform) {
-            this(label, wordform, false);
-        }
-    }
 
     private static GrammarNote getNote(Node n) {
         if(n.getNodeName() == "noindex") {
@@ -99,7 +86,7 @@ public class Target {
                     form = form.substring(0, form.length() - 1);
                 }
             }
-            return new Target.GrammarNote(label, form);
+            return new GrammarNote(label, form);
         }
         return null;
     }
