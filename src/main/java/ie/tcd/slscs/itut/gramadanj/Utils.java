@@ -28,12 +28,7 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.util.*;
 
 public class Utils {
@@ -190,9 +185,9 @@ public class Utils {
     /**
      * Slurp a .tsv file into a map
      */
-    public static Map<String, String> readTSV(File f) throws Exception {
+    public static Map<String, String> readTSV(InputStreamReader isr) throws Exception {
         Map<String, String> ret = new HashMap<String, String>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+        BufferedReader br = new BufferedReader(isr);
         String line;
         int lineno = 0;
         while((line = br.readLine()) != null) {
@@ -204,6 +199,15 @@ public class Utils {
             ret.put(sp[0], sp[1]);
         }
         return ret;
+    }
+    public static Map<String, String> readTSV(InputStream is) throws Exception {
+        return readTSV(new InputStreamReader(is, "UTF-8"));
+    }
+    public static Map<String, String> readTSV(FileInputStream fi) throws Exception {
+        return readTSV(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static Map<String, String> readTSV(File f) throws Exception {
+        return readTSV(new FileInputStream(f));
     }
 
     /**
