@@ -70,11 +70,17 @@ public class SimpleTextMacro {
 
     public static SimpleTextMacro fromString(String s) throws Exception {
         String[] sp = s.split("\\|");
+        if(sp.length != 5) {
+            throw new Exception("Incorrect number of fields");
+        }
         String name = sp[0].trim();
         List<String> appliesTo = new ArrayList<String>();
         for (String apply : sp[1].trim().split(" ")) {
             appliesTo.add(apply);
         }
+        List<List<SimpleTextMacroAttr>> lhs = new ArrayList<List<SimpleTextMacroAttr>>();
+        List<List<SimpleTextMacroAttr>> rhs = new ArrayList<List<SimpleTextMacroAttr>>();
+        List<SimpleTextMacroAttr> rmp = new ArrayList<SimpleTextMacroAttr>();
         return new SimpleTextMacro();
     }
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
@@ -87,7 +93,7 @@ public class SimpleTextMacro {
             try {
                 tmp = fromString(line);
             } catch (Exception e) {
-                throw new IOException("Incorrect number of fields on line " + lineno);
+                throw new IOException(e.getMessage() + " on line " + lineno);
             }
         }
         return out;
