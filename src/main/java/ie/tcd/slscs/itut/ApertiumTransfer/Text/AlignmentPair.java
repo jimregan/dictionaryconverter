@@ -44,7 +44,7 @@ public class AlignmentPair {
     public static AlignmentPair fromString(String s, char delim) throws Exception {
         String[] tmp = s.split(Character.toString(delim));
         if(tmp.length != 2) {
-            throw new Exception("Alignment piece " + s + " contains more than one instance of " + delim);
+            throw new Exception("Alignment piece " + s + " does not contain one single " + delim);
         }
         return new AlignmentPair(tmp[0], tmp[1]);
     }

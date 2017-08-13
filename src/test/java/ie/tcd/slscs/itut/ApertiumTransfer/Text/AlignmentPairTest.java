@@ -48,7 +48,7 @@ public class AlignmentPairTest extends TestCase {
 
     public void testFromATTString() throws Exception {
         String in = "1:2";
-        AlignmentPair out = AlignmentPair.fromString(in);
+        AlignmentPair out = AlignmentPair.fromATTString(in);
         assertEquals(exp.left, out.left);
         assertEquals(exp.right, out.right);
         assertEquals(true, out.canMakeIndices());
