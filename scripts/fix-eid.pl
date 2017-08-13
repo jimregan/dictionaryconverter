@@ -268,6 +268,7 @@ while(<>) {
     s#etc</trg>\.\);#etc.)</trg>;#g;
     s!<trg>Cúl <label>m</label> din</trg>!<trg>Cúl <label>m</label> dín</trg>!;
     s!<trg>cuid <label>f</label></trg> <trg><noindex>(<label>g.</label> coda)</noindex></trg>!<trg>cuid <label>f</label> <noindex>(<label>g.</label> coda)</noindex></trg>!;
+    s!<trg>Infhillim\[ \(<src>with</src>, \[le</trg>\)!<trg>Infhillim</trg> <noindex>(<src>with</src>, <trg>le</trg>)</noindex>!;
 
     print;
 }
