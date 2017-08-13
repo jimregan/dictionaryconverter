@@ -37,34 +37,6 @@ public class Target {
     Target() {
         pieces = new ArrayList<TargetPiece>();
     }
-    public class TargetPiece {
-        String preNote;
-        String first;
-        String label;
-        String second;
-        String postNote;
-        List<GrammarNote> notes;
-        TargetPiece() {
-            notes = new ArrayList<GrammarNote>();
-        }
-        TargetPiece(String preNote, String first, String label, String second, String postNote) {
-            this();
-            this.first = first;
-            this.preNote = preNote;
-            this.label = label;
-            this.second = second;
-            this.postNote = postNote;
-        }
-        TargetPiece(String preNote, String first, String label, String second, String postNote, List<GrammarNote> notes) {
-            this();
-            this.first = first;
-            this.preNote = preNote;
-            this.label = label;
-            this.second = second;
-            this.postNote = postNote;
-            this.notes = notes;
-        }
-    }
 
     private static GrammarNote getNote(Node n) {
         if(n.getNodeName() == "noindex") {
