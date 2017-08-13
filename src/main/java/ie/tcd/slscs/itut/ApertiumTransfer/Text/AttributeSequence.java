@@ -33,6 +33,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Define the sequence of attributes for a part of speech/chunk type;
+ * e.g., noun = gen num
+ * where 'gen' and 'num' are set as Attributes.
+ */
 public class AttributeSequence {
     String name;
     List<String> items;
