@@ -56,6 +56,13 @@ public class AttributeSequence {
         String name = tmp[0].trim();
         return new AttributeSequence(name, tags);
     }
+
+    /**
+     * Checks if the name of the AttributeSequence has been defined in Attributes
+     * @param as the AttributeSequence to check
+     * @param map map of names to Attributes
+     * @return true if name has been defined
+     */
     public static boolean isValidAttributeSequenceName(AttributeSequence as, Map<String, Attributes> map) {
         return map.containsKey(as.name);
     }
