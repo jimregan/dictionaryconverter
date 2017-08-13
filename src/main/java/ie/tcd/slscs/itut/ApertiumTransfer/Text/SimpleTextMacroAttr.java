@@ -40,4 +40,22 @@ public class SimpleTextMacroAttr {
     public String getValue() {
         return value;
     }
+    public static SimpleTextMacroAttr createLemma(String s) {
+        return new SimpleTextMacroAttr("lemma", s);
+    }
+    public static SimpleTextMacroAttr fromSimpleText(String s) throws Exception {
+        int start = 0;
+        int end = s.length();
+        if(s.startsWith("<")) {
+            start = 1;
+        }
+        if(s.endsWith(">")) {
+            end--;
+        }
+        String[] pieces = s.substring(start, end).split("=");
+        if(pieces.length != 2) {
+            throw new Exception("Missing = in tag");
+        }
+        return new SimpleTextMacroAttr(pieces[0], pieces[1]);
+    }
 }
