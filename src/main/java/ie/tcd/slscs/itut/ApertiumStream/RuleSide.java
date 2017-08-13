@@ -45,6 +45,10 @@ public class RuleSide {
         this.tokens = tokens;
     }
 
+    public List<WordToken> getLUs() {
+        return lus;
+    }
+
     public static RuleSide convert(List<StreamToken> input) {
         List<WordToken> lus = new ArrayList<WordToken>();
         List<StreamToken> tokens = new ArrayList<StreamToken>();
