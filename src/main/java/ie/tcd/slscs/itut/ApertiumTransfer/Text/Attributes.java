@@ -30,8 +30,11 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import ie.tcd.slscs.itut.ApertiumTransfer.AttrItem;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 
+import javax.xml.stream.events.Attribute;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Attributes {
     String name;
@@ -52,7 +55,13 @@ public class Attributes {
     public List<String> getItems() {
         return items;
     }
-
+    public static Map<String, Attributes> listToMap(List<Attributes> list) {
+        Map<String, Attributes> out = new HashMap<String, Attributes>();
+        for (Attributes a : list) {
+            out.put(a.name, a);
+        }
+        return out;
+    }
     public static Attributes fromText(String s) throws Exception {
         String[] tmppait = s.split("=");
         if(tmppait.length != 2) {
