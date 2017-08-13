@@ -47,6 +47,9 @@ public class AttributeSequence {
         this.name = name;
         this.items = items;
     }
+    // TODO
+    // Probably want to add marks to show which come from other side,
+    // from dictionary, and which do not (set in variables and the like)
     public static AttributeSequence fromString(String s) throws Exception {
         List<TagItem> tags = new ArrayList<TagItem>();
         String[] tmp = s.split("=");
