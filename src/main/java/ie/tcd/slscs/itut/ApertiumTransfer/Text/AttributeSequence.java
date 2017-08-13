@@ -29,6 +29,7 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import javax.xml.stream.events.Attribute;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class AttributeSequence {
             throw new Exception("Single '=' expected, got: " + s);
         }
         String name = tmp[0].trim();
+        tags = Arrays.asList(tmp[2].split(" "));
         return new AttributeSequence(name, tags);
     }
 
