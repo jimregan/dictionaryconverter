@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+
 import java.util.*;
 
 public class DefCats {
@@ -66,6 +68,14 @@ public class DefCats {
         return getMap().get(s);
     }
 
+    public String findWordToken(WordToken wt) {
+            for(DefCat dc : categories) {
+                if(dc.wordtokenMatches(wt)) {
+                    return dc.name;
+                }
+            }
+            return null;
+    }
     public List<DefCat> getCategories() {
         return categories;
     }
