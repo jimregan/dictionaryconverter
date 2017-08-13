@@ -28,11 +28,13 @@ import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem}
 
 import scala.collection.JavaConverters._
 
-case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
-                   defattrs: Map[String, List[String]],
-                   vars: Map[String, String],
-                   lists: Map[String, List[String]],
-                   macros: Map[String, List[SentenceElement]], rules: List[RuleElement]) {
+case class TrxProc(kind: String,
+                   var defcats: Map[String, List[CatItem]],
+                   var defattrs: Map[String, List[String]],
+                   var vars: Map[String, String],
+                   var lists: Map[String, List[String]],
+                   var macros: Map[String, List[SentenceElement]],
+                   var rules: List[RuleElement]) {
   private val categories = collection.mutable.Map.empty[String, List[CatItem]] ++ defcats
   def validCategories = categories.keys.toList
   def getCat(s: String): Option[List[CatItem]] = categories.get(s)
@@ -124,7 +126,7 @@ object TrxProc {
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
-  implicit def convertCatItems(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
+  implicit def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
 
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
