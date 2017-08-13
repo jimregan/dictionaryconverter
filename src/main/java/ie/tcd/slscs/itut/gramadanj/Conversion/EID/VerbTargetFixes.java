@@ -77,4 +77,14 @@ public class VerbTargetFixes {
         }
         return out;
     }
+    public static List<String> getReplacementVerbs(String s) {
+        List<String> verbs = new ArrayList<String>();
+        if(replacements.containsKey(s)) {
+            List<VerbRulePair> vrp = replacements.get(s);
+            for(VerbRulePair vp : vrp) {
+                verbs.add(vp.getVerb());
+            }
+        }
+        return verbs;
+    }
 }
