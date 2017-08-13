@@ -30,6 +30,13 @@ package ie.tcd.slscs.itut.ApertiumTransfer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An aligned pattern item may have zero or more alignments;
+ * if it has no alignment, that means that the word on the
+ * target side is deleted; the deleted word may contribute
+ * grammatical infomation to the target side chunk, however,
+ * in which case the variable chunkAlignment is set to true.
+ */
 public class AlignedPatternItem extends PatternItem {
     List<Integer> alignments;
     boolean chunkAlignment = false;
