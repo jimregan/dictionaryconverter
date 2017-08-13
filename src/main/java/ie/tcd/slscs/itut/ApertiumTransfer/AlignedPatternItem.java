@@ -32,17 +32,24 @@ import java.util.List;
 
 public class AlignedPatternItem extends PatternItem {
     List<Integer> alignments;
+    boolean chunkAlignment = false;
     AlignedPatternItem() {
         alignments = new ArrayList<Integer>();
     }
     AlignedPatternItem(String name, List<Integer> alignments) {
+        this();
         this.name = name;
         this.alignments = alignments;
     }
+    AlignedPatternItem(String name, boolean chunk_alignment) {
+        this();
+        this.name = name;
+        this.chunkAlignment = chunk_alignment;
+    }
     public boolean isSimpleAlignment() {
-        return alignments.size() == 1;
+        return alignments.size() == 1 || chunkAlignment;
     }
     public boolean hasAlignment() {
-        return alignments.size() > 0;
+        return alignments.size() > 0 || chunkAlignment;
     }
 }
