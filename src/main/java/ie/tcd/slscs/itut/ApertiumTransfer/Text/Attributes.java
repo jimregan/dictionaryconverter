@@ -38,13 +38,14 @@ import java.util.Map;
 
 public class Attributes {
     String name;
+    boolean fromDictionary = false;
     String undefined;
     String any;
     List<String> items;
     Attributes() {
         items = new ArrayList<String>();
     }
-    Attributes(String name, String any, String undefined, List<String> items) {
+    Attributes(String name, boolean fromDictionary, String any, String undefined, List<String> items) {
         this();
         this.name = name;
         this.any = any;
@@ -68,6 +69,11 @@ public class Attributes {
             throw new Exception("Error reading line: " + s + " - expected 2 parts, got " + tmppait.length);
         }
         String name = tmppait[0].trim();
+        boolean fromDictionary = false;
+        if(name.endsWith("!")) {
+            fromDictionary = true;
+            name = name.substring(0, name.length() - 1);
+        }
         String any = "";
         String undefined = "";
         List<String> items = new ArrayList<String>();
@@ -87,7 +93,7 @@ public class Attributes {
                 items.add(tag);
             }
         }
-        return new Attributes(name, any, undefined, items);
+        return new Attributes(name, fromDictionary, any, undefined, items);
     }
     public static List<AttrItem> convertItems(List<String> in) {
         List<AttrItem> out = new ArrayList<AttrItem>();

@@ -31,6 +31,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import javax.xml.stream.events.Attribute;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import static org.junit.Assert.*;
 public class AttributesTest extends TestCase {
     public void testFromText() throws Exception {
         String in = "num = sg pl ND! sp?";
-        Attributes exp = new Attributes("num", "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND"}));
+        Attributes exp = new Attributes("num", false, "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND"}));
         Attributes out = Attributes.fromText(in);
         assertEquals(exp.name, out.name);
         assertEquals(exp.any, out.any);
@@ -53,5 +54,11 @@ public class AttributesTest extends TestCase {
         List<DefAttr> out = Attributes.fromAttributes(in);
         assertEquals(3, out.size());
         // TODO: more checks here
+    }
+
+    public void testFromDictionary() throws Exception {
+        String sin = "gen! = m f mf? GD!";
+        Attributes out = Attributes.fromText(sin);
+        assertEquals(true, out.fromDictionary);
     }
 }

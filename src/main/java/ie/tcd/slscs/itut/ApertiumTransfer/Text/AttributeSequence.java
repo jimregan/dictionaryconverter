@@ -34,15 +34,13 @@ import java.util.Map;
 
 public class AttributeSequence {
     String name;
-    boolean fromDictionary = false;
     List<String> items;
     AttributeSequence() {
         this.items = new ArrayList<String>();
     }
-    AttributeSequence(String name, boolean fromDictionary, List<String> tags) {
+    AttributeSequence(String name, List<String> tags) {
         this();
         this.name = name;
-        this.fromDictionary = fromDictionary;
         this.items = items;
     }
     public static AttributeSequence fromString(String s) throws Exception {
@@ -53,11 +51,7 @@ public class AttributeSequence {
             throw new Exception("Single '=' expected, got: " + s);
         }
         String name = tmp[0].trim();
-        if(name.endsWith("!")) {
-            fromDictionary = true;
-            name = name.substring(0, name.length() - 1);
-        }
-        return new AttributeSequence(name, fromDictionary, tags);
+        return new AttributeSequence(name, tags);
     }
 
     /**
