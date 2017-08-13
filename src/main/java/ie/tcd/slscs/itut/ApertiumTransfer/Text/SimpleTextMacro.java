@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +66,30 @@ public class SimpleTextMacro {
     SimpleTextMacro() {
         appliesTo = new ArrayList<String>();
         parts = new ArrayList<SimpleTextMacroPart>();
+    }
+
+    public static SimpleTextMacro fromString(String s) throws Exception {
+        String[] sp = s.split("\\|");
+        String name = sp[0].trim();
+        List<String> appliesTo = new ArrayList<String>();
+        for (String apply : sp[1].trim().split(" ")) {
+            appliesTo.add(apply);
+        }
+        return new SimpleTextMacro();
+    }
+    public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
+        List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
+        String line;
+        int lineno = 0;
+        while((line = br.readLine()) != null) {
+            lineno++;
+            SimpleTextMacro tmp = new SimpleTextMacro();
+            try {
+                tmp = fromString(line);
+            } catch (Exception e) {
+                throw new IOException("Incorrect number of fields on line " + lineno);
+            }
+        }
+        return out;
     }
 }
