@@ -27,15 +27,19 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
-public class PatternItem {
-    String name;
-    public PatternItem() {
-    }
-    public PatternItem(String s) {
-        this.name = name;
-    }
+import java.util.ArrayList;
+import java.util.List;
 
-    public String getName() {
-        return name;
+public class AlignedPatternItem extends PatternItem {
+    List<Integer> alignments;
+    AlignedPatternItem() {
+        alignments = new ArrayList<Integer>();
+    }
+    AlignedPatternItem(String name, List<Integer> alignments) {
+        this.name = name;
+        this.alignments = alignments;
+    }
+    public boolean isSimpleAlignment() {
+        return alignments.size() == 1;
     }
 }
