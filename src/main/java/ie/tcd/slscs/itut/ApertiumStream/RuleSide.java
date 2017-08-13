@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
+import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
+import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc;
 
 import java.util.ArrayList;
@@ -92,5 +95,17 @@ public class RuleSide {
             }
         }
         return new RuleSide(lus, tokens);
+    }
+    public static Pattern toPattern(RuleSide rs, DefCats dc) {
+        List<PatternItem> items = new ArrayList<PatternItem>();
+        String name = "";
+        for(WordToken wt : rs.getLUs()) {
+            if((name = dc.findWordToken(wt)) != null) {
+                items.add(new PatternItem(name));
+            } else {
+                System.err.println("No pattern-item found for token " + wt.toString());
+            }
+        }
+        return new Pattern(items);
     }
 }
