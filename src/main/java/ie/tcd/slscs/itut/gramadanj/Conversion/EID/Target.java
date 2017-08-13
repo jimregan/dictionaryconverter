@@ -58,7 +58,9 @@ public class Target {
                     optional = true;
                 } else {
                     int start = 0;
-                    if(form.startsWith(". ")) {
+                    if(form.startsWith(". [")) {
+                        start = 3;
+                    } else if(form.startsWith(". ")) {
                         start = 2;
                     }
                     form = form.substring(start, form.length() - 1);
