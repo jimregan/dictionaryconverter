@@ -34,30 +34,30 @@ import java.util.Map;
 
 public class AttributeSequence {
     String name;
-    public class TagItem {
-        String name;
-        boolean fromDictionary = false;
-    }
-    List<TagItem> items;
+    boolean fromDictionary = false;
+    List<String> items;
     AttributeSequence() {
-        this.items = new ArrayList<TagItem>();
+        this.items = new ArrayList<String>();
     }
-    AttributeSequence(String name, List<TagItem> tags) {
+    AttributeSequence(String name, boolean fromDictionary, List<String> tags) {
         this();
         this.name = name;
+        this.fromDictionary = fromDictionary;
         this.items = items;
     }
-    // TODO
-    // Probably want to add marks to show which come from other side,
-    // from dictionary, and which do not (set in variables and the like)
     public static AttributeSequence fromString(String s) throws Exception {
-        List<TagItem> tags = new ArrayList<TagItem>();
+        List<String> tags = new ArrayList<String>();
+        boolean fromDictionary = false;
         String[] tmp = s.split("=");
         if(tmp.length != 2) {
             throw new Exception("Single '=' expected, got: " + s);
         }
         String name = tmp[0].trim();
-        return new AttributeSequence(name, tags);
+        if(name.endsWith("!")) {
+            fromDictionary = true;
+            name = name.substring(0, name.length() - 1);
+        }
+        return new AttributeSequence(name, fromDictionary, tags);
     }
 
     /**
