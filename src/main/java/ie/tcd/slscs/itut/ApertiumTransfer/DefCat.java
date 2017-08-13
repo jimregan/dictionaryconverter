@@ -69,4 +69,18 @@ public class DefCat {
     public boolean tagsMatch(String s) {
         return tagsMatch(s.split("\\."));
     }
+    public boolean tagsStartWith(List<String> tags) {
+        for(CatItem ci : items) {
+            if(ci.tagsStartWith(tags)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean tagsStartWith(String[] s) {
+        return tagsStartWith(Arrays.asList(s));
+    }
+    public boolean tagsStartWith(String s) {
+        return tagsStartWith(s.split("\\."));
+    }
 }
