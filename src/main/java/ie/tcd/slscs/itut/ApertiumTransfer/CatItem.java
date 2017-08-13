@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,6 +88,30 @@ public class CatItem {
     }
     public boolean tagsMatch(String s) {
         return tagsMatch(s.split("\\."));
+    }
+    public boolean tagsStartWith(List<String> other_tags) {
+        if(other_tags.size() > getTagsList().size()) {
+            return false;
+        }
+        for(int i = 0; i < other_tags.size(); i++) {
+            if(!other_tags.get(i).equals(getTagsList().get(i)) && !getTagsList().get(i).equals("*")) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean tagsStartWith(String[] s) {
+        return tagsStartWith(Arrays.asList(s));
+    }
+    public boolean tagsStartWith(String s) {
+        return tagsStartWith(s.split("\\."));
+    }
+    public boolean wordtokenMatches(WordToken wt) {
+        if(wt.getLemma().equals("")) {
+            return tagsStartWith(wt.getTags());
+        } else {
+            return wt.getLemma().equals(this.lemma) && tagsStartWith(wt.getTags());
+        }
     }
     public boolean isValidForTransferType(TransferType t) {
         if(t == TransferType.Postchunk) {
