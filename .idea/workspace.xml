@@ -21,11 +21,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CatItem.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Trx.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="101" column="11" lean-forward="false" selection-start-line="101" selection-start-column="11" selection-end-line="101" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CatItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+            <state relative-caret-position="882">
+              <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1720#1728#0" expanded="true" />
@@ -52,10 +62,80 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="TrxProc.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="782">
+              <caret line="140" column="38" lean-forward="true" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
+              <folding>
+                <element signature="e#1191#1275#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PatternItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="31" column="26" lean-forward="false" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+              <folding>
+                <element signature="e#1573#1574#0" expanded="true" />
+                <element signature="e#1600#1601#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlignedPatternItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPatternItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="37" column="60" lean-forward="false" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1906#1907#0" expanded="true" />
+                <element signature="e#1959#1960#0" expanded="true" />
+                <element signature="e#2308#2309#0" expanded="true" />
+                <element signature="e#2371#2372#0" expanded="true" />
+                <element signature="e#2407#2408#0" expanded="true" />
+                <element signature="e#2469#2470#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlignmentPair.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPair.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="46" column="86" lean-forward="false" selection-start-line="46" selection-start-column="86" selection-end-line="46" selection-end-column="86" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1671#1672#0" expanded="true" />
+                <element signature="e#1751#1752#0" expanded="true" />
+                <element signature="e#2462#2477#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlignmentPairTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPairTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="42" column="57" lean-forward="true" selection-start-line="42" selection-start-column="57" selection-end-line="42" selection-end-column="57" />
+              <folding>
+                <element signature="e#2376#2391#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DefCat.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
+            <state relative-caret-position="986">
               <caret line="87" column="35" lean-forward="false" selection-start-line="87" selection-start-column="19" selection-end-line="87" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -69,65 +149,6 @@
                 <element signature="e#2842#2843#0" expanded="true" />
                 <element signature="e#2887#2888#0" expanded="true" />
                 <element signature="e#2939#2940#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Attributes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1683#1684#0" expanded="true" />
-                <element signature="e#1730#1731#0" expanded="true" />
-                <element signature="e#1984#1985#0" expanded="true" />
-                <element signature="e#2012#2013#0" expanded="true" />
-                <element signature="e#2414#2422#0" expanded="true" />
-                <element signature="e#3338#3348#0" expanded="true" />
-                <element signature="e#3559#3568#0" expanded="true" />
-                <element signature="e#3957#3967#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LUReference.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="32" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding>
-                <element signature="e#1531#1532#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MLUReference.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUReference.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="56" column="42" lean-forward="false" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1955#1968#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RuleSide.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="105" column="87" lean-forward="false" selection-start-line="105" selection-start-column="87" selection-end-line="105" selection-end-column="87" />
-              <folding>
-                <element signature="e#2013#2014#0" expanded="true" />
-                <element signature="e#2039#2040#0" expanded="true" />
-                <element signature="e#4186#4199#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,34 +191,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Pattern.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Pattern.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="43" column="8" lean-forward="false" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1707#1708#0" expanded="true" />
-                <element signature="e#1735#1736#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WordToken.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/WordToken.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="87" column="37" lean-forward="false" selection-start-line="87" selection-start-column="37" selection-end-line="87" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2927#2928#0" expanded="true" />
-                <element signature="e#2971#2972#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -207,14 +200,13 @@
         <option value="Package Object" />
         <option value="Enum" />
         <option value="Interface" />
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&lt;in</find>
       <find>Action</find>
       <find>n.child</find>
       <find>$name</find>
@@ -244,6 +236,7 @@
       <find>toplevel</find>
       <find>RuleEle</find>
       <find>patternite</find>
+      <find>cati</find>
     </findStrings>
     <replaceStrings>
       <replace>values.map{e =&gt; e.toXMLString(i+1</replace>
@@ -268,9 +261,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.java" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Dix.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/DixUtils.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/DixTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx/scala.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala" />
@@ -299,7 +289,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/ChunkToken.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/ChunkTokenTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumStream/RuleSideTest.java" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/package.scala" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/TransferType.java" />
@@ -308,7 +297,6 @@
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/ChunkAlignment.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPattern.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AttrItem.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Pattern.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefAttr.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java" />
@@ -317,8 +305,13 @@
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Pattern.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCats.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPatternItem.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPairTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPair.java" />
       </list>
     </option>
   </component>
@@ -588,7 +581,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lttoolbox-java" />
     <property name="settings.editor.selected.configurable" value="copyright.profiles" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
@@ -856,90 +849,6 @@
       <option name="presentableId" value="Default" />
       <updated>1500964014076</updated>
     </task>
-    <task id="LOCAL-00232" summary="more">
-      <created>1502479609165</created>
-      <option name="number" value="00232" />
-      <option name="presentableId" value="LOCAL-00232" />
-      <option name="project" value="LOCAL" />
-      <updated>1502479609165</updated>
-    </task>
-    <task id="LOCAL-00233" summary="basically todo-ish">
-      <created>1502480192150</created>
-      <option name="number" value="00233" />
-      <option name="presentableId" value="LOCAL-00233" />
-      <option name="project" value="LOCAL" />
-      <updated>1502480192150</updated>
-    </task>
-    <task id="LOCAL-00234" summary="category methods">
-      <created>1502559155365</created>
-      <option name="number" value="00234" />
-      <option name="presentableId" value="LOCAL-00234" />
-      <option name="project" value="LOCAL" />
-      <updated>1502559155365</updated>
-    </task>
-    <task id="LOCAL-00235" summary="addToCat">
-      <created>1502559478576</created>
-      <option name="number" value="00235" />
-      <option name="presentableId" value="LOCAL-00235" />
-      <option name="project" value="LOCAL" />
-      <updated>1502559478576</updated>
-    </task>
-    <task id="LOCAL-00236" summary="attr methods">
-      <created>1502560022505</created>
-      <option name="number" value="00236" />
-      <option name="presentableId" value="LOCAL-00236" />
-      <option name="project" value="LOCAL" />
-      <updated>1502560022505</updated>
-    </task>
-    <task id="LOCAL-00237" summary="convert WordToken/MLUToken">
-      <created>1502561196574</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1502561196574</updated>
-    </task>
-    <task id="LOCAL-00238" summary="do this in Java">
-      <created>1502562287015</created>
-      <option name="number" value="00238" />
-      <option name="presentableId" value="LOCAL-00238" />
-      <option name="project" value="LOCAL" />
-      <updated>1502562287015</updated>
-    </task>
-    <task id="LOCAL-00239" summary="constructor">
-      <created>1502562993141</created>
-      <option name="number" value="00239" />
-      <option name="presentableId" value="LOCAL-00239" />
-      <option name="project" value="LOCAL" />
-      <updated>1502562993141</updated>
-    </task>
-    <task id="LOCAL-00240" summary="start">
-      <created>1502563124874</created>
-      <option name="number" value="00240" />
-      <option name="presentableId" value="LOCAL-00240" />
-      <option name="project" value="LOCAL" />
-      <updated>1502563124874</updated>
-    </task>
-    <task id="LOCAL-00241" summary="create">
-      <created>1502563142938</created>
-      <option name="number" value="00241" />
-      <option name="presentableId" value="LOCAL-00241" />
-      <option name="project" value="LOCAL" />
-      <updated>1502563142938</updated>
-    </task>
-    <task id="LOCAL-00242" summary="not sure if I want to do this here">
-      <created>1502563179576</created>
-      <option name="number" value="00242" />
-      <option name="presentableId" value="LOCAL-00242" />
-      <option name="project" value="LOCAL" />
-      <updated>1502563179576</updated>
-    </task>
-    <task id="LOCAL-00243" summary="converter">
-      <created>1502563429613</created>
-      <option name="number" value="00243" />
-      <option name="presentableId" value="LOCAL-00243" />
-      <option name="project" value="LOCAL" />
-      <updated>1502563429613</updated>
-    </task>
     <task id="LOCAL-00244" summary="do it differently">
       <created>1502563668271</created>
       <option name="number" value="00244" />
@@ -1199,7 +1108,91 @@
       <option name="project" value="LOCAL" />
       <updated>1502613483517</updated>
     </task>
-    <option name="localTasksCounter" value="281" />
+    <task id="LOCAL-00281" summary="tweak">
+      <created>1502615469060</created>
+      <option name="number" value="00281" />
+      <option name="presentableId" value="LOCAL-00281" />
+      <option name="project" value="LOCAL" />
+      <updated>1502615469061</updated>
+    </task>
+    <task id="LOCAL-00282" summary="convert">
+      <created>1502615990384</created>
+      <option name="number" value="00282" />
+      <option name="presentableId" value="LOCAL-00282" />
+      <option name="project" value="LOCAL" />
+      <updated>1502615990384</updated>
+    </task>
+    <task id="LOCAL-00283" summary="make all mutable">
+      <created>1502616109302</created>
+      <option name="number" value="00283" />
+      <option name="presentableId" value="LOCAL-00283" />
+      <option name="project" value="LOCAL" />
+      <updated>1502616109302</updated>
+    </task>
+    <task id="LOCAL-00284" summary="convert more">
+      <created>1502616745005</created>
+      <option name="number" value="00284" />
+      <option name="presentableId" value="LOCAL-00284" />
+      <option name="project" value="LOCAL" />
+      <updated>1502616745005</updated>
+    </task>
+    <task id="LOCAL-00285" summary="aligned pattern item">
+      <created>1502617047574</created>
+      <option name="number" value="00285" />
+      <option name="presentableId" value="LOCAL-00285" />
+      <option name="project" value="LOCAL" />
+      <updated>1502617047574</updated>
+    </task>
+    <task id="LOCAL-00286" summary="can also be a null alignment">
+      <created>1502617376871</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1502617376871</updated>
+    </task>
+    <task id="LOCAL-00287" summary="also want to be able to align to the chunk">
+      <created>1502617514280</created>
+      <option name="number" value="00287" />
+      <option name="presentableId" value="LOCAL-00287" />
+      <option name="project" value="LOCAL" />
+      <updated>1502617514280</updated>
+    </task>
+    <task id="LOCAL-00288" summary="document this so I don't confuse myself later">
+      <created>1502617649912</created>
+      <option name="number" value="00288" />
+      <option name="presentableId" value="LOCAL-00288" />
+      <option name="project" value="LOCAL" />
+      <updated>1502617649912</updated>
+    </task>
+    <task id="LOCAL-00289" summary="alignment pair">
+      <created>1502618079009</created>
+      <option name="number" value="00289" />
+      <option name="presentableId" value="LOCAL-00289" />
+      <option name="project" value="LOCAL" />
+      <updated>1502618079009</updated>
+    </task>
+    <task id="LOCAL-00290" summary="list from string">
+      <created>1502618607568</created>
+      <option name="number" value="00290" />
+      <option name="presentableId" value="LOCAL-00290" />
+      <option name="project" value="LOCAL" />
+      <updated>1502618607568</updated>
+    </task>
+    <task id="LOCAL-00291" summary="test">
+      <created>1502620038926</created>
+      <option name="number" value="00291" />
+      <option name="presentableId" value="LOCAL-00291" />
+      <option name="project" value="LOCAL" />
+      <updated>1502620038926</updated>
+    </task>
+    <task id="LOCAL-00292" summary="fix test, make exception message more accurate">
+      <created>1502620192121</created>
+      <option name="number" value="00292" />
+      <option name="presentableId" value="LOCAL-00292" />
+      <option name="project" value="LOCAL" />
+      <updated>1502620192121</updated>
+    </task>
+    <option name="localTasksCounter" value="293" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1283,21 +1276,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="check last position lu has right number" />
-    <MESSAGE value="one todo checked" />
-    <MESSAGE value="tagsMatch" />
-    <MESSAGE value="docs" />
-    <MESSAGE value="useless this() call" />
-    <MESSAGE value="added this makemap function, then realised I don't need it" />
-    <MESSAGE value="see? didn't need it" />
-    <MESSAGE value="construct from list" />
-    <MESSAGE value="add and get" />
-    <MESSAGE value="contructors help" />
-    <MESSAGE value="helpers" />
     <MESSAGE value="pattern" />
     <MESSAGE value="public" />
     <MESSAGE value="text attributes" />
-    <MESSAGE value="test" />
     <MESSAGE value="todo" />
     <MESSAGE value="join tags for transfer" />
     <MESSAGE value="helper" />
@@ -1308,7 +1289,19 @@
     <MESSAGE value="convert to pattern" />
     <MESSAGE value="add" />
     <MESSAGE value="getNewName" />
-    <option name="LAST_COMMIT_MESSAGE" value="getNewName" />
+    <MESSAGE value="tweak" />
+    <MESSAGE value="convert" />
+    <MESSAGE value="make all mutable" />
+    <MESSAGE value="convert more" />
+    <MESSAGE value="aligned pattern item" />
+    <MESSAGE value="can also be a null alignment" />
+    <MESSAGE value="also want to be able to align to the chunk" />
+    <MESSAGE value="document this so I don't confuse myself later" />
+    <MESSAGE value="alignment pair" />
+    <MESSAGE value="list from string" />
+    <MESSAGE value="test" />
+    <MESSAGE value="fix test, make exception message more accurate" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix test, make exception message more accurate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1317,30 +1310,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/sbt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/scala_compiler.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1586,24 +1555,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2346">
-          <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
-          <folding>
-            <element signature="e#1191#1275#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="147" column="51" lean-forward="false" selection-start-line="147" selection-start-column="41" selection-end-line="147" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPattern.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1646,19 +1597,6 @@
         <state relative-caret-position="68">
           <caret line="29" column="26" lean-forward="true" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="36" column="8" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="20" />
-          <folding>
-            <element signature="e#1477#1478#0" expanded="true" />
-            <element signature="e#1509#1510#0" expanded="true" />
-            <element signature="e#1540#1541#0" expanded="true" />
-            <element signature="e#1567#1568#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1715,26 +1653,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#2927#2928#0" expanded="true" />
             <element signature="e#2971#2972#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="87" column="35" lean-forward="false" selection-start-line="87" selection-start-column="19" selection-end-line="87" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1880#1881#0" expanded="true" />
-            <element signature="e#1908#1909#0" expanded="true" />
-            <element signature="e#2392#2393#0" expanded="true" />
-            <element signature="e#2442#2443#0" expanded="true" />
-            <element signature="e#2483#2484#0" expanded="true" />
-            <element signature="e#2531#2532#0" expanded="true" />
-            <element signature="e#2788#2789#0" expanded="true" />
-            <element signature="e#2842#2843#0" expanded="true" />
-            <element signature="e#2887#2888#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1816,8 +1734,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/CatItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state relative-caret-position="882">
+          <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1720#1728#0" expanded="true" />
@@ -1839,6 +1757,94 @@
             <element signature="e#3552#3553#0" expanded="true" />
             <element signature="e#3597#3598#0" expanded="true" />
             <element signature="e#3649#3650#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Trx.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="101" column="11" lean-forward="false" selection-start-line="101" selection-start-column="11" selection-end-line="101" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/DefCat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="87" column="35" lean-forward="false" selection-start-line="87" selection-start-column="19" selection-end-line="87" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1880#1881#0" expanded="true" />
+            <element signature="e#1908#1909#0" expanded="true" />
+            <element signature="e#2392#2393#0" expanded="true" />
+            <element signature="e#2442#2443#0" expanded="true" />
+            <element signature="e#2483#2484#0" expanded="true" />
+            <element signature="e#2531#2532#0" expanded="true" />
+            <element signature="e#2788#2789#0" expanded="true" />
+            <element signature="e#2842#2843#0" expanded="true" />
+            <element signature="e#2887#2888#0" expanded="true" />
+            <element signature="e#2939#2940#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="140" column="38" lean-forward="true" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
+          <folding>
+            <element signature="e#1191#1275#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/PatternItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="31" column="26" lean-forward="false" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+          <folding>
+            <element signature="e#1573#1574#0" expanded="true" />
+            <element signature="e#1600#1601#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPatternItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="37" column="60" lean-forward="false" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1906#1907#0" expanded="true" />
+            <element signature="e#1959#1960#0" expanded="true" />
+            <element signature="e#2308#2309#0" expanded="true" />
+            <element signature="e#2371#2372#0" expanded="true" />
+            <element signature="e#2407#2408#0" expanded="true" />
+            <element signature="e#2469#2470#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPairTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="42" column="57" lean-forward="true" selection-start-line="42" selection-start-column="57" selection-end-line="42" selection-end-column="57" />
+          <folding>
+            <element signature="e#2376#2391#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="46" column="86" lean-forward="false" selection-start-line="46" selection-start-column="86" selection-end-line="46" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1671#1672#0" expanded="true" />
+            <element signature="e#1751#1752#0" expanded="true" />
+            <element signature="e#2462#2477#0" expanded="true" />
           </folding>
         </state>
       </provider>
