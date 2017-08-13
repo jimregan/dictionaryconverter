@@ -115,7 +115,7 @@ case class TrxProc(kind: String, defcats: Map[String, List[CatItem]],
   def getListsMap = _lists
 }
 object TrxProc {
-  def fromTopLevel(t: TopLevel): TrxProc = {
+  implicit def fromTopLevel(t: TopLevel): TrxProc = {
     val dc = t.defcats.map{e => (e.n, e.l)}.toMap
     val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
     val dv = t.vars.map{e => (e.name, e.value)}.toMap
@@ -165,9 +165,6 @@ object TrxProc {
     val lus: List[LUProc] = mlu.getLUs.asScala.map{convertWordToken}.toList
     val refs: List[LURef] = mlu.getLUs.asScala.zipWithIndex.map{e => LURef(e._2 + offset, 0)}.toList
     (MLU(refs), lus)
-  }
-  def convertRuleSide(rs: RuleSide): Unit = {
-
   }
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
