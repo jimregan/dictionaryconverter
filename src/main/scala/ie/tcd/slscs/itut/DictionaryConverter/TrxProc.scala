@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.{MLUToken, RuleSide, StreamToken, WordToken}
-import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem}
+import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem, DefCats => JDefCats, DefCat => JDefCat}
 
 import scala.collection.JavaConverters._
 
@@ -127,6 +127,8 @@ object TrxProc {
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
   implicit def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
+  implicit def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
+  implicit def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
 
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
