@@ -24,6 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream.{MLUToken, RuleSide, StreamToken, WordToken}
+import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem}
 
 import scala.collection.JavaConverters._
 
@@ -123,6 +124,8 @@ object TrxProc {
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
+  implicit def convertCatItems(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
+
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
     val tmpb = fromTopLevel(b)
