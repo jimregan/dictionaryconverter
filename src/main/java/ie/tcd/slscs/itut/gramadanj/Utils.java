@@ -146,6 +146,14 @@ public class Utils {
         return a.equals(b);
     }
 
+    public static <T> List<T> listclone(List<T> l) {
+        List<T> out = new ArrayList<T>();
+        for(T t : l) {
+            out.add(t);
+        }
+        return out;
+    }
+
     public static <T extends Comparable<? super T>> boolean listStartsWithList(List<T> a, List<T> b) {
         if(a == null && b == null) {
             return true;
