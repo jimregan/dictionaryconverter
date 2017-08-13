@@ -64,13 +64,16 @@ public class VerbTargetFixes {
             String src = sp[0].trim();
             String[] rules = sp[1].split(",");
             String[] verbs = sp[2].split(",");
-            if(rules.length != verbs.length) {
+            if(rules.length != verbs.length && rules.length != 1) {
                 throw new IOException("Error reading entry at line: " + lineno + " - mismatch in fields 2 and 3");
             }
+            String vtmp = rules[0].trim();
             List<VerbRulePair> curvrp = new ArrayList<VerbRulePair>();
             for(int i = 0; i < rules.length; i++) {
                 String rtmp = rules[i].trim();
-                String vtmp = verbs[i].trim();
+                if(rules.length != verbs.length) {
+                    vtmp = verbs[i].trim();
+                }
                 curvrp.add(new VerbRulePair(rtmp, vtmp));
             }
             out.put(src, curvrp);
