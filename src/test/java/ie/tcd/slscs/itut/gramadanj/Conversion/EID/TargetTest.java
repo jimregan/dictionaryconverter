@@ -43,4 +43,14 @@ public class TargetTest extends TestCase {
         assertEquals(exp.wordform, out.wordform);
         assertEquals(exp.optional, out.optional);
     }
+
+    public void testGetNote2() throws Exception {
+        String t1 = "<noindex>(<label>m</label>)</noindex>";
+        Node n1 = Utils.stringToNode(t1);
+        GrammarNote exp = new GrammarNote("m", "", true);
+        GrammarNote out = Target.getNote(n1);
+        assertEquals(exp.label, out.label);
+        assertEquals(exp.wordform, out.wordform);
+        assertEquals(exp.optional, out.optional);
+    }
 }
