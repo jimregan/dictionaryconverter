@@ -42,6 +42,12 @@ public class SimpleList {
         this.name = name;
         this.items = items;
     }
+    public String getName() {
+        return name;
+    }
+    public List<String> getItems() {
+        return items;
+    }
     public static SimpleList fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
         boolean fromDictionary = false;
