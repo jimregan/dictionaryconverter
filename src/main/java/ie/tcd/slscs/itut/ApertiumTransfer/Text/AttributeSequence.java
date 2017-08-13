@@ -27,7 +27,6 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import javax.xml.stream.events.Attribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
