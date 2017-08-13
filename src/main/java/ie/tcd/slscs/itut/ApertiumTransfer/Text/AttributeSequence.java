@@ -27,8 +27,10 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import javax.xml.stream.events.Attribute;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AttributeSequence {
     String name;
@@ -53,5 +55,8 @@ public class AttributeSequence {
         }
         String name = tmp[0].trim();
         return new AttributeSequence(name, tags);
+    }
+    public static boolean isValidAttributeSequenceName(AttributeSequence as, Map<String, Attributes> map) {
+        return map.containsKey(as.name);
     }
 }
