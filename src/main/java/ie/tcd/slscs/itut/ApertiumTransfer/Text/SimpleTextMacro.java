@@ -123,13 +123,9 @@ public class SimpleTextMacro {
                 throw new Exception("Insufficient number of alignments");
             }
             for (int i = 0; i < align.size(); i++) {
-                boolean insert = false;
-                boolean delete = false;
-                if(align.get(i).left.equals("0")) {
-                    insert = true;
-                }
-                if(align.get(i).right.equals("0")) {
-                    delete = true;
+                boolean insert = align.get(i).insertion();
+                boolean delete = align.get(i).deletion();
+                if(delete) {
                     throw new Exception("Sorry, deletion not currently supported in macros");
                 }
                 String pos = Integer.toString(i + 1);

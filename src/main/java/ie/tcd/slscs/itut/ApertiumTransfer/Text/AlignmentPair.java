@@ -86,4 +86,10 @@ public class AlignmentPair {
     public static List<AlignmentPair> listFromString(String s) throws Exception {
         return listFromString(s, '-');
     }
+    public boolean insertion() {
+        return left.equals("0");
+    }
+    public boolean deletion() {
+        return right.equals("0");
+    }
 }
