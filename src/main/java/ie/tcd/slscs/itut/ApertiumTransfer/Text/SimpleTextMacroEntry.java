@@ -34,6 +34,8 @@ import java.util.List;
 public class SimpleTextMacroEntry {
     int position;
     boolean chunkAlignment;
+    boolean isDeletion;
+    boolean isInsertion;
     List<SimpleTextMacroAttr> attrs;
     List<SimpleTextMacroEntry> target;
     SimpleTextMacroEntry() {
@@ -67,6 +69,18 @@ public class SimpleTextMacroEntry {
     }
     public boolean hasTarget() {
         return target.size() != 0;
+    }
+    public boolean isDeletion() {
+        return isDeletion;
+    }
+    public void setDeletion(boolean deletion) {
+        isDeletion = deletion;
+    }
+    public boolean isInsertion() {
+        return isInsertion;
+    }
+    public void setInsertion(boolean insertion) {
+        isInsertion = insertion;
     }
 
     @Override
