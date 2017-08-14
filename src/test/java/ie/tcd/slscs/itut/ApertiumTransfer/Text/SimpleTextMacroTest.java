@@ -41,5 +41,11 @@ public class SimpleTextMacroTest extends TestCase {
         assertEquals(out.get("1").size(), 2);
         assertEquals(out.get("2").size(), 1);
         assertEquals(out.get("1").get(0), "1");
+        try {
+            out = SimpleTextMacro.readAlignments("1-1 C-1");
+            fail("No exception thrown");
+        } catch (Exception e) {
+            assertEquals("'C' can only appear on right-hand side of alignment: C-1", e.getMessage());
+        }
     }
 }
