@@ -123,32 +123,30 @@ public class SimpleTextMacro {
                 throw new Exception("Insufficient number of alignments");
             }
             for (int i = 0; i < align.size(); i++) {
-                boolean insert = align.get(i).insertion();
-                boolean delete = align.get(i).deletion();
-                if(delete) {
-                    throw new Exception("Sorry, deletion not currently supported in macros");
+                AlignmentPair current = align.get(i);
+                boolean insert = current.insertion();
+                boolean delete = current.deletion();
+                List<SimpleTextMacroAttr> src = new ArrayList<SimpleTextMacroAttr>();
+                List<SimpleTextMacroAttr> trg = new ArrayList<SimpleTextMacroAttr>();
+                int lpos = current.getLeftPosition();
+                int rpos = current.getRightPosition();
+                if(!insert) {
+                    src = lhs.get(current.getLeftPosition() - 1);
                 }
-                if(insert) {
-
+                if(!delete) {
+                    trg = rhs.get(current.getRightPosition() - 1);
                 }
-                String pos = Integer.toString(i + 1);
-                String idx = Integer.toString(i);
-                List<SimpleTextMacroAttr> src = lhs.get(i);
-                List<SimpleTextMacroEntry> trg = new ArrayList<SimpleTextMacroEntry>();
-                SimpleTextMacroEntry cur = new SimpleTextMacroEntry(i + 1, src);
-/*                for (String aligntarg : align_targets) {
-                    boolean chunk = false;
-                    int trgpos = -1;
-                    if (aligntarg.toLowerCase().equals("c")) {
-                        chunk = true;
-                    } else {
-                        trgpos = Integer.parseInt(aligntarg);
-                    }
-                    //trg.add(new SimpleTextMacroEntry(trgpos, ));
-                }*/
+                List<SimpleTextMacroEntry> trgtmp = new ArrayList<SimpleTextMacroEntry>();
+                SimpleTextMacroEntry curl = new SimpleTextMacroEntry(lpos, src);
+                curl.setInsertion(insert);
+                curl.setDeletion(delete);
+                SimpleTextMacroEntry curr = new SimpleTextMacroEntry(rpos, trg);
+                trgtmp.add(curr);
+                curl.setTarget(trgtmp);
+                pieces.add(curl);
             }
+            return new SimpleTextMacro(name, appliesTo, pieces);
         }
-        return new SimpleTextMacro();
     }
 
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
