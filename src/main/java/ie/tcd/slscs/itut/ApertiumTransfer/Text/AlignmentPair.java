@@ -118,4 +118,9 @@ public class AlignmentPair {
     public boolean rightIsChunk() {
         return right.toLowerCase().endsWith("c");
     }
+
+    @Override
+    public String toString() {
+        return left + "-" + right;
+    }
 }
