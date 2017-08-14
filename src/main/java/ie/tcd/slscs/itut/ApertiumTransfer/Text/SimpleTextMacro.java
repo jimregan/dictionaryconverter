@@ -84,7 +84,26 @@ public class SimpleTextMacro {
         }
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
-
+        Map<String, List<String>> align = readAlignments(sp[4]);
+        List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
+        for(int i = 0; i < lhs.size(); i++) {
+            String pos = Integer.toString(i + 1);
+            String idx = Integer.toString(i);
+            List<String> align_targets = align.get(pos);
+            List<SimpleTextMacroAttr> src = lhs.get(i);
+            List<SimpleTextMacroEntry> trg = new ArrayList<SimpleTextMacroEntry>();
+            SimpleTextMacroEntry cur = new SimpleTextMacroEntry(i + 1, src);
+            for(String aligntarg : align_targets) {
+                boolean chunk = false;
+                int trgpos = -1;
+                if(aligntarg.toLowerCase().equals("c")) {
+                    chunk = true;
+                } else {
+                    trgpos = Integer.parseInt(aligntarg);
+                }
+                //trg.add(new SimpleTextMacroEntry(trgpos, ));
+            }
+        }
         return new SimpleTextMacro();
     }
 
