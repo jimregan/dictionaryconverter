@@ -36,16 +36,16 @@ import static org.junit.Assert.*;
 
 public class SimpleTextMacroTest extends TestCase {
     public void testReadAlignments() throws Exception {
-        String in = "1-1 1-2 2-2C";
+        String in = "1-1 1-2 0C-2";
         Map<String, List<String>> out = SimpleTextMacro.readAlignments(in);
         assertEquals(out.get("1").size(), 2);
         assertEquals(out.get("2").size(), 1);
         assertEquals(out.get("1").get(0), "1");
         try {
-            out = SimpleTextMacro.readAlignments("1-1 C-1");
+            out = SimpleTextMacro.readAlignments("1-1 1-0C");
             fail("No exception thrown");
         } catch (Exception e) {
-            assertEquals("'C' can only appear on right-hand side of alignment: C-1", e.getMessage());
+            assertEquals("'C' can only appear on left-hand side of alignment: 1-0C", e.getMessage());
         }
     }
 }
