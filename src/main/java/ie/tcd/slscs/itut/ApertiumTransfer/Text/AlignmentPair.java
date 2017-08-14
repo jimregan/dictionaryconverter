@@ -39,8 +39,14 @@ public class AlignmentPair {
         this.left = left;
         this.right = right;
     }
+    public boolean canMakeLeftIndex() {
+        return left.matches("^([0-9]+)$");
+    }
+    public boolean canMakeRightIndex() {
+        return right.matches("^([0-9]+)$");
+    }
     public boolean canMakeIndices() {
-        return left.matches("^([0-9]*)$") && right.matches("^([0-9]*)$");
+        return canMakeLeftIndex() && canMakeRightIndex();
     }
 
     public boolean leftChunkAlignment() {
@@ -91,5 +97,11 @@ public class AlignmentPair {
     }
     public boolean deletion() {
         return right.equals("0");
+    }
+    public boolean leftIsChunk() {
+        return left.toLowerCase().endsWith("c");
+    }
+    public boolean rightIsChunk() {
+        return right.toLowerCase().endsWith("c");
     }
 }
