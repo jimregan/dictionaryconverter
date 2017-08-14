@@ -167,10 +167,41 @@ object TrxProc {
       KVMacroAttr(in.getKey, in.getValue)
     }
   }
-  abstract class TextMacroEntry(pos: Int)
-  case class InsertionMacroEntry(pos: Int) extends TextMacroEntry(pos)
-  case class DeletionMacroEntry(pos: Int) extends TextMacroEntry(pos)
-  case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TextMacroEntry])
+  abstract class BaseTextMacroEntry(pos: Int, matches: List[MacroAttr])
+  abstract class SrcTextMacroEntry(pos: Int, matches: List[MacroAttr]) extends BaseTextMacroEntry(pos, matches)
+  abstract class TrgTextMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends BaseTextMacroEntry(pos, matches)
+  case class SrcBaseMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
+  case class SrcInsertionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
+  case class SrcDeletionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
+  case class TrgBaseMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class TrgInsertionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class TrgDeletionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TrgTextMacroEntry])
+  def convertTextMacroEntry(in: JSTMEntry): BaseTextMacroEntry = {
+    if(in.hasTarget) {
+      convertTrgTextMacroEntry(in)
+    } else {
+      convertSrcTextMacroEntry(in)
+    }
+  }
+  def convertSrcTextMacroEntry(in: JSTMEntry): SrcTextMacroEntry = {
+    if(in.isInsertion) {
+      SrcInsertionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList)
+    } else if(in.isDeletion) {
+      SrcDeletionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList)
+    } else {
+      SrcBaseMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList)
+    }
+  }
+  def convertTrgTextMacroEntry(in: JSTMEntry): TrgTextMacroEntry = {
+    if(in.isInsertion) {
+      TrgInsertionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
+    } else if(in.isDeletion) {
+      TrgDeletionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
+    } else {
+      TrgBaseMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
+    }
+  }
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
 
