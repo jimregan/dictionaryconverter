@@ -63,7 +63,7 @@ import java.util.Map;
  * Here, all of the operations are to be applied to the chunk lemma,
  * which is denoted by 'C' in the alignment part.
  *
- * Example 2:
+ * Example 3:
  * <pre>
  * agree | <n> <adj> | <gen><num> | <gen><num> | 1-2
  * </pre>
@@ -73,15 +73,25 @@ import java.util.Map;
 public class SimpleTextMacro {
     String name;
     List<String> appliesTo;
-    List<SimpleTextMacroPart> parts;
+    List<SimpleTextMacroEntry> parts;
     SimpleTextMacro() {
         appliesTo = new ArrayList<String>();
-        parts = new ArrayList<SimpleTextMacroPart>();
+        parts = new ArrayList<SimpleTextMacroEntry>();
+    }
+    SimpleTextMacro(String name, List<String> appliesTo, List<SimpleTextMacroEntry> parts) {
+        this();
+        this.name = name;
+        this.appliesTo = appliesTo;
+        this.parts = parts;
     }
 
-    public static SimpleTextMacro fromString(String s) throws Exception {
+    public static SimpleTextMacro fromString(String s, boolean postchunk) throws Exception {
+        int offset = 1;
+        if(postchunk) {
+            offset = 0;
+        }
         String[] sp = s.split("\\|");
-        if(sp.length != 5) {
+        if(sp.length != 4 && sp.length != 5) {
             throw new Exception("Incorrect number of fields");
         }
         String name = sp[0].trim();
@@ -91,24 +101,43 @@ public class SimpleTextMacro {
         }
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
-        Map<String, List<String>> align = readAlignments(sp[4]);
-        List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
-        for(int i = 0; i < lhs.size(); i++) {
-            String pos = Integer.toString(i + 1);
-            String idx = Integer.toString(i);
-            List<String> align_targets = align.get(pos);
-            List<SimpleTextMacroAttr> src = lhs.get(i);
-            List<SimpleTextMacroEntry> trg = new ArrayList<SimpleTextMacroEntry>();
-            SimpleTextMacroEntry cur = new SimpleTextMacroEntry(i + 1, src);
-            for(String aligntarg : align_targets) {
-                boolean chunk = false;
-                int trgpos = -1;
-                if(aligntarg.toLowerCase().equals("c")) {
-                    chunk = true;
-                } else {
-                    trgpos = Integer.parseInt(aligntarg);
+        if(sp.length == 4 || sp[4].trim().equals("")) {
+            List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
+            if(lhs.size() == rhs.size()) {
+                for (int i = 0; i < lhs.size(); i++) {
+                    String pos = Integer.toString(i + offset);
+                    String idx = Integer.toString(i);
+                    List<SimpleTextMacroAttr> src = lhs.get(i);
+                    List<SimpleTextMacroAttr> trg = rhs.get(i);
+                    List<SimpleTextMacroEntry> trgtmp = new ArrayList<SimpleTextMacroEntry>();
+                    SimpleTextMacroEntry curl = new SimpleTextMacroEntry(i + offset, src);
+                    SimpleTextMacroEntry curr = new SimpleTextMacroEntry(i + offset, trg);
+                    trgtmp.add(curr);
+                    curl.setTarget(trgtmp);
+                    pieces.add(curl);
                 }
-                //trg.add(new SimpleTextMacroEntry(trgpos, ));
+            }
+            return new SimpleTextMacro(name, appliesTo, pieces);
+        } else {
+            Map<String, List<String>> align = readAlignments(sp[4]);
+            List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
+            for (int i = 0; i < lhs.size(); i++) {
+                String pos = Integer.toString(i + 1);
+                String idx = Integer.toString(i);
+                List<String> align_targets = align.get(pos);
+                List<SimpleTextMacroAttr> src = lhs.get(i);
+                List<SimpleTextMacroEntry> trg = new ArrayList<SimpleTextMacroEntry>();
+                SimpleTextMacroEntry cur = new SimpleTextMacroEntry(i + 1, src);
+                for (String aligntarg : align_targets) {
+                    boolean chunk = false;
+                    int trgpos = -1;
+                    if (aligntarg.toLowerCase().equals("c")) {
+                        chunk = true;
+                    } else {
+                        trgpos = Integer.parseInt(aligntarg);
+                    }
+                    //trg.add(new SimpleTextMacroEntry(trgpos, ));
+                }
             }
         }
         return new SimpleTextMacro();
@@ -174,7 +203,7 @@ public class SimpleTextMacro {
         return side;
     }
 
-    public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
+    public static List<SimpleTextMacro> fromFile(BufferedReader br, boolean postchunk) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
         String line;
         int lineno = 0;
@@ -182,7 +211,7 @@ public class SimpleTextMacro {
             lineno++;
             SimpleTextMacro tmp = new SimpleTextMacro();
             try {
-                tmp = fromString(line);
+                tmp = fromString(line, postchunk);
             } catch (Exception e) {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
