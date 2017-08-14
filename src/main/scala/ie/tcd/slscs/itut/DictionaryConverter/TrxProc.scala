@@ -202,6 +202,9 @@ object TrxProc {
   implicit def convertMacroCalls(in: JSMacroCall): SimpleMacroCall = {
     SimpleMacroCall(in.getName, in.getParams.asScala.toList)
   }
+  implicit def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
+    CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
+  }
 
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
