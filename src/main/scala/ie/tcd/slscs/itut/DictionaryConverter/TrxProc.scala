@@ -195,7 +195,6 @@ object TrxProc {
     case l: LUReference => Some(luReferenceToLURef(l))
   }
 
-
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
    *
