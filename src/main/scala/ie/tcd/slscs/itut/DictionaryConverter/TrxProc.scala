@@ -154,6 +154,7 @@ object TrxProc {
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
 
+  // TODO: possibly handle lists with inlist=name?
   trait MacroAttr
   case class LemmaMacroAttr(s: String) extends MacroAttr
   case class KVMacroAttr(k: String, v: String) extends MacroAttr
