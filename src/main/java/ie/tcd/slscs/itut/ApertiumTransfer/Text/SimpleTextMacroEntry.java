@@ -28,6 +28,7 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SimpleTextMacroEntry {
@@ -66,5 +67,41 @@ public class SimpleTextMacroEntry {
     }
     public boolean hasTarget() {
         return target.size() != 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(position);
+        if(chunkAlignment) {
+            sb.append("(C)");
+        }
+        Iterator<SimpleTextMacroAttr> sait = attrs.iterator();
+        boolean sait_next = sait.hasNext();
+        if(sait_next) {
+            sb.append('[');
+            sb.append(sait.next().toString());
+        }
+        while(sait.hasNext()) {
+            sb.append(',');
+            sb.append(sait.next().toString());
+        }
+        if(sait_next) {
+            sb.append(']');
+        }
+        if(target.size() == 0) {
+            sb.append("[--]");
+        } else {
+            sb.append('[');
+            Iterator<SimpleTextMacroEntry> smtit = target.iterator();
+            sb.append(smtit.next().toString());
+            while (smtit.hasNext()) {
+                sb.append(',');
+                sb.append(smtit.next());
+            }
+            sb.append(']');
+        }
+        return sb.toString();
     }
 }
