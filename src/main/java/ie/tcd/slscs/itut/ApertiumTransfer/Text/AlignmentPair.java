@@ -84,7 +84,7 @@ public class AlignmentPair {
         return out;
     }
     public static AlignmentPair fromString(String s, char delim) throws Exception {
-        String[] tmp = s.split(Character.toString(delim));
+        String[] tmp = s.trim().split(Character.toString(delim));
         if(tmp.length != 2) {
             throw new Exception("Alignment piece " + s + " does not contain one single " + delim);
         }
@@ -98,7 +98,7 @@ public class AlignmentPair {
     }
     public static List<AlignmentPair> listFromString(String s, char delim) throws Exception {
         List<AlignmentPair> out = new ArrayList<AlignmentPair>();
-        for(String ap : s.split(" ")) {
+        for(String ap : s.trim().split(" ")) {
             out.add(AlignmentPair.fromString(ap, delim));
         }
         return out;
