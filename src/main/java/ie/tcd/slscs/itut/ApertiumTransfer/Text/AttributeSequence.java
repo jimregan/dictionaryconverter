@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +60,21 @@ public class AttributeSequence {
         String name = tmp[0].trim();
         tags = Arrays.asList(tmp[2].split(" "));
         return new AttributeSequence(name, tags);
+    }
+    public static List<AttributeSequence> fromFile(BufferedReader br) throws IOException {
+        List<AttributeSequence> out = new ArrayList<AttributeSequence>();
+        String line;
+        int lineno = 0;
+        while((line = br.readLine()) != null) {
+            lineno++;
+            SimpleTextMacro tmp = new SimpleTextMacro();
+            try {
+                out.add(fromString(line));
+            } catch (Exception e) {
+                throw new IOException(e.getMessage() + " on line " + lineno);
+            }
+        }
+        return out;
     }
 
     /**
