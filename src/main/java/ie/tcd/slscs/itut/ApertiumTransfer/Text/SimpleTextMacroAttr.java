@@ -53,9 +53,13 @@ public class SimpleTextMacroAttr {
             end--;
         }
         String[] pieces = s.substring(start, end).split("=");
-        if(pieces.length != 2) {
-            throw new Exception("Missing = in tag");
+        if(pieces.length == 2) {
+            return new SimpleTextMacroAttr(pieces[0], pieces[1]);
+        } else if(pieces.length == 1) {
+            return new SimpleTextMacroAttr(pieces[0], "");
+        } else {
+            throw new Exception("Tag can only contain one '='");
         }
-        return new SimpleTextMacroAttr(pieces[0], pieces[1]);
+
     }
 }
