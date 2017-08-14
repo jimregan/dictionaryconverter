@@ -31,7 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTextMacroEntry {
+    // FIXME: list of alignments
+    // FIXME: convert Map to this in SimpleTextMacro
     int alignment;
+    boolean chunkAlignment;
     List<SimpleTextMacroAttr> attrs;
     SimpleTextMacroEntry() {
         attrs = new ArrayList<SimpleTextMacroAttr>();
