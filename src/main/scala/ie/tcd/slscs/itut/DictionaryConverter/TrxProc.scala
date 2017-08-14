@@ -154,14 +154,16 @@ object TrxProc {
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
 
-  // TODO: possibly handle lists with inlist=name?
   trait MacroAttr
   case class LemmaMacroAttr(s: String) extends MacroAttr
+  case class ListMacroAttr(s: String) extends MacroAttr
   case class KVMacroAttr(k: String, v: String) extends MacroAttr
   case class KeyOnlyMacroAttr(k: String) extends MacroAttr
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
       LemmaMacroAttr(in.getValue)
+    } else if(in.getKey == "inlist") {
+        ListMacroAttr(in.getValue)
     } else if(in.getValue == "" || in.getValue == null) {
       KeyOnlyMacroAttr(in.getKey)
     } else {
@@ -177,6 +179,7 @@ object TrxProc {
   }
   def convertMacroAttrToTest(in: MacroAttr, pos: Int): TestElement = in match {
     case LemmaMacroAttr(s) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s))))
+    case ListMacroAttr(s) => TestElement(null, InElement(ClipElement(pos.toString, "tl", "lem", null, null, null), ListElement(s), true))
     case KVMacroAttr(k, v) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "tl", k, null, null, null), LitTagElement(v))))
     case _ => throw new Exception("Can't convert this tag")
   }
