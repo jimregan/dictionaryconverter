@@ -34,6 +34,11 @@ import scala.collection.JavaConverters._
 
 object TextRuleConverter {
   val defaultHeads: Map[String, List[String]] = Map("NP" -> List("n", "np"), "VP" -> List("vblex"), "AdjP" -> List("adj"))
+  val emptyRule: RuleElement = {
+    val p: PatternElement = PatternElement(List(PatternItemElement("test")))
+    val a: ActionElement = ActionElement(null, List())
+    RuleElement(null, "test", null, p, a)
+  }
   def defAttrFromFile(s: String): List[DefAttrElement] = {
     val attrs = Attributes.defAttrFromFile(s)
     attrs.asScala.map{convertDefAttr}.toList
