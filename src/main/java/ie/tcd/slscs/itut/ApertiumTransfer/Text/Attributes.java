@@ -30,8 +30,7 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import ie.tcd.slscs.itut.ApertiumTransfer.AttrItem;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +116,21 @@ public class Attributes {
             out.addAll(fromAttributes(a));
         }
         return out;
+    }
+    public static List<DefAttr> defAttrFromFile(InputStreamReader isr) throws Exception {
+        return defAttrFromFile(new BufferedReader(isr));
+    }
+    public static List<DefAttr> defAttrFromFile(InputStream is) throws Exception {
+        return defAttrFromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<DefAttr> defAttrFromFile(FileInputStream fi) throws Exception {
+        return defAttrFromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<DefAttr> defAttrFromFile(File f) throws Exception {
+        return defAttrFromFile(new FileInputStream(f));
+    }
+    public static List<DefAttr> defAttrFromFile(String s) throws Exception {
+        return defAttrFromFile(new File(s));
     }
     public static List<AttrItem> convertItems(List<String> in) {
         List<AttrItem> out = new ArrayList<AttrItem>();
