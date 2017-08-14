@@ -39,6 +39,9 @@ public class MLUReference extends StreamToken {
         this.children = mlus;
     }
 
+    public List<LUReference> getChildren() {
+        return children;
+    }
     @Override
     public String getContent() {
         return null;
