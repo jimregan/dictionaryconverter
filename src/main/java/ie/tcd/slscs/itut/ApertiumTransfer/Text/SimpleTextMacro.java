@@ -97,7 +97,7 @@ public class SimpleTextMacro {
             }
             if(!tmp[0].matches("^[0-9]*$")) {
                 if(tmp[0].toLowerCase().equals("c")) {
-                    throw new Exception("'C' can only appear on right-hand side of alignment");
+                    throw new Exception("'C' can only appear on right-hand side of alignment: " + al);
                 } else {
                     throw new Exception("Incorrect format in >" + tmp[0] + "<-" + tmp[1]);
                 }
