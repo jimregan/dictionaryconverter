@@ -140,6 +140,8 @@ object TrxProc {
   }
   def merge(a: TrxProc, b: TrxProc): TrxProc = {
     val out = a
+    out.safeSetCats(b.getCatMap.toMap)
+    out.safeSetAttrs(b.getAttrMap.toMap)
     out.safeSetVars(b.getVarMap.toMap)
     out.safeSetLists(b.getListsMap.toMap)
     out
