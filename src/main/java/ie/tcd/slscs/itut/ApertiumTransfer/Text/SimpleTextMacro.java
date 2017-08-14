@@ -86,7 +86,7 @@ public class SimpleTextMacro {
         return new SimpleTextMacro();
     }
 
-    private static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
+    public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
         List<List<SimpleTextMacroAttr>> side = new ArrayList<List<SimpleTextMacroAttr>>();
         List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
         for (String apply : s.trim().split(" ")) {
