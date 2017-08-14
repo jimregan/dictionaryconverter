@@ -30,11 +30,23 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class SimpleTextMacroEntryTest extends TestCase {
+    SimpleTextMacroAttr left1 = new SimpleTextMacroAttr("foo", "");
+    SimpleTextMacroAttr left2 = new SimpleTextMacroAttr("bar", "baz");
+    List<SimpleTextMacroAttr> left = new ArrayList<SimpleTextMacroAttr>();
+    SimpleTextMacroAttr right1 = new SimpleTextMacroAttr("foo", "");
+    SimpleTextMacroAttr right2 = new SimpleTextMacroAttr("bar", "baz");
     public void testToString() throws Exception {
-
+        left.add(left1);
+        SimpleTextMacroEntry exp = new SimpleTextMacroEntry(1, left);
+        assertEquals("{1[<foo>]}", exp.toString());
+        left.add(left2);
+        assertEquals("{1[<foo>,<bar=baz>]}", exp.toString());
     }
 
 }
