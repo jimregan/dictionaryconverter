@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleList
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr}
 import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 
 import scala.collection.JavaConverters._
@@ -154,6 +154,20 @@ object TrxProc {
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
 
+  trait MacroAttr
+  case class LemmaMacroAttr(s: String) extends MacroAttr
+  case class KVMacroAttr(k: String, v: String) extends MacroAttr
+  case class KeyOnlyMacroAttr(k: String) extends MacroAttr
+  def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
+    if(in.getKey == "lemma") {
+      LemmaMacroAttr(in.getValue)
+    } else if(in.getValue == "" || in.getValue == null) {
+      KeyOnlyMacroAttr(in.getKey)
+    } else {
+      KVMacroAttr(in.getKey, in.getValue)
+    }
+
+  }
   case class RuleMetadata(ruleid: String, rulecomment: String)
 
   case class RuleProc(meta: RuleMetadata)
