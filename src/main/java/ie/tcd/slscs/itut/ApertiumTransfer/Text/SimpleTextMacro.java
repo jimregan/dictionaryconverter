@@ -119,7 +119,8 @@ public class SimpleTextMacro {
         } else {
             Map<String, List<String>> align = readAlignments(sp[4]);
             List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
-            for (int i = 0; i < lhs.size(); i++) {
+            int limit = Math.max(lhs.size(), rhs.size());
+            for (int i = 0; i < limit; i++) {
                 String pos = Integer.toString(i + 1);
                 String idx = Integer.toString(i);
                 List<String> align_targets = align.get(pos);
