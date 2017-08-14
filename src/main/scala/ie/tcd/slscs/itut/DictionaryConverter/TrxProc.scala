@@ -152,7 +152,7 @@ object TrxProc {
   // TODO helper: expand pattern string above with defcats - class method? - done in java
   // TODO: finish getters and setters for elements - done except for rules and macros
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
-  // TODO: macro generator
+  // TODO: convert macros from SimpleTextMacro
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
 
