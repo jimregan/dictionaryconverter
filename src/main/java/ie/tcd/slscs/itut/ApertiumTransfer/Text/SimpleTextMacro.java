@@ -80,45 +80,35 @@ public class SimpleTextMacro {
         for (String apply : sp[1].trim().split(" ")) {
             appliesTo.add(apply);
         }
-        List<List<SimpleTextMacroAttr>> lhs = new ArrayList<List<SimpleTextMacroAttr>>();
-        List<List<SimpleTextMacroAttr>> rhs = new ArrayList<List<SimpleTextMacroAttr>>();
-        List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
-        for (String apply : sp[2].trim().split(" ")) {
-            if(apply.startsWith("<") && apply.endsWith(">")) {
-                for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
-                }
-            } else if(apply.endsWith(">")) {
-                int idx = apply.indexOf("<");
-                tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
-                for(String inner : apply.substring(idx + 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
-                }
-            } else {
-                throw new Exception("Error reading tag");
-            }
-            lhs.add(Utils.listclone(tmp));
-            tmp.clear();
-        }
-        for (String apply : sp[3].trim().split(" ")) {
-            if(apply.startsWith("<") && apply.endsWith(">")) {
-                for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
-                }
-            } else if(apply.endsWith(">")) {
-                int idx = apply.indexOf("<");
-                tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
-                for(String inner : apply.substring(idx + 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
-                }
-            } else {
-                throw new Exception("Error reading tag");
-            }
-            rhs.add(Utils.listclone(tmp));
-            tmp.clear();
-        }
+        List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
+        List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
+
         return new SimpleTextMacro();
     }
+
+    private static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
+        List<List<SimpleTextMacroAttr>> side = new ArrayList<List<SimpleTextMacroAttr>>();
+        List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
+        for (String apply : s.trim().split(" ")) {
+            if(apply.startsWith("<") && apply.endsWith(">")) {
+                for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else if(apply.endsWith(">")) {
+                int idx = apply.indexOf("<");
+                tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
+                for(String inner : apply.substring(idx + 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else {
+                throw new Exception("Error reading tag");
+            }
+            side.add(Utils.listclone(tmp));
+            tmp.clear();
+        }
+        return side;
+    }
+
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
         String line;
