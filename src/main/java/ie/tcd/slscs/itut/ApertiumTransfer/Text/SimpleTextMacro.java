@@ -85,6 +85,16 @@ public class SimpleTextMacro {
         this.parts = parts;
     }
 
+    public String getName() {
+        return name;
+    }
+    public List<String> getAppliesTo() {
+        return appliesTo;
+    }
+    public List<SimpleTextMacroEntry> getParts() {
+        return parts;
+    }
+
     public static SimpleTextMacro fromString(String s) throws Exception {
         String[] sp = s.split("\\|");
         if(sp.length != 4 && sp.length != 5) {
