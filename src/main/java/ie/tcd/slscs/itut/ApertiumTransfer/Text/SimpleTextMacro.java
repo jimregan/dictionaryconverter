@@ -112,6 +112,18 @@ public class SimpleTextMacro {
         }
         return out;
     }
+    public static Map<String, List<String>> reverseAlignments(Map<String, List<String>> in) {
+        Map<String, List<String>> out = new HashMap<String, List<String>>();
+        for(String key : in.keySet()) {
+            for(String value : in.get(key)) {
+                if(!out.containsKey(value)) {
+                    out.put(value, new ArrayList<String>());
+                }
+                out.get(value).add(key);
+            }
+        }
+        return out;
+    }
 
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
         List<List<SimpleTextMacroAttr>> side = new ArrayList<List<SimpleTextMacroAttr>>();
