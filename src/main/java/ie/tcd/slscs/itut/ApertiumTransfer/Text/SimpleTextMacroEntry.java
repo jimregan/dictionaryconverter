@@ -39,13 +39,17 @@ public class SimpleTextMacroEntry {
         attrs = new ArrayList<SimpleTextMacroAttr>();
         target = new ArrayList<SimpleTextMacroEntry>();
     }
-    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs) {
+    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs, boolean isChunk) {
         this();
         this.position = pos;
         this.attrs = attrs;
+        this.chunkAlignment = isChunk;
     }
-    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs, List<SimpleTextMacroEntry> target) {
-        this(pos, attrs);
+    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs) {
+        this(pos, attrs, false);
+    }
+    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs, boolean isChunk, List<SimpleTextMacroEntry> target) {
+        this(pos, attrs, isChunk);
         this.setTarget(target);
     }
     public int getPosition() {
