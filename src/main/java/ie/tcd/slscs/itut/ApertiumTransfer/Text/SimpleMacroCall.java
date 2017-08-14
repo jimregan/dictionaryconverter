@@ -41,6 +41,12 @@ public class SimpleMacroCall {
         this.name = name;
         this.params = params;
     }
+    public String getName() {
+        return name;
+    }
+    public List<String> getParams() {
+        return params;
+    }
     public static SimpleMacroCall fromString(String s) throws Exception {
         String[] top = s.split(":");
         List<String> params = new ArrayList<String>();
