@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,4 +35,10 @@ import java.util.List;
  */
 public class SimpleTextMacroPart {
     List<SimpleTextMacroEntry> entries;
+    SimpleTextMacroPart() {
+        this.entries = new ArrayList<SimpleTextMacroEntry>();
+    }
+    SimpleTextMacroPart(List<SimpleTextMacroEntry> entries) {
+        this.entries = entries;
+    }
 }
