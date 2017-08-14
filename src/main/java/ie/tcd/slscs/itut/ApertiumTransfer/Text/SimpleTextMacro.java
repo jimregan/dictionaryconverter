@@ -69,10 +69,6 @@ import java.util.Map;
  * </pre>
  *
  * Here, the idea is apply the contents of <gen> and <num> of clip 1 to clip 2
- *
- *
- * sure right | to be sure af right | 0-1 0-2 1-3 0-4 2-5
- *
  */
 public class SimpleTextMacro {
     String name;
@@ -121,21 +117,18 @@ public class SimpleTextMacro {
             }
             return new SimpleTextMacro(name, appliesTo, pieces);
         } else {
-            Map<String, List<String>> align = readAlignments(sp[4]);
-            Map<String, List<String>> reverse = reverseAlignments(align);
+            List<AlignmentPair> align = AlignmentPair.listFromString(sp[4]);
             List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
-            if(align.keySet().size() < rhs.size()) {
-                throw new Exception("Not enough alignments");
+            if(align.size() != lhs.size() || align.size() != rhs.size()) {
+                throw new Exception("Insufficient number of alignments");
             }
-            int limit = Math.max(Math.max(lhs.size(), rhs.size()), align.keySet().size());
-            for (int i = 0; i < limit; i++) {
+            for (int i = 0; i < align.size(); i++) {
                 String pos = Integer.toString(i + 1);
                 String idx = Integer.toString(i);
-                List<String> align_targets = align.get(pos);
                 List<SimpleTextMacroAttr> src = lhs.get(i);
                 List<SimpleTextMacroEntry> trg = new ArrayList<SimpleTextMacroEntry>();
                 SimpleTextMacroEntry cur = new SimpleTextMacroEntry(i + 1, src);
-                for (String aligntarg : align_targets) {
+/*                for (String aligntarg : align_targets) {
                     boolean chunk = false;
                     int trgpos = -1;
                     if (aligntarg.toLowerCase().equals("c")) {
@@ -144,43 +137,10 @@ public class SimpleTextMacro {
                         trgpos = Integer.parseInt(aligntarg);
                     }
                     //trg.add(new SimpleTextMacroEntry(trgpos, ));
-                }
+                }*/
             }
         }
         return new SimpleTextMacro();
-    }
-
-    public static Map<String, List<String>> readAlignments(String s) throws Exception {
-        Map<String, List<String>> out = new HashMap<String, List<String>>();
-        for(String al : s.trim().split(" ")) {
-            String tmp[] = al.split("-");
-            if(tmp.length != 2) {
-                throw new Exception("Incorrect number of pieces in \"" + al + "\"");
-            }
-            if(!(tmp[0].matches("^[0-9]+[Cc]?$")) || tmp[0].toLowerCase().equals("0c")) {
-                throw new Exception("Incorrect format in >" + tmp[0] + "<-" + tmp[1]);
-            }
-            if(!tmp[1].matches("^[0-9]+[Cc]?$")) {
-                throw new Exception("Incorrect format in " + tmp[0] + "->" + tmp[1] + "<");
-            }
-            if(!out.containsKey(tmp[0])) {
-                out.put(tmp[0], new ArrayList<String>());
-            }
-            out.get(tmp[0]).add(tmp[1]);
-        }
-        return out;
-    }
-    public static Map<String, List<String>> reverseAlignments(Map<String, List<String>> in) {
-        Map<String, List<String>> out = new HashMap<String, List<String>>();
-        for(String key : in.keySet()) {
-            for(String value : in.get(key)) {
-                if(!out.containsKey(value)) {
-                    out.put(value, new ArrayList<String>());
-                }
-                out.get(value).add(key);
-            }
-        }
-        return out;
     }
 
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {

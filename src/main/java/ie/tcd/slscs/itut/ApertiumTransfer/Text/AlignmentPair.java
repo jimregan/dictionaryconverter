@@ -28,7 +28,9 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AlignmentPair {
     String left;
@@ -41,6 +43,26 @@ public class AlignmentPair {
         return left.matches("^([0-9]*)$") && right.matches("^([0-9]*)$");
     }
 
+    public boolean leftChunkAlignment() {
+        return left.toLowerCase().endsWith("c");
+    }
+    public boolean rightChunkAlignment() {
+        return right.toLowerCase().endsWith("c");
+    }
+    public static Map<String, List<String>> getMapFromList(List<AlignmentPair> in) throws Exception {
+        Map<String, List<String>> out = new HashMap<String, List<String>>();
+        for(AlignmentPair al : in) {
+            out.get(al.left).add(al.right);
+        }
+        return out;
+    }
+    public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) throws Exception {
+        Map<String, List<String>> out = new HashMap<String, List<String>>();
+        for(AlignmentPair al : in) {
+            out.get(al.right).add(al.left);
+        }
+        return out;
+    }
     public static AlignmentPair fromString(String s, char delim) throws Exception {
         String[] tmp = s.split(Character.toString(delim));
         if(tmp.length != 2) {
