@@ -67,7 +67,6 @@ public class AttributeSequence {
         int lineno = 0;
         while((line = br.readLine()) != null) {
             lineno++;
-            SimpleTextMacro tmp = new SimpleTextMacro();
             try {
                 out.add(fromString(line));
             } catch (Exception e) {
