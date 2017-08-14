@@ -167,6 +167,18 @@ object TrxProc {
       KVMacroAttr(in.getKey, in.getValue)
     }
   }
+  // TODO: kv -> assign to variable, or clip
+  // a map with valid attributes for that pos is required, should be passed from elsewhere
+  def convertMacroAttrToLet(in: MacroAttr, pos: Int): LetElement = in match {
+    case LemmaMacroAttr(s) => LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s))
+    case KVMacroAttr(k, v) => LetElement(ClipElement(pos.toString, "tl", k, null, null, null), LitTagElement(v))
+    case _ => throw new Exception("Can't convert this tag")
+  }
+  def convertMacroAttrToTest(in: MacroAttr, pos: Int): TestElement = in match {
+    case LemmaMacroAttr(s) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s))))
+    case KVMacroAttr(k, v) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "tl", k, null, null, null), LitTagElement(v))))
+    case _ => throw new Exception("Can't convert this tag")
+  }
   abstract class BaseTextMacroEntry
   abstract class SrcTextMacroEntry extends BaseTextMacroEntry
   abstract class TrgTextMacroEntry extends BaseTextMacroEntry
