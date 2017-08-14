@@ -55,9 +55,9 @@ import java.util.Map;
  *
  * Example 2:
  * <pre>
- * det_type | <det> | no<det> | <negative=NEG> | 1-1C
- * | | the<det> | <det_type=DEFART> | 1-1C
- * | | a<det> | <det_type=UNDET> | 1-1C
+ * det_type | <det> | no<det>  | <negative=NEG>    | 1-1C
+ *          |       | the<det> | <det_type=DEFART> | 1-1C
+ *          |       | a<det>   | <det_type=UNDET>  | 1-1C
  * </pre>
  *
  * Here, all of the operations are to be applied to the chunk lemma,
