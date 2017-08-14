@@ -167,16 +167,25 @@ object TrxProc {
       KVMacroAttr(in.getKey, in.getValue)
     }
   }
-  abstract class BaseTextMacroEntry(pos: Int, matches: List[MacroAttr])
-  abstract class SrcTextMacroEntry(pos: Int, matches: List[MacroAttr]) extends BaseTextMacroEntry(pos, matches)
-  abstract class TrgTextMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends BaseTextMacroEntry(pos, matches)
-  case class SrcBaseMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
-  case class SrcInsertionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
-  case class SrcDeletionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry(pos, matches)
-  case class TrgBaseMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
-  case class TrgInsertionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
-  case class TrgDeletionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  abstract class BaseTextMacroEntry
+  abstract class SrcTextMacroEntry extends BaseTextMacroEntry
+  abstract class TrgTextMacroEntry extends BaseTextMacroEntry
+  case class SrcBaseMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
+  case class SrcInsertionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
+  case class SrcDeletionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
+  case class SrcSingleBaseMacroEntry(pos: Int, matches: MacroAttr) extends SrcTextMacroEntry
+  case class SrcSingleInsertionMacroEntry(pos: Int, matches: MacroAttr) extends SrcTextMacroEntry
+  case class SrcSingleDeletionMacroEntry(pos: Int, matches: MacroAttr) extends SrcTextMacroEntry
+  case class TrgBaseMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgInsertionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgDeletionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
   case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TrgTextMacroEntry])
+  case class TrgSingleBaseMacroEntry(pos: Int, matches: MacroAttr, targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgSingleInsertionMacroEntry(pos: Int, matches: MacroAttr, targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgSingleDeletionMacroEntry(pos: Int, matches: MacroAttr, targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgBothSingleBaseMacroEntry(pos: Int, matches: MacroAttr, targets: SrcTextMacroEntry) extends TrgTextMacroEntry
+  case class TrgBothSingleInsertionMacroEntry(pos: Int, matches: MacroAttr, targets: SrcTextMacroEntry) extends TrgTextMacroEntry
+  case class TrgBothSingleDeletionMacroEntry(pos: Int, matches: MacroAttr, targets: SrcTextMacroEntry) extends TrgTextMacroEntry
   def convertTextMacroEntry(in: JSTMEntry): BaseTextMacroEntry = {
     if(in.hasTarget) {
       convertTrgTextMacroEntry(in)
