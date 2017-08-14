@@ -111,6 +111,13 @@ public class Attributes {
         }
         return out;
     }
+    public static List<DefAttr> defAttrFromFile(BufferedReader br) throws IOException {
+        List<DefAttr> out = new ArrayList<DefAttr>();
+        for(Attributes a : fromFile(br)) {
+            out.addAll(fromAttributes(a));
+        }
+        return out;
+    }
     public static List<AttrItem> convertItems(List<String> in) {
         List<AttrItem> out = new ArrayList<AttrItem>();
         for(String s : in) {
