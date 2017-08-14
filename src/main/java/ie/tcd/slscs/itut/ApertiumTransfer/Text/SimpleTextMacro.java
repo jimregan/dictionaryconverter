@@ -97,8 +97,8 @@ public class SimpleTextMacro {
         }
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
+        List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
         if(sp.length == 4 || sp[4].trim().equals("")) {
-            List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
             if(lhs.size() == rhs.size()) {
                 for (int i = 0; i < lhs.size(); i++) {
                     String pos = Integer.toString(i + 1);
@@ -123,6 +123,15 @@ public class SimpleTextMacro {
                 throw new Exception("Insufficient number of alignments");
             }
             for (int i = 0; i < align.size(); i++) {
+                boolean insert = false;
+                boolean delete = false;
+                if(align.get(i).left.equals("0")) {
+                    insert = true;
+                }
+                if(align.get(i).right.equals("0")) {
+                    delete = true;
+                    throw new Exception("Sorry, deletion not currently supported in macros");
+                }
                 String pos = Integer.toString(i + 1);
                 String idx = Integer.toString(i);
                 List<SimpleTextMacroAttr> src = lhs.get(i);
