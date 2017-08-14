@@ -112,6 +112,8 @@ public class SimpleTextMacro {
                     curl.setTarget(trgtmp);
                     pieces.add(curl);
                 }
+            } else {
+                throw new Exception("Unequal number of elements on left and right sides; explicit alignment required");
             }
             return new SimpleTextMacro(name, appliesTo, pieces);
         } else {
