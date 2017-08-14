@@ -44,9 +44,9 @@ public class SimpleTextMacroEntryTest extends TestCase {
     public void testToString() throws Exception {
         left.add(left1);
         SimpleTextMacroEntry exp = new SimpleTextMacroEntry(1, left);
-        assertEquals("{1[<foo>]}", exp.toString());
+        assertEquals("{1[<foo>][--]}", exp.toString());
         left.add(left2);
-        assertEquals("{1[<foo>,<bar=baz>]}", exp.toString());
+        assertEquals("{1[<foo>,<bar=baz>][--]}", exp.toString());
     }
 
 }
