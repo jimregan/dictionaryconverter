@@ -31,23 +31,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTextMacroEntry {
-    // FIXME: list of alignments
-    // FIXME: convert Map to this in SimpleTextMacro
-    int alignment;
+    int position;
     boolean chunkAlignment;
     List<SimpleTextMacroAttr> attrs;
+    List<SimpleTextMacroEntry> target;
     SimpleTextMacroEntry() {
         attrs = new ArrayList<SimpleTextMacroAttr>();
+        target = new ArrayList<SimpleTextMacroEntry>();
     }
-    SimpleTextMacroEntry(int align, List<SimpleTextMacroAttr> attrs) {
+    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs) {
         this();
-        this.alignment = align;
+        this.position = pos;
         this.attrs = attrs;
     }
-    public int getAlignment() {
-        return alignment;
+    SimpleTextMacroEntry(int pos, List<SimpleTextMacroAttr> attrs, List<SimpleTextMacroEntry> target) {
+        this(pos, attrs);
+        this.setTarget(target);
+    }
+    public int getPosition() {
+        return position;
     }
     public List<SimpleTextMacroAttr> getAttrs() {
         return attrs;
+    }
+    public List<SimpleTextMacroEntry> getTarget() {
+        return target;
+    }
+    public void setTarget(List<SimpleTextMacroEntry> target) {
+        this.target = target;
+    }
+    public boolean hasTarget() {
+        return target.size() != 0;
     }
 }
