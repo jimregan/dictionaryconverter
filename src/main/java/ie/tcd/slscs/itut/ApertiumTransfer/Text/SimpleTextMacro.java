@@ -55,9 +55,9 @@ import java.util.Map;
  *
  * Example 2:
  * <pre>
- * det_type | <det> | no<det> | <negative=NEG> | 1-C
- * | | the<det> | <det_type=DEFART> | 1-C
- * | | a<det> | <det_type=UNDET> | 1-C
+ * det_type | <det> | no<det> | <negative=NEG> | 1-1C
+ * | | the<det> | <det_type=DEFART> | 1-1C
+ * | | a<det> | <det_type=UNDET> | 1-1C
  * </pre>
  *
  * Here, all of the operations are to be applied to the chunk lemma,
@@ -114,14 +114,14 @@ public class SimpleTextMacro {
             if(tmp.length != 2) {
                 throw new Exception("Incorrect number of pieces in \"" + al + "\"");
             }
-            if(!tmp[0].matches("^[0-9]*$")) {
+            if(!tmp[0].matches("^[0-9]+$")) {
                 if(tmp[0].toLowerCase().equals("c")) {
                     throw new Exception("'C' can only appear on right-hand side of alignment: " + al);
                 } else {
                     throw new Exception("Incorrect format in >" + tmp[0] + "<-" + tmp[1]);
                 }
             }
-            if(!(tmp[1].matches("^[0-9]*$") || tmp[1].toLowerCase().equals("c"))) {
+            if(!(tmp[1].matches("^[0-9]+[Cc]?$"))) {
                 throw new Exception("Incorrect format in " + tmp[0] + "->" + tmp[1] + "<");
             }
             if(!out.containsKey(tmp[0])) {
