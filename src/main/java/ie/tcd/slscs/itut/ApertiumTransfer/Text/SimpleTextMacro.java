@@ -46,7 +46,7 @@ import java.util.Map;
  * For example:
  * <pre>
  * adj_grade | <adj> | <grade=comp> | níos<adv> <grade=comp> | 0-1 1-2
- *  | | <grade=sup> | is<adv> <grade=comp> | 0-1 1-2
+ *           |       | <grade=sup>  | is<adv> <grade=comp>   | 0-1 1-2
  * </pre>
  * The macro "adj_grade" applies to &lt;adj&gt; and has two actions:
  * one which inserts "níos" in front of the adjective, the other
@@ -62,6 +62,13 @@ import java.util.Map;
  *
  * Here, all of the operations are to be applied to the chunk lemma,
  * which is denoted by 'C' in the alignment part.
+ *
+ * Example 2:
+ * <pre>
+ * agree | <n> <adj> | <gen><num> | <gen><num> | 1-2
+ * </pre>
+ *
+ * Here, the idea is apply the contents of <gen> and <num> of clip 1 to clip 2
  */
 public class SimpleTextMacro {
     String name;
