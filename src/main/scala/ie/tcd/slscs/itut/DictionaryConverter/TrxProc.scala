@@ -158,20 +158,29 @@ object TrxProc {
 
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
-
   case class RuleProc(meta: RuleMetadata)
-  trait LexicalUnit
+  trait StreamItem
+  trait LexicalUnit extends StreamItem
   trait SingleLexicalUnit extends LexicalUnit
   case class LUProc(lemh: String, lemq: String, tags: List[String]) extends SingleLexicalUnit
   implicit def wordTokenToLUProc(wt: WordToken): LUProc = LUProc(wt.getLemh, wt.getLemq, wt.getTags.asScala.toList)
   case class LURef(index: Int) extends SingleLexicalUnit
   implicit def luReferenceToLURef(ref: LUReference): LURef = LURef(ref.position)
-  case class MLU(children: List[LURef])
-  case class TagProc(value: String, isAttr: Boolean, itLit: Boolean)
-  case class Chunk(lemma: String, tags: List[TagProc])
-  case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamToken]) // TODO: convert StreamToken
+  case class MLU(children: List[LURef]) extends LexicalUnit
+  implicit def mluReferenceToMLU(mlu: MLUReference): MLU = MLU(mlu.getChildren.asScala.map{luReferenceToLURef}.toList)
+  case class Chunk(lemma: String, tags: List[String])
+  implicit def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList)
+  case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem]) // TODO: convert StreamToken
   //implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody =
   case class Blank()
+  implicit def convertBlanks(blankToken: BlankToken): Option[Blank] = {
+    if(blankToken.getContent == null || blankToken.getContent == "") {
+      return None
+    } else {
+      return Some(Blank())
+    }
+  }
+
 
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
