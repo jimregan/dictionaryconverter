@@ -60,6 +60,15 @@ public class SimpleTextMacroAttr {
         } else {
             throw new Exception("Tag can only contain one '='");
         }
+    }
 
+    @Override
+    public String toString() {
+        String out = "<" + key;
+        if(value != null && !value.equals("")) {
+            out += "=" + value;
+        }
+        out += ">";
+        return out;
     }
 }
