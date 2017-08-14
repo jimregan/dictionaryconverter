@@ -128,6 +128,9 @@ public class SimpleTextMacro {
                 if(delete) {
                     throw new Exception("Sorry, deletion not currently supported in macros");
                 }
+                if(insert) {
+
+                }
                 String pos = Integer.toString(i + 1);
                 String idx = Integer.toString(i);
                 List<SimpleTextMacroAttr> src = lhs.get(i);
