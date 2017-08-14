@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +82,41 @@ public class SimpleTextMacro {
         }
         List<List<SimpleTextMacroAttr>> lhs = new ArrayList<List<SimpleTextMacroAttr>>();
         List<List<SimpleTextMacroAttr>> rhs = new ArrayList<List<SimpleTextMacroAttr>>();
-        List<SimpleTextMacroAttr> rmp = new ArrayList<SimpleTextMacroAttr>();
+        List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
+        for (String apply : sp[2].trim().split(" ")) {
+            if(apply.startsWith("<") && apply.endsWith(">")) {
+                for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else if(apply.endsWith(">")) {
+                int idx = apply.indexOf("<");
+                tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
+                for(String inner : apply.substring(idx + 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else {
+                throw new Exception("Error reading tag");
+            }
+            lhs.add(Utils.listclone(tmp));
+            tmp.clear();
+        }
+        for (String apply : sp[3].trim().split(" ")) {
+            if(apply.startsWith("<") && apply.endsWith(">")) {
+                for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else if(apply.endsWith(">")) {
+                int idx = apply.indexOf("<");
+                tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
+                for(String inner : apply.substring(idx + 1).split("><")) {
+                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                }
+            } else {
+                throw new Exception("Error reading tag");
+            }
+            rhs.add(Utils.listclone(tmp));
+            tmp.clear();
+        }
         return new SimpleTextMacro();
     }
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
