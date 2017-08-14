@@ -32,7 +32,9 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * As a macro can contain multiple operations, this groups the parts
@@ -84,6 +86,31 @@ public class SimpleTextMacro {
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
 
         return new SimpleTextMacro();
+    }
+
+    public static Map<String, List<String>> readAlignments(String s) throws Exception {
+        Map<String, List<String>> out = new HashMap<String, List<String>>();
+        for(String al : s.trim().split(" ")) {
+            String tmp[] = al.split("-");
+            if(tmp.length != 2) {
+                throw new Exception("Incorrect number of pieces in \"" + al + "\"");
+            }
+            if(!tmp[0].matches("^[0-9]*$")) {
+                if(tmp[0].toLowerCase().equals("c")) {
+                    throw new Exception("'C' can only appear on right-hand side of alignment");
+                } else {
+                    throw new Exception("Incorrect format in >" + tmp[0] + "<-" + tmp[1]);
+                }
+            }
+            if(!(tmp[1].matches("^[0-9]*$") || tmp[1].toLowerCase().equals("c"))) {
+                throw new Exception("Incorrect format in " + tmp[0] + "->" + tmp[1] + "<");
+            }
+            if(!out.containsKey(tmp[0])) {
+                out.put(tmp[0], new ArrayList<String>());
+            }
+            out.get(tmp[0]).add(tmp[1]);
+        }
+        return out;
     }
 
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
