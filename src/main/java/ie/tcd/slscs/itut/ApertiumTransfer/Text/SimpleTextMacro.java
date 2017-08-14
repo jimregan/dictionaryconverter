@@ -182,16 +182,27 @@ public class SimpleTextMacro {
         return side;
     }
 
-    // TODO Finish
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
         String line;
         int lineno = 0;
+        String last = "";
+        SimpleTextMacro cur = new SimpleTextMacro();
         while((line = br.readLine()) != null) {
             lineno++;
             SimpleTextMacro tmp = new SimpleTextMacro();
             try {
                 tmp = fromString(line);
+                if(lineno == 1) {
+                    cur = tmp;
+                    last = tmp.name;
+                } else if(tmp.name.equals("")) {
+                    cur.parts.add(tmp.parts.get(0));
+                } else {
+                    out.add(cur);
+                    cur = tmp;
+                    last = tmp.name;
+                }
             } catch (Exception e) {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
