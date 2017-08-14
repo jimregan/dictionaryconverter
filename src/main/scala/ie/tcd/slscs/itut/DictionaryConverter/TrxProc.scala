@@ -30,13 +30,16 @@ import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
 
+trait RuleContainer
+case class RuleElementContainer(re: RuleElement) extends RuleContainer
+
 case class TrxProc(kind: String,
                    var defcats: Map[String, List[CatItem]],
                    var defattrs: Map[String, List[String]],
                    var vars: Map[String, String],
                    var lists: Map[String, List[String]],
                    var macros: Map[String, List[SentenceElement]],
-                   var rules: List[RuleBody]) {
+                   var rules: List[RuleContainer]) {
   private val categories = collection.mutable.Map.empty[String, List[CatItem]] ++ defcats
   def validCategories = categories.keys.toList
   def getCat(s: String): Option[List[CatItem]] = categories.get(s)
@@ -120,13 +123,14 @@ case class TrxProc(kind: String,
   def getListsMap = _lists
 }
 object TrxProc {
+  implicit def parentRuleElement(re: List[RuleElement]): List[RuleContainer] = re.map{e => RuleElementContainer(e)}
   implicit def fromTopLevel(t: TopLevel): TrxProc = {
     val dc = t.defcats.map{e => (e.n, e.l)}.toMap
     val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
     val dv = t.vars.map{e => (e.name, e.value)}.toMap
     val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
-    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules) // FIXME
+    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
   implicit def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
   implicit def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
