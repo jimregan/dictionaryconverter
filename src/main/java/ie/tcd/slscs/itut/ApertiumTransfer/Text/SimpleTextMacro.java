@@ -150,15 +150,11 @@ public class SimpleTextMacro {
             if(tmp.length != 2) {
                 throw new Exception("Incorrect number of pieces in \"" + al + "\"");
             }
-            if(!(tmp[0].matches("^[0-9]+$")) || tmp[0].toLowerCase().equals("0c")) {
+            if(!(tmp[0].matches("^[0-9]+[Cc]?$")) || tmp[0].toLowerCase().equals("0c")) {
                 throw new Exception("Incorrect format in >" + tmp[0] + "<-" + tmp[1]);
             }
-            if(!tmp[1].matches("^[0-9]+$")) {
-                if(tmp[1].toLowerCase().equals("0c")) {
-                    throw new Exception("'C' can only appear on left-hand side of alignment: " + al);
-                } else {
-                    throw new Exception("Incorrect format in " + tmp[0] + "->" + tmp[1] + "<");
-                }
+            if(!tmp[1].matches("^[0-9]+[Cc]?$")) {
+                throw new Exception("Incorrect format in " + tmp[0] + "->" + tmp[1] + "<");
             }
             if(!out.containsKey(tmp[0])) {
                 out.put(tmp[0], new ArrayList<String>());
