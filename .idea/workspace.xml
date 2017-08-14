@@ -21,127 +21,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AttributeSequence.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributeSequence.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="41" column="20" lean-forward="false" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1751#1752#0" expanded="true" />
-                <element signature="e#1802#1803#0" expanded="true" />
-                <element signature="e#2051#2059#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Attributes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2248#2268#0" expanded="true" />
-                <element signature="e#2950#2958#0" expanded="true" />
-                <element signature="e#3890#3900#0" expanded="true" />
-                <element signature="e#4111#4120#0" expanded="true" />
-                <element signature="e#4509#4519#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LabelMap.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/LabelMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="32" column="13" lean-forward="false" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="49" column="5" lean-forward="false" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1566#1567#0" expanded="true" />
-                <element signature="e#1618#1619#0" expanded="true" />
-                <element signature="e#1774#1775#0" expanded="true" />
-                <element signature="e#1801#1802#0" expanded="true" />
-                <element signature="e#1838#1839#0" expanded="true" />
-                <element signature="e#1866#1867#0" expanded="true" />
-                <element signature="e#1978#1986#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleListTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleListTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TrxProc.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="132" column="114" lean-forward="false" selection-start-line="132" selection-start-column="114" selection-end-line="132" selection-end-column="114" />
+            <state relative-caret-position="-1360">
+              <caret line="50" column="28" lean-forward="true" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
               <folding>
-                <element signature="e#1191#1275#0" expanded="true" />
+                <element signature="e#1191#1232#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Target.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/Target.java">
+      <file leaf-file-name="SimpleTextMacro.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacro.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1551#1552#0" expanded="true" />
-                <element signature="e#1604#1605#0" expanded="true" />
-                <element signature="e#1808#1809#0" expanded="true" />
-                <element signature="e#1868#1869#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VerbTargetFixes.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbTargetFixes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="49" column="9" lean-forward="true" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+            <state relative-caret-position="884">
+              <caret line="119" column="62" lean-forward="false" selection-start-line="119" selection-start-column="62" selection-end-line="119" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2298#2326#0" expanded="true" />
-                <element signature="e#3065#3079#0" expanded="true" />
+                <element signature="e#3685#3693#0" expanded="true" />
+                <element signature="e#4061#4083#0" expanded="true" />
+                <element signature="e#4499#4521#0" expanded="true" />
+                <element signature="e#5072#5094#0" expanded="true" />
+                <element signature="e#5436#5458#0" expanded="true" />
+                <element signature="e#6187#6209#0" expanded="true" />
+                <element signature="e#7315#7337#0" expanded="true" />
+                <element signature="e#7803#7830#0" expanded="true" />
+                <element signature="e#7887#7908#0" expanded="true" />
+                <element signature="e#8901#8918#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VerbRulePair.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbRulePair.java">
+      <file leaf-file-name="SimpleTextMacroTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="221">
+              <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,9 +70,86 @@
       <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="207" column="0" lean-forward="true" selection-start-line="192" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+            <state relative-caret-position="253">
+              <caret line="280" column="46" lean-forward="true" selection-start-line="280" selection-start-column="46" selection-end-line="280" selection-end-column="46" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UtilsTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/UtilsTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="542">
+              <caret line="101" column="45" lean-forward="false" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
+              <folding>
+                <element signature="e#3937#3945#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleTextMacroAttr.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroAttr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="236">
+              <caret line="40" column="21" lean-forward="true" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+              <folding>
+                <element signature="e#1618#1619#0" expanded="true" />
+                <element signature="e#1644#1645#0" expanded="true" />
+                <element signature="e#1675#1676#0" expanded="true" />
+                <element signature="e#1703#1704#0" expanded="true" />
+                <element signature="e#1765#1766#0" expanded="true" />
+                <element signature="e#1823#1824#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleTextMacroEntry.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntry.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-527">
+              <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2058#2059#0" expanded="true" />
+                <element signature="e#2097#2098#0" expanded="true" />
+                <element signature="e#2322#2323#0" expanded="true" />
+                <element signature="e#2353#2354#0" expanded="true" />
+                <element signature="e#2403#2404#0" expanded="true" />
+                <element signature="e#2431#2432#0" expanded="true" />
+                <element signature="e#2483#2484#0" expanded="true" />
+                <element signature="e#2512#2513#0" expanded="true" />
+                <element signature="e#2575#2576#0" expanded="true" />
+                <element signature="e#2611#2612#0" expanded="true" />
+                <element signature="e#2644#2645#0" expanded="true" />
+                <element signature="e#2685#2686#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleTextMacroEntryTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntryTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+              <folding>
+                <element signature="e#1795#1816#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LUReference.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+              <folding>
+                <element signature="e#1531#1532#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -165,14 +163,13 @@
         <option value="Package Object" />
         <option value="Enum" />
         <option value="Interface" />
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Action</find>
       <find>n.child</find>
       <find>$name</find>
       <find>def-</find>
@@ -202,6 +199,7 @@
       <find>RuleEle</find>
       <find>patternite</find>
       <find>cati</find>
+      <find>fromD</find>
     </findStrings>
     <replaceStrings>
       <replace>values.map{e =&gt; e.toXMLString(i+1</replace>
@@ -226,19 +224,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRule.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/lexical/LexRuleTest.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/LabelMap.java" />
-        <option value="$PROJECT_DIR$/.idea/copyright/tcd.xml" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/EIDTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/Lrx.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtilsTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/RuleExpander.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala" />
-        <option value="$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/CrosaireTest.java" />
         <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala" />
@@ -267,16 +252,29 @@
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/AlignedPatternItem.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPairTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPair.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributesTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextList.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributeSequence.java" />
         <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleListTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleList.java" />
-        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/Target.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbRulePair.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/GrammarNote.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/TargetPiece.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleList.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributesTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/Target.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/TargetTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbTargetFixes.java" />
+        <option value="$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleMacroEntry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/UtilsTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroPart.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacro.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroPart.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroAttr.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntry.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntryTest.java" />
       </list>
     </option>
   </component>
@@ -571,14 +569,15 @@
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="dictionaryconverter" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
       <recent name="ie.tcd.slscs.itut.ApertiumTransfer.Text" />
+      <recent name="ie.tcd.slscs.itut.gramadanj.Conversion.EID" />
       <recent name="ie.tcd.slscs.itut.ApertiumTransfer" />
       <recent name="ie.tcd.slscs.itut.ApertiumStream" />
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.dix" />
-      <recent name="ie.tcd.slscs.itut.DictionaryConverter.lexical" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="ie.tcd.slscs.itut.DictionaryConverter.DixUtils$" />
@@ -833,350 +832,350 @@
       <option name="presentableId" value="Default" />
       <updated>1500964014076</updated>
     </task>
-    <task id="LOCAL-00260" summary="see? didn't need it">
-      <created>1502570030789</created>
-      <option name="number" value="00260" />
-      <option name="presentableId" value="LOCAL-00260" />
+    <task id="LOCAL-00316" summary="test">
+      <created>1502646027746</created>
+      <option name="number" value="00316" />
+      <option name="presentableId" value="LOCAL-00316" />
       <option name="project" value="LOCAL" />
-      <updated>1502570030789</updated>
+      <updated>1502646027746</updated>
     </task>
-    <task id="LOCAL-00261" summary="construct from list">
-      <created>1502570146000</created>
-      <option name="number" value="00261" />
-      <option name="presentableId" value="LOCAL-00261" />
+    <task id="LOCAL-00317" summary="trim">
+      <created>1502646206258</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
       <option name="project" value="LOCAL" />
-      <updated>1502570146000</updated>
+      <updated>1502646206258</updated>
     </task>
-    <task id="LOCAL-00262" summary="add and get">
-      <created>1502570251705</created>
-      <option name="number" value="00262" />
-      <option name="presentableId" value="LOCAL-00262" />
+    <task id="LOCAL-00318" summary="fix">
+      <created>1502646460508</created>
+      <option name="number" value="00318" />
+      <option name="presentableId" value="LOCAL-00318" />
       <option name="project" value="LOCAL" />
-      <updated>1502570251705</updated>
+      <updated>1502646460508</updated>
     </task>
-    <task id="LOCAL-00263" summary="helpers">
-      <created>1502570400217</created>
-      <option name="number" value="00263" />
-      <option name="presentableId" value="LOCAL-00263" />
+    <task id="LOCAL-00319" summary="also test this">
+      <created>1502646595348</created>
+      <option name="number" value="00319" />
+      <option name="presentableId" value="LOCAL-00319" />
       <option name="project" value="LOCAL" />
-      <updated>1502570400217</updated>
+      <updated>1502646595348</updated>
     </task>
-    <task id="LOCAL-00264" summary="contructors help">
-      <created>1502572126798</created>
-      <option name="number" value="00264" />
-      <option name="presentableId" value="LOCAL-00264" />
+    <task id="LOCAL-00320" summary="normalise">
+      <created>1502647256265</created>
+      <option name="number" value="00320" />
+      <option name="presentableId" value="LOCAL-00320" />
       <option name="project" value="LOCAL" />
-      <updated>1502572126798</updated>
+      <updated>1502647256265</updated>
     </task>
-    <task id="LOCAL-00265" summary="test">
-      <created>1502572673510</created>
-      <option name="number" value="00265" />
-      <option name="presentableId" value="LOCAL-00265" />
+    <task id="LOCAL-00321" summary="happens at least once">
+      <created>1502647387667</created>
+      <option name="number" value="00321" />
+      <option name="presentableId" value="LOCAL-00321" />
       <option name="project" value="LOCAL" />
-      <updated>1502572673510</updated>
+      <updated>1502647387667</updated>
     </task>
-    <task id="LOCAL-00266" summary="helpers">
-      <created>1502572684323</created>
-      <option name="number" value="00266" />
-      <option name="presentableId" value="LOCAL-00266" />
+    <task id="LOCAL-00322" summary="tmp, to see if this works the way I think">
+      <created>1502648243169</created>
+      <option name="number" value="00322" />
+      <option name="presentableId" value="LOCAL-00322" />
       <option name="project" value="LOCAL" />
-      <updated>1502572684323</updated>
+      <updated>1502648243169</updated>
     </task>
-    <task id="LOCAL-00267" summary="pattern">
-      <created>1502577509832</created>
-      <option name="number" value="00267" />
-      <option name="presentableId" value="LOCAL-00267" />
+    <task id="LOCAL-00323" summary="ok, that worked">
+      <created>1502648307618</created>
+      <option name="number" value="00323" />
+      <option name="presentableId" value="LOCAL-00323" />
       <option name="project" value="LOCAL" />
-      <updated>1502577509832</updated>
+      <updated>1502648307618</updated>
     </task>
-    <task id="LOCAL-00268" summary="public">
-      <created>1502581297972</created>
-      <option name="number" value="00268" />
-      <option name="presentableId" value="LOCAL-00268" />
+    <task id="LOCAL-00324" summary="more versions, for convenience">
+      <created>1502659129112</created>
+      <option name="number" value="00324" />
+      <option name="presentableId" value="LOCAL-00324" />
       <option name="project" value="LOCAL" />
-      <updated>1502581297972</updated>
+      <updated>1502659129112</updated>
     </task>
-    <task id="LOCAL-00269" summary="text attributes">
-      <created>1502581588101</created>
-      <option name="number" value="00269" />
-      <option name="presentableId" value="LOCAL-00269" />
+    <task id="LOCAL-00325" summary="verb lemma replacements">
+      <created>1502659449445</created>
+      <option name="number" value="00325" />
+      <option name="presentableId" value="LOCAL-00325" />
       <option name="project" value="LOCAL" />
-      <updated>1502581588101</updated>
+      <updated>1502659449445</updated>
     </task>
-    <task id="LOCAL-00270" summary="test">
-      <created>1502581875588</created>
-      <option name="number" value="00270" />
-      <option name="presentableId" value="LOCAL-00270" />
+    <task id="LOCAL-00326" summary="normalise">
+      <created>1502659487643</created>
+      <option name="number" value="00326" />
+      <option name="presentableId" value="LOCAL-00326" />
       <option name="project" value="LOCAL" />
-      <updated>1502581875588</updated>
+      <updated>1502659487643</updated>
     </task>
-    <task id="LOCAL-00271" summary="todo">
-      <created>1502582301294</created>
-      <option name="number" value="00271" />
-      <option name="presentableId" value="LOCAL-00271" />
+    <task id="LOCAL-00327" summary="redo conversion">
+      <created>1502660108736</created>
+      <option name="number" value="00327" />
+      <option name="presentableId" value="LOCAL-00327" />
       <option name="project" value="LOCAL" />
-      <updated>1502582301294</updated>
+      <updated>1502660108736</updated>
     </task>
-    <task id="LOCAL-00272" summary="join tags for transfer">
-      <created>1502582559519</created>
-      <option name="number" value="00272" />
-      <option name="presentableId" value="LOCAL-00272" />
+    <task id="LOCAL-00328" summary="mark as done(?)">
+      <created>1502661045822</created>
+      <option name="number" value="00328" />
+      <option name="presentableId" value="LOCAL-00328" />
       <option name="project" value="LOCAL" />
-      <updated>1502582559519</updated>
+      <updated>1502661045822</updated>
     </task>
-    <task id="LOCAL-00273" summary="helper">
-      <created>1502582573564</created>
-      <option name="number" value="00273" />
-      <option name="presentableId" value="LOCAL-00273" />
+    <task id="LOCAL-00329" summary="create">
+      <created>1502661460495</created>
+      <option name="number" value="00329" />
+      <option name="presentableId" value="LOCAL-00329" />
       <option name="project" value="LOCAL" />
-      <updated>1502582573564</updated>
+      <updated>1502661460495</updated>
     </task>
-    <task id="LOCAL-00274" summary="match wordtoken">
-      <created>1502606030634</created>
-      <option name="number" value="00274" />
-      <option name="presentableId" value="LOCAL-00274" />
+    <task id="LOCAL-00330" summary="change notation slightly">
+      <created>1502661582036</created>
+      <option name="number" value="00330" />
+      <option name="presentableId" value="LOCAL-00330" />
       <option name="project" value="LOCAL" />
-      <updated>1502606030634</updated>
+      <updated>1502661582036</updated>
     </task>
-    <task id="LOCAL-00275" summary="tagsStartWith">
-      <created>1502606135012</created>
-      <option name="number" value="00275" />
-      <option name="presentableId" value="LOCAL-00275" />
+    <task id="LOCAL-00331" summary="blank">
+      <created>1502661593902</created>
+      <option name="number" value="00331" />
+      <option name="presentableId" value="LOCAL-00331" />
       <option name="project" value="LOCAL" />
-      <updated>1502606135012</updated>
+      <updated>1502661593902</updated>
     </task>
-    <task id="LOCAL-00276" summary="wordtokenMatches">
-      <created>1502606213780</created>
-      <option name="number" value="00276" />
-      <option name="presentableId" value="LOCAL-00276" />
+    <task id="LOCAL-00332" summary="basic">
+      <created>1502661749512</created>
+      <option name="number" value="00332" />
+      <option name="presentableId" value="LOCAL-00332" />
       <option name="project" value="LOCAL" />
-      <updated>1502606213781</updated>
+      <updated>1502661749512</updated>
     </task>
-    <task id="LOCAL-00277" summary="findWordToken">
-      <created>1502606312390</created>
-      <option name="number" value="00277" />
-      <option name="presentableId" value="LOCAL-00277" />
+    <task id="LOCAL-00333" summary="in progress">
+      <created>1502663778881</created>
+      <option name="number" value="00333" />
+      <option name="presentableId" value="LOCAL-00333" />
       <option name="project" value="LOCAL" />
-      <updated>1502606312390</updated>
+      <updated>1502663778881</updated>
     </task>
-    <task id="LOCAL-00278" summary="convert to pattern">
-      <created>1502606481429</created>
-      <option name="number" value="00278" />
-      <option name="presentableId" value="LOCAL-00278" />
+    <task id="LOCAL-00334" summary="in progress">
+      <created>1502666796847</created>
+      <option name="number" value="00334" />
+      <option name="presentableId" value="LOCAL-00334" />
       <option name="project" value="LOCAL" />
-      <updated>1502606481429</updated>
+      <updated>1502666796847</updated>
     </task>
-    <task id="LOCAL-00279" summary="add">
-      <created>1502607750436</created>
-      <option name="number" value="00279" />
-      <option name="presentableId" value="LOCAL-00279" />
+    <task id="LOCAL-00335" summary="somewhere to put the alignment">
+      <created>1502667078000</created>
+      <option name="number" value="00335" />
+      <option name="presentableId" value="LOCAL-00335" />
       <option name="project" value="LOCAL" />
-      <updated>1502607750436</updated>
+      <updated>1502667078000</updated>
     </task>
-    <task id="LOCAL-00280" summary="getNewName">
-      <created>1502613483517</created>
-      <option name="number" value="00280" />
-      <option name="presentableId" value="LOCAL-00280" />
+    <task id="LOCAL-00336" summary="from text">
+      <created>1502667540536</created>
+      <option name="number" value="00336" />
+      <option name="presentableId" value="LOCAL-00336" />
       <option name="project" value="LOCAL" />
-      <updated>1502613483517</updated>
+      <updated>1502667540536</updated>
     </task>
-    <task id="LOCAL-00281" summary="tweak">
-      <created>1502615469060</created>
-      <option name="number" value="00281" />
-      <option name="presentableId" value="LOCAL-00281" />
+    <task id="LOCAL-00337" summary="list clone">
+      <created>1502668731001</created>
+      <option name="number" value="00337" />
+      <option name="presentableId" value="LOCAL-00337" />
       <option name="project" value="LOCAL" />
-      <updated>1502615469061</updated>
+      <updated>1502668731001</updated>
     </task>
-    <task id="LOCAL-00282" summary="convert">
-      <created>1502615990384</created>
-      <option name="number" value="00282" />
-      <option name="presentableId" value="LOCAL-00282" />
+    <task id="LOCAL-00338" summary="exceptions">
+      <created>1502668743656</created>
+      <option name="number" value="00338" />
+      <option name="presentableId" value="LOCAL-00338" />
       <option name="project" value="LOCAL" />
-      <updated>1502615990384</updated>
+      <updated>1502668743656</updated>
     </task>
-    <task id="LOCAL-00283" summary="make all mutable">
-      <created>1502616109302</created>
-      <option name="number" value="00283" />
-      <option name="presentableId" value="LOCAL-00283" />
+    <task id="LOCAL-00339" summary="not sure if this is needed">
+      <created>1502668771846</created>
+      <option name="number" value="00339" />
+      <option name="presentableId" value="LOCAL-00339" />
       <option name="project" value="LOCAL" />
-      <updated>1502616109302</updated>
+      <updated>1502668771846</updated>
     </task>
-    <task id="LOCAL-00284" summary="convert more">
-      <created>1502616745005</created>
-      <option name="number" value="00284" />
-      <option name="presentableId" value="LOCAL-00284" />
+    <task id="LOCAL-00340" summary="read pieces">
+      <created>1502669428023</created>
+      <option name="number" value="00340" />
+      <option name="presentableId" value="LOCAL-00340" />
       <option name="project" value="LOCAL" />
-      <updated>1502616745005</updated>
+      <updated>1502669428023</updated>
     </task>
-    <task id="LOCAL-00285" summary="aligned pattern item">
-      <created>1502617047574</created>
-      <option name="number" value="00285" />
-      <option name="presentableId" value="LOCAL-00285" />
+    <task id="LOCAL-00341" summary="refactor, can reuse">
+      <created>1502669759289</created>
+      <option name="number" value="00341" />
+      <option name="presentableId" value="LOCAL-00341" />
       <option name="project" value="LOCAL" />
-      <updated>1502617047574</updated>
+      <updated>1502669759289</updated>
     </task>
-    <task id="LOCAL-00286" summary="can also be a null alignment">
-      <created>1502617376871</created>
-      <option name="number" value="00286" />
-      <option name="presentableId" value="LOCAL-00286" />
+    <task id="LOCAL-00342" summary="make public to reuse">
+      <created>1502669787623</created>
+      <option name="number" value="00342" />
+      <option name="presentableId" value="LOCAL-00342" />
       <option name="project" value="LOCAL" />
-      <updated>1502617376871</updated>
+      <updated>1502669787623</updated>
     </task>
-    <task id="LOCAL-00287" summary="also want to be able to align to the chunk">
-      <created>1502617514280</created>
-      <option name="number" value="00287" />
-      <option name="presentableId" value="LOCAL-00287" />
+    <task id="LOCAL-00343" summary="read alignments">
+      <created>1502677538607</created>
+      <option name="number" value="00343" />
+      <option name="presentableId" value="LOCAL-00343" />
       <option name="project" value="LOCAL" />
-      <updated>1502617514280</updated>
+      <updated>1502677538607</updated>
     </task>
-    <task id="LOCAL-00288" summary="document this so I don't confuse myself later">
-      <created>1502617649912</created>
-      <option name="number" value="00288" />
-      <option name="presentableId" value="LOCAL-00288" />
+    <task id="LOCAL-00344" summary="test">
+      <created>1502677846521</created>
+      <option name="number" value="00344" />
+      <option name="presentableId" value="LOCAL-00344" />
       <option name="project" value="LOCAL" />
-      <updated>1502617649912</updated>
+      <updated>1502677846521</updated>
     </task>
-    <task id="LOCAL-00289" summary="alignment pair">
-      <created>1502618079009</created>
-      <option name="number" value="00289" />
-      <option name="presentableId" value="LOCAL-00289" />
+    <task id="LOCAL-00345" summary="make message more informative">
+      <created>1502678168668</created>
+      <option name="number" value="00345" />
+      <option name="presentableId" value="LOCAL-00345" />
       <option name="project" value="LOCAL" />
-      <updated>1502618079009</updated>
+      <updated>1502678168668</updated>
     </task>
-    <task id="LOCAL-00290" summary="list from string">
-      <created>1502618607568</created>
-      <option name="number" value="00290" />
-      <option name="presentableId" value="LOCAL-00290" />
+    <task id="LOCAL-00346" summary="todo for the morning">
+      <created>1502678376737</created>
+      <option name="number" value="00346" />
+      <option name="presentableId" value="LOCAL-00346" />
       <option name="project" value="LOCAL" />
-      <updated>1502618607568</updated>
+      <updated>1502678376737</updated>
     </task>
-    <task id="LOCAL-00291" summary="test">
-      <created>1502620038926</created>
-      <option name="number" value="00291" />
-      <option name="presentableId" value="LOCAL-00291" />
+    <task id="LOCAL-00347" summary="reverse alignments. not sure why I think I need this">
+      <created>1502698814854</created>
+      <option name="number" value="00347" />
+      <option name="presentableId" value="LOCAL-00347" />
       <option name="project" value="LOCAL" />
-      <updated>1502620038926</updated>
+      <updated>1502698814854</updated>
     </task>
-    <task id="LOCAL-00292" summary="fix test, make exception message more accurate">
-      <created>1502620192121</created>
-      <option name="number" value="00292" />
-      <option name="presentableId" value="LOCAL-00292" />
+    <task id="LOCAL-00348" summary="put target pieces in here, get/set">
+      <created>1502700781453</created>
+      <option name="number" value="00348" />
+      <option name="presentableId" value="LOCAL-00348" />
       <option name="project" value="LOCAL" />
-      <updated>1502620192121</updated>
+      <updated>1502700781453</updated>
     </task>
-    <task id="LOCAL-00293" summary="start">
-      <created>1502620723736</created>
-      <option name="number" value="00293" />
-      <option name="presentableId" value="LOCAL-00293" />
+    <task id="LOCAL-00349" summary="set that boolean">
+      <created>1502701889166</created>
+      <option name="number" value="00349" />
+      <option name="presentableId" value="LOCAL-00349" />
       <option name="project" value="LOCAL" />
-      <updated>1502620723736</updated>
+      <updated>1502701889166</updated>
     </task>
-    <task id="LOCAL-00294" summary="map from list">
-      <created>1502620931880</created>
-      <option name="number" value="00294" />
-      <option name="presentableId" value="LOCAL-00294" />
+    <task id="LOCAL-00350" summary="here I hit a snag; need both the rhs position *and* chunk annotation to align the pieces">
+      <created>1502702218052</created>
+      <option name="number" value="00350" />
+      <option name="presentableId" value="LOCAL-00350" />
       <option name="project" value="LOCAL" />
-      <updated>1502620931880</updated>
+      <updated>1502702218052</updated>
     </task>
-    <task id="LOCAL-00295" summary="helper, for checking that the name is one that's defined">
-      <created>1502621073408</created>
-      <option name="number" value="00295" />
-      <option name="presentableId" value="LOCAL-00295" />
+    <task id="LOCAL-00351" summary="change check">
+      <created>1502702324760</created>
+      <option name="number" value="00351" />
+      <option name="presentableId" value="LOCAL-00351" />
       <option name="project" value="LOCAL" />
-      <updated>1502621073408</updated>
+      <updated>1502702324760</updated>
     </task>
-    <task id="LOCAL-00296" summary="document, I'll forget">
-      <created>1502621184626</created>
-      <option name="number" value="00296" />
-      <option name="presentableId" value="LOCAL-00296" />
+    <task id="LOCAL-00352" summary="update">
+      <created>1502702353156</created>
+      <option name="number" value="00352" />
+      <option name="presentableId" value="LOCAL-00352" />
       <option name="project" value="LOCAL" />
-      <updated>1502621184626</updated>
+      <updated>1502702353156</updated>
     </task>
-    <task id="LOCAL-00297" summary="todo (to decide, more like)">
-      <created>1502625157921</created>
-      <option name="number" value="00297" />
-      <option name="presentableId" value="LOCAL-00297" />
+    <task id="LOCAL-00353" summary="ok; chunk tag addition is a special form of zero insertion">
+      <created>1502703429493</created>
+      <option name="number" value="00353" />
+      <option name="presentableId" value="LOCAL-00353" />
       <option name="project" value="LOCAL" />
-      <updated>1502625157921</updated>
+      <updated>1502703429493</updated>
     </task>
-    <task id="LOCAL-00298" summary="I think this is a mistake">
-      <created>1502626032912</created>
-      <option name="number" value="00298" />
-      <option name="presentableId" value="LOCAL-00298" />
+    <task id="LOCAL-00354" summary="line these up to make it clearer to myself. sleep would help loads">
+      <created>1502703893122</created>
+      <option name="number" value="00354" />
+      <option name="presentableId" value="LOCAL-00354" />
       <option name="project" value="LOCAL" />
-      <updated>1502626032912</updated>
+      <updated>1502703893122</updated>
     </task>
-    <task id="LOCAL-00299" summary="put the fromDictionary mark on the attribute declaration">
-      <created>1502626353280</created>
-      <option name="number" value="00299" />
-      <option name="presentableId" value="LOCAL-00299" />
+    <task id="LOCAL-00355" summary="thinking aloud">
+      <created>1502704894253</created>
+      <option name="number" value="00355" />
+      <option name="presentableId" value="LOCAL-00355" />
       <option name="project" value="LOCAL" />
-      <updated>1502626353280</updated>
+      <updated>1502704894253</updated>
     </task>
-    <task id="LOCAL-00300" summary="oh, and actually put in the rhs">
-      <created>1502626424985</created>
-      <option name="number" value="00300" />
-      <option name="presentableId" value="LOCAL-00300" />
+    <task id="LOCAL-00356" summary="allow without equals">
+      <created>1502705111857</created>
+      <option name="number" value="00356" />
+      <option name="presentableId" value="LOCAL-00356" />
       <option name="project" value="LOCAL" />
-      <updated>1502626424985</updated>
+      <updated>1502705111857</updated>
     </task>
-    <task id="LOCAL-00301" summary="note">
-      <created>1502626540936</created>
-      <option name="number" value="00301" />
-      <option name="presentableId" value="LOCAL-00301" />
+    <task id="LOCAL-00357" summary="pad out, even if it's just a less useful named list">
+      <created>1502712610374</created>
+      <option name="number" value="00357" />
+      <option name="presentableId" value="LOCAL-00357" />
       <option name="project" value="LOCAL" />
-      <updated>1502626540936</updated>
+      <updated>1502712610374</updated>
     </task>
-    <task id="LOCAL-00302" summary="useless autoadded import">
-      <created>1502626568912</created>
-      <option name="number" value="00302" />
-      <option name="presentableId" value="LOCAL-00302" />
+    <task id="LOCAL-00358" summary="delete">
+      <created>1502713571912</created>
+      <option name="number" value="00358" />
+      <option name="presentableId" value="LOCAL-00358" />
       <option name="project" value="LOCAL" />
-      <updated>1502626568912</updated>
+      <updated>1502713571912</updated>
     </task>
-    <task id="LOCAL-00303" summary="useless autoadded import">
-      <created>1502626605445</created>
-      <option name="number" value="00303" />
-      <option name="presentableId" value="LOCAL-00303" />
+    <task id="LOCAL-00359" summary="start with the simple case of 1:1 alignments, without a need for an explicit alignment part">
+      <created>1502713612154</created>
+      <option name="number" value="00359" />
+      <option name="presentableId" value="LOCAL-00359" />
       <option name="project" value="LOCAL" />
-      <updated>1502626605445</updated>
+      <updated>1502713612154</updated>
     </task>
-    <task id="LOCAL-00304" summary="rename and fix ref">
-      <created>1502628692693</created>
-      <option name="number" value="00304" />
-      <option name="presentableId" value="LOCAL-00304" />
+    <task id="LOCAL-00360" summary="tostring">
+      <created>1502713757555</created>
+      <option name="number" value="00360" />
+      <option name="presentableId" value="LOCAL-00360" />
       <option name="project" value="LOCAL" />
-      <updated>1502628692693</updated>
+      <updated>1502713757555</updated>
     </task>
-    <task id="LOCAL-00305" summary="simple list">
-      <created>1502628996565</created>
-      <option name="number" value="00305" />
-      <option name="presentableId" value="LOCAL-00305" />
+    <task id="LOCAL-00361" summary="tostring">
+      <created>1502714303692</created>
+      <option name="number" value="00361" />
+      <option name="presentableId" value="LOCAL-00361" />
       <option name="project" value="LOCAL" />
-      <updated>1502628996565</updated>
+      <updated>1502714303692</updated>
     </task>
-    <task id="LOCAL-00306" summary="fix index">
-      <created>1502636906627</created>
-      <option name="number" value="00306" />
-      <option name="presentableId" value="LOCAL-00306" />
+    <task id="LOCAL-00362" summary="curlies">
+      <created>1502714340379</created>
+      <option name="number" value="00362" />
+      <option name="presentableId" value="LOCAL-00362" />
       <option name="project" value="LOCAL" />
-      <updated>1502636906627</updated>
+      <updated>1502714340379</updated>
     </task>
-    <task id="LOCAL-00307" summary="getters">
-      <created>1502637024330</created>
-      <option name="number" value="00307" />
-      <option name="presentableId" value="LOCAL-00307" />
+    <task id="LOCAL-00363" summary="blank">
+      <created>1502714411244</created>
+      <option name="number" value="00363" />
+      <option name="presentableId" value="LOCAL-00363" />
       <option name="project" value="LOCAL" />
-      <updated>1502637024330</updated>
+      <updated>1502714411244</updated>
     </task>
-    <task id="LOCAL-00308" summary="convert">
-      <created>1502637064871</created>
-      <option name="number" value="00308" />
-      <option name="presentableId" value="LOCAL-00308" />
+    <task id="LOCAL-00364" summary="test">
+      <created>1502714971168</created>
+      <option name="number" value="00364" />
+      <option name="presentableId" value="LOCAL-00364" />
       <option name="project" value="LOCAL" />
-      <updated>1502637064871</updated>
+      <updated>1502714971168</updated>
     </task>
-    <option name="localTasksCounter" value="309" />
+    <option name="localTasksCounter" value="365" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1260,32 +1259,32 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="make all mutable" />
-    <MESSAGE value="convert more" />
-    <MESSAGE value="aligned pattern item" />
-    <MESSAGE value="can also be a null alignment" />
-    <MESSAGE value="also want to be able to align to the chunk" />
-    <MESSAGE value="document this so I don't confuse myself later" />
-    <MESSAGE value="alignment pair" />
-    <MESSAGE value="list from string" />
+    <MESSAGE value="not sure if this is needed" />
+    <MESSAGE value="read pieces" />
+    <MESSAGE value="refactor, can reuse" />
+    <MESSAGE value="make public to reuse" />
+    <MESSAGE value="read alignments" />
+    <MESSAGE value="make message more informative" />
+    <MESSAGE value="todo for the morning" />
+    <MESSAGE value="reverse alignments" />
+    <MESSAGE value="reverse alignments. not sure why I think I need this" />
+    <MESSAGE value="put target pieces in here, get/set" />
+    <MESSAGE value="set that boolean" />
+    <MESSAGE value="here I hit a snag; need both the rhs position *and* chunk annotation to align the pieces" />
+    <MESSAGE value="change check" />
+    <MESSAGE value="update" />
+    <MESSAGE value="ok; chunk tag addition is a special form of zero insertion" />
+    <MESSAGE value="line these up to make it clearer to myself. sleep would help loads" />
+    <MESSAGE value="thinking aloud" />
+    <MESSAGE value="allow without equals" />
+    <MESSAGE value="pad out, even if it's just a less useful named list" />
+    <MESSAGE value="delete" />
+    <MESSAGE value="start with the simple case of 1:1 alignments, without a need for an explicit alignment part" />
+    <MESSAGE value="tostring" />
+    <MESSAGE value="curlies" />
+    <MESSAGE value="blank" />
     <MESSAGE value="test" />
-    <MESSAGE value="fix test, make exception message more accurate" />
-    <MESSAGE value="start" />
-    <MESSAGE value="map from list" />
-    <MESSAGE value="helper, for checking that the name is one that's defined" />
-    <MESSAGE value="document, I'll forget" />
-    <MESSAGE value="todo (to decide, more like)" />
-    <MESSAGE value="I think this is a mistake" />
-    <MESSAGE value="put the fromDictionary mark on the attribute declaration" />
-    <MESSAGE value="oh, and actually put in the rhs" />
-    <MESSAGE value="note" />
-    <MESSAGE value="useless autoadded import" />
-    <MESSAGE value="rename and fix ref" />
-    <MESSAGE value="simple list" />
-    <MESSAGE value="fix index" />
-    <MESSAGE value="getters" />
-    <MESSAGE value="convert" />
-    <option name="LAST_COMMIT_MESSAGE" value="convert" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1294,100 +1293,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="53" column="42" lean-forward="false" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/Dix.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-624">
-          <caret line="163" column="11" lean-forward="false" selection-start-line="163" selection-start-column="11" selection-end-line="163" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/dix/DixUtilsTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="85" column="60" lean-forward="false" selection-start-line="85" selection-start-column="60" selection-end-line="85" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/EID.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="129" column="6" lean-forward="false" selection-start-line="129" selection-start-column="6" selection-end-line="129" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/crosaire/Crosaire.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="97" column="16" lean-forward="false" selection-start-line="97" selection-start-column="16" selection-end-line="97" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/crosaire/CrosaireTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="42" column="28" lean-forward="false" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxUtils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="104" column="33" lean-forward="false" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="33" />
-          <folding>
-            <marker date="1502459892275" expanded="true" signature="2364:2398" ph="/.../" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="32" column="6" lean-forward="false" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
-          <folding>
-            <element signature="e#1400#1429#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.2-sources.jar!/scala/collection/mutable/Map.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="78" column="85" lean-forward="true" selection-start-line="78" selection-start-column="85" selection-end-line="78" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/AnalysedToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="59" column="20" lean-forward="false" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="46" column="5" lean-forward="true" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/StreamToken.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1524,16 +1429,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="32" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <element signature="e#1531#1532#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/MLUReference.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -1553,18 +1448,6 @@
             <element signature="imports" expanded="false" />
             <element signature="e#2927#2928#0" expanded="false" />
             <element signature="e#2971#2972#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="105" column="87" lean-forward="false" selection-start-line="105" selection-start-column="87" selection-end-line="105" selection-end-column="87" />
-          <folding>
-            <element signature="e#2013#2014#0" expanded="true" />
-            <element signature="e#2039#2040#0" expanded="true" />
-            <element signature="e#4186#4199#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1678,21 +1561,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributesTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AlignmentPairTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="25" column="3" lean-forward="true" selection-start-line="25" selection-start-column="3" selection-end-line="25" selection-end-column="3" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2376#2391#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2376#2391#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1722,10 +1597,10 @@
         <state relative-caret-position="17">
           <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1671#1672#0" expanded="true" />
-            <element signature="e#1751#1752#0" expanded="true" />
-            <element signature="e#2462#2477#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1671#1672#0" expanded="false" />
+            <element signature="e#1751#1752#0" expanded="false" />
+            <element signature="e#2462#2477#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1751,58 +1626,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2248#2268#0" expanded="true" />
-            <element signature="e#2950#2958#0" expanded="true" />
-            <element signature="e#3890#3900#0" expanded="true" />
-            <element signature="e#4111#4120#0" expanded="true" />
-            <element signature="e#4509#4519#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleListTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="49" column="5" lean-forward="false" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1566#1567#0" expanded="true" />
-            <element signature="e#1618#1619#0" expanded="true" />
-            <element signature="e#1774#1775#0" expanded="true" />
-            <element signature="e#1801#1802#0" expanded="true" />
-            <element signature="e#1838#1839#0" expanded="true" />
-            <element signature="e#1866#1867#0" expanded="true" />
-            <element signature="e#1978#1986#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="132" column="114" lean-forward="false" selection-start-line="132" selection-start-column="114" selection-end-line="132" selection-end-column="114" />
-          <folding>
-            <element signature="e#1191#1275#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/LabelMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
@@ -1811,44 +1634,263 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleListTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="207" column="0" lean-forward="true" selection-start-line="192" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="340">
+          <caret line="45" column="55" lean-forward="false" selection-start-line="45" selection-start-column="55" selection-end-line="45" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/Target.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="459">
+          <caret line="58" column="42" lean-forward="false" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1551#1552#0" expanded="true" />
-            <element signature="e#1604#1605#0" expanded="true" />
-            <element signature="e#1808#1809#0" expanded="true" />
-            <element signature="e#1868#1869#0" expanded="true" />
+            <element signature="e#1838#1839#0" expanded="true" />
+            <element signature="e#1866#1867#0" expanded="true" />
+            <element signature="e#1978#1986#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/Attributes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="49" column="23" lean-forward="true" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1767#1768#0" expanded="true" />
+            <element signature="e#1814#1815#0" expanded="true" />
+            <element signature="e#2294#2314#0" expanded="true" />
+            <element signature="e#2996#3004#0" expanded="true" />
+            <element signature="e#3936#3946#0" expanded="true" />
+            <element signature="e#4157#4166#0" expanded="true" />
+            <element signature="e#4555#4565#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbRulePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="289">
+          <caret line="42" column="8" lean-forward="false" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="20" />
+          <folding>
+            <element signature="e#1609#1610#0" expanded="true" />
+            <element signature="e#1636#1637#0" expanded="true" />
+            <element signature="e#1667#1668#0" expanded="true" />
+            <element signature="e#1694#1695#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/Target.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="61" column="34" lean-forward="false" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1551#1552#0" expanded="false" />
+            <element signature="e#1604#1605#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/TargetPiece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1630#1631#0" expanded="false" />
+            <element signature="e#1682#1683#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/VerbTargetFixes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="49" column="9" lean-forward="true" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+        <state relative-caret-position="425">
+          <caret line="98" column="65" lean-forward="false" selection-start-line="98" selection-start-column="65" selection-end-line="98" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2593#2621#0" expanded="false" />
+            <element signature="e#3424#3438#0" expanded="false" />
+            <element signature="e#3901#3909#0" expanded="false" />
+            <element signature="e#4195#4196#0" expanded="false" />
+            <element signature="e#4269#4270#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/AttributesTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="61" column="36" lean-forward="false" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/GrammarNote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/Conversion/EID/TargetTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/RuleSide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="105" column="87" lean-forward="false" selection-start-line="105" selection-start-column="87" selection-end-line="105" selection-end-column="87" />
+          <folding>
+            <element signature="e#4186#4199#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumStream/LUReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="32" column="26" lean-forward="true" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+          <folding>
+            <element signature="e#1531#1532#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/ie/tcd/slscs/itut/DictionaryConverter/TrxProc.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1360">
+          <caret line="50" column="28" lean-forward="true" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+          <folding>
+            <element signature="e#1191#1232#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroPart.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-223">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroPart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="36" column="4" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/gramadanj/UtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="101" column="45" lean-forward="false" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
+          <folding>
+            <element signature="e#3937#3945#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="119" column="62" lean-forward="false" selection-start-line="119" selection-start-column="62" selection-end-line="119" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2298#2326#0" expanded="true" />
-            <element signature="e#3065#3079#0" expanded="true" />
+            <element signature="e#3685#3693#0" expanded="true" />
+            <element signature="e#4061#4083#0" expanded="true" />
+            <element signature="e#4499#4521#0" expanded="true" />
+            <element signature="e#5072#5094#0" expanded="true" />
+            <element signature="e#5436#5458#0" expanded="true" />
+            <element signature="e#6187#6209#0" expanded="true" />
+            <element signature="e#7315#7337#0" expanded="true" />
+            <element signature="e#7803#7830#0" expanded="true" />
+            <element signature="e#7887#7908#0" expanded="true" />
+            <element signature="e#8901#8918#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="38" column="35" lean-forward="true" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/gramadanj/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="280" column="46" lean-forward="true" selection-start-line="280" selection-start-column="46" selection-end-line="280" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroAttr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="40" column="21" lean-forward="true" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+          <folding>
+            <element signature="e#1618#1619#0" expanded="true" />
+            <element signature="e#1644#1645#0" expanded="true" />
+            <element signature="e#1675#1676#0" expanded="true" />
+            <element signature="e#1703#1704#0" expanded="true" />
+            <element signature="e#1765#1766#0" expanded="true" />
+            <element signature="e#1823#1824#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-527">
+          <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2058#2059#0" expanded="true" />
+            <element signature="e#2097#2098#0" expanded="true" />
+            <element signature="e#2322#2323#0" expanded="true" />
+            <element signature="e#2353#2354#0" expanded="true" />
+            <element signature="e#2403#2404#0" expanded="true" />
+            <element signature="e#2431#2432#0" expanded="true" />
+            <element signature="e#2483#2484#0" expanded="true" />
+            <element signature="e#2512#2513#0" expanded="true" />
+            <element signature="e#2575#2576#0" expanded="true" />
+            <element signature="e#2611#2612#0" expanded="true" />
+            <element signature="e#2644#2645#0" expanded="true" />
+            <element signature="e#2685#2686#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ie/tcd/slscs/itut/ApertiumTransfer/Text/SimpleTextMacroEntryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+          <folding>
+            <element signature="e#1795#1816#0" expanded="true" />
           </folding>
         </state>
       </provider>
