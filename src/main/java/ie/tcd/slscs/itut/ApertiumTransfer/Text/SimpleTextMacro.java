@@ -137,10 +137,10 @@ public class SimpleTextMacro {
                     trg = rhs.get(current.getRightPosition() - 1);
                 }
                 List<SimpleTextMacroEntry> trgtmp = new ArrayList<SimpleTextMacroEntry>();
-                SimpleTextMacroEntry curl = new SimpleTextMacroEntry(lpos, src);
+                SimpleTextMacroEntry curl = new SimpleTextMacroEntry(lpos, src, current.leftIsChunk());
                 curl.setInsertion(insert);
                 curl.setDeletion(delete);
-                SimpleTextMacroEntry curr = new SimpleTextMacroEntry(rpos, trg);
+                SimpleTextMacroEntry curr = new SimpleTextMacroEntry(rpos, trg, current.rightIsChunk());
                 trgtmp.add(curr);
                 curl.setTarget(trgtmp);
                 pieces.add(curl);
