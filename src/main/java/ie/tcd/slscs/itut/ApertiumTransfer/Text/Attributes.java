@@ -30,6 +30,8 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import ie.tcd.slscs.itut.ApertiumTransfer.AttrItem;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +96,20 @@ public class Attributes {
             }
         }
         return new Attributes(name, fromDictionary, any, undefined, items);
+    }
+    public static List<Attributes> fromFile(BufferedReader br) throws IOException {
+        List<Attributes> out = new ArrayList<Attributes>();
+        String line;
+        int lineno = 0;
+        while((line = br.readLine()) != null) {
+            lineno++;
+            try {
+                out.add(fromText(line));
+            } catch (Exception e) {
+                throw new IOException(e.getMessage() + " on line " + lineno);
+            }
+        }
+        return out;
     }
     public static List<AttrItem> convertItems(List<String> in) {
         List<AttrItem> out = new ArrayList<AttrItem>();
