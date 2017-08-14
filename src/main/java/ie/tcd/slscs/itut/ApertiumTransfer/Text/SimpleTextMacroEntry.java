@@ -72,7 +72,7 @@ public class SimpleTextMacroEntry {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
+        sb.append('{');
         sb.append(position);
         if(chunkAlignment) {
             sb.append("(C)");
@@ -102,6 +102,7 @@ public class SimpleTextMacroEntry {
             }
             sb.append(']');
         }
+        sb.append('}');
         return sb.toString();
     }
 }
