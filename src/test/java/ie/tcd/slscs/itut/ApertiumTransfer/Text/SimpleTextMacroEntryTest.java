@@ -57,7 +57,7 @@ public class SimpleTextMacroEntryTest extends TestCase {
         List<SimpleTextMacroEntry> rightl = new ArrayList<SimpleTextMacroEntry>();
         rightl.add(rightpart);
         SimpleTextMacroEntry exp = new SimpleTextMacroEntry(1, left, true, rightl);
-        assertEquals("{1[<bar=baz>][1(C)[<bar=baz>]]}", exp.toString());
+        assertEquals("{1[<bar=baz>][{1(C)[<bar=baz>][--]}]}", exp.toString());
     }
 
 }
