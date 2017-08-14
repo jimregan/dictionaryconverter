@@ -138,10 +138,6 @@ object TrxProc {
   implicit def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
   implicit def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
   implicit def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
-  def defAttrFromFile(s: String): List[DefAttrElement] = {
-    val attrs = Attributes.defAttrFromFile(s)
-    attrs.asScala.map{convertDefAttr}.toList
-  }
 
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
