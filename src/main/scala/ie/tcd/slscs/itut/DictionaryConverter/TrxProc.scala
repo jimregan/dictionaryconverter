@@ -26,6 +26,7 @@ package ie.tcd.slscs.itut.DictionaryConverter
 import ie.tcd.slscs.itut.ApertiumStream._
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
 
@@ -35,7 +36,7 @@ case class TrxProc(kind: String,
                    var vars: Map[String, String],
                    var lists: Map[String, List[String]],
                    var macros: Map[String, List[SentenceElement]],
-                   var rules: List[RuleElement]) {
+                   var rules: List[RuleBody]) {
   private val categories = collection.mutable.Map.empty[String, List[CatItem]] ++ defcats
   def validCategories = categories.keys.toList
   def getCat(s: String): Option[List[CatItem]] = categories.get(s)
@@ -125,7 +126,7 @@ object TrxProc {
     val dv = t.vars.map{e => (e.name, e.value)}.toMap
     val dl = t.lists.map{e => (e.name, e.items.map{_.value})}.toMap
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
-    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
+    TrxProc(t.kind, dc, da, dv, dl, dm, t.rules) // FIXME
   }
   implicit def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
   implicit def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
@@ -156,7 +157,6 @@ object TrxProc {
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
 
-
   case class RuleMetadata(ruleid: String, rulecomment: String)
   case class RuleProc(meta: RuleMetadata)
   trait StreamItem
@@ -171,7 +171,10 @@ object TrxProc {
   case class Chunk(lemma: String, tags: List[String], contents: List[StreamItem]) extends LexicalUnit
   implicit def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.toList.flatten)
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem])
-  implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList, rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
+  implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = {
+    RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
+      rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
+  }
   case class Blank() extends StreamItem
   implicit def convertBlanks(blankToken: BlankToken): Option[Blank] = {
     if(blankToken.getContent == null || blankToken.getContent == "") {
