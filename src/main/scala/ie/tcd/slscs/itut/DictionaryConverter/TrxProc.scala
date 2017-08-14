@@ -159,7 +159,7 @@ object TrxProc {
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
   // TODO helper: expand pattern string above with defcats - class method? - done in java
-  // TODO: finish getters and setters for elements - done except for rules and macros
+  // TODO: finish getters and setters for rules and macros
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
 
