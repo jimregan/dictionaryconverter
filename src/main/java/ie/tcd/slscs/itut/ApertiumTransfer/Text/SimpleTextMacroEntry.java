@@ -82,6 +82,9 @@ public class SimpleTextMacroEntry {
     public void setInsertion(boolean insertion) {
         isInsertion = insertion;
     }
+    public boolean isChunkAlignment() {
+        return chunkAlignment;
+    }
 
     @Override
     public String toString() {
