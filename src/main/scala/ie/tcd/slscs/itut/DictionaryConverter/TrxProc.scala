@@ -166,12 +166,12 @@ object TrxProc {
     } else {
       KVMacroAttr(in.getKey, in.getValue)
     }
-    abstract class TextMacroEntry(pos: Int)
-    case class InsertionMacroEntry(pos: Int) extends TextMacroEntry(pos)
-    case class DeletionMacroEntry(pos: Int) extends TextMacroEntry(pos)
-    case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TextMacroEntry])
-
   }
+  abstract class TextMacroEntry(pos: Int)
+  case class InsertionMacroEntry(pos: Int) extends TextMacroEntry(pos)
+  case class DeletionMacroEntry(pos: Int) extends TextMacroEntry(pos)
+  case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TextMacroEntry])
+
   case class RuleMetadata(ruleid: String, rulecomment: String)
 
   case class RuleProc(meta: RuleMetadata)
