@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 
 import scala.collection.JavaConverters._
@@ -166,6 +166,10 @@ object TrxProc {
     } else {
       KVMacroAttr(in.getKey, in.getValue)
     }
+    abstract class TextMacroEntry(pos: Int)
+    case class InsertionMacroEntry(pos: Int) extends TextMacroEntry(pos)
+    case class DeletionMacroEntry(pos: Int) extends TextMacroEntry(pos)
+    case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TextMacroEntry])
 
   }
   case class RuleMetadata(ruleid: String, rulecomment: String)
