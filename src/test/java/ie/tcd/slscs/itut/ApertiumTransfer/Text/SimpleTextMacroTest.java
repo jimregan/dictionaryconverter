@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
 
 public class SimpleTextMacroTest extends TestCase {
     public void testReadAlignments() throws Exception {
-        String in = "1-1 1-2 2-C";
+        String in = "1-1 1-2 2-2C";
         Map<String, List<String>> out = SimpleTextMacro.readAlignments(in);
         assertEquals(out.get("1").size(), 2);
         assertEquals(out.get("2").size(), 1);
