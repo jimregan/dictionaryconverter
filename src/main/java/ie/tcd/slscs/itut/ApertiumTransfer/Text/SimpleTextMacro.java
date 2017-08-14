@@ -69,6 +69,10 @@ import java.util.Map;
  * </pre>
  *
  * Here, the idea is apply the contents of <gen> and <num> of clip 1 to clip 2
+ *
+ *
+ * sure right | to be sure af right | 0-1 0-2 1-3 0-4 2-5
+ *
  */
 public class SimpleTextMacro {
     String name;
@@ -118,8 +122,12 @@ public class SimpleTextMacro {
             return new SimpleTextMacro(name, appliesTo, pieces);
         } else {
             Map<String, List<String>> align = readAlignments(sp[4]);
+            Map<String, List<String>> reverse = reverseAlignments(align);
             List<SimpleTextMacroEntry> entries = new ArrayList<SimpleTextMacroEntry>();
-            int limit = Math.max(lhs.size(), rhs.size());
+            if(align.keySet().size() < rhs.size()) {
+                throw new Exception("Not enough alignments");
+            }
+            int limit = Math.max(Math.max(lhs.size(), rhs.size()), align.keySet().size());
             for (int i = 0; i < limit; i++) {
                 String pos = Integer.toString(i + 1);
                 String idx = Integer.toString(i);
