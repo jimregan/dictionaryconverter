@@ -32,9 +32,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * As a macro can contain multiple operations, this groups the parts
