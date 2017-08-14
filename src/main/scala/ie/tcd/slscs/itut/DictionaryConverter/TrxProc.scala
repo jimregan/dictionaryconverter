@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry, Attributes}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry, SimpleMacroCall => JSMacroCall}
 import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
@@ -195,6 +195,12 @@ object TrxProc {
     case m: MLUReference => Some(mluReferenceToMLU(m))
     case w: WordToken => Some(wordTokenToLUProc(w))
     case l: LUReference => Some(luReferenceToLURef(l))
+  }
+
+
+  case class SimpleMacroCall(name: String, params: List[String])
+  implicit def convertMacroCalls(in: JSMacroCall): SimpleMacroCall = {
+    SimpleMacroCall(in.getName, in.getParams.asScala.toList)
   }
 
   /*

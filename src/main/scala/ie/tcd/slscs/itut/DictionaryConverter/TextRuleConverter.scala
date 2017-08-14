@@ -27,7 +27,7 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes, SimpleMacroCall => JSMacroCall}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.convertDefAttr
 
 import scala.collection.JavaConverters._
@@ -44,8 +44,4 @@ object TextRuleConverter {
     attrs.asScala.map{convertDefAttr}.toList
   }
 
-  case class SimpleMacroCall(name: String, params: List[String])
-  implicit def convertMacroCalls(in: JSMacroCall): SimpleMacroCall = {
-    SimpleMacroCall(in.getName, in.getParams.asScala.toList)
-  }
 }
