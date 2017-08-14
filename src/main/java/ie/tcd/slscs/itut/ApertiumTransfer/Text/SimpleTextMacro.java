@@ -85,11 +85,7 @@ public class SimpleTextMacro {
         this.parts = parts;
     }
 
-    public static SimpleTextMacro fromString(String s, boolean postchunk) throws Exception {
-        int offset = 1;
-        if(postchunk) {
-            offset = 0;
-        }
+    public static SimpleTextMacro fromString(String s) throws Exception {
         String[] sp = s.split("\\|");
         if(sp.length != 4 && sp.length != 5) {
             throw new Exception("Incorrect number of fields");
@@ -105,13 +101,13 @@ public class SimpleTextMacro {
             List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
             if(lhs.size() == rhs.size()) {
                 for (int i = 0; i < lhs.size(); i++) {
-                    String pos = Integer.toString(i + offset);
+                    String pos = Integer.toString(i + 1);
                     String idx = Integer.toString(i);
                     List<SimpleTextMacroAttr> src = lhs.get(i);
                     List<SimpleTextMacroAttr> trg = rhs.get(i);
                     List<SimpleTextMacroEntry> trgtmp = new ArrayList<SimpleTextMacroEntry>();
-                    SimpleTextMacroEntry curl = new SimpleTextMacroEntry(i + offset, src);
-                    SimpleTextMacroEntry curr = new SimpleTextMacroEntry(i + offset, trg);
+                    SimpleTextMacroEntry curl = new SimpleTextMacroEntry(i + 1, src);
+                    SimpleTextMacroEntry curr = new SimpleTextMacroEntry(i + 1, trg);
                     trgtmp.add(curr);
                     curl.setTarget(trgtmp);
                     pieces.add(curl);
@@ -199,7 +195,7 @@ public class SimpleTextMacro {
         return side;
     }
 
-    public static List<SimpleTextMacro> fromFile(BufferedReader br, boolean postchunk) throws IOException {
+    public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
         String line;
         int lineno = 0;
@@ -207,7 +203,7 @@ public class SimpleTextMacro {
             lineno++;
             SimpleTextMacro tmp = new SimpleTextMacro();
             try {
-                tmp = fromString(line, postchunk);
+                tmp = fromString(line);
             } catch (Exception e) {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
