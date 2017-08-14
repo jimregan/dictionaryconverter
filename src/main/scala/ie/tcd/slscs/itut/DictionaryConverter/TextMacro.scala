@@ -51,13 +51,21 @@ object TextMacro {
   // this is all hardwired so if it was on the left, it's sl; on the right, tl
   def convertMacroAttrToLet(in: MacroAttr, pos: Int): LetElement = in match {
     case LemmaMacroAttr(s) => LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s))
-    case KVMacroAttr(k, v) => LetElement(ClipElement(pos.toString, "tl", k, null, null, null), LitTagElement(v))
+    case KVMacroAttr(k, v) => if (v != "") {
+      LetElement(ClipElement(pos.toString, "tl", k, null, null, null), LitTagElement(v))
+    } else {
+      LetElement(ClipElement(pos.toString, "tl", k, null, null, null), LitElement(""))
+    }
     case _ => throw new Exception("Can't convert this tag")
   }
   def convertMacroAttrToTest(in: MacroAttr, pos: Int): TestElement = in match {
     case LemmaMacroAttr(s) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", "lem", null, null, null), LitElement(s))))
     case ListMacroAttr(s) => TestElement(null, InElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true))
-    case KVMacroAttr(k, v) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v))))
+    case KVMacroAttr(k, v) => if (v != "") {
+      TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v))))
+    } else {
+      TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitElement(""))))
+    }
     case _ => throw new Exception("Can't convert this tag")
   }
   abstract class BaseTextMacroEntry
