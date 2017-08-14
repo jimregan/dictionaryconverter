@@ -39,7 +39,7 @@ public class SimpleTextMacroTest extends TestCase {
         String in = "1-1 1-2 2-C";
         Map<String, List<String>> out = SimpleTextMacro.readAlignments(in);
         assertEquals(out.get("1").size(), 2);
-        assertEquals(out.get("2").size(), 2);
+        assertEquals(out.get("2").size(), 1);
         assertEquals(out.get("1").get(0), "1");
     }
 }
