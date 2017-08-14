@@ -172,6 +172,7 @@ public class SimpleTextMacro {
         return side;
     }
 
+    // TODO Finish
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
         String line;
