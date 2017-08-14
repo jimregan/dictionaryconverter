@@ -24,8 +24,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
-import ie.tcd.slscs.itut.ApertiumTransfer.{CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry, Attributes}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
@@ -136,6 +136,12 @@ object TrxProc {
   implicit def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
   implicit def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
   implicit def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
+  implicit def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
+  implicit def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
+  def defAttrFromFile(s: String): List[DefAttrElement] = {
+    val attrs = Attributes.defAttrFromFile(s)
+    attrs.asScala.map{convertDefAttr}.toList
+  }
 
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
