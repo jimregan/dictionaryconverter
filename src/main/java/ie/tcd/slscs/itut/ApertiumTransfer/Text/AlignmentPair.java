@@ -40,13 +40,27 @@ public class AlignmentPair {
         this.right = right;
     }
     public boolean canMakeLeftIndex() {
-        return left.matches("^([0-9]+)$");
+        return left.matches("^([0-9]+)[Cc]?$");
     }
     public boolean canMakeRightIndex() {
-        return right.matches("^([0-9]+)$");
+        return right.matches("^([0-9]+)[Cc]?$");
     }
     public boolean canMakeIndices() {
         return canMakeLeftIndex() && canMakeRightIndex();
+    }
+    public int getLeftPosition() {
+        if(left.toLowerCase().endsWith("c")) {
+            return Integer.parseInt(left.substring(0, left.length() - 1));
+        } else {
+            return Integer.parseInt(left);
+        }
+    }
+    public int getRightPosition() {
+        if(right.toLowerCase().endsWith("c")) {
+            return Integer.parseInt(right.substring(0, right.length() - 1));
+        } else {
+            return Integer.parseInt(right);
+        }
     }
 
     public boolean leftChunkAlignment() {
