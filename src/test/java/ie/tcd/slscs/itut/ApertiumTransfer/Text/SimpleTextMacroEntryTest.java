@@ -39,6 +39,7 @@ public class SimpleTextMacroEntryTest extends TestCase {
     SimpleTextMacroAttr left1 = new SimpleTextMacroAttr("foo", "");
     SimpleTextMacroAttr left2 = new SimpleTextMacroAttr("bar", "baz");
     List<SimpleTextMacroAttr> left = new ArrayList<SimpleTextMacroAttr>();
+    List<SimpleTextMacroAttr> right = new ArrayList<SimpleTextMacroAttr>();
     SimpleTextMacroAttr right1 = new SimpleTextMacroAttr("foo", "");
     SimpleTextMacroAttr right2 = new SimpleTextMacroAttr("bar", "baz");
     public void testToString() throws Exception {
@@ -47,6 +48,16 @@ public class SimpleTextMacroEntryTest extends TestCase {
         assertEquals("{1[<foo>][--]}", exp.toString());
         left.add(left2);
         assertEquals("{1[<foo>,<bar=baz>][--]}", exp.toString());
+    }
+    public void testToString2() throws Exception {
+        left.clear();
+        left.add(left2);
+        right.add(right2);
+        SimpleTextMacroEntry rightpart = new SimpleTextMacroEntry(1, right);
+        List<SimpleTextMacroEntry> rightl = new ArrayList<SimpleTextMacroEntry>();
+        rightl.add(rightpart);
+        SimpleTextMacroEntry exp = new SimpleTextMacroEntry(1, left, true, rightl);
+        assertEquals("{1[<bar=baz>][1(C)[<bar=baz>]]}", exp.toString());
     }
 
 }
