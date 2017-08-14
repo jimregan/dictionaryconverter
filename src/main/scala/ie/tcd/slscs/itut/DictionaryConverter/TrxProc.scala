@@ -168,17 +168,24 @@ object TrxProc {
   implicit def luReferenceToLURef(ref: LUReference): LURef = LURef(ref.position)
   case class MLU(children: List[LURef]) extends LexicalUnit
   implicit def mluReferenceToMLU(mlu: MLUReference): MLU = MLU(mlu.getChildren.asScala.map{luReferenceToLURef}.toList)
-  case class Chunk(lemma: String, tags: List[String])
-  implicit def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList)
-  case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem]) // TODO: convert StreamToken
-  //implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody =
-  case class Blank()
+  case class Chunk(lemma: String, tags: List[String], contents: List[StreamItem]) extends LexicalUnit
+  implicit def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.toList.flatten)
+  case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem])
+  implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList, rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
+  case class Blank() extends StreamItem
   implicit def convertBlanks(blankToken: BlankToken): Option[Blank] = {
     if(blankToken.getContent == null || blankToken.getContent == "") {
       return None
     } else {
       return Some(Blank())
     }
+  }
+  def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
+    case c: ChunkToken => Some(chunkTokenToChunk(c))
+    case b: BlankToken => convertBlanks(b)
+    case m: MLUReference => Some(mluReferenceToMLU(m))
+    case w: WordToken => Some(wordTokenToLUProc(w))
+    case l: LUReference => Some(luReferenceToLURef(l))
   }
 
 
