@@ -1,0 +1,1 @@
+n = gen strength slender num cas mut

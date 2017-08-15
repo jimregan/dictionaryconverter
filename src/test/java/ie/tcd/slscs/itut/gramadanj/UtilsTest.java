@@ -34,6 +34,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class UtilsTest extends TestCase {
     public void testExpandParentheticalVariants() throws Exception {
@@ -90,5 +91,14 @@ public class UtilsTest extends TestCase {
         String exp = "foo::bar::baz";
         String out = Utils.join(in, delim);
         assertEquals(exp, out);
+    }
+    public void testListclone() {
+        List<String> inp = new ArrayList<String>();
+        inp.add("foo");
+        inp.add("bar");
+        List<String> out = Utils.listclone(inp);
+        assertEquals(inp.get(0), out.get(0));
+        inp.set(0, "baz");
+        assertNotEquals(inp.get(0), out.get(0));
     }
 }

@@ -40,17 +40,28 @@ public class Crosaire {
         }
         return out;
     }
+    private static String dropSpaces(String s) {
+        String out = "";
+        for(char c : s.toCharArray()) {
+            if(c != ' ') {
+                out += c;
+            }
+        }
+        return out;
+    }
     public static String stringDropsString(String haystack, String needle) {
-        String last = haystack;
-        int sought = haystack.length() - needle.length();
-        for(char c : needle.toCharArray()) {
+        String spaceless_haystack = dropSpaces(haystack);
+        String spaceless_needle = dropSpaces(needle);
+        String last = spaceless_haystack;
+        int sought = spaceless_haystack.length() - spaceless_needle.length();
+        for(char c : spaceless_needle.toCharArray()) {
             String cur = "";
             int i = 0;
             for(char d : last.toCharArray()) {
                 i++;
                 if(c != d) {
                     cur += d;
-                    if(i == haystack.length()) {
+                    if(i == spaceless_haystack.length()) {
                         return "";
                     }
                 } else {
@@ -78,7 +89,7 @@ public class Crosaire {
     }
     /**
      * permutes the input
-     * @see https://stackoverflow.com/questions/4240080/generating-all-permutations-of-a-given-string
+     * @see {https://stackoverflow.com/questions/4240080/generating-all-permutations-of-a-given-string}
      * @param s string to permute
      * @return set of permutations of the string
      */
