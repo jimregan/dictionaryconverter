@@ -29,8 +29,7 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import ie.tcd.slscs.itut.gramadanj.Utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -206,5 +205,20 @@ public class SimpleTextMacro {
             }
         }
         return out;
+    }
+    public static List<SimpleTextMacro> fromFile(InputStreamReader isr) throws Exception {
+        return fromFile(new BufferedReader(isr));
+    }
+    public static List<SimpleTextMacro> fromFile(InputStream is) throws Exception {
+        return fromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<SimpleTextMacro> fromFile(FileInputStream fi) throws Exception {
+        return fromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<SimpleTextMacro> fromFile(File f) throws Exception {
+        return fromFile(new FileInputStream(f));
+    }
+    public static List<SimpleTextMacro> fromFile(String s) throws Exception {
+        return fromFile(new File(s));
     }
 }
