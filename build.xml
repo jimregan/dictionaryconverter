@@ -9,15 +9,17 @@
   
   <!-- set scala.home -->
   <property environment="env" />
-  <property name="scala.home" value="${env.SCALA_HOME}" />
+  <property name="scala.home" value="/usr/share/java" />
   
   <target name="init">
     <property name="scala-library.jar" 
-              value="${scala.home}/lib/scala-library.jar" />
+              value="${scala.home}/scala-library.jar" />
     <property name="scala-compiler.jar" 
-              value="${scala.home}/lib/scala-compiler.jar" /> 
+              value="${scala.home}/scala-compiler.jar" /> 
     <property name="scala.reflect" 
-              value="${scala.home}/lib/scala-reflect.jar"/>
+              value="${scala.home}/scala-reflect.jar"/>
+    <property name="scala.xml" 
+              value="${scala.home}/scala-xml_2.11.jar"/>
     <path id="build.classpath">
       <pathelement location="${scala-library.jar}" />
       <pathelement location="${build.dir}" />
@@ -27,6 +29,7 @@
         <pathelement location="${scala-compiler.jar}" />
         <pathelement location="${scala-library.jar}" />
         <pathelement location="${scala.reflect}"/>
+        <pathelement location="${scala.xml}"/>
       </classpath>
     </taskdef>
   </target>
