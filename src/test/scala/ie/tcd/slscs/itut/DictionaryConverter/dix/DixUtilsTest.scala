@@ -43,8 +43,8 @@ class DixUtilsTest extends FlatSpec {
   it should "isTag" in {
     val tag = S("foo")
     val txt = Txt("bar")
-    assert(DixUtils.isNotTag(tag) == true)
-    assert(DixUtils.isNotTag(txt) == false)
+    assert(DixUtils.isTag(tag) == true)
+    assert(DixUtils.isTag(txt) == false)
   }
 
   it should "makeSimpleBilEntry" in {
@@ -64,6 +64,28 @@ class DixUtilsTest extends FlatSpec {
     val eident = Dix.nodetoe(ident)
     val outident = DixUtils.isSimpleEntry(eident)
     assert(outident == false)
+  }
+
+  "get text pieces" should "return text from entry" in {
+    val testl = L(List[TextLike](Txt("word"), G(List[TextLike](B(), Txt("woo")))))
+    val expl = "word# woo"
+    val out = DixUtils.getTextPieces(testl)
+    assert(expl == out)
+  }
+
+  "get tags" should "extract tags from entry piece" in {
+    val testl = L(List[TextLike](Txt("word"), G(List[TextLike](B(), Txt("woo"))), S("n"), S("m")))
+    val exp = List[S](S("n"), S("m"))
+    val out = DixUtils.getTags(testl)
+    assert(exp == out)
+  }
+
+  "get simplebil" should "convert simple entry to SimpleBil" in {
+    val inraw = <e><p><l>foo<s n="n"/><s n="sg"/></l><r>bar<b/>bar<s n="n"/></r></p></e>
+    val in = Dix.nodetoe(inraw)
+    val exp = Some(SimpleBil("foo", "n.sg", "bar bar", "n"))
+    val out = DixUtils.getSimpleBilEntry(in)
+    assert(exp == out)
   }
 
 }

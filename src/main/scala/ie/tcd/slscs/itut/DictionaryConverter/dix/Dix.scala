@@ -145,7 +145,7 @@ case class R(content: List[TextLike], mwrule: String = null) extends TextLikeCon
   def toXML = { <r>{ content.map{c => c.toXML} }</r> }
 }
 case class G(content: List[TextLike]) extends TextLikeContainer(content) with TextLike {
-  override def asText: String = "# " + content.map{_.asText}.mkString
+  override def asText: String = "#" + content.map{_.asText}.mkString
   def toXML = { <g>{ content.map{c => c.toXML} }</g> }
 }
 case class Par(name: String, sa: String = null, prm: String = null, content: List[TextLike] = List.empty[TextLike]) extends TextLikeContainer(content) {

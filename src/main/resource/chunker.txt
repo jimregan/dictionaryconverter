@@ -1,4 +1,2 @@
-^n<SN><UNDET><*num>{^<n><3>$}$ | ^n<SN><UNDET><*=gen><*num><*@cas><*@mut><*=strength><*=slender><*@NEG>{^<n><3><4>$}$ | 1-1
-^det n<SN><DET><sg><*@NEG>{^<det><*a_det>$ ^<n><3>$}$ | ^n<SN><DEFART><*=gen><*num><*@cas><*@mut><*=strength><*=slender><*@NEG>{^<det><*a_det><3><4>$ ^<n><3><4>$}$ | 1-1 2-2
-^det n<SN><UNDET><sg><*@NEG>{^a<det><ind><sg>$ ^<n><3>$}$ | ^n<SN><UNDET><*=gen><*num><*@cas><*@mut><*=strength><*=slender><*@NEG>{^<n><3><4>$}$ | 2-1
-^det n<SN><DEFART><sg><*@NEG>{^the<det><def><sp>$ ^<n><3>$}$ | ^n<SN><DEFART><*=gen><*num><*@cas><*@mut><*=strength><*=slender><*@NEG>{^an<det><def><3><4>$ ^<n><3><4>$}$ | 1-1 2-2
+NP | <n> | <n> | 1-1 | human:1; move_strength:1
+NP | <det> <n> | <det> <n> | 1-1 2-2 | det_type:1;human:2;move_strength:2
