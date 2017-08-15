@@ -33,10 +33,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RuleContainer {
-    RuleSide left;
-    RuleSide right;
-    List<AlignmentPair> alignments;
+    private RuleSide left;
+    private RuleSide right;
+    private List<AlignmentPair> alignments;
     RuleContainer() {
         this.alignments = new ArrayList<AlignmentPair>();
+    }
+    public RuleContainer(RuleSide left, RuleSide right, List<AlignmentPair> alignments) {
+        this();
+        this.left = left;
+        this.right = right;
+        this.alignments = alignments;
+    }
+    public RuleSide getLeft() {
+        return left;
+    }
+    public void setLeft(RuleSide left) {
+        this.left = left;
+    }
+    public RuleSide getRight() {
+        return right;
+    }
+    public void setRight(RuleSide right) {
+        this.right = right;
+    }
+    public List<AlignmentPair> getAlignments() {
+        return alignments;
+    }
+    public void setAlignments(List<AlignmentPair> alignments) {
+        this.alignments = alignments;
     }
 }
