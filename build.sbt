@@ -6,6 +6,8 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.10.2"
 
+javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
+
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v")
 
 libraryDependencies ++= {
