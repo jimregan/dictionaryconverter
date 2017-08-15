@@ -67,5 +67,8 @@ public class AlignmentPairTest extends TestCase {
         String yes = "1-1 2-2 3-3 4-4";
         List<AlignmentPair> out = AlignmentPair.listFromString(yes);
         assertEquals(true, AlignmentPair.simpleAlignments(out));
+        String no = "1-1 1-2 3-3 4-4";
+        List<AlignmentPair> out1 = AlignmentPair.listFromString(no);
+        assertEquals(false, AlignmentPair.simpleAlignments(out1));
     }
 }
