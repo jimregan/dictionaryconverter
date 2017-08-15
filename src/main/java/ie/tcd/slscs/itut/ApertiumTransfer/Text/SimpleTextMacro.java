@@ -31,6 +31,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,9 +100,7 @@ public class SimpleTextMacro {
         }
         String name = sp[0].trim();
         List<String> appliesTo = new ArrayList<String>();
-        for (String apply : sp[1].trim().split(" ")) {
-            appliesTo.add(apply);
-        }
+        Collections.addAll(appliesTo, sp[1].trim().split(" "));
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
         List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
