@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +59,35 @@ public class SimpleList {
         String name = tmp[0].trim();
         tags = Arrays.asList(tmp[1].trim().split(" "));
         return new SimpleList(name, tags);
+    }
+    public static List<SimpleList> fromFile(BufferedReader br) throws IOException {
+        List<SimpleList> out = new ArrayList<SimpleList>();
+        String line;
+        int lineno = 0;
+        while((line = br.readLine()) != null) {
+            lineno++;
+            try {
+                out.add(fromString(line));
+            } catch (Exception e) {
+                throw new IOException(e.getMessage() + " on line " + lineno);
+            }
+        }
+        return out;
+    }
+    public static List<SimpleList> fromFile(InputStreamReader isr) throws Exception {
+        return fromFile(new BufferedReader(isr));
+    }
+    public static List<SimpleList> fromFile(InputStream is) throws Exception {
+        return fromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<SimpleList> fromFile(FileInputStream fi) throws Exception {
+        return fromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<SimpleList> fromFile(File f) throws Exception {
+        return fromFile(new FileInputStream(f));
+    }
+    public static List<SimpleList> fromFile(String s) throws Exception {
+        return fromFile(new File(s));
     }
 
 }
