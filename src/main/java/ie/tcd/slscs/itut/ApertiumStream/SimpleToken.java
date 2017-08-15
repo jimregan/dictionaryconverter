@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleToken extends WordToken {
     public SimpleToken() {
         super();
@@ -42,5 +45,12 @@ public class SimpleToken extends WordToken {
             st.setTagsFromString(s.substring(s.indexOf('<') + 1, s.length() - 1));
         }
         return st;
+    }
+    public static List<SimpleToken> listFromString(String s) {
+        List<SimpleToken> out = new ArrayList<SimpleToken>();
+        for(String tok : s.trim().split(" ")) {
+            out.add(fromString(tok));
+        }
+        return out;
     }
 }
