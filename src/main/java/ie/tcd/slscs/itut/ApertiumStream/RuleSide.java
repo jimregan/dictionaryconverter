@@ -69,6 +69,7 @@ public class RuleSide {
             } else if(st instanceof MLUToken) {
                 MLUReference mluref = MLUReference.fromMLUToken((MLUToken) st, lucount);
                 for (WordToken wt : ((MLUToken) st).getLUs()) {
+                    wt.setInMLU();
                     lus.add(wt);
                     lucount++;
                 }
