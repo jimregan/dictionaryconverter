@@ -124,7 +124,7 @@ case class TrxProc(kind: String,
 }
 object TrxProc {
   implicit def parentRuleElement(re: List[RuleElement]): List[RuleContainer] = re.map{e => RuleElementContainer(e)}
-  implicit def fromTopLevel(t: TopLevel): TrxProc = {
+  def fromTopLevel(t: TopLevel): TrxProc = {
     val dc = t.defcats.map{e => (e.n, e.l)}.toMap
     val da = t.defattrs.map{e => (e.n, e.l.map{_.tags})}.toMap
     val dv = t.vars.map{e => (e.name, e.value)}.toMap
@@ -132,12 +132,12 @@ object TrxProc {
     val dm = t.macros.map{e => (e.name, e.actions)}.toMap
     TrxProc(t.kind, dc, da, dv, dl, dm, t.rules)
   }
-  implicit def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
-  implicit def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
-  implicit def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
-  implicit def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
-  implicit def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
-  implicit def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
+  def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
+  def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
+  def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
+  def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
+  def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
+  def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
 
   def merge(a: TopLevel, b: TopLevel): TrxProc = {
     val tmpa = fromTopLevel(a)
@@ -169,20 +169,20 @@ object TrxProc {
   trait LexicalUnit extends StreamItem
   trait SingleLexicalUnit extends LexicalUnit
   case class LUProc(lemh: String, lemq: String, tags: List[String]) extends SingleLexicalUnit
-  implicit def wordTokenToLUProc(wt: WordToken): LUProc = LUProc(wt.getLemh, wt.getLemq, wt.getTags.asScala.toList)
+  def wordTokenToLUProc(wt: WordToken): LUProc = LUProc(wt.getLemh, wt.getLemq, wt.getTags.asScala.toList)
   case class LURef(index: Int) extends SingleLexicalUnit
-  implicit def luReferenceToLURef(ref: LUReference): LURef = LURef(ref.position)
+  def luReferenceToLURef(ref: LUReference): LURef = LURef(ref.position)
   case class MLU(children: List[LURef]) extends LexicalUnit
-  implicit def mluReferenceToMLU(mlu: MLUReference): MLU = MLU(mlu.getChildren.asScala.map{luReferenceToLURef}.toList)
+  def mluReferenceToMLU(mlu: MLUReference): MLU = MLU(mlu.getChildren.asScala.map{luReferenceToLURef}.toList)
   case class Chunk(lemma: String, tags: List[String], contents: List[StreamItem]) extends LexicalUnit
-  implicit def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.toList.flatten)
+  def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.toList.flatten)
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem])
-  implicit def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = {
+  def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
   case class Blank() extends StreamItem
-  implicit def convertBlanks(blankToken: BlankToken): Option[Blank] = {
+  def convertBlanks(blankToken: BlankToken): Option[Blank] = {
     if(blankToken.getContent == null || blankToken.getContent == "") {
       return None
     } else {
@@ -197,12 +197,11 @@ object TrxProc {
     case l: LUReference => Some(luReferenceToLURef(l))
   }
 
-
   case class SimpleMacroCall(name: String, params: List[String])
-  implicit def convertMacroCalls(in: JSMacroCall): SimpleMacroCall = {
+  def convertMacroCalls(in: JSMacroCall): SimpleMacroCall = {
     SimpleMacroCall(in.getName, in.getParams.asScala.toList)
   }
-  implicit def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
+  def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
   }
 
