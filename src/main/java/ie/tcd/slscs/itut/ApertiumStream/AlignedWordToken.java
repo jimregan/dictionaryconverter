@@ -28,10 +28,10 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 public class AlignedWordToken extends WordToken {
-    int alignment;
-    String prevariable;
-    String postvariable;
-    AlignedWordToken() {
+    private int alignment;
+    private String prevariable;
+    private String postvariable;
+    private AlignedWordToken() {
         super();
     }
     AlignedWordToken(WordToken wt, int alignment) {
@@ -58,5 +58,10 @@ public class AlignedWordToken extends WordToken {
     }
     public void setPostvariable(String postvariable) {
         this.postvariable = postvariable;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ":" + alignment;
     }
 }
