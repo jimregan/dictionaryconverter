@@ -100,4 +100,8 @@ public class RuleContainer {
     public void setRight_example(String right_example) {
         this.right_example = right_example;
     }
+    public void setExamples(String l, String r) {
+        this.left_example = l;
+        this.right_example = r;
+    }
 }
