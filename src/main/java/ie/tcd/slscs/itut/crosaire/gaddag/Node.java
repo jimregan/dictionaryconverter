@@ -18,9 +18,9 @@
 
 package ie.tcd.slscs.itut.crosaire.gaddag;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import scala.Char;
+
+import java.util.*;
 
 public class Node {
     public static final char Break = '>';
@@ -45,6 +45,12 @@ public class Node {
         this.letter = letter;
     }
 
+    public Node get(char index) {
+        return children.get(index);
+    }
+    public Set<Character> keys() {
+        return children.keySet();
+    }
     public boolean containsKey(char key) {
         return children.containsKey(key);
     }
