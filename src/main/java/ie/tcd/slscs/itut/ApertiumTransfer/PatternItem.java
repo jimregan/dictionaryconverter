@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import org.w3c.dom.Node;
+
 public class PatternItem {
     String name;
     public PatternItem() {
@@ -37,5 +39,13 @@ public class PatternItem {
 
     public String getName() {
         return name;
+    }
+    public static PatternItem fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("pattern-item")) {
+            String name = n.getAttributes().getNamedItem("n").toString();
+            return new PatternItem(name);
+        } else {
+            throw new Exception("Node does not contain pattern-item");
+        }
     }
 }
