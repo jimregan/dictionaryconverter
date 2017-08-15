@@ -104,4 +104,7 @@ public class RuleContainer {
         this.left_example = l;
         this.right_example = r;
     }
+    public String getCommentString() {
+        return left_example + " → " + right_example;
+    }
 }
