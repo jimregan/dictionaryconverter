@@ -27,8 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,6 +73,21 @@ public class AttributeSequence {
             }
         }
         return out;
+    }
+    public static List<AttributeSequence> fromFile(InputStreamReader isr) throws Exception {
+        return fromFile(new BufferedReader(isr));
+    }
+    public static List<AttributeSequence> fromFile(InputStream is) throws Exception {
+        return fromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<AttributeSequence> fromFile(FileInputStream fi) throws Exception {
+        return fromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<AttributeSequence> fromFile(File f) throws Exception {
+        return fromFile(new FileInputStream(f));
+    }
+    public static List<AttributeSequence> fromFile(String s) throws Exception {
+        return fromFile(new File(s));
     }
 
     /**
