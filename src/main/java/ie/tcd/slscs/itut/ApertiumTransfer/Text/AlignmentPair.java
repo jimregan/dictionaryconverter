@@ -76,6 +76,13 @@ public class AlignmentPair {
         }
         return out;
     }
+    public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) {
+        Map<String, List<String>> out = new HashMap<String, List<String>>();
+        for(AlignmentPair al : in) {
+            out.get(al.right).add(al.left);
+        }
+        return out;
+    }
     public static boolean simpleAlignments(Map<String, List<String>> list) {
         for(String s : list.keySet()) {
             if(s.equals("0") || s.toLowerCase().endsWith("c")) {
@@ -87,12 +94,8 @@ public class AlignmentPair {
         }
         return true;
     }
-    public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) {
-        Map<String, List<String>> out = new HashMap<String, List<String>>();
-        for(AlignmentPair al : in) {
-            out.get(al.right).add(al.left);
-        }
-        return out;
+    public static boolean simpleAlignments(List<AlignmentPair> list) throws Exception {
+        return simpleAlignments(getMapFromList(list));
     }
     public static AlignmentPair fromString(String s, char delim) throws Exception {
         String[] tmp = s.trim().split(Character.toString(delim));
