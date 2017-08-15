@@ -22,6 +22,7 @@
               value="${scala.home}/scala-xml_2.11.jar"/>
     <path id="build.classpath">
       <pathelement location="${scala-library.jar}" />
+      <pathelement location="${scala.xml}" />
       <pathelement location="${build.dir}" />
     </path>
     <taskdef resource="scala/tools/ant/antlib.xml">
