@@ -5,6 +5,8 @@
   <property name="sources.dir" value="src" />
   <property name="scala-source.dir" value="main/scala" />
   <property name="scala-test.dir" value="main/test" />
+  <property name="java-source.dir" value="main/java" />
+  <property name="java-test.dir" value="main/test" />
   <property name="build.dir" value="classes" />
   
   <!-- set scala.home -->
@@ -37,6 +39,11 @@
 
   <target name="compile" depends="init">
     <mkdir dir="${build.dir}" />
+    <javac srcdir="${sources.dir}"
+           destdir="${build.dir}"
+           classpathref="build.classpath">
+      <include name="${java-source.dir}/**/*.java" />
+    </javac>
     <scalac srcdir="${sources.dir}"
             destdir="${build.dir}"
             classpathref="build.classpath"
