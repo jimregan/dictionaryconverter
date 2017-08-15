@@ -78,6 +78,17 @@ public class WordToken extends StreamToken {
     public void setTags(String[] tags) {
         this.tags = Arrays.asList(tags);
     }
+    public void setTagsFromString(String s) {
+        String trimmed = s.trim();
+        if(trimmed.charAt(0) == '<' && trimmed.charAt(trimmed.length() - 1) == '>') {
+            trimmed = trimmed.substring(1, trimmed.length() - 1);
+        }
+        if(trimmed.contains("><")) {
+            setTags(trimmed.split("><"));
+        } else {
+            tags.add(trimmed);
+        }
+    }
     public String getTagsString() {
         StringBuilder s = new StringBuilder();
         s.append('<');
