@@ -72,6 +72,9 @@ public class AlignmentPair {
     public static Map<String, List<String>> getMapFromList(List<AlignmentPair> in) throws Exception {
         Map<String, List<String>> out = new HashMap<String, List<String>>();
         for(AlignmentPair al : in) {
+            if(!out.containsKey(al.left)) {
+                out.put(al.left, new ArrayList<String>());
+            }
             out.get(al.left).add(al.right);
         }
         return out;
