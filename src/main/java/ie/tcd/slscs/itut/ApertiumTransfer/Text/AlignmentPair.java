@@ -87,7 +87,7 @@ public class AlignmentPair {
         }
         return true;
     }
-    public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) throws Exception {
+    public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) {
         Map<String, List<String>> out = new HashMap<String, List<String>>();
         for(AlignmentPair al : in) {
             out.get(al.right).add(al.left);
