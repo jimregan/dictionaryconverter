@@ -29,6 +29,7 @@ package ie.tcd.slscs.itut.ApertiumStream;
 import ie.tcd.slscs.itut.gramadanj.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,6 +71,12 @@ public class WordToken extends StreamToken {
     }
     public List<String> getTags() {
         return tags;
+    }
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    public void setTags(String[] tags) {
+        this.tags = Arrays.asList(tags);
     }
     public String getTagsString() {
         StringBuilder s = new StringBuilder();
@@ -114,6 +121,9 @@ public class WordToken extends StreamToken {
     }
     public void setInMLU() {
         this.inMLU = true;
+    }
+    public void setInMLU(boolean inMLU) {
+        this.inMLU = inMLU;
     }
     public static WordToken fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
