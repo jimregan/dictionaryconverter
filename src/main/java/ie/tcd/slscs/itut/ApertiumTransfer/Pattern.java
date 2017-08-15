@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +45,23 @@ public class Pattern {
 
     public List<PatternItem> getItems() {
         return items;
+    }
+    public static Pattern fromNode(Node n) throws Exception {
+        List<PatternItem> children = new ArrayList<PatternItem>();
+        if(n.getNodeName().equals("pattern")) {
+            for(int i = 0; i < n.getChildNodes().getLength(); i++) {
+                Node ch = n.getChildNodes().item(i);
+                if(ch.getNodeName().equals("pattern-item")) {
+                    children.add(PatternItem.fromNode(ch));
+                } else if(ch.getNodeType() == Element.COMMENT_NODE) {
+                    // skip
+                } else {
+                    throw new Exception("Unexpected child node: " + ch.getNodeName());
+                }
+            }
+            return new Pattern(children);
+        } else {
+            throw new Exception("Node does not contain pattern");
+        }
     }
 }
