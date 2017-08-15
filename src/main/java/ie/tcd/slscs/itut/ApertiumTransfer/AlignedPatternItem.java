@@ -41,6 +41,7 @@ public class AlignedPatternItem extends PatternItem {
     List<Integer> alignments;
     boolean chunkAlignment = false;
     AlignedPatternItem() {
+        super();
         alignments = new ArrayList<Integer>();
     }
     AlignedPatternItem(String name, List<Integer> alignments) {
@@ -48,9 +49,19 @@ public class AlignedPatternItem extends PatternItem {
         this.name = name;
         this.alignments = alignments;
     }
+    AlignedPatternItem(PatternItem pi, List<Integer> alignments) {
+        this();
+        this.name = pi.name;
+        this.alignments = alignments;
+    }
     AlignedPatternItem(String name, boolean chunk_alignment) {
         this();
         this.name = name;
+        this.chunkAlignment = chunk_alignment;
+    }
+    AlignedPatternItem(PatternItem pi, boolean chunk_alignment) {
+        this();
+        this.name = pi.name;
         this.chunkAlignment = chunk_alignment;
     }
     public boolean isSimpleAlignment() {
