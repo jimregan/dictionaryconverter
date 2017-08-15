@@ -175,7 +175,7 @@ object TrxProc {
   case class MLU(children: List[LURef]) extends LexicalUnit
   def mluReferenceToMLU(mlu: MLUReference): MLU = MLU(mlu.getChildren.asScala.map{luReferenceToLURef}.toList)
   case class Chunk(lemma: String, tags: List[String], contents: List[StreamItem]) extends LexicalUnit
-  def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.map{convertStreamToken}.toList.flatten)
+  def chunkTokenToChunk(ch: ChunkToken): Chunk = Chunk(ch.getLemma, ch.getTags.asScala.toList, ch.getChildren.asScala.toList.flatten)
   case class RuleBody(lexicalUnits: List[LUProc], contents: List[StreamItem])
   def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
@@ -189,7 +189,7 @@ object TrxProc {
       return Some(Blank())
     }
   }
-  def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
+  implicit def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
     case b: BlankToken => convertBlanks(b)
     case m: MLUReference => Some(mluReferenceToMLU(m))
