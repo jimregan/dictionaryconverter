@@ -8,6 +8,8 @@
   <property name="java-source.dir" value="main/java" />
   <property name="java-test.dir" value="main/test" />
   <property name="build.dir" value="classes" />
+  <property name="resources.dir" value="src/main/resource" />
+  <property name="distribution.dir" value="jar" />
   
   <!-- set scala.home -->
   <property environment="env" />
@@ -52,5 +54,10 @@
       <exclude name="${scala-test.dir}/**/*.scala" />
     </scalac>
   </target>
-
+  <target name="distribute" depends="compile">
+    <jar destfile="${distribution.dir}/myjar.jar" >
+      <fileset dir="${build.dir}"/>
+      <fileset dir="${resources.dir}" />
+    </jar>
+  </target>
 </project>
