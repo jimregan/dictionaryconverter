@@ -30,7 +30,6 @@ package ie.tcd.slscs.itut.ApertiumStream;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
 import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
 import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
-import ie.tcd.slscs.itut.DictionaryConverter.TrxProc;
 
 import java.util.ArrayList;
 import java.util.List;
