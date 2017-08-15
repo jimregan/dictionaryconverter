@@ -53,7 +53,9 @@ public class Pattern {
                 Node ch = n.getChildNodes().item(i);
                 if(ch.getNodeName().equals("pattern-item")) {
                     children.add(PatternItem.fromNode(ch));
-                } else if(ch.getNodeType() == Element.COMMENT_NODE) {
+                } else if(ch.getNodeType() == Element.COMMENT_NODE
+                        || (ch.getNodeType() == Element.TEXT_NODE
+                            && ch.getTextContent().toString().trim().equals(""))) {
                     // skip
                 } else {
                     throw new Exception("Unexpected child node: " + ch.getNodeName());
