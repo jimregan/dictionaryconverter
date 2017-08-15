@@ -36,7 +36,10 @@ public class GrammarNote {
         this.wordform = wordform;
         this.optional = optional;
     }
-    GrammarNote(String label, String wordform) {
+    public GrammarNote(String label, String wordform) {
         this(label, wordform, false);
+    }
+    public boolean empty() {
+        return ((label == null || label.equals("")) && (wordform == null || wordform.equals("")));
     }
 }
