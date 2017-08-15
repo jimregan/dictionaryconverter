@@ -76,6 +76,17 @@ public class AlignmentPair {
         }
         return out;
     }
+    public static boolean simpleAlignments(Map<String, List<String>> list) {
+        for(String s : list.keySet()) {
+            if(s.equals("0") || s.toLowerCase().endsWith("c")) {
+                continue;
+            }
+            if(list.get(s).size() > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
     public static Map<String, List<String>> getReverseMapFromList(List<AlignmentPair> in) throws Exception {
         Map<String, List<String>> out = new HashMap<String, List<String>>();
         for(AlignmentPair al : in) {
