@@ -28,19 +28,32 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.AlignmentPair;
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleMacroCall;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RuleContainer {
+    private String tag;
     private RuleSide left;
     private RuleSide right;
     private List<AlignmentPair> alignments;
+    private List<SimpleMacroCall> macrocalls;
+    private String left_example;
+    private String right_example;
     RuleContainer() {
         this.alignments = new ArrayList<AlignmentPair>();
+        this.macrocalls = new ArrayList<SimpleMacroCall>();
     }
     public RuleContainer(RuleSide left, RuleSide right, List<AlignmentPair> alignments) {
         this();
+        this.left = left;
+        this.right = right;
+        this.alignments = alignments;
+    }
+    public RuleContainer(String tag, RuleSide left, RuleSide right, List<AlignmentPair> alignments) {
+        this();
+        this.tag = tag;
         this.left = left;
         this.right = right;
         this.alignments = alignments;
@@ -62,5 +75,29 @@ public class RuleContainer {
     }
     public void setAlignments(List<AlignmentPair> alignments) {
         this.alignments = alignments;
+    }
+    public String getTag() {
+        return tag;
+    }
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+    public List<SimpleMacroCall> getMacrocalls() {
+        return macrocalls;
+    }
+    public void setMacrocalls(List<SimpleMacroCall> macrocalls) {
+        this.macrocalls = macrocalls;
+    }
+    public String getLeft_example() {
+        return left_example;
+    }
+    public void setLeft_example(String left_example) {
+        this.left_example = left_example;
+    }
+    public String getRight_example() {
+        return right_example;
+    }
+    public void setRight_example(String right_example) {
+        this.right_example = right_example;
     }
 }
