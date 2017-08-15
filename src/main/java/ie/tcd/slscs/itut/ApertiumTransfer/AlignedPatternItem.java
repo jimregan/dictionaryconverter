@@ -70,4 +70,7 @@ public class AlignedPatternItem extends PatternItem {
     public boolean hasAlignment() {
         return alignments.size() > 0 || chunkAlignment;
     }
+    public PatternItem toPatternItem() {
+        return new PatternItem(this.name);
+    }
 }
