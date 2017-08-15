@@ -63,5 +63,9 @@ public class AlignmentPairTest extends TestCase {
         assertEquals(2, out.size());
         assertEquals(expl.get(0).right, out.get(0).right);
     }
-
+    public void testSimpleAlignments() throws Exception {
+        String yes = "1-1 2-2 3-3 4-4";
+        List<AlignmentPair> out = AlignmentPair.listFromString(yes);
+        assertEquals(true, AlignmentPair.simpleAlignments(out));
+    }
 }
