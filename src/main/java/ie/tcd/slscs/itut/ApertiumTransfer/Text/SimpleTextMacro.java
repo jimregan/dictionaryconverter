@@ -68,9 +68,9 @@ import java.util.List;
  * Here, the idea is apply the contents of <gen> and <num> of clip 1 to clip 2
  */
 public class SimpleTextMacro {
-    String name;
-    List<String> appliesTo;
-    List<SimpleTextMacroEntry> parts;
+    private String name;
+    private List<String> appliesTo;
+    private List<SimpleTextMacroEntry> parts;
     SimpleTextMacro() {
         appliesTo = new ArrayList<String>();
         parts = new ArrayList<SimpleTextMacroEntry>();
