@@ -38,6 +38,7 @@ public class WordToken extends StreamToken {
     String lemh = "";
     String lemq = "";
     boolean inMLU = false;
+    private boolean simple = false;
     WordToken() {
         tags = new ArrayList<String>();
     }
@@ -53,6 +54,11 @@ public class WordToken extends StreamToken {
         this.lemh = tmp.lemh;
         this.lemq = tmp.lemq;
         this.tags = tmp.tags;
+    }
+    WordToken(SimpleToken st) {
+        this.lemh = st.lemh;
+        this.tags = st.tags;
+        this.simple = true;
     }
     public String getLemma() {
         return lemh + lemq;
