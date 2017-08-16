@@ -6,7 +6,7 @@
  * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
  * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -24,24 +24,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class BlankToken extends StreamToken {
-    private String content;
-    BlankToken() {
-        this.content = "";
+public class PositionedBlank extends BlankToken {
+    int position;
+    public PositionedBlank() {
+        super();
     }
-    public BlankToken(String s) {
-        this.content = s;
-    }
-
-    @Override
-    public String getContent() {
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        return getContent();
+    public PositionedBlank(int pos) {
+        super(" ");
+        this.position = pos;
     }
 }
