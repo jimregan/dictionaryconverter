@@ -118,10 +118,16 @@ public class RuleContainer {
             String tag = parts[0].trim();
             List<SimpleToken> left = SimpleToken.listFromString(parts[1].trim());
             List<SimpleToken> right = SimpleToken.listFromString(parts[2].trim());
+            RuleSide rsleft = RuleSide.convertSimpleTokens(left);
+            RuleSide rsright = RuleSide.convertSimpleTokens(right);
             List<AlignmentPair> align = AlignmentPair.listFromString(parts[3].trim());
+            RuleContainer out = new RuleContainer(tag, rsleft, rsright, align);
             List<SimpleMacroCall> macros = SimpleMacroCall.listFromString(parts[4].trim());
+            out.setMacrocalls(macros);
             String lefteg = parts[5].trim();
             String righteg = parts[6].trim();
+            out.setExamples(lefteg, righteg);
+            return out;
         } else {
             simple = false;
             List<StreamToken> left = ChunkToken.listFromString(parts[0].trim(), true);
