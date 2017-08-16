@@ -107,4 +107,31 @@ public class RuleContainer {
     public String getCommentString() {
         return left_example + " → " + right_example;
     }
+    public static RuleContainer fromString(String s) throws Exception {
+        String[] parts = s.split("\\|");
+        boolean simple = false;
+        if(parts.length < 6 || parts.length > 7) {
+            throw new Exception("Incorrect number of fields in line: " + s);
+        }
+        if(parts.length == 7) {
+            simple = true;
+            String tag = parts[0].trim();
+            List<SimpleToken> left = SimpleToken.listFromString(parts[1].trim());
+            List<SimpleToken> right = SimpleToken.listFromString(parts[2].trim());
+            List<AlignmentPair> align = AlignmentPair.listFromString(parts[3].trim());
+            List<SimpleMacroCall> macros = SimpleMacroCall.listFromString(parts[4].trim());
+            String lefteg = parts[5].trim();
+            String righteg = parts[6].trim();
+        } else {
+            simple = false;
+            List<StreamToken> left = ChunkToken.listFromString(parts[0].trim(), true);
+            List<StreamToken> right = ChunkToken.listFromString(parts[1].trim(), true);
+            List<AlignmentPair> align = AlignmentPair.listFromString(parts[2].trim());
+            List<SimpleMacroCall> macros = SimpleMacroCall.listFromString(parts[3].trim());
+            String lefteg = parts[4].trim();
+            String righteg = parts[5].trim();
+        }
+
+        return new RuleContainer();
+    }
 }
