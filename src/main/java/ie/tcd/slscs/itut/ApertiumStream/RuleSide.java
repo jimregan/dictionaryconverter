@@ -98,6 +98,18 @@ public class RuleSide {
         }
         return new RuleSide(lus, tokens);
     }
+    public static RuleSide convertSimpleTokens(List<SimpleToken> input) {
+        List<WordToken> lus = new ArrayList<WordToken>();
+        List<StreamToken> tokens = new ArrayList<StreamToken>();
+        int i = 1;
+        for(SimpleToken st : input) {
+            lus.add(st);
+            tokens.add(st);
+            tokens.add(new PositionedBlank(i));
+            i++;
+        }
+        return new RuleSide(lus, tokens);
+    }
     public static Pattern toPattern(RuleSide rs, DefCats dc) {
         List<PatternItem> items = new ArrayList<PatternItem>();
         String name = "";
