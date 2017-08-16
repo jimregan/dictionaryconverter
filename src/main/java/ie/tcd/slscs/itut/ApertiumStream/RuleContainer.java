@@ -41,6 +41,7 @@ public class RuleContainer {
     private List<SimpleMacroCall> macrocalls;
     private String left_example;
     private String right_example;
+    private boolean simple = false;
     RuleContainer() {
         this.alignments = new ArrayList<AlignmentPair>();
         this.macrocalls = new ArrayList<SimpleMacroCall>();
@@ -107,14 +108,18 @@ public class RuleContainer {
     public String getCommentString() {
         return left_example + " → " + right_example;
     }
+    public boolean isSimple() {
+        return simple;
+    }
+    public void setSimple(boolean simple) {
+        this.simple = simple;
+    }
     public static RuleContainer fromString(String s) throws Exception {
         String[] parts = s.split("\\|");
-        boolean simple = false;
         if(parts.length < 6 || parts.length > 7) {
             throw new Exception("Incorrect number of fields in line: " + s);
         }
         if(parts.length == 7) {
-            simple = true;
             String tag = parts[0].trim();
             List<SimpleToken> left = SimpleToken.listFromString(parts[1].trim());
             List<SimpleToken> right = SimpleToken.listFromString(parts[2].trim());
@@ -127,9 +132,9 @@ public class RuleContainer {
             String lefteg = parts[5].trim();
             String righteg = parts[6].trim();
             out.setExamples(lefteg, righteg);
+            out.setSimple(true);
             return out;
         } else {
-            simple = false;
             List<StreamToken> left = ChunkToken.listFromString(parts[0].trim(), true);
             List<StreamToken> right = ChunkToken.listFromString(parts[1].trim(), true);
             RuleSide rsleft = RuleSide.convert(left);
