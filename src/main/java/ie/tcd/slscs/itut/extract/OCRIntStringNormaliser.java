@@ -61,6 +61,7 @@ public class OCRIntStringNormaliser {
         for(Character c : map.get(cur)) {
             for(String scur : sset) {
                 out.add(scur + c);
+                System.err.println(scur + c);
             }
         }
         return char_permuter(map, out, rest);
