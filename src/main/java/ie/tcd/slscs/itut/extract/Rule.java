@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Rule {
+public class Rule implements RulePattern {
     String name;
     List<RulePattern> patterns;
     Rule() {
@@ -85,6 +85,4 @@ public class Rule {
     protected Rule(Builder<?> builder) {
         this.patterns = builder.patterns;
     }
-
-
 }

@@ -24,8 +24,5 @@
 
 package ie.tcd.slscs.itut.extract;
 
-public class FindTemp extends Rule {
-    String regex = "faoi bhun (0|n[aá]id)";
-    String name = "faoi bhun náid";
+public interface RuleAction {
 }
-
