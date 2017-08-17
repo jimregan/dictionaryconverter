@@ -61,9 +61,7 @@ public class OCRIntStringNormaliser {
         for(Character c : map.get(cur)) {
             if(sset.size() != 0) {
                 for (String scur : sset) {
-                    String toadd = scur + c.toString();
-                    System.err.println(toadd);
-                    out.add(toadd);
+                    out.add(scur + c.toString());
                 }
             } else {
                 out.add(c.toString());
