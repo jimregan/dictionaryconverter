@@ -1,7 +1,10 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Jim O'Regan
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +27,9 @@
 
 package ie.tcd.slscs.itut.extract;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class FindTemp implements Rule {
-    static final String MINUS = "faoi bhun (0|n[aá]id)";
-    static final Pattern p = Pattern.compile(MINUS);
-    public static MatchIndex getpos(String s) {
-        Matcher m = p.matcher(s);
-        return new MatchIndex(m.start(), m.end());
-    }
-    @Override
-    public String name() {
-        return "faoi bhun náid";
-    }
-
-    @Override
-    public List<MatchIndex> match(String s) {
-        ArrayList<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = p.matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
-        }
-        return matches;
-    }
+public interface Rule {
+    public List<MatchIndex> match(String s);
+    public String name();
 }
-
