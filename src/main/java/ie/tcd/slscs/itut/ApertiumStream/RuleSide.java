@@ -47,14 +47,59 @@ public class RuleSide {
         this.tokens = tokens;
     }
     public class Builder {
-        private List<WordToken> lus = new ArrayList<WordToken>();
-        private List<StreamToken> tokens = new ArrayList<StreamToken>();
+        private List<WordToken> lus;
+        private List<StreamToken> tokens;
+        public Builder() {
+            this.lus = new ArrayList<WordToken>();
+            this.tokens = new ArrayList<StreamToken>();
+        }
         public Builder withLUs(List<WordToken> lus) {
             this.lus = lus;
             return this;
         }
         public Builder withTokens(List<StreamToken> tokens) {
             this.tokens = tokens;
+            return this;
+        }
+        public Builder addToken(StreamToken input) {
+            int lucount = this.lus.size();
+            if(input instanceof WordToken) {
+                lus.add((WordToken) input);
+                LUReference ref = new LUReference(lucount);
+                tokens.add(ref);
+                lucount++;
+            } else if(input instanceof BlankToken) {
+                tokens.add((BlankToken) input);
+            } else if(input instanceof MLUToken) {
+                MLUReference mluref = MLUReference.fromMLUToken((MLUToken) input, lucount);
+                for (WordToken wt : ((MLUToken) input).getLUs()) {
+                    wt.setInMLU();
+                    lus.add(wt);
+                    lucount++;
+                }
+                tokens.add(mluref);
+            } else if(input instanceof ChunkToken) {
+                List<StreamToken> chtokens = new ArrayList<StreamToken>();
+                ChunkToken ch = (ChunkToken) input;
+                for(StreamToken st1 : ch.getChildren()) {
+                    if(st1 instanceof WordToken) {
+                        lus.add((WordToken) st1);
+                        LUReference ref = new LUReference(lucount);
+                        chtokens.add(ref);
+                        lucount++;
+                    } else if(st1 instanceof BlankToken) {
+                        chtokens.add((BlankToken) st1);
+                    } else if(st1 instanceof MLUToken) {
+                        MLUReference mluref = MLUReference.fromMLUToken((MLUToken) st1, lucount);
+                        for (WordToken wt : ((MLUToken) st1).getLUs()) {
+                            lus.add(wt);
+                            lucount++;
+                        }
+                        chtokens.add(mluref);
+                    }
+                }
+                tokens.add(new ChunkToken(ch.getLemma(), ch.getTags(), chtokens));
+            }
             return this;
         }
         public RuleSide build() {
