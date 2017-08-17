@@ -24,9 +24,12 @@
 
 package ie.tcd.slscs.itut.extract;
 
-public class Integer {
-    private int value;
-    int getInt() {
-        return value;
+public class Integer extends Rule {
+    Integer() {
+        name = "integer";
+        pattern = new PatternContainer
+                .Builder()
+                .addPattern(new Regex("[0-9]+"))
+                .build();
     }
 }

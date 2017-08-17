@@ -25,9 +25,10 @@
 package ie.tcd.slscs.itut.extract;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class PatternContainer {
+public class PatternContainer extends RulePattern {
     List<RulePattern> patterns;
     PatternContainer() {
         this.patterns = new ArrayList<RulePattern>();
@@ -35,7 +36,19 @@ public class PatternContainer {
     PatternContainer(List<RulePattern> patterns) {
         this.patterns = patterns;
     }
-    public class Builder {
+    public String getPattern() {
+        Iterator<RulePattern> it = patterns.iterator();
+        StringBuilder sb = new StringBuilder();
+        if(it.hasNext()) {
+            sb.append(it.next().getPattern());
+        }
+        while(it.hasNext()) {
+            sb.append(" *");
+            sb.append(it.next().getPattern());
+        }
+        return sb.toString();
+    }
+    public static class Builder {
         private List<RulePattern> patterns;
         public Builder() {
         this.patterns = new ArrayList<RulePattern>();

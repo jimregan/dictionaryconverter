@@ -24,56 +24,10 @@
 
 package ie.tcd.slscs.itut.extract;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class Rule {
+public class Rule extends PatternContainer {
     String name;
-    List<RulePattern> patterns;
-    Rule() {
-        this.patterns = new ArrayList<RulePattern>();
-    }
-    public String getPattern() {
-        Iterator<RulePattern> it = patterns.iterator();
-        StringBuilder sb = new StringBuilder();
-        if(it.hasNext()) {
-            sb.append(it.next().getPattern());
-        }
-        while(it.hasNext()) {
-            sb.append(" *");
-            sb.append(it.next().getPattern());
-        }
-        return sb.toString();
-    }
+    PatternContainer pattern;
     public String name() {
         return name;
-    }
-    public static abstract class Builder<T extends Rule> {
-        private List<RulePattern> patterns;
-        Builder() {
-            this.patterns = new ArrayList<RulePattern>();
-        }
-
-        public Builder<T> addPattern(RulePattern pat) {
-            this.patterns.add(pat);
-            return this;
-        }
-
-        public abstract T build();
-    }
-
-    public static Builder<?> builder() {
-        return new Builder<Rule>() {
-            @Override
-            public Rule build() {
-                return new Rule(this);
-            }
-        };
-    }
-    protected Rule(Builder<?> builder) {
-        this.patterns = builder.patterns;
     }
 }
