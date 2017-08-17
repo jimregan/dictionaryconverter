@@ -1,10 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Trinity College, Dublin
- * Irish Speech and Language Technology Research Centre
- * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
- * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
+ * Copyright © 2017 Jim O'Regan
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
