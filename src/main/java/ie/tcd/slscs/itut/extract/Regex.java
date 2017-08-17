@@ -24,7 +24,7 @@
 
 package ie.tcd.slscs.itut.extract;
 
-public class Regex implements RulePattern {
+public class Regex extends RulePattern {
     private String regex;
     public Regex(String regex) {
         this.regex = regex;

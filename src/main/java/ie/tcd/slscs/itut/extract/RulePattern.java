@@ -24,6 +24,20 @@
 
 package ie.tcd.slscs.itut.extract;
 
-public interface RulePattern {
-    public String getPattern();
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public abstract class RulePattern {
+    public abstract String getPattern();
+    public List<MatchIndex> getMatches(String s) {
+        Pattern pat = Pattern.compile(getPattern());
+        List<MatchIndex> matches = new ArrayList<MatchIndex>();
+        Matcher m = pat.matcher(s);
+        while(m.matches()) {
+            matches.add(new MatchIndex(m.start(), m.end()));
+        }
+        return matches;
+    }
 }

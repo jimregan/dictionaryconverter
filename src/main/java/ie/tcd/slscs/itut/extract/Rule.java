@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Rule implements RulePattern {
+public class Rule {
     String name;
     List<RulePattern> patterns;
     Rule() {
@@ -47,15 +47,6 @@ public class Rule implements RulePattern {
             sb.append(it.next().getPattern());
         }
         return sb.toString();
-    }
-    public List<MatchIndex> match(String s) {
-        Pattern pat = Pattern.compile(getPattern());
-        List<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = pat.matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
-        }
-        return matches;
     }
     public String name() {
         return name;
