@@ -59,10 +59,10 @@ public class OCRIntStringNormaliser {
         }
         char cur = s.charAt(0);
         for(Character c : map.get(cur)) {
-            System.err.println("c: " + c + " cur " + cur);
             for(String scur : sset) {
-                out.add(scur + c);
-                System.err.println(scur + c);
+                String toadd = scur + c;
+                System.err.println(toadd);
+                out.add(toadd);
             }
         }
         return char_permuter(map, out, rest);
