@@ -60,7 +60,7 @@ public class OCRIntStringNormaliser {
         char cur = s.charAt(0);
         for(Character c : map.get(cur)) {
             for(String scur : sset) {
-                String toadd = scur + c;
+                String toadd = scur + c.toString();
                 System.err.println(toadd);
                 out.add(toadd);
             }
