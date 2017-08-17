@@ -29,26 +29,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FindTemp implements Rule {
-    static final String MINUS = "faoi bhun (0|n[aá]id)";
-    static final Pattern p = Pattern.compile(MINUS);
-    public static MatchIndex getpos(String s) {
-        Matcher m = p.matcher(s);
-        return new MatchIndex(m.start(), m.end());
-    }
-    @Override
-    public String name() {
-        return "faoi bhun náid";
-    }
-
-    @Override
-    public List<MatchIndex> match(String s) {
-        ArrayList<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = p.matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
-        }
-        return matches;
-    }
+public class FindTemp extends Rule {
+    String regex = "faoi bhun (0|n[aá]id)";
+    String name = "faoi bhun náid";
 }
 

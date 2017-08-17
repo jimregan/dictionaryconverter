@@ -24,29 +24,30 @@
 
 package ie.tcd.slscs.itut.extract;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Rule {
-    String regex;
-    String name;
-    public Pattern getPattern() {
-        return Pattern.compile(this.regex);
+public class Currency extends Rule {
+    String name = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
+    private boolean isint;
+    public boolean isInt() {
+        return isint;
     }
-    public String getRegex() {
-        return regex;
+    private int integer;
+    private double doublev;
+    private CurrencyUnit cunit;
+    public int getInt() {
+        return integer;
     }
-    public List<MatchIndex> match(String s) {
-        List<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = getPattern().matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
-        }
-        return matches;
+    public double getDouble() {
+        return doublev;
     }
-    public String name() {
-        return name;
+    public Currency(int intv) {
+        this.isint = true;
+        this.integer = intv;
+    }
+    public Currency(double doublev) {
+        this.isint = false;
+        this.doublev = doublev;
     }
 }

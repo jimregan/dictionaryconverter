@@ -24,29 +24,8 @@
 
 package ie.tcd.slscs.itut.extract;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public abstract class Rule {
-    String regex;
-    String name;
-    public Pattern getPattern() {
-        return Pattern.compile(this.regex);
-    }
-    public String getRegex() {
-        return regex;
-    }
-    public List<MatchIndex> match(String s) {
-        List<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = getPattern().matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
-        }
-        return matches;
-    }
-    public String name() {
-        return name;
-    }
+public enum CurrencyUnit {
+    Pound,
+    Euro,
+    Dollar
 }
