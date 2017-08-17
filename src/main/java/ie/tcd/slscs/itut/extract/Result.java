@@ -23,15 +23,44 @@
  */
 
 package ie.tcd.slscs.itut.extract;
+import java.lang.Integer;
+import java.lang.Double;
 
-public class Rule extends PatternContainer {
-    String name;
-    PatternContainer pattern;
-    Result res;
-    public String name() {
-        return name;
+public class Result {
+    ResultType type;
+    int int_result;
+    double double_result;
+    String string_result;
+    public ResultType getType() {
+        return type;
     }
-    public Result getRes() {
-        return res;
+    public void setResult(int i) {
+        type = ResultType.INT;
+        this.int_result = i;
+    }
+    public void setResult(double d) {
+        type = ResultType.DOUBLE;
+        this.double_result = d;
+    }
+    public void setResult(String s) {
+        type = ResultType.STRING;
+        this.string_result = s;
+    }
+    public int getInt() {
+        return int_result;
+    }
+    public double getDouble() {
+        return double_result;
+    }
+    public String getString() {
+        if(this.type == ResultType.STRING) {
+            return this.string_result;
+        } else if(this.type == ResultType.INT) {
+            return Integer.toString(this.int_result);
+        } else if(this.type == ResultType.DOUBLE) {
+            return Double.toString(this.double_result);
+        } else {
+            return null;
+        }
     }
 }

@@ -24,14 +24,7 @@
 
 package ie.tcd.slscs.itut.extract;
 
-public class Rule extends PatternContainer {
-    String name;
-    PatternContainer pattern;
-    Result res;
-    public String name() {
-        return name;
-    }
-    public Result getRes() {
-        return res;
-    }
+public enum ResultGrain {
+    TIME,
+    CURRENCY,
 }
