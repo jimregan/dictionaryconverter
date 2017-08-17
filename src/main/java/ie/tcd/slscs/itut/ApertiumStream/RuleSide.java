@@ -47,8 +47,8 @@ public class RuleSide {
         this.tokens = tokens;
     }
     public class Builder {
-        private List<WordToken> lus;
-        private List<StreamToken> tokens;
+        private List<WordToken> lus = new ArrayList<WordToken>();
+        private List<StreamToken> tokens = new ArrayList<StreamToken>();
         public Builder withLUs(List<WordToken> lus) {
             this.lus = lus;
             return this;
