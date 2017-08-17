@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Currency extends Rule {
-    String name = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
+    String regex = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
+    String name = "currency";
     private boolean isint;
     public boolean isInt() {
         return isint;
