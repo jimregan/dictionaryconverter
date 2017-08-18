@@ -36,6 +36,5 @@ public class Integer extends Rule {
                 .addPattern(new Regex("([0-9]+,)?[0-9]+"))
                 .build();
         pat = Pattern.compile(getPattern());
-
     }
 }

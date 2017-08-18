@@ -31,6 +31,16 @@ public class Result {
     int int_result;
     double double_result;
     String string_result;
+    String raw;
+    public Result(String raw) {
+        this.raw = raw;
+    }
+    public Result(ResultType rt) {
+        this.type = rt;
+    }
+    public String getRaw() {
+        return this.raw;
+    }
     public ResultType getType() {
         return type;
     }

@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public class Rule {
     public String name;
     public PatternContainer pattern;
-    public Result res;
+    public Result res = null;
     public Pattern pat = null;
     public Rule() {
         this.pattern = new PatternContainer();
@@ -43,6 +43,11 @@ public class Rule {
             pat = Pattern.compile(pattern.getPattern());
         }
         Matcher m = pat.matcher(s);
+        if(m.matches()) {
+            this.res = new Result(m.group());
+        } else {
+            this.res = new Result(ResultType.EMPTY);
+        }
         return m.matches();
     }
     public Result getResult() {

@@ -28,4 +28,5 @@ public enum ResultType {
     INT,
     DOUBLE,
     STRING,
+    EMPTY,
 }
