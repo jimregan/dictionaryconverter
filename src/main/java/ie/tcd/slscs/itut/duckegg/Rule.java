@@ -46,7 +46,9 @@ public class Rule {
         if(m.matches()) {
             this.res = new Result(m.group());
             for(int i = 1; i <= pattern.patterns.size(); i++) {
+                System.err.println(pattern.patterns.size());
                 if(m.group(i) != null) {
+                    System.err.println(i + " " + m.group(i));
                     res.addRawResult(m.group(i));
                 } else {
                     res.addRawResult(null);
