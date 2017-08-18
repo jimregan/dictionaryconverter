@@ -32,6 +32,10 @@ public class Regex extends RulePattern {
 
     @Override
     public String getPattern() {
-        return regex;
+        if(regex.startsWith("(") && regex.endsWith(")")) {
+            return regex.substring(1, regex.length() - 1);
+        } else {
+            return regex;
+        }
     }
 }
