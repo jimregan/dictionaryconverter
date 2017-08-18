@@ -33,6 +33,7 @@ public class Rule extends PatternContainer {
     public Result res;
     Pattern pat = null;
     public Rule() {
+        this.pattern = new PatternContainer();
         this.patterns = pattern.patterns;
     }
     public String name() {

@@ -30,10 +30,10 @@ import java.util.List;
 
 public class PatternContainer extends RulePattern {
     List<RulePattern> patterns;
-    PatternContainer() {
+    public PatternContainer() {
         this.patterns = new ArrayList<RulePattern>();
     }
-    PatternContainer(List<RulePattern> patterns) {
+    public PatternContainer(List<RulePattern> patterns) {
         this.patterns = patterns;
     }
     public String getPattern() {
