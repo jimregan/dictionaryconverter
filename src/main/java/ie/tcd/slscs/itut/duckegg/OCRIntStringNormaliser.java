@@ -71,5 +71,29 @@ public class OCRIntStringNormaliser {
         }
         return char_permuter(map, out, rest);
     }
+    /**
+     * join a set of characters with the specified delimiter
+     * @param set the list of strings
+     * @param delim the delimiter to join them with
+     * @return
+     */
+    public static String join(Set<Character> set, String delim) {
+        StringBuilder s = new StringBuilder();
+        Iterator<Character> it = set.iterator();
+        if (it.hasNext()) {
+            s.append(it.next().toString());
+        }
+        while (it.hasNext()) {
+            s.append(delim);
+            s.append(it.next());
+        }
+        return s.toString();
+    }
+    public static String makeCharacterGroup(Set<Character> set) {
+        StringBuilder sb = new StringBuilder('[');
+        sb.append(join(set, ""));
+        sb.append(']');
+        return sb.toString();
+    }
 
 }
