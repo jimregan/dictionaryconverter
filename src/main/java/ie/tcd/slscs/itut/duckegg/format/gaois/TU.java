@@ -25,6 +25,7 @@
 package ie.tcd.slscs.itut.duckegg.format.gaois;
 
 import ie.tcd.slscs.itut.DictionaryConverter.dix.P;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import java.util.HashMap;
@@ -69,7 +70,11 @@ public class TU {
                 String seg = "";
                 Node ch = n.getChildNodes().item(i);
                 if(ch.getNodeName().equals("tuv")) {
-                    lang = n.getAttributes().getNamedItem("lang").getTextContent();
+                    NamedNodeMap attrs = n.getAttributes();
+                    if(attrs == null || attrs.getNamedItem("lang") == null) {
+                        throw new Exception("Attributes empty: expected xml:lang");
+                    }
+                    lang = attrs.getNamedItem("lang").getTextContent();
                     System.err.println("Nattribs " + n.getAttributes().getLength());
                     if(ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
                         seg = chomp(ch.getFirstChild().getTextContent());
