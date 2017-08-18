@@ -48,7 +48,7 @@ public class SINumber extends Rule {
     @Override
     public void setResult() throws Exception {
         if(res.getRawparts().size() < 4 || res.getRawparts().get(1) == null || res.getRawparts().get(3) == null) {
-            throw new Exception("Empty result");
+            throw new Exception("Empty result " + res.getRawparts().size());
         } else {
             res.setResult(res.getRawparts().get(1) + "/" + res.getRawparts().get(3));
         }
