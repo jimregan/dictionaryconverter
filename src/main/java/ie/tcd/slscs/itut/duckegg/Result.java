@@ -87,4 +87,30 @@ public class Result {
             return null;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(this == o) {
+            return true;
+        }
+        if(!(o instanceof Result)) {
+            return false;
+        }
+        final Result res = (Result) o;
+        if(res.getType() != getType()) {
+            return false;
+        }
+        if(getType() == ResultType.DOUBLE && getDouble() == res.getDouble()) {
+            return true;
+        } else if(getType() == ResultType.INT && getInt() == res.getInt()) {
+            return true;
+        } else if(getType() == ResultType.STRING && getString().equals(res.getString())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
