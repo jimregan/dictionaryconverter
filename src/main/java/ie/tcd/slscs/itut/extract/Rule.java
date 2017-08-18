@@ -31,7 +31,7 @@ public class Rule extends PatternContainer {
     public String name() {
         return name;
     }
-    public Result getRes() {
+    public Result getResult() {
         return res;
     }
 }
