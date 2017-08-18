@@ -24,6 +24,7 @@
 
 package ie.tcd.slscs.itut.duckegg.lang.en;
 
+import ie.tcd.slscs.itut.duckegg.ResultType;
 import junit.framework.TestCase;
 
 import static org.junit.Assert.*;
@@ -34,6 +35,8 @@ public class SINumberTest extends TestCase {
         SINumber sin = new SINumber();
         assertNotEquals("", sin.getPattern());
         assertEquals(true, sin.matches(in));
+        assertEquals(in, sin.getResult().getRaw());
+        assertEquals(ResultType.STRING, sin.getResult().getType());
         assertEquals("43/1960", sin.getResult().getString());
     }
 }
