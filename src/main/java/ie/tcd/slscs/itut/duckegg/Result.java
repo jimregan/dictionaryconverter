@@ -25,6 +25,8 @@
 package ie.tcd.slscs.itut.duckegg;
 import java.lang.Integer;
 import java.lang.Double;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Result {
     ResultType type;
@@ -32,10 +34,16 @@ public class Result {
     double double_result;
     String string_result;
     String raw;
+    List<String> rawparts;
+    public Result() {
+        this.rawparts = new ArrayList<String>();
+    }
     public Result(String raw) {
+        this();
         this.raw = raw;
     }
     public Result(ResultType rt) {
+        this();
         this.type = rt;
     }
     public String getRaw() {
