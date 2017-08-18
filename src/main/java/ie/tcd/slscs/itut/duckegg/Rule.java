@@ -45,6 +45,13 @@ public class Rule {
         Matcher m = pat.matcher(s);
         if(m.matches()) {
             this.res = new Result(m.group());
+            for(int i = 1; i <= pattern.patterns.size(); i++) {
+                if(m.group(i) != null) {
+                    res.addRawResult(m.group(i));
+                } else {
+                    res.addRawResult(null);
+                }
+            }
         } else {
             this.res = new Result(ResultType.EMPTY);
         }
