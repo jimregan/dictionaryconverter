@@ -24,6 +24,7 @@
 
 package ie.tcd.slscs.itut.extract;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Rule extends PatternContainer {
@@ -38,7 +39,8 @@ public class Rule extends PatternContainer {
         if(this.pat == null) {
             pat = Pattern.compile(getPattern());
         }
-        return false;
+        Matcher m = pat.matcher(s);
+        return m.matches();
     }
     public Result getResult() {
         return res;
