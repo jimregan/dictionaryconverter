@@ -51,4 +51,7 @@ public class Rule {
     public String getPattern() {
         return pattern.getPattern();
     }
+    public Regex getRegex() {
+        return new Regex(getPattern());
+    }
 }

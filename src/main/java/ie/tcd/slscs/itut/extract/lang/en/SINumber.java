@@ -43,9 +43,9 @@ public class SINumber extends Rule {
         pattern = new PatternContainer
                 .Builder()
                 .addPattern(new PlainString("S.I. No."))
-                .addPattern(new Integer())
+                .addPattern(new Integer().getRegex())
                 .addPattern(new Regex("(/|of)"))
-                .addPattern(new Integer())
+                .addPattern(new Integer().getRegex())
                 .build();
         pat = Pattern.compile(getPattern());
     }
