@@ -32,8 +32,8 @@ import ie.tcd.slscs.itut.duckegg.Rule;
 
 import java.util.regex.Pattern;
 
-public class SINumber extends Rule {
-    SINumber() throws Exception {
+public class IRUimhir extends Rule {
+    IRUimhir() throws Exception {
         super();
         name = "s_i_number";
         pattern = new PatternContainer
