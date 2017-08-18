@@ -37,7 +37,7 @@ public class Rule extends PatternContainer {
     }
     public boolean matches(String s) {
         if(this.pat == null) {
-            pat = Pattern.compile(getPattern());
+            pat = Pattern.compile(pattern.getPattern());
         }
         Matcher m = pat.matcher(s);
         return m.matches();
