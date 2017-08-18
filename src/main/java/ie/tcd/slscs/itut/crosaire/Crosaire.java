@@ -78,7 +78,7 @@ public class Crosaire {
     }
 
     public static String[] anagramify(String s) {
-        Set<String> perms = permuter(s);
+        Set<String> perms = permuter(dropSpaces(s));
         String[] out = perms.toArray(new String[perms.size()]);
         return out;
     }
