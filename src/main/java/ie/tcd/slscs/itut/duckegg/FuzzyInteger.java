@@ -24,7 +24,9 @@
 
 package ie.tcd.slscs.itut.duckegg;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -39,5 +41,20 @@ public class FuzzyInteger extends FuzzyRule {
                 .addPattern(new Regex("(" + pattern_base + "+,)?" + pattern_base + "+"))
                 .build();
         pat = Pattern.compile(getPattern());
+    }
+    @Override
+    public void setResult() throws Exception {
+        if(res.rawparts.size() == 0 || res.rawparts.get(0) == null) {
+            throw new Exception("Empty result");
+        } else {
+            NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+            Set<String> set = OCRIntStringNormaliser.normalise(res.rawparts.get(0));
+            for(String s : set) {
+                Result toadd = new Result(res.rawparts.get(0));
+                Number tmp = format.parse(s);
+                toadd.setResult(tmp.intValue());
+                results.add(toadd);
+            }
+        }
     }
 }
