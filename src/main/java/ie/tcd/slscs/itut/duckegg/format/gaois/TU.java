@@ -69,7 +69,8 @@ public class TU {
                 String seg = "";
                 Node ch = n.getChildNodes().item(i);
                 if(ch.getNodeName().equals("tuv")) {
-                    lang = n.getAttributes().getNamedItem("lang").toString();
+                    lang = n.getAttributes().getNamedItem("xml:lang").toString();
+
                     if(ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
                         seg = chomp(ch.getFirstChild().getTextContent());
                     }
