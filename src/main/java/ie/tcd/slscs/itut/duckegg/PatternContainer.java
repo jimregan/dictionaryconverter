@@ -39,13 +39,15 @@ public class PatternContainer extends RulePattern {
     public String getPattern() {
         Iterator<RulePattern> it = patterns.iterator();
         StringBuilder sb = new StringBuilder();
+        sb.append('(');
         if(it.hasNext()) {
             sb.append(it.next().getPattern());
         }
         while(it.hasNext()) {
-            sb.append(" *");
+            sb.append(") *(");
             sb.append(it.next().getPattern());
         }
+        sb.append(')');
         return sb.toString();
     }
     public static class Builder {
