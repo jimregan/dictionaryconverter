@@ -22,13 +22,22 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-public class MatchIndex {
-    int start;
-    int end;
-    public MatchIndex(int start, int end) {
-        this.start = start;
-        this.end = end;
+import junit.framework.TestCase;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
+
+public class OCRIntStringNormaliserTest extends TestCase {
+    public void testNormalise() throws Exception {
+        Set<String> out = OCRIntStringNormaliser.normalise("/71");
+        Set<String> exp = new HashSet<String>();
+        exp.add("171");
+        exp.add("771");
+        assertArrayEquals(exp.toArray(), out.toArray());
     }
+
 }

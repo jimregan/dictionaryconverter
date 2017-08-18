@@ -1,7 +1,10 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Jim O'Regan
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +25,23 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg.bitext;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
-public class Currency extends Rule {
-    String regex = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
-    String name = "currency";
-    private boolean isint;
-    public boolean isInt() {
-        return isint;
-    }
-    private int integer;
-    private double doublev;
-    private CurrencyUnit cunit;
-    public int getInt() {
-        return integer;
-    }
-    public double getDouble() {
-        return doublev;
-    }
-    public Currency(int intv) {
-        this.isint = true;
-        this.integer = intv;
-    }
-    public Currency(double doublev) {
-        this.isint = false;
-        this.doublev = doublev;
-    }
+public interface Rule {
+    /**
+     * Find instances of the rule in the text
+     * @param source Source language text to be checked
+     * @param target Target language text to be checked
+     * @return List of MatchPair objects, containing the positions of the matches
+     */
+    public List<MatchPair> match(String source, String target);
+
+    /**
+     * The name of the rule
+     * @return a string containing the name of the rule
+     */
+    public String name();
+
 }

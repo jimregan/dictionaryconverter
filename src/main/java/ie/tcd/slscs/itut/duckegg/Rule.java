@@ -22,22 +22,41 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class RulePattern {
-    public abstract String getPattern();
-    public List<MatchIndex> getMatches(String s) {
-        Pattern pat = Pattern.compile(getPattern());
-        List<MatchIndex> matches = new ArrayList<MatchIndex>();
-        Matcher m = pat.matcher(s);
-        while(m.matches()) {
-            matches.add(new MatchIndex(m.start(), m.end()));
+public class Rule {
+    public String name;
+    public PatternContainer pattern;
+    public Result res = null;
+    public Pattern pat = null;
+    public Rule() {
+        this.pattern = new PatternContainer();
+    }
+    public String name() {
+        return name;
+    }
+    public boolean matches(String s) {
+        if(this.pat == null) {
+            pat = Pattern.compile(pattern.getPattern());
         }
-        return matches;
+        Matcher m = pat.matcher(s);
+        if(m.matches()) {
+            this.res = new Result(m.group());
+        } else {
+            this.res = new Result(ResultType.EMPTY);
+        }
+        return m.matches();
+    }
+    public Result getResult() {
+        return res;
+    }
+    public String getPattern() {
+        return pattern.getPattern();
+    }
+    public Regex getRegex() {
+        return new Regex(getPattern());
     }
 }

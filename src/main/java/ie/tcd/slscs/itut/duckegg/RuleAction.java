@@ -22,16 +22,7 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-public class Regex extends RulePattern {
-    private String regex;
-    public Regex(String regex) {
-        this.regex = regex;
-    }
-
-    @Override
-    public String getPattern() {
-        return regex;
-    }
+public interface RuleAction {
 }

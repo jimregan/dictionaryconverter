@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-public enum ResultType {
-    INT,
-    DOUBLE,
-    STRING,
-    EMPTY,
+public class FindTemp extends Rule {
+    String regex = "faoi bhun (0|n[aá]id)";
+    String name = "faoi bhun náid";
 }
+

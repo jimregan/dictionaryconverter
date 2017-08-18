@@ -25,13 +25,13 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract.lang.en;
+package ie.tcd.slscs.itut.duckegg.lang.en;
 
-import ie.tcd.slscs.itut.extract.Integer;
-import ie.tcd.slscs.itut.extract.PatternContainer;
-import ie.tcd.slscs.itut.extract.PlainString;
-import ie.tcd.slscs.itut.extract.Regex;
-import ie.tcd.slscs.itut.extract.Rule;
+import ie.tcd.slscs.itut.duckegg.Integer;
+import ie.tcd.slscs.itut.duckegg.PatternContainer;
+import ie.tcd.slscs.itut.duckegg.PlainString;
+import ie.tcd.slscs.itut.duckegg.Regex;
+import ie.tcd.slscs.itut.duckegg.Rule;
 
 import java.util.regex.Pattern;
 

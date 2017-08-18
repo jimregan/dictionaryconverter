@@ -22,7 +22,11 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-public interface RuleAction {
+public enum ResultType {
+    INT,
+    DOUBLE,
+    STRING,
+    EMPTY,
 }

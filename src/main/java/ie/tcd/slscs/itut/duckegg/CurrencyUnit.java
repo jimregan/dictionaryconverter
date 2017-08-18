@@ -22,25 +22,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.bitext;
+package ie.tcd.slscs.itut.duckegg;
 
-import ie.tcd.slscs.itut.extract.MatchIndex;
-
-import java.util.List;
-
-public interface Rule {
-    /**
-     * Find instances of the rule in the text
-     * @param source Source language text to be checked
-     * @param target Target language text to be checked
-     * @return List of MatchPair objects, containing the positions of the matches
-     */
-    public List<MatchPair> match(String source, String target);
-
-    /**
-     * The name of the rule
-     * @return a string containing the name of the rule
-     */
-    public String name();
-
+public enum CurrencyUnit {
+    Pound,
+    Euro,
+    Dollar
 }

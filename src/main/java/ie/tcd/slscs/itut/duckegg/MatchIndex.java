@@ -1,10 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Trinity College, Dublin
- * Irish Speech and Language Technology Research Centre
- * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
- * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
+ * Copyright © 2017 Jim O'Regan
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,17 +22,13 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract.lang.en;
+package ie.tcd.slscs.itut.duckegg;
 
-import junit.framework.TestCase;
-
-import static org.junit.Assert.*;
-
-public class SINumberTest extends TestCase {
-    public void testSINNumber() {
-        String in = "S.I. No. 43 of 1960";
-        SINumber sin = new SINumber();
-        assertNotEquals("", sin.getPattern());
-        assertEquals(true, sin.matches(in));
+public class MatchIndex {
+    int start;
+    int end;
+    public MatchIndex(int start, int end) {
+        this.start = start;
+        this.end = end;
     }
 }

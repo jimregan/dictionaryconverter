@@ -22,23 +22,30 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-import junit.framework.TestCase;
-import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.Assert.*;
-
-public class OCRIntStringNormaliserTest extends TestCase {
-    public void testNormalise() throws Exception {
-        Set<String> out = OCRIntStringNormaliser.normalise("/71");
-        Set<String> exp = new HashSet<String>();
-        exp.add("171");
-        exp.add("771");
-        assertArrayEquals(exp.toArray(), out.toArray());
+public class Currency extends Rule {
+    String regex = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
+    String name = "currency";
+    private boolean isint;
+    public boolean isInt() {
+        return isint;
     }
-
+    private int integer;
+    private double doublev;
+    private CurrencyUnit cunit;
+    public int getInt() {
+        return integer;
+    }
+    public double getDouble() {
+        return doublev;
+    }
+    public Currency(int intv) {
+        this.isint = true;
+        this.integer = intv;
+    }
+    public Currency(double doublev) {
+        this.isint = false;
+        this.doublev = doublev;
+    }
 }

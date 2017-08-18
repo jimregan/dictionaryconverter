@@ -22,18 +22,44 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class PlainString extends RulePattern {
-    private String str;
-    public PlainString(String string) {
-        this.str = string;
+public class PatternContainer extends RulePattern {
+    List<RulePattern> patterns;
+    public PatternContainer() {
+        this.patterns = new ArrayList<RulePattern>();
     }
-
-    @Override
+    public PatternContainer(List<RulePattern> patterns) {
+        this.patterns = patterns;
+    }
     public String getPattern() {
-        return Pattern.quote(this.str);
+        Iterator<RulePattern> it = patterns.iterator();
+        StringBuilder sb = new StringBuilder();
+        if(it.hasNext()) {
+            sb.append(it.next().getPattern());
+        }
+        while(it.hasNext()) {
+            sb.append(" *");
+            sb.append(it.next().getPattern());
+        }
+        return sb.toString();
     }
+    public static class Builder {
+        private List<RulePattern> patterns;
+        public Builder() {
+        this.patterns = new ArrayList<RulePattern>();
+        }
+        public Builder addPattern(RulePattern pat) {
+            this.patterns.add(pat);
+            return this;
+        }
+        public PatternContainer build() {
+            return new PatternContainer(this.patterns);
+        }
+    }
+
 }

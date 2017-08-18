@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 import java.lang.Integer;
 import java.lang.Double;
 

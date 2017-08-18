@@ -22,17 +22,16 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class FuzzyRule extends Rule {
-    List<Result> results;
-    FuzzyRule() {
-        this.results = new ArrayList<Result>();
+public class Regex extends RulePattern {
+    private String regex;
+    public Regex(String regex) {
+        this.regex = regex;
     }
-    public List<Result> getResults() {
-        return results;
+
+    @Override
+    public String getPattern() {
+        return regex;
     }
 }

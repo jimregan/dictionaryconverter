@@ -22,9 +22,18 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-public enum ResultGrain {
-    TIME,
-    CURRENCY,
+import java.util.regex.Pattern;
+
+public class PlainString extends RulePattern {
+    private String str;
+    public PlainString(String string) {
+        this.str = string;
+    }
+
+    @Override
+    public String getPattern() {
+        return Pattern.quote(this.str);
+    }
 }

@@ -22,41 +22,19 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.duckegg;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Rule {
-    public String name;
-    public PatternContainer pattern;
-    public Result res = null;
-    public Pattern pat = null;
-    public Rule() {
-        this.pattern = new PatternContainer();
-    }
-    public String name() {
-        return name;
-    }
-    public boolean matches(String s) {
-        if(this.pat == null) {
-            pat = Pattern.compile(pattern.getPattern());
-        }
-        Matcher m = pat.matcher(s);
-        if(m.matches()) {
-            this.res = new Result(m.group());
-        } else {
-            this.res = new Result(ResultType.EMPTY);
-        }
-        return m.matches();
-    }
-    public Result getResult() {
-        return res;
-    }
-    public String getPattern() {
-        return pattern.getPattern();
-    }
-    public Regex getRegex() {
-        return new Regex(getPattern());
+public class Integer extends Rule {
+    Pattern pat = null;
+    public Integer() {
+        super();
+        name = "integer";
+        pattern = new PatternContainer
+                .Builder()
+                .addPattern(new Regex("([0-9]+,)?[0-9]+"))
+                .build();
+        pat = Pattern.compile(getPattern());
     }
 }
