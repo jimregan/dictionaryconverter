@@ -46,6 +46,9 @@ public class Result {
         this();
         this.type = rt;
     }
+    public void addRawResult(String s) {
+        this.rawparts.add(s);
+    }
     public String getRaw() {
         return this.raw;
     }
