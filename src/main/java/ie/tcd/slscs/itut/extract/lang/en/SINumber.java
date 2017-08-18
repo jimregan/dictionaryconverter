@@ -1,7 +1,10 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2017 Jim O'Regan
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +25,28 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.extract;
+package ie.tcd.slscs.itut.extract.lang.en;
+
+import ie.tcd.slscs.itut.extract.Integer;
+import ie.tcd.slscs.itut.extract.PatternContainer;
+import ie.tcd.slscs.itut.extract.PlainString;
+import ie.tcd.slscs.itut.extract.Regex;
+import ie.tcd.slscs.itut.extract.Rule;
 
 import java.util.regex.Pattern;
 
-public class Rule extends PatternContainer {
-    public String name;
-    public PatternContainer pattern;
-    public Result res;
-    Pattern pat = null;
-    public String name() {
-        return name;
+public class SINumber extends Rule {
+    Pattern pat;
+    SINumber() {
+        name = "s_i_number";
+        pattern = new PatternContainer
+                .Builder()
+                .addPattern(new PlainString("S.I. No."))
+                .addPattern(new Integer())
+                .addPattern(new Regex("(/|of)"))
+                .addPattern(new Integer())
+                .build();
+        pat = Pattern.compile(getPattern());
     }
-    public boolean matches(String s) {
-        if(this.pat == null) {
-            pat = Pattern.compile(getPattern());
-        }
-        return false;
-    }
-    public Result getResult() {
-        return res;
-    }
+
 }
