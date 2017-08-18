@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.duckegg.lang.en;
+package ie.tcd.slscs.itut.duckegg.lang.ga;
 
 import ie.tcd.slscs.itut.duckegg.Integer;
 import ie.tcd.slscs.itut.duckegg.PatternContainer;
@@ -32,8 +32,8 @@ import ie.tcd.slscs.itut.duckegg.Rule;
 
 import java.util.regex.Pattern;
 
-public class IRUimhir extends Rule {
-    IRUimhir() throws Exception {
+public class SINumber extends Rule {
+    SINumber() throws Exception {
         super();
         name = "s_i_number";
         pattern = new PatternContainer
