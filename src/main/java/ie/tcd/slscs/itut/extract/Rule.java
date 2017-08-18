@@ -31,7 +31,7 @@ public class Rule {
     public String name;
     public PatternContainer pattern;
     public Result res;
-    Pattern pat = null;
+    public Pattern pat = null;
     public Rule() {
         this.pattern = new PatternContainer();
     }
