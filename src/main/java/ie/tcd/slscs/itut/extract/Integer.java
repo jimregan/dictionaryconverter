@@ -24,25 +24,17 @@
 
 package ie.tcd.slscs.itut.extract;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Integer extends Rule {
     Pattern pat = null;
     public Integer() {
+        super();
         name = "integer";
         pattern = new PatternContainer
                 .Builder()
                 .addPattern(new Regex("[0-9]+"))
                 .build();
         pat = Pattern.compile(getPattern());
-    }
-    @Override
-    public boolean matches(String s) {
-        if(this.pat == null) {
-            pat = Pattern.compile(getPattern());
-        }
-        Matcher m = pat.matcher(s);
-        return m.matches();
     }
 }

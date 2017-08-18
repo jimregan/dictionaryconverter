@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 public class SINumber extends Rule {
     Pattern pat;
     SINumber() {
+        super();
         name = "s_i_number";
         pattern = new PatternContainer
                 .Builder()
