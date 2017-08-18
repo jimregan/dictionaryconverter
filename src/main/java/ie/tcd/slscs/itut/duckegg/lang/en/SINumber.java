@@ -40,7 +40,7 @@ public class SINumber extends Rule {
                 .Builder()
                 .addPattern(new PlainString("S.I. No."))
                 .addPattern(new Integer().getRegex())
-                .addPattern(new Regex("(?:/|of)"))
+                .addPattern(new Regex("/|of"))
                 .addPattern(new Integer().getRegex())
                 .build();
         pat = Pattern.compile(getPattern());
