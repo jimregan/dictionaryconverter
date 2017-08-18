@@ -27,14 +27,13 @@ package ie.tcd.slscs.itut.extract;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Rule extends PatternContainer {
+public class Rule {
     public String name;
     public PatternContainer pattern;
     public Result res;
     Pattern pat = null;
     public Rule() {
         this.pattern = new PatternContainer();
-        this.patterns = pattern.patterns;
     }
     public String name() {
         return name;
@@ -48,5 +47,8 @@ public class Rule extends PatternContainer {
     }
     public Result getResult() {
         return res;
+    }
+    public String getPattern() {
+        return pattern.getPattern();
     }
 }
