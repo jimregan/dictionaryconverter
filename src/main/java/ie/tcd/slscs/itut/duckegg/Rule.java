@@ -38,7 +38,7 @@ public class Rule {
     public String name() {
         return name;
     }
-    public boolean matches(String s) {
+    public boolean matches(String s) throws Exception {
         if(this.pat == null) {
             pat = Pattern.compile(pattern.getPattern());
         }
@@ -55,6 +55,7 @@ public class Rule {
         } else {
             this.res = new Result(ResultType.EMPTY);
         }
+        setResult();
         return m.matches();
     }
     public void setResult() throws Exception {
