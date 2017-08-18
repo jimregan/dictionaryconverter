@@ -57,6 +57,8 @@ public class Rule {
         }
         return m.matches();
     }
+    public void setResult() throws Exception {
+    }
     public Result getResult() {
         return res;
     }

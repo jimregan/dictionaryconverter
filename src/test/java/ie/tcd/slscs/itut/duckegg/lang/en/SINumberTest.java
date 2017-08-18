@@ -29,10 +29,11 @@ import junit.framework.TestCase;
 import static org.junit.Assert.*;
 
 public class SINumberTest extends TestCase {
-    public void testSINNumber() {
+    public void testSINNumber() throws Exception {
         String in = "S.I. No. 43 of 1960";
         SINumber sin = new SINumber();
         assertNotEquals("", sin.getPattern());
         assertEquals(true, sin.matches(in));
+        assertEquals("43/1960", sin.getResult().getString());
     }
 }

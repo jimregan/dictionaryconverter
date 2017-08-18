@@ -49,6 +49,9 @@ public class Result {
     public void addRawResult(String s) {
         this.rawparts.add(s);
     }
+    public List<String> getRawparts() {
+        return rawparts;
+    }
     public String getRaw() {
         return this.raw;
     }

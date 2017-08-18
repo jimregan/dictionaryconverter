@@ -33,7 +33,7 @@ import ie.tcd.slscs.itut.duckegg.Rule;
 import java.util.regex.Pattern;
 
 public class SINumber extends Rule {
-    SINumber() {
+    SINumber() throws Exception {
         super();
         name = "s_i_number";
         pattern = new PatternContainer
@@ -44,6 +44,14 @@ public class SINumber extends Rule {
                 .addPattern(new Integer().getRegex())
                 .build();
         pat = Pattern.compile(getPattern());
+    }
+    @Override
+    public void setResult() throws Exception {
+        if(res.getRawparts().size() < 4 || res.getRawparts().get(1) == null || res.getRawparts().get(3) == null) {
+            throw new Exception("Empty result");
+        } else {
+            res.setResult(res.getRawparts().get(1) + "/" + res.getRawparts().get(3));
+        }
     }
 
 }

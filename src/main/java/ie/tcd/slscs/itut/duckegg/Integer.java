@@ -24,11 +24,13 @@
 
 package ie.tcd.slscs.itut.duckegg;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Integer extends Rule {
     Pattern pat = null;
-    public Integer() {
+    public Integer() throws Exception {
         super();
         name = "integer";
         pattern = new PatternContainer
@@ -36,5 +38,16 @@ public class Integer extends Rule {
                 .addPattern(new Regex("([0-9]+,)?[0-9]+"))
                 .build();
         pat = Pattern.compile(getPattern());
+        setResult();
+    }
+    @Override
+    public void setResult() throws Exception {
+        if(res.rawparts.size() == 0 || res.rawparts.get(0) == null) {
+            throw new Exception("Empty result");
+        } else {
+            NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+            Number tmp = format.parse(res.rawparts.get(0));
+            res.setResult(tmp.intValue());
+        }
     }
 }
