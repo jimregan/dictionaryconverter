@@ -24,7 +24,6 @@
 
 package ie.tcd.slscs.itut.duckegg.format.gaois;
 
-import ie.tcd.slscs.itut.gramadanj.Utils;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.w3c.dom.Node;
