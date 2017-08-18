@@ -33,6 +33,8 @@ public class OCRIntStringNormaliser {
         chartmp.put('o', Arrays.asList(new Character[]{'0'}));
         chartmp.put('/', Arrays.asList(new Character[]{'1', '7'}));
         chartmp.put('l', Arrays.asList(new Character[]{'1'}));
+        chartmp.put('I', Arrays.asList(new Character[]{'1'}));
+        chartmp.put('i', Arrays.asList(new Character[]{'1'}));
         chartmp.put('0', Arrays.asList(new Character[]{'0'}));
         chartmp.put('1', Arrays.asList(new Character[]{'1'}));
         chartmp.put('2', Arrays.asList(new Character[]{'2'}));
