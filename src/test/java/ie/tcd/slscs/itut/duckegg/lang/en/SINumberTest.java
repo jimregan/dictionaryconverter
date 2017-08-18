@@ -33,7 +33,7 @@ public class SINumberTest extends TestCase {
     public void testSINNumber() throws Exception {
         String in = "S.I. No. 43 of 1960";
         SINumber sin = new SINumber();
-        assertEquals("", sin.getPattern());
+        assertNotEquals("", sin.getPattern());
         assertEquals(true, sin.matches(in));
         assertEquals(in, sin.getResult().getRaw());
         assertEquals(ResultType.STRING, sin.getResult().getType());
