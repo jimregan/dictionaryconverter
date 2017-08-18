@@ -71,7 +71,7 @@ public class TU {
                 Node ch = n.getChildNodes().item(i);
                 if(ch.getNodeName().equals("tuv")) {
                     NamedNodeMap attrs = n.getAttributes();
-                    if(attrs == null || attrs.getNamedItem("lang") == null) {
+                    if(attrs == null ){//|| attrs.getNamedItem("lang") == null) {
                         throw new Exception("Attributes empty: expected xml:lang");
                     }
                     lang = attrs.getNamedItem("lang").getTextContent();
