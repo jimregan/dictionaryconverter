@@ -113,4 +113,13 @@ public class Result {
             return false;
         }
     }
+
+    public boolean fuzzyEquals(List<Result> list) {
+        for(Result r : list) {
+            if(this.equals(r)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
