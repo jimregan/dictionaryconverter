@@ -63,7 +63,7 @@ public class TU {
     }
     public static TU fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("tu")) {
-            String id = n.getAttributes().getNamedItem("tuid").toString();
+            String id = n.getAttributes().getNamedItem("tuid").getTextContent();
             Map<String, String> segs = new HashMap<String, String>();
             for (int i = 0; i < n.getChildNodes().getLength(); i++) {
                 String lang = "";
