@@ -53,7 +53,8 @@ public class FuzzyInteger extends FuzzyRule {
                 Result toadd = new Result(res.rawparts.get(0));
                 Number tmp = format.parse(s);
                 toadd.setResult(tmp.intValue());
-                fuzzy_results.add(toadd);
+                res.addFuzzyResult(toadd);
+                res.setType(ResultType.INT);
             }
         }
         return res;
