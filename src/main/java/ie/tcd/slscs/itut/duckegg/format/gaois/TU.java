@@ -76,7 +76,7 @@ public class TU {
                     }
                     lang = attrs.getNamedItem("xml:lang").getTextContent();
                     if (ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
-                        seg = chomp(ch.getFirstChild().getTextContent());
+                        seg = chomp(ch.getFirstChild().getFirstChild().getTextContent());
                     }
                 } else if (ch.getNodeName().equals("#text") && ch.getTextContent().trim().equals("")) {
                     // Do nothing
