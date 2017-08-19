@@ -65,22 +65,27 @@ public class TU {
         if(n.getNodeName().equals("tu")) {
             String id = n.getAttributes().getNamedItem("tuid").toString();
             Map<String, String> segs = new HashMap<String, String>();
-            for(int i = 0; i < n.getChildNodes().getLength(); i++) {
+            for (int i = 0; i < n.getChildNodes().getLength(); i++) {
                 String lang = "";
                 String seg = "";
                 Node ch = n.getChildNodes().item(i);
-                if(ch.getNodeName().equals("tuv")) {
+                if (ch.getNodeName().equals("tuv")) {
                     NamedNodeMap attrs = n.getAttributes();
-                    if(attrs == null ){//|| attrs.getNamedItem("lang") == null) {
+                    System.out.println("attr ln" + attrs.getLength());
+                    if (attrs == null) {//|| attrs.getNamedItem("lang") == null) {
                         throw new Exception("Attributes empty: expected xml:lang");
                     }
                     lang = attrs.getNamedItem("lang").getTextContent();
                     System.err.println("Nattribs " + n.getAttributes().getLength());
-                    if(ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
+                    if (ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
                         seg = chomp(ch.getFirstChild().getTextContent());
                     }
+                } else if (ch.getNodeName().equals("#text") && ch.getTextContent().trim().equals("")) {
+                    // Do nothing
+                } else {
+                    throw new Exception("Unexpected element");
                 }
-                if(!lang.equals("") && !seg.equals("")) {
+                if (!lang.equals("") && !seg.equals("")) {
                     segs.put(lang, seg);
                 }
             }
