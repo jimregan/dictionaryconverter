@@ -72,27 +72,27 @@ public class TU {
             for (int i = 0; i < n.getChildNodes().getLength(); i++) {
                 String lang = "";
                 String seg = "";
-                Node ch = n.getChildNodes().item(i);
-                if (ch.getNodeName().equals("tuv")) {
-                    NamedNodeMap attrs = ch.getAttributes();
+                Node tuvnode = n.getChildNodes().item(i);
+                if (tuvnode.getNodeName().equals("tuv")) {
+                    NamedNodeMap attrs = tuvnode.getAttributes();
                     if (attrs == null || attrs.getNamedItem("xml:lang") == null) {
                         throw new Exception("Attributes empty: expected xml:lang");
                     }
                     lang = attrs.getNamedItem("xml:lang").getTextContent();
-                    if (ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
-                        Node segnode = ch.getFirstChild();
+                    Node segnode = tuvnode.getFirstChild();
+                    if (tuvnode.getChildNodes().getLength() == 1 && tuvnode.getFirstChild().getNodeName().equals("seg")) {
                         if(segnode.getChildNodes().getLength() == 1 && segnode.getFirstChild().getNodeName().equals("#text")) {
-                            seg = chomp(ch.getFirstChild().getFirstChild().getTextContent());
+                            seg = chomp(tuvnode.getFirstChild().getFirstChild().getTextContent());
                         } else {
-                            throw new Exception("Unexpected node");
+                            throw new Exception("Unexpected node: expected text, got" + segnode.getNodeName());
                         }
                     } else {
-                        throw new Exception("Unexpected node");
+                        throw new Exception("Unexpected node: expected seg, got "  + tuvnode.getNodeName());
                     }
-                } else if (ch.getNodeName().equals("#text") && ch.getTextContent().trim().equals("")) {
+                } else if (tuvnode.getNodeName().equals("#text") && tuvnode.getTextContent().trim().equals("")) {
                     // Do nothing
                 } else {
-                    throw new Exception("Unexpected element");
+                    throw new Exception("Unexpected element: expected tuv, got " +  tuvnode.getNodeName());
                 }
                 if (!lang.equals("") && !seg.equals("")) {
                     segs.put(lang, seg);
