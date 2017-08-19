@@ -50,7 +50,7 @@ public class Rule {
         boolean matched = false;
         while(m.find()) {
             matched = true;
-            res = new Result(m.group());
+            res = new Result(m.group(0));
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
                 if(m.group(i) != null) {
