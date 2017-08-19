@@ -40,4 +40,13 @@ public class SINumberTest extends TestCase {
         assertEquals(ResultType.STRING, sin.getResults().get(0).getType());
         assertEquals("43/1960", sin.getResults().get(0).getString());
     }
+    public void testSINNumber2() throws Exception {
+        String in = "S.I. No. 43 of 1960 S.I. No. 43 of 1960";
+        SINumber sin = new SINumber();
+        assertNotEquals("", sin.getPattern());
+        assertEquals(true, sin.matches(in));
+        assertEquals(2, sin.getResults().size());
+        assertEquals(ResultType.STRING, sin.getResults().get(1).getType());
+        assertEquals("43/1960", sin.getResults().get(1).getString());
+    }
 }
