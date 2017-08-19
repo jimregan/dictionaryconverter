@@ -24,6 +24,7 @@
 
 package ie.tcd.slscs.itut.duckegg.lang.ga;
 
+import ie.tcd.slscs.itut.duckegg.CurrencyUnit;
 import ie.tcd.slscs.itut.duckegg.ResultType;
 import junit.framework.TestCase;
 
@@ -32,10 +33,16 @@ import static org.junit.Assert.*;
 public class FuzzyCurrencyTest extends TestCase {
     public void testFuzzyCurrency() throws Exception {
         String in = "/35.l5p";
+        ie.tcd.slscs.itut.duckegg.Currency expc1 = new ie.tcd.slscs.itut.duckegg.Currency(135, 15);
+        expc1.setUnit(CurrencyUnit.Pound);
+        ie.tcd.slscs.itut.duckegg.Currency expc2 = new ie.tcd.slscs.itut.duckegg.Currency(735, 15);
+        expc2.setUnit(CurrencyUnit.Pound);
         FuzzyCurrency fc = new FuzzyCurrency();
         assertNotEquals("", fc.getPattern());
         assertEquals(true, fc.matches(in));
         assertEquals(2, fc.getFuzzyResults().get(0).size());
+        assertEquals(expc1, fc.getFuzzyResults().get(0).get(0));
+        assertEquals(expc2, fc.getFuzzyResults().get(0).get(1));
 
     }
 
