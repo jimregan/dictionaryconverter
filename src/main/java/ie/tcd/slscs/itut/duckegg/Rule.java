@@ -58,9 +58,9 @@ public class Rule {
             res = new Result(portion);
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
-                if(m.group(i) != null) {
+                if(n.group(i) != null) {
                     System.err.println(i + " " + n.group(i) + " " + n.group(0));
-                    res.addRawResult(m.group(i));
+                    res.addRawResult(n.group(i));
                 } else {
                     System.err.println(pattern.getPattern() + " failed at " + i + " " + n.group(0));
                     res.addRawResult(null);
