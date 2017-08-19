@@ -41,7 +41,7 @@ public class GaoisFinalNumberAddition extends Rule {
         Pattern pend = Pattern.compile("No\\. ([0-9]+\\)?)$");
         Matcher mend = pend.matcher(input.source);
         if(mtrg.find() && ! mtrg.find()) {
-            start = mtrg.end();
+            start = mtrg.group(0).length();
             target = input.target.substring(start);
             this.replacement = true;
         }
