@@ -183,4 +183,14 @@ public class WordTokenTest extends TestCase {
         assertEquals(WordToken.isRuleBasis(out2), true);
         assertEquals(WordToken.isRuleBasis(out3), false);
     }
+    public void testTagsFromString() {
+        WordToken wt = new WordToken();
+        wt.setTagsFromString("<foo>");
+        assertEquals(1, wt.getTags().size());
+        assertEquals("foo", wt.getTags().get(0));
+        WordToken wt2 = new WordToken();
+        wt.setTagsFromString("<foo><bar><baz>");
+        assertEquals(3, wt.getTags().size());
+        assertEquals("baz", wt.getTags().get(2));
+    }
 }

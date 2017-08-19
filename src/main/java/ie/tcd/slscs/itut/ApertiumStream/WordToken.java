@@ -26,7 +26,10 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +37,8 @@ public class WordToken extends StreamToken {
     List<String> tags;
     String lemh = "";
     String lemq = "";
+    boolean inMLU = false;
+    private boolean simple = false;
     WordToken() {
         tags = new ArrayList<String>();
     }
@@ -49,6 +54,11 @@ public class WordToken extends StreamToken {
         this.lemh = tmp.lemh;
         this.lemq = tmp.lemq;
         this.tags = tmp.tags;
+    }
+    WordToken(SimpleToken st) {
+        this.lemh = st.lemh;
+        this.tags = st.tags;
+        this.simple = true;
     }
     public String getLemma() {
         return lemh + lemq;
@@ -68,6 +78,23 @@ public class WordToken extends StreamToken {
     public List<String> getTags() {
         return tags;
     }
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    public void setTags(String[] tags) {
+        this.tags = Arrays.asList(tags);
+    }
+    public void setTagsFromString(String s) {
+        String trimmed = s.trim();
+        if(trimmed.charAt(0) == '<' && trimmed.charAt(trimmed.length() - 1) == '>') {
+            trimmed = trimmed.substring(1, trimmed.length() - 1);
+        }
+        if(trimmed.contains("><")) {
+            setTags(trimmed.split("><"));
+        } else {
+            tags.add(trimmed);
+        }
+    }
     public String getTagsString() {
         StringBuilder s = new StringBuilder();
         s.append('<');
@@ -81,6 +108,9 @@ public class WordToken extends StreamToken {
         }
         s.append('>');
         return s.toString();
+    }
+    public String getTagsStringTransfer() {
+        return Utils.join(tags, ".");
     }
 
     @Override
@@ -106,8 +136,13 @@ public class WordToken extends StreamToken {
             return "";
         }
     }
-
-    static WordToken fromString(String s) throws Exception {
+    public void setInMLU() {
+        this.inMLU = true;
+    }
+    public void setInMLU(boolean inMLU) {
+        this.inMLU = inMLU;
+    }
+    public static WordToken fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
         String lemh = "";
         String lemq = "";

@@ -1,5 +1,5 @@
 .DS_Store
 *~
 target/
-EID/
 project/target/
+.idea/workspace.xml

@@ -102,6 +102,6 @@ object TrxUtils {
       WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
-  // TODO
+  // TODO macro can apply to rule
 }
 

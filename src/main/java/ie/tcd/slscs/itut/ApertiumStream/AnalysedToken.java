@@ -27,10 +27,8 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 import ie.tcd.slscs.itut.gramadanj.Utils;
-import scala.util.parsing.combinator.testing.Str;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 // TODO: fromString

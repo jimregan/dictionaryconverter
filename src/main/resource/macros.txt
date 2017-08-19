@@ -1,0 +1,7 @@
+# name | applies to | source
+adj_grade | <adj> | <comp> | níos<adv> <comp> | 0-1 1-2
+ | | <sup> | is<adv> <comp> | 0-1 1-2
+
+det_type | <det> | no<det> | <negative=NEG> | 1-C
+ | | the<det> | <det_type=DEFART> | 1-C
+ | | a<det> | <det_type=UNDET> | 1-C

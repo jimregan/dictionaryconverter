@@ -31,7 +31,7 @@ public class BlankToken extends StreamToken {
     BlankToken() {
         this.content = "";
     }
-    BlankToken(String s) {
+    public BlankToken(String s) {
         this.content = s;
     }
 
