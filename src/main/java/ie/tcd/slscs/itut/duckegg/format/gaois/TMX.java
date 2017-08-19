@@ -61,7 +61,7 @@ public class TMX {
                 line = "";
             }
             if(line.contains("<prop ")) {
-                line.replace(" & ", " &amp; ").replace("'s", "&apos;s");
+                line = line.replace(" & ", " &amp; ").replace("'s", "&apos;s");
             }
             sb.append(line);
         }
