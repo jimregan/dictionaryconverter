@@ -43,7 +43,7 @@ public class FuzzyInteger extends FuzzyRule {
         pat = Pattern.compile(getPattern());
     }
     @Override
-    public void setResult() throws Exception {
+    public void setResult(Result res) throws Exception {
         if(res.rawparts.size() == 0 || res.rawparts.get(0) == null) {
             throw new Exception("Empty result");
         } else {

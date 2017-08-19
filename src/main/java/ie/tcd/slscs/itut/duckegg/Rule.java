@@ -24,27 +24,33 @@
 
 package ie.tcd.slscs.itut.duckegg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Rule {
     public String name;
     public PatternContainer pattern;
-    public Result res = null;
+    public List<Result> results = null;
     public Pattern pat = null;
     public Rule() {
         this.pattern = new PatternContainer();
+        this.results = new ArrayList<Result>();
     }
     public String name() {
         return name;
     }
     public boolean matches(String s) throws Exception {
+        Result res = new Result();
         if(this.pat == null) {
             pat = Pattern.compile(pattern.getPattern());
         }
         Matcher m = pat.matcher(s);
-        if(m.matches()) {
-            this.res = new Result(m.group());
+        boolean matched = false;
+        while(m.find()) {
+            matched = true;
+            res = new Result(m.group());
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
                 if(m.group(i) != null) {
@@ -53,17 +59,19 @@ public class Rule {
                 } else {
                     res.addRawResult(null);
                 }
+                results.add(res);
+                setResult(res);
             }
-        } else {
-            this.res = new Result(ResultType.EMPTY);
         }
-        setResult();
+        if(!matched) {
+            results.add(new Result(ResultType.EMPTY));
+        }
         return m.matches();
     }
-    public void setResult() throws Exception {
+    public void setResult(Result res) throws Exception {
     }
-    public Result getResult() {
-        return res;
+    public List<Result> getResults() {
+        return results;
     }
     public String getPattern() {
         return pattern.getPattern();
