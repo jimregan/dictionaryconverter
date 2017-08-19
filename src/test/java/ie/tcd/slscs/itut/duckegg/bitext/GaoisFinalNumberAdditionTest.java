@@ -35,6 +35,7 @@ public class GaoisFinalNumberAdditionTest extends TestCase {
         SLTLPair in = new SLTLPair("", "Seanad Electoral (University Members) Act 1937 (No. 30)", "42) Acht Toghacháin an tSeanaid (Baill Phríomh Scoile), 1937 (Uimh.");
         SLTLPair exp = new SLTLPair("", "Seanad Electoral (University Members) Act 1937 (No. 30)", "Acht Toghacháin an tSeanaid (Baill Phríomh Scoile), 1937 (Uimh. 30)");
         SLTLPair out = cls.replace(in);
+        assertEquals(true, cls.replacement);
         assertEquals(exp.target, in.target);
     }
 
