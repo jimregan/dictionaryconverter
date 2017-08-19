@@ -81,7 +81,7 @@ public class OCRIntStringNormaliser {
         StringBuilder s = new StringBuilder();
         Iterator<Character> it = set.iterator();
         if (it.hasNext()) {
-            s.append(it.next().toString());
+            s.append(it.next());
         }
         while (it.hasNext()) {
             s.append(delim);
@@ -90,7 +90,8 @@ public class OCRIntStringNormaliser {
         return s.toString();
     }
     public static String makeCharacterGroup(Set<Character> set) {
-        StringBuilder sb = new StringBuilder('[');
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
         sb.append(join(set, ""));
         sb.append(']');
         return sb.toString();
