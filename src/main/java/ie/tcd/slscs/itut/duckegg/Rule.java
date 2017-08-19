@@ -59,14 +59,14 @@ public class Rule {
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
                 if(n.group(i) != null) {
-                    System.err.println(i + " " + n.group(i) + " " + n.group(0));
+                    System.err.println(i + " " + n.group(i) + " :: " + n.group(0));
                     res.addRawResult(n.group(i));
                 } else {
-                    System.err.println(pattern.getPattern() + " failed at " + i + " " + n.group(0));
+                    System.err.println(pattern.getPattern() + " failed at " + i + " :: " + n.group(0));
                     res.addRawResult(null);
                 }
-                results.add(setResult(res));
             }
+            results.add(setResult(res));
         }
         if(!matched) {
             results.add(new Result(ResultType.EMPTY));
