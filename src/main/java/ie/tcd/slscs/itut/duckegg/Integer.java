@@ -40,7 +40,7 @@ public class Integer extends Rule {
         pat = Pattern.compile(getPattern());
     }
     @Override
-    public void setResult(Result res) throws Exception {
+    public Result setResult(Result res) throws Exception {
         if(res.rawparts.size() == 0 || res.rawparts.get(0) == null) {
             throw new Exception("Empty result");
         } else {
@@ -48,5 +48,6 @@ public class Integer extends Rule {
             Number tmp = format.parse(res.rawparts.get(0));
             res.setResult(tmp.intValue());
         }
+        return res;
     }
 }

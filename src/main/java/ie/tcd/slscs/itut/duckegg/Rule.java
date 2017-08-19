@@ -59,16 +59,16 @@ public class Rule {
                 } else {
                     res.addRawResult(null);
                 }
-                results.add(res);
-                setResult(res);
+                results.add(setResult(res));
             }
         }
         if(!matched) {
             results.add(new Result(ResultType.EMPTY));
         }
-        return m.matches();
+        return matched;
     }
-    public void setResult(Result res) throws Exception {
+    public Result setResult(Result res) throws Exception {
+        return res;
     }
     public List<Result> getResults() {
         return results;
