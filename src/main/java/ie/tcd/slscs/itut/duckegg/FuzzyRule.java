@@ -32,7 +32,7 @@ public class FuzzyRule extends Rule {
     FuzzyRule() {
         this.results = new ArrayList<Result>();
     }
-    public List<Result> getResults() {
-        return results;
+    public List<Result> getFuzzyResults() {
+        return fuzzy_results;
     }
 }
