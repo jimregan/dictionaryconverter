@@ -38,7 +38,7 @@ public class FuzzyInteger extends FuzzyRule {
         String pattern_base = OCRIntStringNormaliser.makeCharacterGroup(OCRIntStringNormaliser.charmap.keySet());
         pattern = new PatternContainer
                 .Builder()
-                .addPattern(new Regex(pattern_base + "+," + pattern_base + "+|" + pattern_base + "+"))
+                .addPattern(new Regex(pattern_base + "+"))
                 .build();
         pat = Pattern.compile(getPattern());
     }
