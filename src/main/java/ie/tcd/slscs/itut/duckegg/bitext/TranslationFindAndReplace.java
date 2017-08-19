@@ -27,9 +27,15 @@ package ie.tcd.slscs.itut.duckegg.bitext;
 import java.util.Map;
 
 public abstract class TranslationFindAndReplace {
-//    public static SLTLPair replace(SLTLPair haystack, Map<String, Map<String, String>> needles, boolean regex) {
-
-//    }
+    public static SLTLPair replace(SLTLPair haystack, Map<String, Map<String, String>> needles, boolean regex) {
+        SLTLPair out = new SLTLPair(haystack.id, haystack.source, haystack.target);
+        for(String slside : needles.keySet()) {
+            for(String trside : needles.get(slside).keySet()) {
+                out = replace(out, slside, trside, needles.get(slside).get(trside), regex);
+            }
+        }
+        return out;
+    }
     public static SLTLPair replace(SLTLPair haystack, String sl_needle, String tl_needle, String tl_replacement, boolean regex) {
         if(regex) {
             if(haystack.source.matches(sl_needle) && haystack.target.matches(tl_needle)) {
