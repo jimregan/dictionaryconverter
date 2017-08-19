@@ -24,11 +24,8 @@
 
 package ie.tcd.slscs.itut.duckegg.lang.ga;
 
+import ie.tcd.slscs.itut.duckegg.*;
 import ie.tcd.slscs.itut.duckegg.Integer;
-import ie.tcd.slscs.itut.duckegg.PatternContainer;
-import ie.tcd.slscs.itut.duckegg.PlainString;
-import ie.tcd.slscs.itut.duckegg.Regex;
-import ie.tcd.slscs.itut.duckegg.Rule;
 
 import java.util.regex.Pattern;
 
@@ -46,7 +43,7 @@ public class SINumber extends Rule {
         pat = Pattern.compile(getPattern());
     }
     @Override
-    public void setResult() throws Exception {
+    public void setResult(Result res) throws Exception {
         if(res.getRawparts().size() < 4 || res.getRawparts().get(1) == null || res.getRawparts().get(3) == null) {
             throw new Exception("Empty result " + res.getRawparts().size());
         } else {
