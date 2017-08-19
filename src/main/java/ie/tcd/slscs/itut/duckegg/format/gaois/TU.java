@@ -80,7 +80,7 @@ public class TU {
                     }
                     lang = attrs.getNamedItem("xml:lang").getTextContent();
                     Node segnode = tuvnode.getFirstChild();
-                    if (tuvnode.getChildNodes().getLength() == 1 && tuvnode.getFirstChild().getNodeName().equals("seg")) {
+                    if (tuvnode.getChildNodes().getLength() == 1 && segnode.getNodeName().equals("seg")) {
                         if(segnode.getChildNodes().getLength() == 1 && segnode.getFirstChild().getNodeName().equals("#text")) {
                             seg = chomp(tuvnode.getFirstChild().getFirstChild().getTextContent());
                         } else {
