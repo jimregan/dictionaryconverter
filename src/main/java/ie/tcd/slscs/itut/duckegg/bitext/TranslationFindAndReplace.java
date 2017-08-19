@@ -24,9 +24,28 @@
 
 package ie.tcd.slscs.itut.duckegg.bitext;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public abstract class TranslationFindAndReplace {
+public class TranslationFindAndReplace implements Rule {
+    Map<String, Map<String, String>> needles;
+    TranslationFindAndReplace() {
+        this.needles = new HashMap<String, Map<String, String>>();
+    }
+    public TranslationFindAndReplace(Map<String, Map<String, String>> needles) {
+        this.needles = needles;
+    }
+
+    @Override
+    public SLTLPair replace(SLTLPair input) {
+        return replace(input, needles, false);
+    }
+
+    @Override
+    public String name() {
+        return "translation-find-and-replace";
+    }
+
     public static SLTLPair replace(SLTLPair haystack, Map<String, Map<String, String>> needles, boolean regex) {
         SLTLPair out = new SLTLPair(haystack.id, haystack.source, haystack.target);
         for(String slside : needles.keySet()) {
