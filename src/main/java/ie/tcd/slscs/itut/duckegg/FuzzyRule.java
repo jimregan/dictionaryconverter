@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FuzzyRule extends Rule {
-    List<Result> results;
+    List<Result> fuzzy_results;
     FuzzyRule() {
         this.results = new ArrayList<Result>();
     }
