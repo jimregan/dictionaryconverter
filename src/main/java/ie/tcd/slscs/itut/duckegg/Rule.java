@@ -54,7 +54,7 @@ public class Rule {
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
                 if(m.group(i) != null) {
-                    System.err.println(i + " " + m.group(i));
+                    System.err.println(i + " " + m.group(i) + " " + m.group(0));
                     res.addRawResult(m.group(i));
                 } else {
                     System.err.println(pattern.getPattern() + " failed at " + i + " " + m.group(0));
