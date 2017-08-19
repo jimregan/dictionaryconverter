@@ -86,6 +86,8 @@ public class TU {
                         } else {
                             throw new Exception("Unexpected node");
                         }
+                    } else {
+                        throw new Exception("Unexpected node");
                     }
                 } else if (ch.getNodeName().equals("#text") && ch.getTextContent().trim().equals("")) {
                     // Do nothing
