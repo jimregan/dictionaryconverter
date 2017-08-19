@@ -63,7 +63,7 @@ public class TMXTest extends TestCase {
             "</body>\n" +
             "</tmx>\n";
     public void testReadFile() throws Exception {
-        ByteArrayInputStream bas = new ByteArrayInputStream(in.getBytes());
+        ByteArrayInputStream bas = new ByteArrayInputStream(in.getBytes("UTF-16"));
         Map<String, String> expm = new HashMap<String, String>();
         expm.put("en", "S.I. No. 171/1980:");
         expm.put("ga", "I.R. Uimh. l71 de 1980.");
