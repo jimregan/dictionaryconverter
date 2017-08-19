@@ -37,7 +37,7 @@ public class TranslationFindAndReplaceTest {
         SLTLPair exp = new SLTLPair("689916", "‘relevant date’ means", "ciallaíonn dáta iomchuí");
         SLTLPair out = TranslationFindAndReplace.replace(in, "relevant date", "dta iomchuí", "dáta iomchuí", false);
         assertEquals(out.target, exp.target);
-        SLTLPair out2 = TranslationFindAndReplace.replace(in, "relevant dates?", "dta iomchuí", "dáta iomchuí", false);
+        SLTLPair out2 = TranslationFindAndReplace.replace(in, "relevant dates?", "dta iomchuí", "dáta iomchuí", true);
         assertEquals(out2.target, exp.target);
     }
 
