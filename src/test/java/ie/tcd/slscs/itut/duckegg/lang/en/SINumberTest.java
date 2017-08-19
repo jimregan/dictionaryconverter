@@ -35,8 +35,9 @@ public class SINumberTest extends TestCase {
         SINumber sin = new SINumber();
         assertNotEquals("", sin.getPattern());
         assertEquals(true, sin.matches(in));
-        assertEquals(in, sin.getResult().getRaw());
-        assertEquals(ResultType.STRING, sin.getResult().getType());
-        assertEquals("43/1960", sin.getResult().getString());
+        assertEquals(1, sin.getResults().size());
+        assertEquals(in, sin.getResults().get(0).getRaw());
+        assertEquals(ResultType.STRING, sin.getResults().get(0).getType());
+        assertEquals("43/1960", sin.getResults().get(0).getString());
     }
 }
