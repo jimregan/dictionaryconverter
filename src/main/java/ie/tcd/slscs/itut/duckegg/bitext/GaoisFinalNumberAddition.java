@@ -38,7 +38,9 @@ public class GaoisFinalNumberAddition extends Rule {
         if(input.target.matches("^[0-9]+\\) ?") && !input.source.matches("^[0-9]+\\) ?")) {
             Pattern p = Pattern.compile("(^[0-9]+\\) ?)");
             Matcher m = p.matcher(input.target);
-            m.find();
+            if(!m.find()) {
+                throw new Exception("String matches but pattern fails: " + input.target);
+            }
             start = m.end();
             target = input.target.substring(start);
             this.replacement = true;
