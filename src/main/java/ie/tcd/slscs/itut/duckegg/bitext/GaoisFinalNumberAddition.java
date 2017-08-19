@@ -45,9 +45,6 @@ public class GaoisFinalNumberAddition extends Rule {
             target = input.target.substring(start);
             this.replacement = true;
         }
-        if(!input.source.matches("No\\. [0-9]+\\)?$")) {
-            throw new Exception("Can't get here from test");
-        }
         if(target.endsWith("Uimh.") && mend.find()) {
             String add = mend.group(1);
             this.replacement = true;
