@@ -55,11 +55,15 @@ public class TU {
         this.segments = segments;
     }
     private static String chomp(String s) {
-        if(s.endsWith("\n")) {
-            return s.substring(0, s.length() - 1);
-        } else {
-            return s;
+        int start = 0;
+        int end = s.length();
+        if(s.startsWith("\n")) {
+            start++;
         }
+        if(s.endsWith("\n")) {
+            end--;
+        }
+        return s.substring(start, end);
     }
     public static TU fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("tu")) {
