@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.duckegg.lang.ga;
+package ie.tcd.slscs.itut.duckegg.lang.en;
 
 import ie.tcd.slscs.itut.duckegg.*;
 import ie.tcd.slscs.itut.duckegg.Integer;
@@ -35,6 +35,7 @@ public class Currency extends Rule {
         name = "currency";
         pattern = new PatternContainer
                 .Builder()
+                .addPattern(new Regex("[€£$]"))
                 .addPattern(new Integer().getRegex())
                 .addPattern(new Regex("\\."))
                 .addPattern(new Integer().getRegex())
@@ -44,15 +45,10 @@ public class Currency extends Rule {
     }
     @Override
     public Result setResult(Result res) throws Exception {
-        if(res.getRawparts().size() < 4 || res.getRawparts().get(0) == null || res.getRawparts().get(2) == null) {
+        if(res.getRawparts().size() < 5 || res.getRawparts().get(1) == null || res.getRawparts().get(3) == null) {
             throw new Exception("Empty result " + res.getRawparts().size());
         } else {
-            ie.tcd.slscs.itut.duckegg.Currency c = new ie.tcd.slscs.itut.duckegg.Currency(res.getRawparts().get(0), res.getRawparts().get(2));
-            if(res.getRawparts().get(2).equals("p")) {
-                c.setUnit(CurrencyUnit.Pound);
-            } else {
-                c.setUnit(CurrencyUnit.Euro);
-            }
+            ie.tcd.slscs.itut.duckegg.Currency c = new ie.tcd.slscs.itut.duckegg.Currency(res.getRawparts().get(0), res.getRawparts().get(1), res.getRawparts().get(3));
         }
         return res;
     }
