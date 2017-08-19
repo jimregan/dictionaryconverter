@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpusIrish {
-    static final Map<String, Character> remaplatin1;
-    static final Map<String, Character> remapcp1250;
+    public static final Map<String, Character> REMAP_LATIN1;
+    public static final Map<String, Character> REMAP_CP1250;
     static {
         Map<String, Character> latin1utf8 = new HashMap<String, Character>();
         latin1utf8.put("\u00c3\u00a1", 'á');
@@ -46,7 +46,7 @@ public class OpusIrish {
         latin1utf8.put("\u00c3\u008d", 'Í');
         latin1utf8.put("\u00c3\u0093", 'Ó');
         latin1utf8.put("\u00c3\u009a", 'Ú');
-        remaplatin1 = Collections.unmodifiableMap(latin1utf8);
+        REMAP_LATIN1 = Collections.unmodifiableMap(latin1utf8);
         Map<String, Character> cp1250utf8 = new HashMap<String, Character>();
         cp1250utf8.put("\u0102\u02c7", 'á');
         cp1250utf8.put("\u0102\u00a9", 'é');
@@ -58,6 +58,6 @@ public class OpusIrish {
         cp1250utf8.put("\u0102\u0164", 'Í');
         cp1250utf8.put("\u0102\u201c", 'Ó');
         cp1250utf8.put("\u0102\u0161", 'Ú');
-        remapcp1250 = Collections.unmodifiableMap(cp1250utf8);
+        REMAP_CP1250 = Collections.unmodifiableMap(cp1250utf8);
     }
 }
