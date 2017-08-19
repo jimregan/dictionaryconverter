@@ -29,11 +29,10 @@ import java.util.List;
 public interface Rule {
     /**
      * Find instances of the rule in the text
-     * @param source Source language text to be checked
-     * @param target Target language text to be checked
+     * @param input The sentence pair to be checked
      * @return List of MatchPair objects, containing the positions of the matches
      */
-    public List<MatchPair> match(String source, String target);
+    public List<MatchPair> match(SLTLPair input);
 
     /**
      * The name of the rule
@@ -41,4 +40,10 @@ public interface Rule {
      */
     public String name();
 
+    /**
+     * Corrects the input matched by the rule
+     * @param input The pair to be processed
+     * @return A new SLTLPair with corrections applied
+     */
+    public SLTLPair replace(SLTLPair input);
 }
