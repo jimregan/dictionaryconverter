@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpusIrish {
+    /*
     public static final Map<String, Character> REMAP_LATIN1;
     public static final Map<String, Character> REMAP_CP1250;
     static {
@@ -59,5 +60,5 @@ public class OpusIrish {
         cp1250utf8.put("\u0102\u201c", 'Ó');
         cp1250utf8.put("\u0102\u0161", 'Ú');
         REMAP_CP1250 = Collections.unmodifiableMap(cp1250utf8);
-    }
+    }*/
 }
