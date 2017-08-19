@@ -79,15 +79,19 @@ public class TU {
                         throw new Exception("Attributes empty: expected xml:lang");
                     }
                     lang = attrs.getNamedItem("xml:lang").getTextContent();
-                    Node segnode = tuvnode.getFirstChild();
-                    if (tuvnode.getChildNodes().getLength() == 1 && segnode.getNodeName().equals("seg")) {
-                        if(segnode.getChildNodes().getLength() == 1 && segnode.getFirstChild().getNodeName().equals("#text")) {
-                            seg = chomp(tuvnode.getFirstChild().getFirstChild().getTextContent());
+                    for(int j = 0; j < tuvnode.getChildNodes().getLength(); j++) {
+                        Node segnode = tuvnode.getChildNodes().item(j);
+                        if(segnode.getNodeName().equals("seg")) {
+                            if (segnode.getChildNodes().getLength() == 1 && segnode.getFirstChild().getNodeName().equals("#text")) {
+                                seg = chomp(tuvnode.getFirstChild().getFirstChild().getTextContent());
+                            } else {
+                                throw new Exception("Unexpected node: expected text, got" + segnode.getNodeName());
+                            }
+                        } else if(segnode.getNodeName().equals("#text") && segnode.getTextContent().trim().equals("")) {
+                            //
                         } else {
-                            throw new Exception("Unexpected node: expected text, got" + segnode.getNodeName());
+                            throw new Exception("Unexpected node: expected seg, got "  + tuvnode.getNodeName());
                         }
-                    } else {
-                        throw new Exception("Unexpected node: expected seg, got "  + tuvnode.getNodeName());
                     }
                 } else if (tuvnode.getNodeName().equals("#text") && tuvnode.getTextContent().trim().equals("")) {
                     // Do nothing
