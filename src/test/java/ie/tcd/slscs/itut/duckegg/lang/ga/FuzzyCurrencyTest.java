@@ -34,6 +34,8 @@ public class FuzzyCurrencyTest extends TestCase {
         String in = "/35.l5p";
         FuzzyCurrency fc = new FuzzyCurrency();
         assertNotEquals("", fc.getPattern());
+        assertEquals(true, fc.matches(in));
+        assertEquals(2, fc.getFuzzyResults().size());
 
     }
 
