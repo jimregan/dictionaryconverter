@@ -41,7 +41,7 @@ public abstract class Rule {
      * @param input The pair to be processed
      * @return A new SLTLPair with corrections applied
      */
-    public abstract SLTLPair replace(SLTLPair input);
+    public abstract SLTLPair replace(SLTLPair input) throws Exception;
     public boolean replacement = false;
     public boolean hadReplacement() {
         return replacement;

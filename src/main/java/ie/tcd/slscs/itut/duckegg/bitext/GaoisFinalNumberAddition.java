@@ -32,7 +32,7 @@ public class GaoisFinalNumberAddition extends Rule {
         this.name = "gaois-add-final-numbers";
     }
     @Override
-    public SLTLPair replace(SLTLPair input) {
+    public SLTLPair replace(SLTLPair input) throws Exception {
         int start = 0;
         String target = input.target;
         if(input.target.matches("^[0-9]+\\) ?") && !input.source.matches("^[0-9]+\\) ?")) {
@@ -46,7 +46,9 @@ public class GaoisFinalNumberAddition extends Rule {
         if(target.endsWith("Uimh.") && input.source.matches("No\\. [0-9]+\\)?$")) {
             Pattern p = Pattern.compile("No\\. ([0-9]+\\)?)$");
             Matcher m = p.matcher(input.source);
-            m.find();
+            if(!m.find()) {
+                throw new Exception("String matches but pattern fails: " + target);
+            }
             String add = m.group(1);
             this.replacement = true;
             return new SLTLPair(input.id, input.source, target + " " + add);

@@ -38,7 +38,7 @@ public class TranslationFindAndReplace extends Rule {
         this.needles = needles;
     }
     @Override
-    public SLTLPair replace(SLTLPair input) {
+    public SLTLPair replace(SLTLPair input) throws Exception {
         SLTLPair out = replace(input, needles, false);
         if(!out.target.equals(input.target)) {
             this.replacement = true;
