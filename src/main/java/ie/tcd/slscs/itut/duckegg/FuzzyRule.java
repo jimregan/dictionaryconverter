@@ -28,11 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FuzzyRule extends Rule {
-    public List<Result> fuzzy_results;
     public FuzzyRule() {
         this.results = new ArrayList<Result>();
     }
-    public List<Result> getFuzzyResults() {
-        return fuzzy_results;
+    public List<List<Result>> getFuzzyResults() {
+        List<List<Result>> out = new ArrayList<List<Result>>();
+        for(Result r : getResults()) {
+            out.add(r.getFuzzy_results());
+        }
+        return out;
     }
 }
