@@ -71,14 +71,13 @@ public class TU {
                 Node ch = n.getChildNodes().item(i);
                 if (ch.getNodeName().equals("tuv")) {
                     NamedNodeMap attrs = ch.getAttributes();
-                    throw new Exception("attr ln" + attrs.getLength() + " name " + attrs.item(0).getNodeName());
-                    //if (attrs == null) {//|| attrs.getNamedItem("lang") == null) {
-                        //throw new Exception("Attributes empty: expected xml:lang");
-                    //}
-                    //lang = attrs.getNamedItem("xml:lang").getTextContent();
-                    //if (ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
-                    //    seg = chomp(ch.getFirstChild().getTextContent());
-                    //}
+                    if (attrs == null || attrs.getNamedItem("xml:lang") == null) {
+                        throw new Exception("Attributes empty: expected xml:lang");
+                    }
+                    lang = attrs.getNamedItem("xml:lang").getTextContent();
+                    if (ch.getChildNodes().getLength() == 1 && ch.getFirstChild().getNodeName().equals("seg")) {
+                        seg = chomp(ch.getFirstChild().getTextContent());
+                    }
                 } else if (ch.getNodeName().equals("#text") && ch.getTextContent().trim().equals("")) {
                     // Do nothing
                 } else {
