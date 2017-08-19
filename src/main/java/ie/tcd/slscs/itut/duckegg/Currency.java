@@ -51,6 +51,10 @@ public class Currency {
         this.amount = Integer.parseInt(amount);
         this.decimal = Integer.parseInt(decimal);
     }
+    public Currency(int amount, int decimal) {
+        this.amount = amount;
+        this.decimal = decimal;
+    }
     public CurrencyUnit getUnit() {
         return unit;
     }
