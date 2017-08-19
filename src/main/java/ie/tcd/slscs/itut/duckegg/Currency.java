@@ -24,10 +24,29 @@
 
 package ie.tcd.slscs.itut.duckegg;
 
+import java.lang.Integer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Currency {
+    public static final Map<String, CurrencyUnit> SYMBOL_MAP;
+    static {
+        Map<String, CurrencyUnit> tmpsym = new HashMap<String, CurrencyUnit>();
+        tmpsym.put("€", CurrencyUnit.Euro);
+        tmpsym.put("£", CurrencyUnit.Pound);
+        tmpsym.put("$", CurrencyUnit.Dollar);
+        SYMBOL_MAP = Collections.unmodifiableMap(tmpsym);
+    }
     CurrencyUnit unit;
     int amount;
     int decimal;
+
+    public Currency(String unit, String amount, String decimal) {
+        this.unit = SYMBOL_MAP.get(unit);
+        this.amount = Integer.parseInt(amount);
+        this.decimal = Integer.parseInt(decimal);
+    }
     public CurrencyUnit getUnit() {
         return unit;
     }
