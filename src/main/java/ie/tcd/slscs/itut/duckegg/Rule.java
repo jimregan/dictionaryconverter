@@ -57,7 +57,7 @@ public class Rule {
                     System.err.println(i + " " + m.group(i));
                     res.addRawResult(m.group(i));
                 } else {
-                    System.err.println(pattern.getPattern() + " failed at " + i);
+                    System.err.println(pattern.getPattern() + " failed at " + i + " " + m.group(0));
                     res.addRawResult(null);
                 }
                 results.add(setResult(res));
