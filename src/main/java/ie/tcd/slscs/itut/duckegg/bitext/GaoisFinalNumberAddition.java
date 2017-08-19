@@ -48,9 +48,6 @@ public class GaoisFinalNumberAddition extends Rule {
         if(target.endsWith("Uimh.") && mend.find()) {
             String add = mend.group(1);
             this.replacement = true;
-            if(!target.equals(input.target)) {
-                throw new Exception("i " + input.target + " " + target);
-            }
             return new SLTLPair(input.id, input.source, target + " " + add);
         } else {
             return new SLTLPair(input.id, input.source, target);
