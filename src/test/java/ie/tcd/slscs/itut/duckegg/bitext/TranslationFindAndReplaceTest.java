@@ -39,6 +39,10 @@ public class TranslationFindAndReplaceTest {
         assertEquals(out.target, exp.target);
         SLTLPair out2 = TranslationFindAndReplace.replace(in, "relevant dates?", "dta iomchuí", "dáta iomchuí", true);
         assertEquals(out2.target, exp.target);
+        SLTLPair out3 = TranslationFindAndReplace.replace(in, "awesome date", "dta iomchuí", "dáta iomchuí", false);
+        assertNotEquals(out.target, exp.target);
+        SLTLPair out4 = TranslationFindAndReplace.replace(in, "awesome dates?", "dta iomchuí", "dáta iomchuí", true);
+        assertNotEquals(out2.target, exp.target);
     }
 
 }
