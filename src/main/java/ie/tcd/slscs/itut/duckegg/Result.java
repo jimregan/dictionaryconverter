@@ -33,6 +33,7 @@ public class Result {
     int int_result;
     double double_result;
     String string_result;
+    Currency currency_result;
     String raw;
     List<String> rawparts;
     public Result() {
@@ -70,6 +71,10 @@ public class Result {
         type = ResultType.STRING;
         this.string_result = s;
     }
+    public void setResult(Currency c) {
+        type = ResultType.CURRENCY;
+        this.currency_result = c;
+    }
     public int getInt() {
         return int_result;
     }
@@ -86,6 +91,9 @@ public class Result {
         } else {
             return null;
         }
+    }
+    public Currency getCurrency() {
+        return currency_result;
     }
 
     @Override
@@ -108,6 +116,8 @@ public class Result {
         } else if(getType() == ResultType.INT && getInt() == res.getInt()) {
             return true;
         } else if(getType() == ResultType.STRING && getString().equals(res.getString())) {
+            return true;
+        } else if(getType() == ResultType.CURRENCY && getCurrency().equals(res.getCurrency())) {
             return true;
         } else {
             return false;

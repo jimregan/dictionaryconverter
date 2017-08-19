@@ -29,4 +29,5 @@ public enum ResultType {
     DOUBLE,
     STRING,
     EMPTY,
+    CURRENCY,
 }

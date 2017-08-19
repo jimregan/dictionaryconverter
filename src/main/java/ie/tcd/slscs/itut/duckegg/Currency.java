@@ -24,28 +24,50 @@
 
 package ie.tcd.slscs.itut.duckegg;
 
-public class Currency extends Rule {
-    String regex = "([\\$£€])([0-9]*),?([0-9]*)\\.?([0-9]*)";
-    String name = "currency";
-    private boolean isint;
-    public boolean isInt() {
-        return isint;
+public class Currency {
+    CurrencyUnit unit;
+    int amount;
+    int decimal;
+    public CurrencyUnit getUnit() {
+        return unit;
     }
-    private int integer;
-    private double doublev;
-    private CurrencyUnit cunit;
-    public int getInt() {
-        return integer;
+    public void setUnit(CurrencyUnit unit) {
+        this.unit = unit;
     }
-    public double getDouble() {
-        return doublev;
+    public int getAmount() {
+        return amount;
     }
-    public Currency(int intv) {
-        this.isint = true;
-        this.integer = intv;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
-    public Currency(double doublev) {
-        this.isint = false;
-        this.doublev = doublev;
+    public int getDecimal() {
+        return decimal;
     }
+    public void setDecimal(int decimal) {
+        this.decimal = decimal;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(this == o) {
+            return true;
+        }
+        if(!(o instanceof Currency)) {
+            return false;
+        }
+        final Currency c = (Currency) o;
+        if(c.getUnit() != getUnit()) {
+            return false;
+        }
+        if(c.getAmount() != getAmount()) {
+            return false;
+        }
+        if(c.getDecimal() != getDecimal()) {
+            return false;
+        }
+        return true;
+    }
+
 }
