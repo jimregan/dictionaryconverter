@@ -35,7 +35,7 @@ public class GaoisFinalNumberAddition extends Rule {
     public SLTLPair replace(SLTLPair input) throws Exception {
         int start = 0;
         String target = input.target;
-        Pattern ptrg = Pattern.compile("^([0-9]+\\) ?)");
+        Pattern ptrg = Pattern.compile("^[0-9]+\\) ?");
         Matcher mtrg = ptrg.matcher(input.target);
         Matcher msrc = ptrg.matcher(input.source);
         Pattern pend = Pattern.compile("No\\. ([0-9]+\\)?)$");
@@ -48,6 +48,9 @@ public class GaoisFinalNumberAddition extends Rule {
         if(target.endsWith("Uimh.") && mend.find()) {
             String add = mend.group(1);
             this.replacement = true;
+            if(!target.equals(input.target)) {
+                throw new Exception("i " + input.target + " " + target);
+            }
             return new SLTLPair(input.id, input.source, target + " " + add);
         } else {
             return new SLTLPair(input.id, input.source, target);
