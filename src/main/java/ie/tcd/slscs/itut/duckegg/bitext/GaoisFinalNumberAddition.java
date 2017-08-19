@@ -40,8 +40,8 @@ public class GaoisFinalNumberAddition extends Rule {
         Matcher msrc = ptrg.matcher(input.source);
         Pattern pend = Pattern.compile("No\\. ([0-9]+\\)?)$");
         Matcher mend = pend.matcher(input.source);
-        if(mtrg.find() && !mtrg.find()) {
-            start = mtrg.group(1).length();
+        if(mtrg.find() && !msrc.find()) {
+            start = mtrg.end();
             target = input.target.substring(start);
             this.replacement = true;
         }
