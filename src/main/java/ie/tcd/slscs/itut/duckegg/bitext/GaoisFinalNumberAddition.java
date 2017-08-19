@@ -55,7 +55,8 @@ public class GaoisFinalNumberAddition extends Rule {
             this.replacement = true;
             return new SLTLPair(input.id, input.source, target + " " + add);
         } else {
-            return new SLTLPair(input.id, input.source, target);
+            throw new Exception("Can't get here from test");
+//            return new SLTLPair(input.id, input.source, target);
         }
     }
 }
