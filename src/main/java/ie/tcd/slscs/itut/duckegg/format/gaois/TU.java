@@ -83,8 +83,7 @@ public class TU {
                         Node segnode = tuvnode.getChildNodes().item(j);
                         if(segnode.getNodeName().equals("seg")) {
                             if (segnode.getChildNodes().getLength() == 1 && segnode.getFirstChild().getNodeName().equals("#text")) {
-                                throw new Exception(tuvnode.getFirstChild().getFirstChild().getTextContent());
-//                                seg = chomp(tuvnode.getFirstChild().getFirstChild().getTextContent());
+                                seg = chomp(segnode.getFirstChild().getFirstChild().getTextContent());
                             } else {
                                 throw new Exception("Unexpected node: expected text, got" + segnode.getNodeName());
                             }
