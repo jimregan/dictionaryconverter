@@ -26,24 +26,24 @@ package ie.tcd.slscs.itut.duckegg.bitext;
 
 import java.util.List;
 
-public interface Rule {
-    /**
-     * Find instances of the rule in the text
-     * @param input The sentence pair to be checked
-     * @return List of MatchPair objects, containing the positions of the matches
-     */
-    public List<MatchPair> match(SLTLPair input);
-
+public abstract class Rule {
+    public String name;
     /**
      * The name of the rule
      * @return a string containing the name of the rule
      */
-    public String name();
+    public String name() {
+        return this.name;
+    }
 
     /**
      * Corrects the input matched by the rule
      * @param input The pair to be processed
      * @return A new SLTLPair with corrections applied
      */
-    public SLTLPair replace(SLTLPair input);
+    public abstract SLTLPair replace(SLTLPair input);
+    public boolean replacement = false;
+    public boolean hadReplacement() {
+        return replacement;
+    }
 }
