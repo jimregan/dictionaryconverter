@@ -52,11 +52,14 @@ public class TMX {
     }
     public static TMX readFile(InputStreamReader isr) throws Exception {
         BufferedReader br = new BufferedReader(isr);
-        String line;
         StringBuilder sb = new StringBuilder();
         int lineno = 0;
+        String line;
         while((line = br.readLine()) != null) {
             lineno++;
+            if(line.contains("<!DOCTYPE tmx")) {
+                line = "";
+            }
             if(line.contains("<prop ")) {
                 line.replace(" & ", " &amp; ").replace("'s", "&apos;s");
             }
