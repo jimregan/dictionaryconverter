@@ -47,6 +47,10 @@ public class Currency {
         this.amount = Integer.parseInt(amount);
         this.decimal = Integer.parseInt(decimal);
     }
+    public Currency(String amount, String decimal) {
+        this.amount = Integer.parseInt(amount);
+        this.decimal = Integer.parseInt(decimal);
+    }
     public CurrencyUnit getUnit() {
         return unit;
     }
