@@ -38,13 +38,15 @@ public class GaoisFinalNumberAddition extends Rule {
         if(input.target.matches("^[0-9]+\\) ?") && !input.source.matches("^[0-9]+\\) ?")) {
             Pattern p = Pattern.compile("(^[0-9]+\\) ?)");
             Matcher m = p.matcher(input.target);
+            m.find();
             start = m.end();
             target = input.target.substring(start);
             this.replacement = true;
         }
         if(target.endsWith("Uimh.") && input.source.matches("No\\. [0-9]+\\)?$")) {
-            Pattern p = Pattern.compile(".*No\\. ([0-9]+\\)?)$");
+            Pattern p = Pattern.compile("No\\. ([0-9]+\\)?)$");
             Matcher m = p.matcher(input.source);
+            m.find();
             String add = m.group(1);
             this.replacement = true;
             return new SLTLPair(input.id, input.source, target + " " + add);
