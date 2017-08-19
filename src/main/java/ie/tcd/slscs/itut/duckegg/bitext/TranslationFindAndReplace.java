@@ -39,7 +39,11 @@ public class TranslationFindAndReplace extends Rule {
     }
     @Override
     public SLTLPair replace(SLTLPair input) {
-        return replace(input, needles, false);
+        SLTLPair out = replace(input, needles, false);
+        if(!out.target.equals(input.target)) {
+            this.replacement = true;
+        }
+        return out;
     }
     public static SLTLPair replace(SLTLPair haystack, Map<String, Map<String, String>> needles, boolean regex) {
         SLTLPair out = new SLTLPair(haystack.id, haystack.source, haystack.target);
