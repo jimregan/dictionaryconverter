@@ -48,7 +48,7 @@ public class Currency extends Rule {
             throw new Exception("Empty result " + res.getRawparts().size());
         } else {
             ie.tcd.slscs.itut.duckegg.Currency c = new ie.tcd.slscs.itut.duckegg.Currency(res.getRawparts().get(0), res.getRawparts().get(2));
-            if(res.getRawparts().get(2).equals("p")) {
+            if(res.getRawparts().get(3).equals("p")) {
                 c.setUnit(CurrencyUnit.Pound);
             } else {
                 c.setUnit(CurrencyUnit.Euro);
