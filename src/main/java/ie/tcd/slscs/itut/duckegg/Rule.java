@@ -50,14 +50,19 @@ public class Rule {
         boolean matched = false;
         while(m.find()) {
             matched = true;
-            res = new Result(m.group(0));
+            String portion = m.group(0);
+            Matcher n = pat.matcher(portion);
+            if(!n.matches()) {
+                throw new Exception("Failed to match already matched string: " + portion);
+            }
+            res = new Result(portion);
             for(int i = 1; i <= pattern.patterns.size(); i++) {
                 System.err.println(pattern.patterns.size());
                 if(m.group(i) != null) {
-                    System.err.println(i + " " + m.group(i) + " " + m.group(0));
+                    System.err.println(i + " " + n.group(i) + " " + n.group(0));
                     res.addRawResult(m.group(i));
                 } else {
-                    System.err.println(pattern.getPattern() + " failed at " + i + " " + m.group(0));
+                    System.err.println(pattern.getPattern() + " failed at " + i + " " + n.group(0));
                     res.addRawResult(null);
                 }
                 results.add(setResult(res));
