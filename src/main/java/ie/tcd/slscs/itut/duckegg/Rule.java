@@ -51,18 +51,11 @@ public class Rule {
         while(m.find()) {
             matched = true;
             String portion = m.group(0);
-            Matcher n = pat.matcher(portion);
-            if(!n.matches()) {
-                throw new Exception("Failed to match already matched string: " + portion);
-            }
             res = new Result(portion);
             for(int i = 1; i <= pattern.patterns.size(); i++) {
-                System.err.println(pattern.patterns.size());
-                if(n.group(i) != null) {
-                    System.err.println(i + " " + n.group(i) + " :: " + n.group(0));
-                    res.addRawResult(n.group(i));
+                if(m.group(i) != null) {
+                    res.addRawResult(m.group(i));
                 } else {
-                    System.err.println(pattern.getPattern() + " failed at " + i + " :: " + n.group(0));
                     res.addRawResult(null);
                 }
             }
