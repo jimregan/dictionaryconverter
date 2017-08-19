@@ -35,7 +35,7 @@ public class Integer extends Rule {
         name = "integer";
         pattern = new PatternContainer
                 .Builder()
-                .addPattern(new Regex("[0-9]+,[0-9]+|[0-9]+"))
+                .addPattern(new Regex("[0-9]+"))
                 .build();
         pat = Pattern.compile(getPattern());
     }
