@@ -41,8 +41,8 @@ public class FuzzyCurrencyTest extends TestCase {
         assertNotEquals("", fc.getPattern());
         assertEquals(true, fc.matches(in));
         assertEquals(2, fc.getFuzzyResults().get(0).size());
-        assertEquals(expc1, fc.getFuzzyResults().get(0).get(0).getCurrency());
-        assertEquals(expc2, fc.getFuzzyResults().get(0).get(1).getCurrency());
+        assert(expc1.equals(fc.getFuzzyResults().get(0).get(0).getCurrency()));
+        assert(expc2.equals(fc.getFuzzyResults().get(0).get(1).getCurrency()));
 
     }
 
