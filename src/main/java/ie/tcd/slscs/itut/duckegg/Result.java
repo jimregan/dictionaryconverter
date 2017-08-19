@@ -36,8 +36,10 @@ public class Result {
     Currency currency_result;
     String raw;
     List<String> rawparts;
+    List<Result> fuzzy_results;
     public Result() {
         this.rawparts = new ArrayList<String>();
+        this.fuzzy_results = new ArrayList<Result>();
     }
     public Result(String raw) {
         this();
@@ -62,6 +64,15 @@ public class Result {
     public void setResult(int i) {
         type = ResultType.INT;
         this.int_result = i;
+    }
+    public void addFuzzyResult(Result r) {
+        fuzzy_results.add(r);
+    }
+    public List<Result> getFuzzy_results() {
+        return fuzzy_results;
+    }
+    public void setType(ResultType rt) {
+        this.type = rt;
     }
     public void setResult(double d) {
         type = ResultType.DOUBLE;

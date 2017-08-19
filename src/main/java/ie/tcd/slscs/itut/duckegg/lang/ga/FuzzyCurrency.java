@@ -67,7 +67,8 @@ public class FuzzyCurrency extends FuzzyRule {
                         c.setUnit(CurrencyUnit.Euro);
                     }
                     toadd.setResult(c);
-                    fuzzy_results.add(toadd);
+                    res.setType(ResultType.CURRENCY);
+                    res.addFuzzyResult(toadd);
                 }
             }
         }
