@@ -47,8 +47,16 @@ public class LexicalisedWord {
     }
     public static LexicalisedWord fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("lexicalized-word")) {
-            String tags = n.getAttributes().getNamedItem("tags").getTextContent();
-            String lemma = n.getAttributes().getNamedItem("lemma").getTextContent();
+            String tags = "";
+            String lemma = "";
+            if(n.getAttributes().getLength() != 0) {
+                if(n.getAttributes().getNamedItem("tags") != null) {
+                    tags = n.getAttributes().getNamedItem("tags").getTextContent();
+                }
+                if(n.getAttributes().getNamedItem("lemma") != null) {
+                    lemma = n.getAttributes().getNamedItem("lemma").getTextContent();
+                }
+            }
             return new LexicalisedWord(lemma, tags);
         } else {
             throw new Exception("Node does not contain lexicalized-word");
