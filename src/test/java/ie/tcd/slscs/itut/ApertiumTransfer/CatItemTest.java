@@ -74,4 +74,10 @@ public class CatItemTest extends TestCase {
         CatItem ci = new CatItem("", "n");
         assertEquals(true, ci.wordtokenMatches(wt));
     }
+
+    public void testWordTokenMatches3() throws Exception {
+        WordToken wt = WordToken.fromString("^<adj>$");
+        CatItem ci = new CatItem("", "adj");
+        assertEquals(true, ci.wordtokenMatches(wt));
+    }
 }
