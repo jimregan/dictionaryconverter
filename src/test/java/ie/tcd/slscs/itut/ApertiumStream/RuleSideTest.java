@@ -131,6 +131,6 @@ public class RuleSideTest extends TestCase {
         RuleSide rs = RuleSide.convertSimpleTokens(stoksnolem);
         Pattern pout = RuleSide.toPattern(rs, dc);
         assertEquals(2, pout.getItems().size());
-        assertEquals("noun", pout.getItems().get(1));
+        assertEquals("noun", pout.getItems().get(1).getName());
     }
 }
