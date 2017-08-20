@@ -61,7 +61,13 @@ public class WordToken extends StreamToken {
         this.simple = true;
     }
     public String getLemma() {
-        return lemh + lemq;
+        if(lemq == null) {
+            return lemh;
+        } else if(!lemq.startsWith("#")) {
+            return lemh + "#" + lemq;
+        } else {
+            return lemh + lemq;
+        }
     }
     public String getLemh() {
         return lemh;
