@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.SimpleToken;
 import ie.tcd.slscs.itut.ApertiumStream.WordToken;
 import junit.framework.TestCase;
 
@@ -79,5 +80,11 @@ public class CatItemTest extends TestCase {
         WordToken wt = WordToken.fromString("^<adj>$");
         CatItem ci = new CatItem("", "adj");
         assertEquals(true, ci.wordtokenMatches(wt));
+    }
+
+    public void testWordTokenMatches4() throws Exception {
+        SimpleToken st = SimpleToken.fromString("<adj>");
+        CatItem ci = new CatItem("", "adj");
+        assertEquals(true, ci.wordtokenMatches(st));
     }
 }
