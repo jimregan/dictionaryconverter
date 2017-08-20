@@ -133,7 +133,7 @@ public class WordToken extends StreamToken {
     @Override
     public String getContent() {
         String outlemq = "";
-        if (getLemq().startsWith("#")) {
+        if (getLemq() != null && getLemq().startsWith("#")) {
             outlemq = "#" + ApertiumStream.escapeString(getLemq().substring(1));
         }
         return ApertiumStream.escapeString(getLemh()) + getTagsString() + outlemq;
