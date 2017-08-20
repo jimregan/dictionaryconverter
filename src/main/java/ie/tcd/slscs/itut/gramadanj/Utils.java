@@ -23,6 +23,7 @@ package ie.tcd.slscs.itut.gramadanj;
  */
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
@@ -288,6 +289,19 @@ public class Utils {
             s.append(it.next());
         }
         return s.toString();
+    }
+    public boolean canSkipNode(Node n) {
+        if(n.getNodeName().equals("#text") && n.getTextContent().trim().equals("")) {
+            return true;
+        } else if(n.getNodeType() == Element.COMMENT_NODE) {
+            return true;
+        } else if(n.getNodeType() == Element.PROCESSING_INSTRUCTION_NODE) {
+            return true;
+        } else if(n.getNodeType() == Element.ELEMENT_NODE) {
+            return false;
+        } else {
+            return false;
+        }
     }
 
 }
