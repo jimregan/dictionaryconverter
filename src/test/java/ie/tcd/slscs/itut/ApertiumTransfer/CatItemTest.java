@@ -55,4 +55,10 @@ public class CatItemTest extends TestCase {
         CatItem ci = new CatItem("foo", "n.*.*");
         assertEquals(true, ci.tagsStartWith(comp));
     }
+    public void testTagsStartWith2() {
+        List<String> comp = new ArrayList<String>();
+        comp.add("n");
+        CatItem ci = new CatItem("", "n");
+        assertEquals(true, ci.tagsStartWith(comp));
+    }
 }
