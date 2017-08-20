@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import ie.tcd.slscs.itut.ApertiumTransfer.CatItem;
+import ie.tcd.slscs.itut.ApertiumTransfer.DefCat;
+import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -36,6 +39,21 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class RuleSideTest extends TestCase {
+    DefCats dc;
+    public void setUp() {
+        List<CatItem> first = new ArrayList<CatItem>();
+        first.add(new CatItem("", "adj"));
+        first.add(new CatItem("", "adj.sint"));
+        first.add(new CatItem("", "adj.sup"));
+        List<CatItem> second = new ArrayList<CatItem>();
+        second.add(new CatItem("", "n.m.*"));
+        second.add(new CatItem("", "n.*.*"));
+        List<DefCat> defcats = new ArrayList<DefCat>();
+        defcats.add(new DefCat("adj", first));
+        defcats.add(new DefCat("noun", second));
+        dc = new DefCats(defcats);
+    }
+
     public void testConvert() throws Exception {
         String input = "^simple<n><sg>{^a<det>$^small<adj>+ish<blah>$ ^test<n><sg>$}$ ^test<n><sg>$";
         List<StreamToken> chunkt = ChunkToken.listFromString(input, true);
@@ -76,5 +94,7 @@ public class RuleSideTest extends TestCase {
         LUReference luref = (LUReference) rs.tokens.get(2);
         assertEquals(luref.position, 4);
     }
+    public void testToPattern() {
 
+    }
 }
