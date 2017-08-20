@@ -168,6 +168,10 @@ public class RuleContainer {
         out.setLeft(rc.getRight());
         out.setLeftExample(rc.getRightExample());
         out.setRightExample(rc.getLeftExample());
+        out.setLeftMacrocalls(rc.getRightMacrocalls());
+        out.setRightMacrocalls(rc.getLeftMacrocalls());
+        out.setSimple(rc.isSimple());
+        out.setAlignments(AlignmentPair.reverseList(rc.getAlignments()));
         return out;
     }
 }
