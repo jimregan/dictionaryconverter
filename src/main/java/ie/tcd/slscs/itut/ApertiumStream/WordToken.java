@@ -26,6 +26,8 @@
  */
 package ie.tcd.slscs.itut.ApertiumStream;
 
+import ie.tcd.slscs.itut.ApertiumTransfer.CatItem;
+import ie.tcd.slscs.itut.ApertiumTransfer.LexicalisedWord;
 import ie.tcd.slscs.itut.gramadanj.Utils;
 
 import java.util.ArrayList;
@@ -80,6 +82,15 @@ public class WordToken extends StreamToken {
     }
     public void setLemq(String lemq) {
         this.lemq = lemq;
+    }
+    public boolean emptyLemq() {
+        return (lemq.equals("") || lemq == null);
+    }
+    public boolean emptyLemh() {
+        return (lemh.equals("") || lemh == null);
+    }
+    public boolean emptyLemma() {
+        return emptyLemh() && emptyLemq();
     }
     public List<String> getTags() {
         return tags;
@@ -255,7 +266,6 @@ public class WordToken extends StreamToken {
      * For apertium-transfer-tools like input: checks if the stream of tokens
      * is fully delexicalised (i.e., that the tokens only contain tags): if so,
      * the list of tokens may be used as the basis of a rule
-     * TODO: a version of this that accepts a set of lexicalisable tags
      * @param tokens the stream of WordTokens and BlankTokens to be checked
      * @return true if fully delexicalised
      */
@@ -265,8 +275,30 @@ public class WordToken extends StreamToken {
                 continue;
             } else if (st instanceof WordToken) {
                 WordToken wt = (WordToken) st;
-                if (!wt.getLemh().equals("") || !wt.getLemq().equals("")) {
+                if (!wt.emptyLemma()) {
                     return false;
+                }
+            }
+        }
+        return true;
+    }
+    static boolean isRuleBasis(List<StreamToken> tokens, List<LexicalisedWord> lexic) {
+        for (StreamToken st : tokens) {
+            if (st instanceof BlankToken) {
+                continue;
+            } else if (st instanceof WordToken) {
+                WordToken wt = (WordToken) st;
+                if (wt.emptyLemma()) {
+                    return true;
+                } else {
+                    for(LexicalisedWord lw : lexic) {
+                        WordToken tmp = lw.toWordToken();
+                        if(tmp.emptyLemma() || tmp.getLemma().equals(wt.getLemma())) {
+                            return CatItem.tagsStartWith(tmp.getTags(), wt.getTags());
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             }
         }
