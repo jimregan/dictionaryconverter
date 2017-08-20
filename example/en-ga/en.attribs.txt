@@ -1,0 +1,4 @@
+grade = comp sup
+gen = m f nt mf GD
+num = sg pl sp ND
+pers = p1 p2 p3 PD
