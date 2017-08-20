@@ -53,6 +53,9 @@ public class SimpleTextMacroAttrTest extends TestCase {
         SimpleTextMacroAttr a = SimpleTextMacroAttr.fromSimpleText("<thing!=b>");
         SimpleTextMacroAttr b = SimpleTextMacroAttr.fromSimpleText("<thing=b>");
         SimpleTextMacroAttr c = SimpleTextMacroAttr.fromSimpleText("<justb>");
+        SimpleTextMacroAttr d = SimpleTextMacroAttr.fromSimpleText("<list:justb=foo>");
+        SimpleTextMacroAttr e = SimpleTextMacroAttr.fromSimpleText("<beginslist:justb=bar>");
+        SimpleTextMacroAttr f = SimpleTextMacroAttr.fromSimpleText("<endslist:justb=baz>");
         assertEquals("thing", a.getKey());
         assertEquals("b", a.getValue());
         assertEquals(true, a.getNot());
@@ -61,6 +64,15 @@ public class SimpleTextMacroAttrTest extends TestCase {
         assertEquals(false, b.getNot());
         assertEquals("justb", c.getKey());
         assertEquals("", c.getValue());
-        assertEquals(false, c.getNot());
+        assertEquals(false, c.isNot());
+        assertEquals("justb", d.getKey());
+        assertEquals("foo", d.getValue());
+        assertEquals(true, d.isList());
+        assertEquals("justb", e.getKey());
+        assertEquals("bar", e.getValue());
+        assertEquals(true, e.isBeginsList());
+        assertEquals("justb", f.getKey());
+        assertEquals("baz", f.getValue());
+        assertEquals(true, f.isEndsList());
     }
 }
