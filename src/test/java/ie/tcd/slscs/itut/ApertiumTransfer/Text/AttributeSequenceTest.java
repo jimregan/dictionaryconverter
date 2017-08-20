@@ -61,7 +61,7 @@ public class AttributeSequenceTest extends TestCase {
         assertEquals(5, out.size());
         assertEquals("grade", out.get(0).name);
         assertEquals("mut", out.get(4).name);
-        assertEquals(4, out.get(0).tags.size());
+        assertEquals(4, out.get(4).tags.size());
     }
 
 }
