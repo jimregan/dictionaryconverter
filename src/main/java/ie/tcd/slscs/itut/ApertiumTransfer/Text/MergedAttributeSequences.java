@@ -47,14 +47,24 @@ public class MergedAttributeSequences {
             clippable.put(as.name, true);
         }
         for(AttributeSequence as : target) {
-            if(sequences.containsKey(as.name)) {
-                sequences.get(as.name).addAll(as.tags);
-            } else {
-                clippable.put(as.name, false);
-                Set<String> tags = new HashSet<String>();
-                tags.addAll(as.tags);
-                sequences.put(as.name, tags);
-            }
+            mergeInnerAdd(as);
+        }
+        for(AttributeSequence as : source_chunk) {
+            mergeInnerAdd(as);
+        }
+        for(AttributeSequence as : target_chunk) {
+            mergeInnerAdd(as);
+        }
+    }
+
+    private void mergeInnerAdd(AttributeSequence as) {
+        if(sequences.containsKey(as.name)) {
+            sequences.get(as.name).addAll(as.tags);
+        } else {
+            clippable.put(as.name, false);
+            Set<String> tags = new HashSet<String>();
+            tags.addAll(as.tags);
+            sequences.put(as.name, tags);
         }
     }
 }
