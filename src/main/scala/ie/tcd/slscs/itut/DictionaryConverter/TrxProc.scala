@@ -194,8 +194,17 @@ object TrxProc {
     }
   }
   // a list of SimpleLUs, from SimpleToken, have implicit blanks
-  // TODO: this needs to be filtered, because it adds one blank too many
-  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten
+  def simpleStreamDropLastBlank(l: List[StreamItem]): List[StreamItem] = {
+    def dropLastBlank(l: List[StreamItem], acc: List[StreamItem]): List[StreamItem] = l match {
+      case SimpleLU(a,b,c) :: xs => dropLastBlank(xs, acc :+ SimpleLU(a,b,c))
+      case PositionBlank(b) :: xs =>  dropLastBlank(xs, acc :+ PositionBlank(b))
+      case SimpleLU(a,b,c) :: nil => acc :+ SimpleLU(a,b,c)
+      case PositionBlank(b) :: nil => acc
+      case _ => throw new Exception("Unexpected class")
+    }
+    dropLastBlank(l, List.empty[StreamItem])
+  }
+  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
     case b: BlankToken => convertBlanks(b)
