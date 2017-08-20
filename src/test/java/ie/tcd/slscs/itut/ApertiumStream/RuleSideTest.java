@@ -47,7 +47,6 @@ public class RuleSideTest extends TestCase {
         first.add(new CatItem("", "adj.sup"));
         List<CatItem> second = new ArrayList<CatItem>();
         second.add(new CatItem("", "n.*"));
-        second.add(new CatItem("", "n.*"));
         List<DefCat> defcats = new ArrayList<DefCat>();
         defcats.add(new DefCat("adj", first));
         defcats.add(new DefCat("noun", second));
