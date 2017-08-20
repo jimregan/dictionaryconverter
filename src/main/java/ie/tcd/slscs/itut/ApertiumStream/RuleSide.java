@@ -185,7 +185,8 @@ public class RuleSide {
         List<PatternItem> items = new ArrayList<PatternItem>();
         String name = "";
         for(WordToken wt : rs.getLUs()) {
-            if((name = dc.findWordToken(wt)) != null) {
+            name = dc.findWordToken(wt);
+            if(name != null) {
                 items.add(new PatternItem(name));
             } else {
                 System.err.println("No pattern-item found for token " + wt.toString());
