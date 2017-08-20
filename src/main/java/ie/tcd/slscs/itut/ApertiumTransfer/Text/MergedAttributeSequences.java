@@ -42,8 +42,6 @@ public class MergedAttributeSequences {
     }
     void merge() {
         for(AttributeSequence as : source) {
-            String key = as.name;
-            List<String> tags = as.tags;
             sequences.put(as.name, as.tags);
         }
     }
