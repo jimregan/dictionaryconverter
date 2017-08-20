@@ -39,7 +39,7 @@ public class RuleContainerTest extends TestCase {
         assertEquals("NP", rc.getTag());
         assertEquals("big dog → madra mór", rc.getCommentString());
         assertEquals(1, rc.getMacrocalls().size());
-        assertEquals(2, rc.getLeft().tokens.size());
+        assertEquals(3, rc.getLeft().tokens.size());
     }
 
 }
