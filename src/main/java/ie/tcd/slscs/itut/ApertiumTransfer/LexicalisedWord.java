@@ -40,7 +40,7 @@ public class LexicalisedWord {
         this.lemma = lemma;
         this.tags = tags;
     }
-    WordToken toWordToken() {
+    public WordToken toWordToken() {
         String[] atags = this.tags.split("\\.");
         List<String> tags = Arrays.asList(atags);
         return new WordToken(this.lemma, "", tags);
