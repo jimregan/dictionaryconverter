@@ -83,6 +83,17 @@ public class CatItem {
         }
         return true;
     }
+    public static boolean tagsMatch(List<String> tags, List<String> other_tags) {
+        if(other_tags.size() != tags.size()) {
+            return false;
+        }
+        for(int i = 0; i < tags.size(); i++) {
+            if(!tags.get(i).equals(other_tags.get(i)) && !tags.get(i).equals("*")) {
+                return false;
+            }
+        }
+        return true;
+    }
     public boolean tagsMatch(String[] s) {
         return tagsMatch(Arrays.asList(s));
     }
@@ -95,6 +106,17 @@ public class CatItem {
         }
         for(int i = 0; i < other_tags.size(); i++) {
             if(!other_tags.get(i).equals(getTagsList().get(i)) && !getTagsList().get(i).equals("*")) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean tagsStartWith(List<String> tags, List<String> other_tags) {
+        if(other_tags.size() > tags.size()) {
+            return false;
+        }
+        for(int i = 0; i < other_tags.size(); i++) {
+            if(!other_tags.get(i).equals(tags.get(i)) && !tags.get(i).equals("*")) {
                 return false;
             }
         }
