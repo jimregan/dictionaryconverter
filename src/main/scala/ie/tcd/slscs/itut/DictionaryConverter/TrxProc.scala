@@ -170,6 +170,8 @@ object TrxProc {
   trait SingleLexicalUnit extends LexicalUnit
   case class LUProc(lemh: String, lemq: String, tags: List[String]) extends SingleLexicalUnit
   def wordTokenToLUProc(wt: WordToken): LUProc = LUProc(wt.getLemh, wt.getLemq, wt.getTags.asScala.toList)
+  case class SimpleLU(lemh: String, lemq: String, tags: List[String]) extends SingleLexicalUnit
+  def simpleTokenToSimpleLU(st: SimpleToken): SimpleLU = SimpleLU(st.getLemh, st.getLemq, st.getTags.asScala.toList)
   case class LURef(index: Int) extends SingleLexicalUnit
   def luReferenceToLURef(ref: LUReference): LURef = LURef(ref.position)
   case class MLU(children: List[LURef]) extends LexicalUnit
@@ -182,6 +184,8 @@ object TrxProc {
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
   case class Blank() extends StreamItem
+  case class PositionBlank(pos: Int) extends StreamItem
+  def positionedBlankToPositionBlank(b: PositionedBlank): PositionBlank = PositionBlank(b.getPosition)
   def convertBlanks(blankToken: BlankToken): Option[Blank] = {
     if(blankToken.getContent == null || blankToken.getContent == "") {
       return None
@@ -189,6 +193,8 @@ object TrxProc {
       return Some(Blank())
     }
   }
+  // a list of SimpleLUs, from SimpleToken, have implicit blanks
+  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
     case b: BlankToken => convertBlanks(b)
