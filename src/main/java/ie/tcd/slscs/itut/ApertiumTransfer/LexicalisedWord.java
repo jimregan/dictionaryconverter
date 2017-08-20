@@ -28,6 +28,7 @@
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
 import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+import org.w3c.dom.Node;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,4 +45,14 @@ public class LexicalisedWord {
         List<String> tags = Arrays.asList(atags);
         return new WordToken(this.lemma, "", tags);
     }
+    public static LexicalisedWord fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("lexicalized-word")) {
+            String tags = n.getAttributes().getNamedItem("tags").toString();
+            String lemma = n.getAttributes().getNamedItem("lemma").toString();
+            return new LexicalisedWord(lemma, tags);
+        } else {
+            throw new Exception("Node does not contain lexicalized-word");
+        }
+    }
+
 }
