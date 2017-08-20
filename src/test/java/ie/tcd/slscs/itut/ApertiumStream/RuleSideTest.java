@@ -111,6 +111,17 @@ public class RuleSideTest extends TestCase {
         assertEquals(true, (rs.getLUs().get(1) instanceof SimpleToken));
         assertEquals(true, (rs.getTokens().get(2) instanceof LUReference));
     }
+    public void testConvertSimpleTokens2() throws Exception {
+        RuleSide rs = RuleSide.convertSimpleTokens(stoksnolem);
+        assertEquals(2, rs.getLUs().size());
+        // check that positioned blank has been added
+        assertEquals(3, rs.getTokens().size());
+        assertEquals("1", rs.getTokens().get(1).getContent());
+        assertEquals("<adj>", rs.getLUs().get(0).getContent());
+        assertEquals("<n><sg>", rs.getLUs().get(1).getContent());
+        assertEquals(true, (rs.getLUs().get(1) instanceof SimpleToken));
+        assertEquals(true, (rs.getTokens().get(2) instanceof LUReference));
+    }
     public void testToPattern() throws Exception {
         List<PatternItem> lpi = new ArrayList<PatternItem>();
         lpi.add(new PatternItem("adj"));
