@@ -46,6 +46,9 @@ public class SimpleTextMacroAttr {
     public String getValue() {
         return value;
     }
+    public boolean getNot() {
+        return not;
+    }
     public static SimpleTextMacroAttr createLemma(String s) {
         return new SimpleTextMacroAttr("lemma", s);
     }
