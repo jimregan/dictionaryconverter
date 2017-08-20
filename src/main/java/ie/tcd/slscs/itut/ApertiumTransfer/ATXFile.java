@@ -56,7 +56,7 @@ public class ATXFile {
         this.sourcelex = srclist;
         this.targetlex = trglist;
     }
-    public ATXFile loadXML(InputSource is) throws Exception {
+    public static ATXFile loadXML(InputSource is) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         Document doc = docBuilder.parse(is);
