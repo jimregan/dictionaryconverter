@@ -69,8 +69,8 @@ public class ATXFile {
         List<LexicalisedWord> trglist = new ArrayList<LexicalisedWord>();
         NodeList nl = doc.getDocumentElement().getChildNodes();
         for(int i = 0; i < nl.getLength(); i++) {
-            if(nl.item(i).getNodeName().equals("source")) {
-                Node itemi = nl.item(i);
+            Node itemi = nl.item(i);
+            if(itemi.getNodeName().equals("source")) {
                 for(int j = 0; j < itemi.getChildNodes().getLength(); j++) {
                     Node itemj = itemi.getChildNodes().item(j);
                     if(itemj.getNodeName().equals("lexicalized-words")) {
@@ -82,8 +82,7 @@ public class ATXFile {
                         }
                     }
                 }
-            } else if(nl.item(i).getNodeName().equals("target")) {
-                Node itemi = nl.item(i);
+            } else if(itemi.getNodeName().equals("target")) {
                 for(int j = 0; j < itemi.getChildNodes().getLength(); j++) {
                     Node itemj = itemi.getChildNodes().item(j);
                     if(itemj.getNodeName().equals("lexicalized-words")) {
@@ -95,9 +94,9 @@ public class ATXFile {
                         }
                     }
                 }
-            } else if(nl.item(i).getNodeName().equals("#text") && nl.item(i).getTextContent().trim().equals("")) {
+            } else if(itemi.getNodeName().equals("#text") && nl.item(i).getTextContent().trim().equals("")) {
                 // Nothing
-            } else if(nl.item(i).getNodeType() != Element.ELEMENT_NODE) {
+            } else if(itemi.getNodeType() != Element.ELEMENT_NODE) {
                 // I think this skips everything!
             } else {
                 throw new Exception("Unexpected node: " + nl.item(i).getNodeName());
