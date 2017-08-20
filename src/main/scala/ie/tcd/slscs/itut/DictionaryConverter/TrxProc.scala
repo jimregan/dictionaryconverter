@@ -198,8 +198,8 @@ object TrxProc {
     def dropLastBlank(l: List[StreamItem], acc: List[StreamItem]): List[StreamItem] = l match {
       case SimpleLU(a,b,c) :: xs => dropLastBlank(xs, acc :+ SimpleLU(a,b,c))
       case PositionBlank(b) :: xs =>  dropLastBlank(xs, acc :+ PositionBlank(b))
-      case SimpleLU(a,b,c) :: nil => acc :+ SimpleLU(a,b,c)
-      case PositionBlank(b) :: nil => acc
+      case SimpleLU(a,b,c) :: Nil => acc :+ SimpleLU(a,b,c)
+      case PositionBlank(b) :: Nil => acc
       case _ => throw new Exception("Unexpected class")
     }
     dropLastBlank(l, List.empty[StreamItem])
