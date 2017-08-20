@@ -39,14 +39,15 @@ import static org.junit.Assert.*;
 public class RuleSideTest extends TestCase {
     DefCats dc;
     List<SimpleToken> stoks;
+    List<SimpleToken> stoksnolem;
     public void setUp() {
         List<CatItem> first = new ArrayList<CatItem>();
         first.add(new CatItem("", "adj"));
         first.add(new CatItem("", "adj.sint"));
         first.add(new CatItem("", "adj.sup"));
         List<CatItem> second = new ArrayList<CatItem>();
-        second.add(new CatItem("", "n.m.*"));
-        second.add(new CatItem("", "n.*.*"));
+        second.add(new CatItem("", "n.*"));
+        second.add(new CatItem("", "n.*"));
         List<DefCat> defcats = new ArrayList<DefCat>();
         defcats.add(new DefCat("adj", first));
         defcats.add(new DefCat("noun", second));
@@ -55,6 +56,10 @@ public class RuleSideTest extends TestCase {
         stoks = new ArrayList<SimpleToken>();
         stoks.add(SimpleToken.fromString("simple<adj>"));
         stoks.add(SimpleToken.fromString("test<n><sg>"));
+
+        stoksnolem = new ArrayList<SimpleToken>();
+        stoksnolem.add(SimpleToken.fromString("<adj>"));
+        stoksnolem.add(SimpleToken.fromString("<n><sg>"));
     }
 
     public void testConvert() throws Exception {
@@ -116,6 +121,6 @@ public class RuleSideTest extends TestCase {
         RuleSide rs = RuleSide.convertSimpleTokens(stoks);
         Pattern pout = RuleSide.toPattern(rs, dc);
         assertEquals(2, pout.getItems().size());
-        //assertEquals("adj", pout.getItems().get(0).getName());
+        assertEquals("adj", pout.getItems().get(0).getName());
     }
 }
