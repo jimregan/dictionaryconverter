@@ -194,6 +194,7 @@ object TrxProc {
     }
   }
   // a list of SimpleLUs, from SimpleToken, have implicit blanks
+  // TODO: this needs to be filtered, because it adds one blank too many
   def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
