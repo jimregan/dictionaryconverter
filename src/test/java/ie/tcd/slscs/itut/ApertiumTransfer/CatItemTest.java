@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -60,5 +61,17 @@ public class CatItemTest extends TestCase {
         comp.add("n");
         CatItem ci = new CatItem("", "n");
         assertEquals(true, ci.tagsStartWith(comp));
+    }
+
+    public void testWordTokenMatches1() throws Exception {
+        WordToken wt = WordToken.fromString("^simple<n>$");
+        CatItem ci = new CatItem("simple", "n");
+        assertEquals(true, ci.wordtokenMatches(wt));
+    }
+
+    public void testWordTokenMatches2() throws Exception {
+        WordToken wt = WordToken.fromString("^<n>$");
+        CatItem ci = new CatItem("", "n");
+        assertEquals(true, ci.wordtokenMatches(wt));
     }
 }
