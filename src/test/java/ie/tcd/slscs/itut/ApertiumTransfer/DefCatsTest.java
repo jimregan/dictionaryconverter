@@ -55,8 +55,8 @@ public class DefCatsTest extends TestCase {
         assertEquals("noun", dc.findTagMatch("n.f.sg"));
     }
     public void testFindWordToken() throws Exception {
-        WordToken wt = new WordToken("^<adj>$");
+        WordToken wt = new WordToken("^<n>$");
         String m = dc.findWordToken(wt);
-        assertEquals("adj", m);
+        assertEquals("noun", m);
     }
 }
