@@ -78,8 +78,12 @@ public class ATXFile {
                             Node itemk = itemj.getChildNodes().item(k);
                             if(itemk.getNodeName().equals("lexicalized-word")) {
                                 srclist.add(LexicalisedWord.fromNode(itemk));
+                            } else if(itemk.getNodeName().equals("#text") && itemk.getTextContent().trim().equals("")) {
+                                // Skip
                             }
                         }
+                    } else if(itemj.getNodeName().equals("#text") && itemj.getTextContent().trim().equals("")) {
+                        // Skip
                     }
                 }
             } else if(itemi.getNodeName().equals("target")) {
@@ -90,8 +94,12 @@ public class ATXFile {
                             Node itemk = itemj.getChildNodes().item(k);
                             if(itemk.getNodeName().equals("lexicalized-word")) {
                                 trglist.add(LexicalisedWord.fromNode(itemk));
+                            } else if(itemk.getNodeName().equals("#text") && itemk.getTextContent().trim().equals("")) {
+                                // Skip
                             }
                         }
+                    } else if(itemj.getNodeName().equals("#text") && itemj.getTextContent().trim().equals("")) {
+                        // Skip
                     }
                 }
             } else if(itemi.getNodeName().equals("#text") && nl.item(i).getTextContent().trim().equals("")) {
