@@ -57,7 +57,7 @@ public class MergedAttributeSequencesTest extends TestCase {
     String intrgch = "mut = len hpref ecl defart LENGAN LENPREP\n" +
             "gen = m f mf GD\n" +
             "num = sg pl sp ND\n" +
-            "case = case = com gen voc dat GEN2\n" +
+            "case = com gen voc dat GEN2\n" +
             "det_chunk = DEFART NODET DET RMART";
     public void testMerge() throws Exception {
         List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
