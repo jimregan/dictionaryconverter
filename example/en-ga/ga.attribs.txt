@@ -4,3 +4,4 @@ num = sg pl sp ND
 case = com gen voc dat
 mut = len hpref ecl defart
 pers = p1 p2 p3 PD
+strength = strong
