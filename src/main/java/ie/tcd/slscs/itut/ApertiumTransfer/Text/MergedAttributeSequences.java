@@ -76,4 +76,13 @@ public class MergedAttributeSequences {
             sequences.put(as.name, tags);
         }
     }
+    public Map<String, Set<String>> getSequences() {
+        return sequences;
+    }
+    public Map<String, Boolean> getClippable() {
+        return clippable;
+    }
+    public boolean isClippable(String s) {
+        return clippable.get(s);
+    }
 }
