@@ -27,11 +27,21 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class LexicalisedWord {
     String lemma;
     String tags;
     LexicalisedWord(String lemma, String tags) {
         this.lemma = lemma;
         this.tags = tags;
+    }
+    WordToken toWordToken() {
+        String[] atags = this.tags.split("\\.");
+        List<String> tags = Arrays.asList(atags);
+        return new WordToken(this.lemma, "", tags);
     }
 }
