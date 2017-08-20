@@ -39,23 +39,23 @@ public class WordToken extends StreamToken {
     String lemq = "";
     boolean inMLU = false;
     private boolean simple = false;
-    WordToken() {
+    public WordToken() {
         tags = new ArrayList<String>();
     }
-    WordToken(String lemh, String lemq, List<String> tags) {
+    public WordToken(String lemh, String lemq, List<String> tags) {
         this();
         this.lemh = lemh;
         this.lemq = lemq;
         this.tags = tags;
     }
-    WordToken(String s) throws Exception {
+    public WordToken(String s) throws Exception {
         this();
         WordToken tmp = WordToken.fromString(s);
         this.lemh = tmp.lemh;
         this.lemq = tmp.lemq;
         this.tags = tmp.tags;
     }
-    WordToken(SimpleToken st) {
+    public WordToken(SimpleToken st) {
         this.lemh = st.lemh;
         this.tags = st.tags;
         this.simple = true;
