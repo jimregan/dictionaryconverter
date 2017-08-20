@@ -27,28 +27,19 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class PositionedBlank extends BlankToken {
-    int position;
-    public PositionedBlank() {
-        super();
-    }
-    public PositionedBlank(int pos) {
-        super(" ");
-        this.position = pos;
-    }
-    public int getPosition() {
-        return position;
-    }
-    public void setPosition(int position) {
-        this.position = position;
-    }
-    @Override
-    public String getContent() {
-        return Integer.toString(position);
+import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class RuleContainerTest extends TestCase {
+    public void testFromString() throws Exception {
+        String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | big dog | madra mór";
+        RuleContainer rc = RuleContainer.fromString(simple);
+        assertEquals("NP", rc.getTag());
+        assertEquals("big dog → madra mór", rc.getCommentString());
+        assertEquals(1, rc.getMacrocalls().size());
+        assertEquals(3, rc.getLeft().tokens.size());
     }
 
-    @Override
-    public String toString() {
-        return getContent();
-    }
 }

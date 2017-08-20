@@ -33,7 +33,7 @@ public class PatternItem {
     String name;
     public PatternItem() {
     }
-    public PatternItem(String s) {
+    public PatternItem(String name) {
         this.name = name;
     }
 

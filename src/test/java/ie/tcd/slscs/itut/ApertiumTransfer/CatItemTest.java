@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.SimpleToken;
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -54,5 +56,35 @@ public class CatItemTest extends TestCase {
         comp.add("f");
         CatItem ci = new CatItem("foo", "n.*.*");
         assertEquals(true, ci.tagsStartWith(comp));
+    }
+    public void testTagsStartWith2() {
+        List<String> comp = new ArrayList<String>();
+        comp.add("n");
+        CatItem ci = new CatItem("", "n");
+        assertEquals(true, ci.tagsStartWith(comp));
+    }
+
+    public void testWordTokenMatches1() throws Exception {
+        WordToken wt = WordToken.fromString("^simple<n>$");
+        CatItem ci = new CatItem("simple", "n");
+        assertEquals(true, ci.wordtokenMatches(wt));
+    }
+
+    public void testWordTokenMatches2() throws Exception {
+        WordToken wt = WordToken.fromString("^<n>$");
+        CatItem ci = new CatItem("", "n");
+        assertEquals(true, ci.wordtokenMatches(wt));
+    }
+
+    public void testWordTokenMatches3() throws Exception {
+        WordToken wt = WordToken.fromString("^<adj>$");
+        CatItem ci = new CatItem("", "adj");
+        assertEquals(true, ci.wordtokenMatches(wt));
+    }
+
+    public void testWordTokenMatches4() throws Exception {
+        SimpleToken st = SimpleToken.fromString("<adj>");
+        CatItem ci = new CatItem("", "adj");
+        assertEquals(true, ci.wordtokenMatches(st));
     }
 }

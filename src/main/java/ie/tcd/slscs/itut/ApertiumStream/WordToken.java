@@ -84,10 +84,10 @@ public class WordToken extends StreamToken {
         this.lemq = lemq;
     }
     public boolean emptyLemq() {
-        return (lemq.equals("") || lemq == null);
+        return (lemq == null || lemq.equals(""));
     }
     public boolean emptyLemh() {
-        return (lemh.equals("") || lemh == null);
+        return (lemh == null || lemh.equals(""));
     }
     public boolean emptyLemma() {
         return emptyLemh() && emptyLemq();
@@ -133,7 +133,7 @@ public class WordToken extends StreamToken {
     @Override
     public String getContent() {
         String outlemq = "";
-        if (getLemq().startsWith("#")) {
+        if (getLemq() != null && getLemq().startsWith("#")) {
             outlemq = "#" + ApertiumStream.escapeString(getLemq().substring(1));
         }
         return ApertiumStream.escapeString(getLemh()) + getTagsString() + outlemq;

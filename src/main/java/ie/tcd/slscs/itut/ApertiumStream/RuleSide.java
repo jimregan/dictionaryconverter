@@ -32,6 +32,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
 import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RuleSide {
@@ -161,12 +162,22 @@ public class RuleSide {
     public static RuleSide convertSimpleTokens(List<SimpleToken> input) {
         List<WordToken> lus = new ArrayList<WordToken>();
         List<StreamToken> tokens = new ArrayList<StreamToken>();
-        int i = 1;
-        for(SimpleToken st : input) {
+        Iterator<SimpleToken> it = input.iterator();
+        int lucount = 0;
+        if(it.hasNext()) {
+            SimpleToken st = it.next();
             lus.add(st);
-            tokens.add(st);
-            tokens.add(new PositionedBlank(i));
-            i++;
+            tokens.add(new LUReference(lucount));
+        }
+        lucount++;
+        int blankidx = 1;
+        while(it.hasNext()) {
+            tokens.add(new PositionedBlank(blankidx));
+            blankidx++;
+            SimpleToken st = it.next();
+            lus.add(st);
+            tokens.add(new LUReference(lucount));
+            lucount++;
         }
         return new RuleSide(lus, tokens);
     }
@@ -174,7 +185,8 @@ public class RuleSide {
         List<PatternItem> items = new ArrayList<PatternItem>();
         String name = "";
         for(WordToken wt : rs.getLUs()) {
-            if((name = dc.findWordToken(wt)) != null) {
+            name = dc.findWordToken(wt);
+            if(name != null) {
                 items.add(new PatternItem(name));
             } else {
                 System.err.println("No pattern-item found for token " + wt.toString());

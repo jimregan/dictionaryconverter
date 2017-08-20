@@ -129,7 +129,7 @@ public class CatItem {
         return tagsStartWith(s.split("\\."));
     }
     public boolean wordtokenMatches(WordToken wt) {
-        if(wt.getLemma().equals("")) {
+        if(wt.emptyLemma()) {
             return tagsStartWith(wt.getTags());
         } else {
             return wt.getLemma().equals(this.lemma) && tagsStartWith(wt.getTags());
