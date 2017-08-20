@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -78,11 +79,11 @@ public class ATXFile {
                             Node itemk = itemj.getChildNodes().item(k);
                             if(itemk.getNodeName().equals("lexicalized-word")) {
                                 srclist.add(LexicalisedWord.fromNode(itemk));
-                            } else if(itemk.getNodeName().equals("#text") && itemk.getTextContent().trim().equals("")) {
+                            } else if(Utils.canSkipNode(itemk)) {
                                 // Skip
                             }
                         }
-                    } else if(itemj.getNodeName().equals("#text") && itemj.getTextContent().trim().equals("")) {
+                    } else if(Utils.canSkipNode(itemj)) {
                         // Skip
                     }
                 }
@@ -94,18 +95,16 @@ public class ATXFile {
                             Node itemk = itemj.getChildNodes().item(k);
                             if(itemk.getNodeName().equals("lexicalized-word")) {
                                 trglist.add(LexicalisedWord.fromNode(itemk));
-                            } else if(itemk.getNodeName().equals("#text") && itemk.getTextContent().trim().equals("")) {
+                            } else if(Utils.canSkipNode(itemk)) {
                                 // Skip
                             }
                         }
-                    } else if(itemj.getNodeName().equals("#text") && itemj.getTextContent().trim().equals("")) {
+                    } else if(Utils.canSkipNode(itemj)) {
                         // Skip
                     }
                 }
-            } else if(itemi.getNodeName().equals("#text") && nl.item(i).getTextContent().trim().equals("")) {
+            } else if(Utils.canSkipNode(itemi)) {
                 // Nothing
-            } else if(itemi.getNodeType() != Element.ELEMENT_NODE) {
-                // I think this skips everything!
             } else {
                 throw new Exception("Unexpected node: " + nl.item(i).getNodeName());
             }
