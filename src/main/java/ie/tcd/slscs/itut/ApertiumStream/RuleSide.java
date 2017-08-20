@@ -163,18 +163,21 @@ public class RuleSide {
         List<WordToken> lus = new ArrayList<WordToken>();
         List<StreamToken> tokens = new ArrayList<StreamToken>();
         Iterator<SimpleToken> it = input.iterator();
+        int lucount = 0;
         if(it.hasNext()) {
             SimpleToken st = it.next();
             lus.add(st);
-            tokens.add(st);
+            tokens.add(new LUReference(lucount));
         }
-        int i = 1;
+        lucount++;
+        int blankidx = 1;
         while(it.hasNext()) {
-            tokens.add(new PositionedBlank(i));
-            i++;
+            tokens.add(new PositionedBlank(blankidx));
+            blankidx++;
             SimpleToken st = it.next();
             lus.add(st);
-            tokens.add(st);
+            tokens.add(new LUReference(lucount));
+            lucount++;
         }
         return new RuleSide(lus, tokens);
     }
