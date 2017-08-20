@@ -72,7 +72,7 @@ public class MergedAttributeSequencesTest extends TestCase {
         assertEquals(true, mas.hasChunkAgreement("num"));
         assertEquals(false, mas.hasChunkAgreement("neg_chunk"));
     }
-    public void getChunkSequences() throws Exception {
+    public void testGetChunkSequences() throws Exception {
         List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
         List<AttributeSequence> asintrg = AttributeSequence.fromFile(new ByteArrayInputStream(intrg.getBytes()));
         List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
