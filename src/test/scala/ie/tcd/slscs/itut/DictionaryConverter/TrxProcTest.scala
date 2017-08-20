@@ -27,11 +27,8 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
-import ie.tcd.slscs.itut.ApertiumStream.SimpleToken
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.{PositionBlank, SimpleLU, StreamItem}
-import org.scalatest.{FlatSpec, FunSuite}
-
-import scala.collection.JavaConverters._
+import org.scalatest.FlatSpec
 
 class TrxProcTest extends FlatSpec {
 
