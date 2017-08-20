@@ -30,9 +30,15 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 public class SimpleTextMacroAttr {
     String key;
     String value;
+    boolean not;
     public SimpleTextMacroAttr(String key, String value) {
         this.key = key;
         this.value = value;
+    }
+    public SimpleTextMacroAttr(String key, String value, boolean not) {
+        this.key = key;
+        this.value = value;
+        this.not = not;
     }
     public String getKey() {
         return key;
@@ -52,11 +58,17 @@ public class SimpleTextMacroAttr {
         if(s.endsWith(">")) {
             end--;
         }
-        String[] pieces = s.substring(start, end).split("=");
+        String splitter = "=";
+        boolean not = false;
+        if(s.substring(start, end).contains("!=")) {
+            not = true;
+            splitter = "!=";
+        }
+        String[] pieces = s.substring(start, end).split(splitter);
         if(pieces.length == 2) {
-            return new SimpleTextMacroAttr(pieces[0], pieces[1]);
+            return new SimpleTextMacroAttr(pieces[0], pieces[1], not);
         } else if(pieces.length == 1) {
-            return new SimpleTextMacroAttr(pieces[0], "");
+            return new SimpleTextMacroAttr(pieces[0], "", not);
         } else {
             throw new Exception("Tag can only contain one '='");
         }
