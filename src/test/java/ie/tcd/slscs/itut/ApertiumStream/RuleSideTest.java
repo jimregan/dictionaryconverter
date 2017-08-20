@@ -27,9 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
-import ie.tcd.slscs.itut.ApertiumTransfer.CatItem;
-import ie.tcd.slscs.itut.ApertiumTransfer.DefCat;
-import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
+import ie.tcd.slscs.itut.ApertiumTransfer.*;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -40,6 +38,7 @@ import static org.junit.Assert.*;
 
 public class RuleSideTest extends TestCase {
     DefCats dc;
+    List<SimpleToken> stoks;
     public void setUp() {
         List<CatItem> first = new ArrayList<CatItem>();
         first.add(new CatItem("", "adj"));
@@ -52,6 +51,10 @@ public class RuleSideTest extends TestCase {
         defcats.add(new DefCat("adj", first));
         defcats.add(new DefCat("noun", second));
         dc = new DefCats(defcats);
+
+        stoks = new ArrayList<SimpleToken>();
+        stoks.add(SimpleToken.fromString("simple<adj>"));
+        stoks.add(SimpleToken.fromString("test<n><sg>"));
     }
 
     public void testConvert() throws Exception {
@@ -94,7 +97,23 @@ public class RuleSideTest extends TestCase {
         LUReference luref = (LUReference) rs.tokens.get(2);
         assertEquals(luref.position, 4);
     }
-    public void testToPattern() {
+    public void testConvertSimpleTokens() throws Exception {
+        RuleSide rs = RuleSide.convertSimpleTokens(stoks);
+        assertEquals(2, rs.getLUs().size());
+        // check that positioned blank has been added
+        assertEquals(3, rs.getTokens().size());
+        assertEquals("1", rs.getTokens().get(1).getContent());
+        assertEquals("test<n><sg>", rs.getTokens().get(2).getContent());
+    }
+    public void testToPattern() throws Exception {
+        List<PatternItem> lpi = new ArrayList<PatternItem>();
+        lpi.add(new PatternItem("adj"));
+        lpi.add(new PatternItem("noun"));
+        Pattern exp = new Pattern(lpi);
 
+        RuleSide rs = RuleSide.convertSimpleTokens(stoks);
+        Pattern pout = RuleSide.toPattern(rs, dc);
+        assertEquals(2, pout.getItems().size());
+        assertEquals("adj", pout.getItems().get(0).getName());
     }
 }
