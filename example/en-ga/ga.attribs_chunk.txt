@@ -1,0 +1,5 @@
+mut = len hpref ecl defart LENGAN LENPREP
+gen = m f mf GD
+num = sg pl sp ND
+case = case = com gen voc dat GEN2
+det_chunk = DEFART NODET DET RMART

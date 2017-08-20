@@ -1,0 +1,4 @@
+gen = m f mf GD
+num = sg pl sp ND
+det_chunk = DEFART NODET DET
+neg_chunk = negative
