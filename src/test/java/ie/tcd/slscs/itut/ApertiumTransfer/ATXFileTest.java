@@ -29,6 +29,8 @@ package ie.tcd.slscs.itut.ApertiumTransfer;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
+
 import static org.junit.Assert.*;
 
 public class ATXFileTest extends TestCase {
@@ -47,7 +49,11 @@ public class ATXFileTest extends TestCase {
             "</lexicalized-words>\n" +
             "</target>\n" +
             "</transfer-at>";
-    public void testLoadXML() {
-
+    public void testLoadXML() throws Exception {
+        ATXFile f = ATXFile.loadXML(new ByteArrayInputStream(file.getBytes()));
+        assertEquals("Spanish", f.source);
+        assertEquals("Portuguese", f.target);
+        assertEquals(2, f.targetlex.size());
+        assertEquals("cnjsub", f.targetlex.get(0).tags);
     }
 }
