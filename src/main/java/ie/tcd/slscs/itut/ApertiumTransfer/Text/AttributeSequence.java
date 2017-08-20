@@ -57,7 +57,7 @@ public class AttributeSequence {
             throw new Exception("Single '=' expected, got: " + s);
         }
         String name = tmp[0].trim();
-        tags = Arrays.asList(tmp[2].split(" "));
+        tags = Arrays.asList(tmp[1].trim().split(" "));
         return new AttributeSequence(name, tags);
     }
     public static List<AttributeSequence> fromFile(BufferedReader br) throws IOException {
