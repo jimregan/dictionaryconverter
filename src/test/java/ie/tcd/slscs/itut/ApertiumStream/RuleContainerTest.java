@@ -37,6 +37,9 @@ public class RuleContainerTest extends TestCase {
         String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | big dog | madra mór";
         RuleContainer rc = RuleContainer.fromString(simple);
         assertEquals("NP", rc.getTag());
+        assertEquals("big dog → madra mór", rc.getCommentString());
+        assertEquals(1, rc.getMacrocalls().size());
+        assertEquals(2, rc.getLeft().tokens.size());
     }
 
 }
