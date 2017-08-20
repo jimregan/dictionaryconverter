@@ -24,8 +24,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry, SimpleMacroCall => JSMacroCall}
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, PatternItem => JPatternItem, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
@@ -182,6 +182,12 @@ object TrxProc {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
+  implicit def catItemToJCatItem(c: CatItem): JCatItem = if(c.name == "") new JCatItem(c.lemma, c.tags) else new JCatItem(c.name)
+  implicit def DefCatTupleToJDefCat(dc: (String, List[CatItem])): JDefCat = new JDefCat(dc._1, dc._2.map{catItemToJCatItem}.asJava)
+  implicit def DefCatsToJava(m: Map[String, List[CatItem]]): JDefCats = new JDefCats(m.toList.map{DefCatTupleToJDefCat}.asJava)
+  implicit def JPatternItemToPatternItem(pi: JPatternItem): PatternItemElement = PatternItemElement(pi.getName)
+  implicit def PatternToPatternElement(p: Pattern): PatternElement = PatternElement(p.getItems.asScala.map{JPatternItemToPatternItem}.toList)
+  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = RuleSide.toPattern(rs, m)
   case class Blank() extends StreamItem
   case class PositionBlank(pos: Int) extends StreamItem
   def positionedBlankToPositionBlank(b: PositionedBlank): PositionBlank = PositionBlank(b.getPosition)
