@@ -35,6 +35,10 @@ public class SimpleToken extends WordToken {
         super();
         this.lemq = null;
     }
+    public SimpleToken(String lemh, List<String> tags) {
+        this.lemh = lemh;
+        this.tags = tags;
+    }
     public static SimpleToken fromString(String s) {
         SimpleToken st = new SimpleToken();
         if(s.trim().startsWith("<")) {

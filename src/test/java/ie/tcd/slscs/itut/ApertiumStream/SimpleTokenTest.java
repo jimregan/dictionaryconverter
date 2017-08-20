@@ -27,19 +27,41 @@
 
 package ie.tcd.slscs.itut.ApertiumStream;
 
-public class PositionedBlank extends BlankToken {
-    int position;
-    public PositionedBlank() {
-        super();
+import junit.framework.TestCase;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+public class SimpleTokenTest extends TestCase {
+    public void testFromString() throws Exception {
+        List<String> tags = new ArrayList<String>();
+        tags.add("n");
+        tags.add("sg");
+        SimpleToken exp = new SimpleToken("foo bar", tags);
+        SimpleToken out = SimpleToken.fromString("foo_bar<n><sg>");
+        assertEquals(exp.getLemma(), out.getLemma());
+        assertEquals(exp.getTags().size(), out.getTags().size());
+        assertEquals(exp.getTags().get(0), out.getTags().get(0));
     }
-    public PositionedBlank(int pos) {
-        super(" ");
-        this.position = pos;
+
+    public void testListFromString() throws Exception {
+        List<String> tags = new ArrayList<String>();
+        tags.add("n");
+        tags.add("sg");
+        List<String> tags2 = new ArrayList<String>();
+        tags2.add("adj");
+        tags2.add("sg");
+        SimpleToken exp1 = new SimpleToken("foo bar", tags);
+        SimpleToken exp2 = new SimpleToken("baz", tags2);
+        List<SimpleToken> exp = new ArrayList<SimpleToken>();
+        exp.add(exp1);
+        exp.add(exp2);
+        List<SimpleToken> out = SimpleToken.listFromString("foo_bar<n><sg> baz<adj><sg>");
+        assertEquals(exp.size(), out.size());
+        assertEquals(exp.get(1).getTags().get(0), out.get(1).getTags().get(0));
     }
-    public int getPosition() {
-        return position;
-    }
-    public void setPosition(int position) {
-        this.position = position;
-    }
+
 }

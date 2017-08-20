@@ -25,21 +25,34 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer;
 
-public class PositionedBlank extends BlankToken {
-    int position;
-    public PositionedBlank() {
-        super();
+import junit.framework.TestCase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+public class CatItemTest extends TestCase {
+    public void testSimpleConstructor() {
+        CatItem ci = new CatItem("foo", "n.m.sg");
+        assertEquals(3, ci.getTagsList().size());
+        assertEquals("n", ci.getFirstTag());
     }
-    public PositionedBlank(int pos) {
-        super(" ");
-        this.position = pos;
+    public void testTagsMatch() {
+        List<String> comp = new ArrayList<String>();
+        comp.add("n");
+        comp.add("m");
+        comp.add("sg");
+        CatItem ci = new CatItem("foo", "n.m.sg");
+        assertEquals(true, ci.tagsMatch(comp));
     }
-    public int getPosition() {
-        return position;
-    }
-    public void setPosition(int position) {
-        this.position = position;
+    public void testTagsStartWith() {
+        List<String> comp = new ArrayList<String>();
+        comp.add("n");
+        comp.add("f");
+        CatItem ci = new CatItem("foo", "n.*.*");
+        assertEquals(true, ci.tagsStartWith(comp));
     }
 }
