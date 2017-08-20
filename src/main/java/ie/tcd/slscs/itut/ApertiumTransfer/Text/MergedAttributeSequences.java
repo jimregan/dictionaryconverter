@@ -38,6 +38,15 @@ public class MergedAttributeSequences {
     Map<String, Boolean> clippable;
     MergedAttributeSequences() {
         this.sequences = new HashMap<String, Set<String>>();
+        this.clippable = new HashMap<String, Boolean>();
+    }
+    public MergedAttributeSequences(List<AttributeSequence> source, List<AttributeSequence> target, List<AttributeSequence> source_chunk, List<AttributeSequence> target_chunk) {
+        this();
+        this.source = source;
+        this.source_chunk = source_chunk;
+        this.target = target;
+        this.target_chunk = target_chunk;
+        merge();
     }
     void merge() {
         for(AttributeSequence as : source) {
