@@ -120,6 +120,6 @@ public class RuleSideTest extends TestCase {
         RuleSide rs = RuleSide.convertSimpleTokens(stoksnolem);
         Pattern pout = RuleSide.toPattern(rs, dc);
         assertEquals(2, pout.getItems().size());
-        assertEquals("adj", pout.getItems().get(0).getName());
+        assertEquals("noun", pout.getItems().get(1).getName());
     }
 }
