@@ -32,6 +32,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -68,8 +70,16 @@ public class MergedAttributeSequencesTest extends TestCase {
         assertEquals(false, mas.isClippable("case"));
         assertEquals(true, mas.isClippable("gen"));
         assertEquals(true, mas.hasChunkAgreement("num"));
+        assertEquals(false, mas.hasChunkAgreement("neg_chunk"));
     }
     public void getChunkSequences() throws Exception {
+        List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
+        List<AttributeSequence> asintrg = AttributeSequence.fromFile(new ByteArrayInputStream(intrg.getBytes()));
+        List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
+        List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
+        MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
+        Map<String, Set<String>> foo = mas.getChunkSequences();
+        assertEquals(5, foo.size());
     }
 
 }
