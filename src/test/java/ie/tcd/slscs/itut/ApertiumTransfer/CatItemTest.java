@@ -52,8 +52,7 @@ public class CatItemTest extends TestCase {
         List<String> comp = new ArrayList<String>();
         comp.add("n");
         comp.add("f");
-        comp.add("pl");
-        CatItem ci = new CatItem("foo", "n.m.sg");
+        CatItem ci = new CatItem("foo", "n.*.*");
         assertEquals(true, ci.tagsStartWith(comp));
     }
 }
