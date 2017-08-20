@@ -79,8 +79,10 @@ public class MergedAttributeSequencesTest extends TestCase {
         List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
         MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
         Map<String, Set<String>> foo = mas.getChunkSequences();
-        assertEquals(5, foo.size());
-        assertEquals("", foo.keySet().toString());
+        assertEquals(2, foo.size());
+        assertEquals(true, foo.containsKey("det_chunk"));
+        assertEquals(true, foo.containsKey("neg_chunk"));
+        assertEquals(false, foo.containsKey("gen"));
     }
 
 }
