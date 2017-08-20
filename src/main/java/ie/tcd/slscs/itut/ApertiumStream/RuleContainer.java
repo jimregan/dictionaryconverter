@@ -89,16 +89,16 @@ public class RuleContainer {
     public void setMacrocalls(List<SimpleMacroCall> macrocalls) {
         this.macrocalls = macrocalls;
     }
-    public String getLeft_example() {
+    public String getLeftExample() {
         return left_example;
     }
-    public void setLeft_example(String left_example) {
+    public void setLeftExample(String left_example) {
         this.left_example = left_example;
     }
-    public String getRight_example() {
+    public String getRightExample() {
         return right_example;
     }
-    public void setRight_example(String right_example) {
+    public void setRightExample(String right_example) {
         this.right_example = right_example;
     }
     public void setExamples(String l, String r) {
