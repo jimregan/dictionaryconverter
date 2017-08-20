@@ -34,11 +34,11 @@ import static org.junit.Assert.*;
 
 public class RuleContainerTest extends TestCase {
     public void testFromString() throws Exception {
-        String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | big dog | madra mór";
+        String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór";
         RuleContainer rc = RuleContainer.fromString(simple);
         assertEquals("NP", rc.getTag());
         assertEquals("big dog → madra mór", rc.getCommentString());
-        assertEquals(1, rc.getMacrocalls().size());
+        assertEquals(1, rc.getLeftMacrocalls().size());
         assertEquals(3, rc.getLeft().tokens.size());
     }
 
