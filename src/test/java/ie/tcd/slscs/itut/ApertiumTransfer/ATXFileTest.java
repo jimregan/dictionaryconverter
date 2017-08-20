@@ -27,40 +27,33 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
-import ie.tcd.slscs.itut.ApertiumStream.WordToken;
-import org.w3c.dom.Node;
+import junit.framework.TestCase;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.ByteArrayInputStream;
 
-public class LexicalisedWord {
-    String lemma;
-    String tags;
-    LexicalisedWord(String lemma, String tags) {
-        this.lemma = lemma;
-        this.tags = tags;
-    }
-    public WordToken toWordToken() {
-        String[] atags = this.tags.split("\\.");
-        List<String> tags = Arrays.asList(atags);
-        return new WordToken(this.lemma, "", tags);
-    }
-    public static LexicalisedWord fromNode(Node n) throws Exception {
-        if(n.getNodeName().equals("lexicalized-word")) {
-            String tags = "";
-            String lemma = "";
-            if(n.getAttributes().getLength() != 0) {
-                if(n.getAttributes().getNamedItem("tags") != null) {
-                    tags = n.getAttributes().getNamedItem("tags").getTextContent();
-                }
-                if(n.getAttributes().getNamedItem("lemma") != null) {
-                    lemma = n.getAttributes().getNamedItem("lemma").getTextContent();
-                }
-            }
-            return new LexicalisedWord(lemma, tags);
-        } else {
-            throw new Exception("Node does not contain lexicalized-word");
-        }
-    }
+import static org.junit.Assert.*;
 
+public class ATXFileTest extends TestCase {
+    String file = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<transfer-at source=\"Spanish\" target=\"Portuguese\">\n" +
+            "<source>\n" +
+            "  <lexicalized-words>\n" +
+            "    <lexicalized-word tags=\"cnjsub\"/>\n" +
+            "    <lexicalized-word tags=\"vblex.*\" lemma=\"hacer\"/>\n" +
+            "  </lexicalized-words>\n" +
+            "</source>\n" +
+            "<target>\n" +
+            "  <lexicalized-words>\n" +
+            "    <lexicalized-word tags=\"cnjsub\"/>\n" +
+            "    <lexicalized-word tags=\"vblex.*\" lemma=\"há\"/>  \n" +
+            "</lexicalized-words>\n" +
+            "</target>\n" +
+            "</transfer-at>";
+    public void testLoadXML() throws Exception {
+        ATXFile f = ATXFile.loadXML(new ByteArrayInputStream(file.getBytes()));
+        assertEquals("Spanish", f.source);
+        assertEquals("Portuguese", f.target);
+        assertEquals(2, f.targetlex.size());
+        assertEquals("cnjsub", f.targetlex.get(0).tags);
+    }
 }

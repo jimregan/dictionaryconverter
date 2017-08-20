@@ -27,40 +27,20 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
-import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import junit.framework.TestCase;
+import org.junit.Test;
 import org.w3c.dom.Node;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.junit.Assert.*;
 
-public class LexicalisedWord {
-    String lemma;
-    String tags;
-    LexicalisedWord(String lemma, String tags) {
-        this.lemma = lemma;
-        this.tags = tags;
-    }
-    public WordToken toWordToken() {
-        String[] atags = this.tags.split("\\.");
-        List<String> tags = Arrays.asList(atags);
-        return new WordToken(this.lemma, "", tags);
-    }
-    public static LexicalisedWord fromNode(Node n) throws Exception {
-        if(n.getNodeName().equals("lexicalized-word")) {
-            String tags = "";
-            String lemma = "";
-            if(n.getAttributes().getLength() != 0) {
-                if(n.getAttributes().getNamedItem("tags") != null) {
-                    tags = n.getAttributes().getNamedItem("tags").getTextContent();
-                }
-                if(n.getAttributes().getNamedItem("lemma") != null) {
-                    lemma = n.getAttributes().getNamedItem("lemma").getTextContent();
-                }
-            }
-            return new LexicalisedWord(lemma, tags);
-        } else {
-            throw new Exception("Node does not contain lexicalized-word");
-        }
+public class LexicalisedWordTest extends TestCase {
+    String testin = "<lexicalized-word tags=\"vbmod.*\"/>";
+    public void testFromNode() throws Exception {
+        Node n = Utils.stringToNode(testin);
+        LexicalisedWord lw = new LexicalisedWord("", "vbmod.*");
+        LexicalisedWord out = LexicalisedWord.fromNode(n);
+        assertEquals(lw.tags, out.tags);
     }
 
 }
