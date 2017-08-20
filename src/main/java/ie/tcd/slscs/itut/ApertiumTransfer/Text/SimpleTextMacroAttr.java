@@ -78,6 +78,9 @@ public class SimpleTextMacroAttr {
     public String toString() {
         String out = "<" + key;
         if(value != null && !value.equals("")) {
+            if(not) {
+                out += "!";
+            }
             out += "=" + value;
         }
         out += ">";
