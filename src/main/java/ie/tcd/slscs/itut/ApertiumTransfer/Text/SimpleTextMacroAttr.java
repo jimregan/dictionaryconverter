@@ -105,7 +105,10 @@ public class SimpleTextMacroAttr {
             throw new Exception("Tag can only contain one '='");
         }
         String k = pieces[0];
-        String v = pieces[1];
+        String v = "";
+        if(pieces.length == 2) {
+            v = pieces[1];
+        }
         boolean list = false;
         boolean beginlist = false;
         boolean endlist = false;
