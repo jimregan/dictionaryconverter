@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -52,5 +53,10 @@ public class DefCatsTest extends TestCase {
     public void testFindTagMatch() {
         assertEquals("adj", dc.findTagMatch(new String[]{"adj", "sint"}));
         assertEquals("noun", dc.findTagMatch("n.f.sg"));
+    }
+    public void testFindWordToken() throws Exception {
+        WordToken wt = new WordToken("^<adj>$");
+        String m = dc.findWordToken(wt);
+        assertEquals("adj", m);
     }
 }
