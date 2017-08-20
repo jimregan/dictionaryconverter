@@ -55,6 +55,19 @@ public class ATXFile {
         this.sourcelex = srclist;
         this.targetlex = trglist;
     }
+    public boolean skipableNode(Node n) {
+        if(n.getNodeName().equals("#text") && n.getTextContent().trim().equals("")) {
+            return true;
+        } else if(n.getNodeType() == Element.COMMENT_NODE) {
+            return true;
+        } else if(n.getNodeType() == Element.PROCESSING_INSTRUCTION_NODE) {
+            return true;
+        } else if(n.getNodeType() == Element.ELEMENT_NODE) {
+            return false;
+        } else {
+            return false;
+        }
+    }
     public ATXFile loadXML(InputSource is) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
