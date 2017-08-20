@@ -30,6 +30,9 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class MergedAttributeSequencesTest extends TestCase {
@@ -57,7 +60,11 @@ public class MergedAttributeSequencesTest extends TestCase {
             "case = case = com gen voc dat GEN2\n" +
             "det_chunk = DEFART NODET DET RMART";
     public void testMerge() throws Exception {
-
+        List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
+        List<AttributeSequence> asintrg = AttributeSequence.fromFile(new ByteArrayInputStream(intrg.getBytes()));
+        List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
+        List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
+        MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
     }
     public void getChunkSequences() throws Exception {
     }
