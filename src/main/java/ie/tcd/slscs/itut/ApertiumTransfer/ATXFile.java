@@ -36,7 +36,10 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,5 +121,14 @@ public class ATXFile {
             }
         }
         return new ATXFile(srclang, trglang, srclist, trglist);
+    }
+    public static ATXFile loadXML(InputStream is) throws Exception {
+        return loadXML(new InputSource(is));
+    }
+    public static ATXFile loadXML(File f) throws Exception {
+        return loadXML(new FileInputStream(f));
+    }
+    public static ATXFile loadXML(String filename) throws Exception {
+        return loadXML(new File(filename));
     }
 }
