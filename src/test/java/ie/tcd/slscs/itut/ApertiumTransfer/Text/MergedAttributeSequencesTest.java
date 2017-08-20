@@ -80,6 +80,7 @@ public class MergedAttributeSequencesTest extends TestCase {
         MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
         Map<String, Set<String>> foo = mas.getChunkSequences();
         assertEquals(5, foo.size());
+        assertEquals("", foo.keySet().toString());
     }
 
 }
