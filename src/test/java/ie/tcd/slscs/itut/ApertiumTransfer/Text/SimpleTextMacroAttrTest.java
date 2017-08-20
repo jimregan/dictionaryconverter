@@ -59,8 +59,8 @@ public class SimpleTextMacroAttrTest extends TestCase {
         assertEquals("thing", b.getKey());
         assertEquals("b", b.getValue());
         assertEquals(false, b.getNot());
-        assertEquals("lemma", c.getKey());
-        assertEquals("justb", c.getValue());
+        assertEquals("justb", c.getKey());
+        assertEquals("", c.getValue());
         assertEquals(false, c.getNot());
     }
 }
