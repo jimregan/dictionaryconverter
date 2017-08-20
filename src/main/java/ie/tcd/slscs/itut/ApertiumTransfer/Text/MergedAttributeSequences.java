@@ -35,10 +35,14 @@ public class MergedAttributeSequences {
     List<AttributeSequence> source_chunk;
     List<AttributeSequence> target_chunk;
     Map<String, Set<String>> sequences;
+    Map<String, Set<String>> chunk_sequences;
     Map<String, Boolean> clippable;
+    Map<String, Boolean> agreement;
     MergedAttributeSequences() {
         this.sequences = new HashMap<String, Set<String>>();
+        this.chunk_sequences = new HashMap<String, Set<String>>();
         this.clippable = new HashMap<String, Boolean>();
+        this.agreement = new HashMap<String, Boolean>();
     }
     public MergedAttributeSequences(List<AttributeSequence> source, List<AttributeSequence> target, List<AttributeSequence> source_chunk, List<AttributeSequence> target_chunk) {
         this();
@@ -56,7 +60,14 @@ public class MergedAttributeSequences {
             clippable.put(as.name, true);
         }
         for(AttributeSequence as : target) {
-            mergeInnerAdd(as);
+            if(sequences.containsKey(as.name)) {
+                sequences.get(as.name).addAll(as.tags);
+            } else {
+                clippable.put(as.name, false);
+                Set<String> tags = new HashSet<String>();
+                tags.addAll(as.tags);
+                sequences.put(as.name, tags);
+            }
         }
         for(AttributeSequence as : source_chunk) {
             mergeInnerAdd(as);
@@ -68,21 +79,32 @@ public class MergedAttributeSequences {
 
     private void mergeInnerAdd(AttributeSequence as) {
         if(sequences.containsKey(as.name)) {
+            agreement.put(as.name, true);
             sequences.get(as.name).addAll(as.tags);
         } else {
             clippable.put(as.name, false);
             Set<String> tags = new HashSet<String>();
             tags.addAll(as.tags);
-            sequences.put(as.name, tags);
+            chunk_sequences.put(as.name, tags);
         }
     }
     public Map<String, Set<String>> getSequences() {
         return sequences;
+    }
+    public Map<String, Set<String>> getChunkSequences() {
+        return chunk_sequences;
     }
     public Map<String, Boolean> getClippable() {
         return clippable;
     }
     public boolean isClippable(String s) {
         return clippable.get(s);
+    }
+    public boolean hasChunkAgreement(String s) {
+        if(agreement.containsKey(s)) {
+            return agreement.get(s);
+        } else {
+            return false;
+        }
     }
 }
