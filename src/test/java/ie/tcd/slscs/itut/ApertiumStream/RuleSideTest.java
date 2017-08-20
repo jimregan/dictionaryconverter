@@ -118,7 +118,7 @@ public class RuleSideTest extends TestCase {
         lpi.add(new PatternItem("noun"));
         Pattern exp = new Pattern(lpi);
 
-        RuleSide rs = RuleSide.convertSimpleTokens(stoks);
+        RuleSide rs = RuleSide.convertSimpleTokens(stoksnolem);
         Pattern pout = RuleSide.toPattern(rs, dc);
         assertEquals(2, pout.getItems().size());
         assertEquals("adj", pout.getItems().get(0).getName());
