@@ -65,6 +65,9 @@ public class MergedAttributeSequencesTest extends TestCase {
         List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
         List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
         MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
+        assertEquals(false, mas.isClippable("case"));
+        assertEquals(true, mas.isClippable("gen"));
+        assertEquals(true, mas.hasChunkAgreement("num"));
     }
     public void getChunkSequences() throws Exception {
     }
