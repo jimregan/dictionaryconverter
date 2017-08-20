@@ -31,6 +31,9 @@ public class SimpleTextMacroAttr {
     String key;
     String value;
     boolean not;
+    boolean list;
+    boolean beginslist;
+    boolean endslist;
     public SimpleTextMacroAttr(String key, String value) {
         this.key = key;
         this.value = value;
@@ -48,6 +51,36 @@ public class SimpleTextMacroAttr {
     }
     public boolean getNot() {
         return not;
+    }
+    public void setKey(String key) {
+        this.key = key;
+    }
+    public void setValue(String value) {
+        this.value = value;
+    }
+    public boolean isNot() {
+        return not;
+    }
+    public void setNot(boolean not) {
+        this.not = not;
+    }
+    public boolean isList() {
+        return list;
+    }
+    public void setList(boolean list) {
+        this.list = list;
+    }
+    public boolean isBeginsList() {
+        return beginslist;
+    }
+    public void setBeginsList(boolean list) {
+        this.beginslist = list;
+    }
+    public boolean isEndsList() {
+        return endslist;
+    }
+    public void setEndsList(boolean list) {
+        this.endslist = list;
     }
     public static SimpleTextMacroAttr createLemma(String s) {
         return new SimpleTextMacroAttr("lemma", s);
@@ -68,13 +101,44 @@ public class SimpleTextMacroAttr {
             splitter = "!=";
         }
         String[] pieces = s.substring(start, end).split(splitter);
-        if(pieces.length == 2) {
-            return new SimpleTextMacroAttr(pieces[0], pieces[1], not);
-        } else if(pieces.length == 1) {
-            return new SimpleTextMacroAttr(pieces[0], "", not);
-        } else {
+        if(pieces.length > 2) {
             throw new Exception("Tag can only contain one '='");
         }
+        String k = pieces[0];
+        String v = pieces[1];
+        boolean list = false;
+        boolean beginlist = false;
+        boolean endlist = false;
+        if(k.contains(":")) {
+            String[] tmp = k.split(":");
+            if(tmp.length > 2) {
+                throw new Exception("Tag can only contain one ':'");
+            }
+            k = tmp[1];
+            if(tmp[0].equals("list")) {
+                list = true;
+            } else if (tmp[0].equals("beginslist")) {
+                beginlist = true;
+            } else if (tmp[0].equals("endslist")) {
+                endlist = true;
+            } else {
+                throw new Exception("Unexpected value: " + tmp[0] + " in " + s);
+            }
+        }
+        if(v == null || pieces.length == 1) {
+            v = "";
+        }
+        SimpleTextMacroAttr out = new SimpleTextMacroAttr(k, v, not);
+        if(list) {
+            out.setList(true);
+        }
+        if(beginlist) {
+            out.setBeginsList(true);
+        }
+        if(endlist) {
+            out.setEndsList(true);
+        }
+        return out;
     }
 
     @Override
