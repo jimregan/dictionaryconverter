@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
 import static org.junit.Assert.*;
 
 public class LexicalisedWordTest extends TestCase {
-    String testin = "<foo><lexicalized-word tags=\"vbmod.*\"/></foo>";
+    String testin = "<lexicalized-word tags=\"vbmod.*\"/>";
     public void testFromNode() throws Exception {
         Node n = Utils.stringToNode(testin);
         LexicalisedWord lw = new LexicalisedWord("", "vbmod.*");
