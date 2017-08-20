@@ -30,6 +30,7 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,12 @@ public class AttributeSequenceTest extends TestCase {
         assertEquals(exp.tags.get(0), out.tags.get(0));
     }
 
-//    public void testFromFile() throws Exception {
-//    }
+    public void testFromFile() throws Exception {
+        List<AttributeSequence> out = AttributeSequence.fromFile(new ByteArrayInputStream(fakefile.getBytes()));
+        assertEquals(5, out.size());
+        assertEquals("grade", out.get(0).name);
+        assertEquals("mut", out.get(4).name);
+        assertEquals(4, out.get(0).tags.size());
+    }
 
 }
