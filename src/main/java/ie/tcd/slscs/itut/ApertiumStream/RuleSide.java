@@ -162,15 +162,19 @@ public class RuleSide {
     public static RuleSide convertSimpleTokens(List<SimpleToken> input) {
         List<WordToken> lus = new ArrayList<WordToken>();
         List<StreamToken> tokens = new ArrayList<StreamToken>();
-        int i = 1;
         Iterator<SimpleToken> it = input.iterator();
-        for(SimpleToken st : input) {
+        if(it.hasNext()) {
+            SimpleToken st = it.next();
             lus.add(st);
             tokens.add(st);
-            if(it.hasNext()) {
-                tokens.add(new PositionedBlank(i));
-            }
+        }
+        int i = 1;
+        while(it.hasNext()) {
+            tokens.add(new PositionedBlank(i));
             i++;
+            SimpleToken st = it.next();
+            lus.add(st);
+            tokens.add(st);
         }
         return new RuleSide(lus, tokens);
     }
