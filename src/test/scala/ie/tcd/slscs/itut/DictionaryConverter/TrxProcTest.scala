@@ -35,6 +35,13 @@ import scala.collection.JavaConverters._
 
 class TrxProcTest extends FlatSpec {
 
+  "simpleStreamDropLastBlank" should "drop the last PositionBlank from a converted stream" in {
+    val exp: List[StreamItem] = List(SimpleLU("foo", "", List("n", "sg")), PositionBlank(1), SimpleLU("bar", "", List("n", "sg")))
+    val inp: List[StreamItem] = List(SimpleLU("foo", "", List("n", "sg")), PositionBlank(1), SimpleLU("bar", "", List("n", "sg")), PositionBlank(2))
+    val out = TrxProc.simpleStreamDropLastBlank(inp)
+    assert(exp == out)
+  }
+
   "listSimpleToStream" should "convert a list of SimpleTokens to a stream with blanks" in {
     val st1 = new SimpleLU("foo", "", List[String]("n", "sg"))
     val st2 = new SimpleLU("bar", "", List[String]("n", "sg"))
