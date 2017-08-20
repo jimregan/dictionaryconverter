@@ -32,6 +32,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
 import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RuleSide {
@@ -162,10 +163,13 @@ public class RuleSide {
         List<WordToken> lus = new ArrayList<WordToken>();
         List<StreamToken> tokens = new ArrayList<StreamToken>();
         int i = 1;
+        Iterator<SimpleToken> it = input.iterator();
         for(SimpleToken st : input) {
             lus.add(st);
             tokens.add(st);
-            tokens.add(new PositionedBlank(i));
+            if(it.hasNext()) {
+                tokens.add(new PositionedBlank(i));
+            }
             i++;
         }
         return new RuleSide(lus, tokens);
