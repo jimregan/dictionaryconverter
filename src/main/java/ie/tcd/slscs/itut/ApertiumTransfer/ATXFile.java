@@ -81,10 +81,14 @@ public class ATXFile {
                                 srclist.add(LexicalisedWord.fromNode(itemk));
                             } else if(Utils.canSkipNode(itemk)) {
                                 // Skip
+                            } else {
+                                throw new Exception("Unexpected node: " + itemk.getNodeName());
                             }
                         }
                     } else if(Utils.canSkipNode(itemj)) {
                         // Skip
+                    } else {
+                        throw new Exception("Unexpected node: " + itemj.getNodeName());
                     }
                 }
             } else if(itemi.getNodeName().equals("target")) {
@@ -97,16 +101,20 @@ public class ATXFile {
                                 trglist.add(LexicalisedWord.fromNode(itemk));
                             } else if(Utils.canSkipNode(itemk)) {
                                 // Skip
+                            } else {
+                                throw new Exception("Unexpected node: " + itemk.getNodeName());
                             }
                         }
                     } else if(Utils.canSkipNode(itemj)) {
                         // Skip
+                    } else {
+                        throw new Exception("Unexpected node: " + itemj.getNodeName());
                     }
                 }
             } else if(Utils.canSkipNode(itemi)) {
                 // Nothing
             } else {
-                throw new Exception("Unexpected node: " + nl.item(i).getNodeName());
+                throw new Exception("Unexpected node: " + itemi.getNodeName());
             }
         }
         return new ATXFile(srclang, trglang, srclist, trglist);
