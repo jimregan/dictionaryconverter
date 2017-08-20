@@ -27,6 +27,15 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +48,61 @@ public class ATXFile {
         this.sourcelex = new ArrayList<LexicalisedWord>();
         this.targetlex = new ArrayList<LexicalisedWord>();
     }
-
+    ATXFile(String source, String target, List<LexicalisedWord> srclist, List<LexicalisedWord> trglist) {
+        this();
+        this.source = source;
+        this.target = target;
+        this.sourcelex = srclist;
+        this.targetlex = trglist;
+    }
+    public ATXFile loadXML(InputSource is) throws Exception {
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse(is);
+        String root = doc.getDocumentElement().getNodeName();
+        if (root != "transfer-at") {
+            throw new IOException("Expected root node " + root);
+        }
+        String srclang = doc.getDocumentElement().getAttribute("source").toString();
+        String trglang = doc.getDocumentElement().getAttribute("target").toString();
+        List<LexicalisedWord> srclist = new ArrayList<LexicalisedWord>();
+        List<LexicalisedWord> trglist = new ArrayList<LexicalisedWord>();
+        NodeList nl = doc.getDocumentElement().getChildNodes();
+        for(int i = 0; i < nl.getLength(); i++) {
+            if(nl.item(i).getNodeName().equals("source")) {
+                Node itemi = nl.item(i);
+                for(int j = 0; j < itemi.getChildNodes().getLength(); j++) {
+                    Node itemj = itemi.getChildNodes().item(j);
+                    if(itemj.getNodeName().equals("lexicalized-words")) {
+                        for(int k = 0; k < itemj.getChildNodes().getLength(); k++) {
+                            Node itemk = itemj.getChildNodes().item(k);
+                            if(itemk.getNodeName().equals("lexicalized-word")) {
+                                srclist.add(LexicalisedWord.fromNode(itemk));
+                            }
+                        }
+                    }
+                }
+            } else if(nl.item(i).getNodeName().equals("target")) {
+                Node itemi = nl.item(i);
+                for(int j = 0; j < itemi.getChildNodes().getLength(); j++) {
+                    Node itemj = itemi.getChildNodes().item(j);
+                    if(itemj.getNodeName().equals("lexicalized-words")) {
+                        for(int k = 0; k < itemj.getChildNodes().getLength(); k++) {
+                            Node itemk = itemj.getChildNodes().item(k);
+                            if(itemk.getNodeName().equals("lexicalized-word")) {
+                                trglist.add(LexicalisedWord.fromNode(itemk));
+                            }
+                        }
+                    }
+                }
+            } else if(nl.item(i).getNodeName().equals("#text") && nl.item(i).getTextContent().trim().equals("")) {
+                // Nothing
+            } else if(nl.item(i).getNodeType() != Element.ELEMENT_NODE) {
+                // I think this skips everything!
+            } else {
+                throw new Exception("Unexpected node: " + nl.item(i).getNodeName());
+            }
+        }
+        return new ATXFile(srclang, trglang, srclist, trglist);
+    }
 }
