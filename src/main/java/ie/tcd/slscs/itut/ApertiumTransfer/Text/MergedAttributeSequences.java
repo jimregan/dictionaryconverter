@@ -35,6 +35,7 @@ public class MergedAttributeSequences {
     List<AttributeSequence> source_chunk;
     List<AttributeSequence> target_chunk;
     Map<String, Set<String>> sequences;
+    Map<String, Boolean> clippable;
     MergedAttributeSequences() {
         this.sequences = new HashMap<String, Set<String>>();
     }
@@ -43,6 +44,17 @@ public class MergedAttributeSequences {
             Set<String> tags = new HashSet<String>();
             tags.addAll(as.tags);
             sequences.put(as.name, tags);
+            clippable.put(as.name, true);
+        }
+        for(AttributeSequence as : target) {
+            if(sequences.containsKey(as.name)) {
+                sequences.get(as.name).addAll(as.tags);
+            } else {
+                clippable.put(as.name, false);
+                Set<String> tags = new HashSet<String>();
+                tags.addAll(as.tags);
+                sequences.put(as.name, tags);
+            }
         }
     }
 }
