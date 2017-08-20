@@ -38,13 +38,15 @@ public class RuleContainer {
     private RuleSide left;
     private RuleSide right;
     private List<AlignmentPair> alignments;
-    private List<SimpleMacroCall> macrocalls;
+    private List<SimpleMacroCall> leftmacro;
+    private List<SimpleMacroCall> rightmacro;
     private String left_example;
     private String right_example;
     private boolean simple = false;
     RuleContainer() {
         this.alignments = new ArrayList<AlignmentPair>();
-        this.macrocalls = new ArrayList<SimpleMacroCall>();
+        this.leftmacro = new ArrayList<SimpleMacroCall>();
+        this.rightmacro = new ArrayList<SimpleMacroCall>();
     }
     public RuleContainer(RuleSide left, RuleSide right, List<AlignmentPair> alignments) {
         this();
@@ -83,11 +85,17 @@ public class RuleContainer {
     public void setTag(String tag) {
         this.tag = tag;
     }
-    public List<SimpleMacroCall> getMacrocalls() {
-        return macrocalls;
+    public List<SimpleMacroCall> getLeftMacrocalls() {
+        return leftmacro;
     }
-    public void setMacrocalls(List<SimpleMacroCall> macrocalls) {
-        this.macrocalls = macrocalls;
+    public void setLeftMacrocalls(List<SimpleMacroCall> macrocalls) {
+        this.leftmacro = macrocalls;
+    }
+    public List<SimpleMacroCall> getRightMacrocalls() {
+        return rightmacro;
+    }
+    public void setRightMacrocalls(List<SimpleMacroCall> macrocalls) {
+        this.rightmacro = macrocalls;
     }
     public String getLeftExample() {
         return left_example;
@@ -116,10 +124,10 @@ public class RuleContainer {
     }
     public static RuleContainer fromString(String s) throws Exception {
         String[] parts = s.split("\\|");
-        if(parts.length < 6 || parts.length > 7) {
+        if(parts.length < 7 || parts.length > 8) {
             throw new Exception("Incorrect number of fields in line: " + s);
         }
-        if(parts.length == 7) {
+        if(parts.length == 8) {
             String tag = parts[0].trim();
             List<SimpleToken> left = SimpleToken.listFromString(parts[1].trim());
             List<SimpleToken> right = SimpleToken.listFromString(parts[2].trim());
@@ -127,10 +135,12 @@ public class RuleContainer {
             RuleSide rsright = RuleSide.convertSimpleTokens(right);
             List<AlignmentPair> align = AlignmentPair.listFromString(parts[3].trim());
             RuleContainer out = new RuleContainer(tag, rsleft, rsright, align);
-            List<SimpleMacroCall> macros = SimpleMacroCall.listFromString(parts[4].trim());
-            out.setMacrocalls(macros);
-            String lefteg = parts[5].trim();
-            String righteg = parts[6].trim();
+            List<SimpleMacroCall> lmacros = SimpleMacroCall.listFromString(parts[4].trim());
+            List<SimpleMacroCall> rmacros = SimpleMacroCall.listFromString(parts[5].trim());
+            out.setLeftMacrocalls(lmacros);
+            out.setRightMacrocalls(rmacros);
+            String lefteg = parts[6].trim();
+            String righteg = parts[7].trim();
             out.setExamples(lefteg, righteg);
             out.setSimple(true);
             return out;
@@ -141,12 +151,23 @@ public class RuleContainer {
             RuleSide rsright = RuleSide.convert(right);
             List<AlignmentPair> align = AlignmentPair.listFromString(parts[2].trim());
             RuleContainer out = new RuleContainer(rsleft, rsright, align);
-            List<SimpleMacroCall> macros = SimpleMacroCall.listFromString(parts[3].trim());
-            out.setMacrocalls(macros);
-            String lefteg = parts[4].trim();
-            String righteg = parts[5].trim();
+            List<SimpleMacroCall> lmacros = SimpleMacroCall.listFromString(parts[3].trim());
+            out.setLeftMacrocalls(lmacros);
+            List<SimpleMacroCall> rmacros = SimpleMacroCall.listFromString(parts[4].trim());
+            out.setRightMacrocalls(rmacros);
+            String lefteg = parts[5].trim();
+            String righteg = parts[6].trim();
             out.setExamples(lefteg, righteg);
             return out;
         }
+    }
+    public static RuleContainer swap(RuleContainer rc) {
+        RuleContainer out = new RuleContainer();
+        out.setTag(rc.getTag());
+        out.setRight(rc.getLeft());
+        out.setLeft(rc.getRight());
+        out.setLeftExample(rc.getRightExample());
+        out.setRightExample(rc.getLeftExample());
+        return out;
     }
 }
