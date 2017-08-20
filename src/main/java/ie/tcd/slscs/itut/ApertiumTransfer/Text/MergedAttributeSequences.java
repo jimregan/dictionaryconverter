@@ -27,22 +27,22 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MergedAttributeSequences {
     List<AttributeSequence> source;
     List<AttributeSequence> target;
     List<AttributeSequence> source_chunk;
     List<AttributeSequence> target_chunk;
-    Map<String, List<String>> sequences;
+    Map<String, Set<String>> sequences;
     MergedAttributeSequences() {
-        this.sequences = new HashMap<String, List<String>>();
+        this.sequences = new HashMap<String, Set<String>>();
     }
     void merge() {
         for(AttributeSequence as : source) {
-            sequences.put(as.name, as.tags);
+            Set<String> tags = new HashSet<String>();
+            tags.addAll(as.tags);
+            sequences.put(as.name, tags);
         }
     }
 }
