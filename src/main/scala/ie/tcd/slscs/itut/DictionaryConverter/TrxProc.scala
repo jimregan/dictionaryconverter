@@ -222,12 +222,9 @@ object TrxProc {
 
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
-   *
    * case class RuleElement(ruleid: String, rulecomment: String, comment: String,
                        pattern: PatternElement, action: ActionElement) extends TransferElement
    * case class RuleProc
-   * ruleid?
-   * rulecomment:
    * subrules? one is default?
    * macro calls - in subrules?
    * action pieces - list of aligned lu/mlu/etc.
