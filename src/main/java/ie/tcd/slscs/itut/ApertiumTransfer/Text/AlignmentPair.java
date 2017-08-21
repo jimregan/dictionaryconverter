@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import scala.Int;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +64,15 @@ public class AlignmentPair {
             return Integer.parseInt(right);
         }
     }
-
+    public boolean isSimpleLeft() {
+        return (left.equals("0") || left.toLowerCase().endsWith("c"));
+    }
+    public boolean isSimpleRight() {
+        return (right.equals("0") || right.toLowerCase().endsWith("c"));
+    }
+    public boolean isSimple() {
+        return isSimpleLeft() && isSimpleRight();
+    }
     public boolean leftChunkAlignment() {
         return left.toLowerCase().endsWith("c");
     }
@@ -145,7 +155,16 @@ public class AlignmentPair {
     public boolean rightIsChunk() {
         return right.toLowerCase().endsWith("c");
     }
-
+    public static AlignmentPair offsetPair(AlignmentPair a, AlignmentPair b) {
+        if(!a.isSimple() || !b.isSimple()) {
+            return null;
+        }
+        int al = Integer.parseInt(a.left);
+        int ar = Integer.parseInt(a.right);
+        int bl = Integer.parseInt(b.left);
+        int br = Integer.parseInt(b.right);
+        return new AlignmentPair(Integer.toString(al - 1 + bl), Integer.toString(ar - 1 + br));
+    }
     @Override
     public String toString() {
         return left + "-" + right;
