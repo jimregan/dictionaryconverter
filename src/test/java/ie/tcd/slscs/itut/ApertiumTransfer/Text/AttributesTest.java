@@ -61,4 +61,10 @@ public class AttributesTest extends TestCase {
         assertEquals(true, out.fromDictionary);
         assertEquals("gen", out.name);
     }
+    public void testToString() throws Exception {
+        String sin = "gen! = m f mf? GD!";
+        Attributes out = Attributes.fromText(sin);
+        String sout = out.toString();
+        assertEquals(sin, sout);
+    }
 }
