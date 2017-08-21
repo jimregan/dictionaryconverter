@@ -57,8 +57,8 @@ object ExpandRules {
   case class LemmaToken(lemma: String, tags: List[String]) extends Token
   case class TagsToken(tags: List[String]) extends Token
   def makeToken(s: String): Token = {
-    val withLemma = new Regex("""([^<]*)<(.*)>""")
-    val tagsOnly = new Regex("""<(.*)>""")
+    val withLemma = new Regex("""^([^<]*)<(.*)>$""")
+    val tagsOnly = new Regex("""^<(.*)>$""")
     s match {
       case withLemma(lem, tag) => LemmaToken(lem, tag.split("><").toList)
       case tagsOnly(tag) => TagsToken(tag.split("><").toList)
