@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
 public class AttributesTest extends TestCase {
     public void testFromText() throws Exception {
         String in = "num = sg pl ND! sp?";
-        Attributes exp = new Attributes("num", false, "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND"}));
+        Attributes exp = new Attributes("num", false, "sp", "ND", Arrays.asList(new String[]{"sg", "pl", "ND", "sp"}));
         Attributes out = Attributes.fromText(in);
         assertEquals(exp.name, out.name);
         assertEquals(exp.any, out.any);
@@ -59,6 +59,8 @@ public class AttributesTest extends TestCase {
         Attributes out = Attributes.fromText(sin);
         assertEquals(true, out.fromDictionary);
         assertEquals("gen", out.name);
+        assertEquals("mf", out.any);
+        assertEquals("GD", out.undefined);
     }
     public void testToString() throws Exception {
         String sin = "gen! = m f mf? GD!";
