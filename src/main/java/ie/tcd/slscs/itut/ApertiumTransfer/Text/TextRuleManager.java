@@ -27,6 +27,94 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-public class TextRuleManager {
+import ie.tcd.slscs.itut.ApertiumStream.RuleContainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class TextRuleManager {
+    Attributes sourceAttr;
+    Attributes targetAttr;
+    Attributes sourceAttrChunk;
+    Attributes targetAttrChunk;
+    AttributeSequence sourceSeq;
+    AttributeSequence targetSeq;
+    AttributeSequence sourceSeqChunk;
+    AttributeSequence targetSeqChunk;
+    List<SimpleList> lists;
+
+    List<SimpleTextMacro> macros;
+    List<RuleContainer> rules;
+    TextRuleManager() {
+        this.macros = new ArrayList<SimpleTextMacro>();
+        this.rules = new ArrayList<RuleContainer>();
+        this.lists = new ArrayList<SimpleList>();
+    }
+    TextRuleManager(List<SimpleTextMacro> macros, List<RuleContainer> rules) {
+        this.macros = macros;
+        this.rules = rules;
+    }
+    public class Builder {
+        private Attributes sourceAttr;
+        private Attributes targetAttr;
+        private Attributes sourceAttrChunk;
+        private Attributes targetAttrChunk;
+        private AttributeSequence sourceSeq;
+        private AttributeSequence targetSeq;
+        private AttributeSequence sourceSeqChunk;
+        private AttributeSequence targetSeqChunk;
+        private List<SimpleList> lists;
+        private List<SimpleTextMacro> macros;
+        private List<RuleContainer> rules;
+        public Builder() {
+            this.macros = new ArrayList<SimpleTextMacro>();
+            this.rules = new ArrayList<RuleContainer>();
+            this.lists = new ArrayList<SimpleList>();
+        }
+        public Builder withMacros(List<SimpleTextMacro> macros) {
+            this.macros = macros;
+            return this;
+        }
+        public Builder withRules(List<RuleContainer> rules) {
+            this.rules = rules;
+            return this;
+        }
+        public Builder withLists(List<SimpleList> lists) {
+            this.lists = lists;
+            return this;
+        }
+        public Builder withSourceAttributes(Attributes src) {
+            this.sourceAttr = src;
+            return this;
+        }
+        public Builder withSourceChunkAttributes(Attributes src) {
+            this.sourceAttrChunk = src;
+            return this;
+        }
+        public Builder withTargetAttributes(Attributes src) {
+            this.targetAttr = src;
+            return this;
+        }
+        public Builder withTargetChunkAttributes(Attributes src) {
+            this.targetAttrChunk = src;
+            return this;
+        }
+        public Builder withSourceSequence(AttributeSequence src) {
+            this.sourceSeq = src;
+            return this;
+        }
+        public Builder withSourceChunkSequence(AttributeSequence src) {
+            this.sourceSeqChunk = src;
+            return this;
+        }
+        public Builder withTargetSequence(AttributeSequence src) {
+            this.targetSeq = src;
+            return this;
+        }
+        public Builder withTargetChunkSequence(AttributeSequence src) {
+            this.targetSeqChunk = src;
+            return this;
+        }
+
+    }
 }
