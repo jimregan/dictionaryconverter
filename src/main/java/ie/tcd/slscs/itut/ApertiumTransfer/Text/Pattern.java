@@ -45,6 +45,12 @@ public class Pattern {
         this.lemma = lemma;
         this.tags = tags;
     }
+    public String getLemma() {
+        return lemma;
+    }
+    public List<String> getTags() {
+        return tags;
+    }
     public static Pattern fromWordToken(WordToken wt) {
         return new Pattern(wt.getLemma(), wt.getTags());
     }
