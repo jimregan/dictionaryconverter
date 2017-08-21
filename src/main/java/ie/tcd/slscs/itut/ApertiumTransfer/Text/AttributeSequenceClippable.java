@@ -28,6 +28,7 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,5 +42,39 @@ public class AttributeSequenceClippable {
     Map<String, Map<String, Boolean>> clippable;
     AttributeSequenceClippable() {
         this.clippable = new HashMap<String, Map<String, Boolean>>();
+    }
+    public Map<String, Map<String, Boolean>> getClippable() {
+        return clippable;
+    }
+    public void setClippable(Map<String, Map<String, Boolean>> clippable) {
+        this.clippable = clippable;
+    }
+    public void setSourceLanguage(List<AttributeSequence> as) {
+        for(AttributeSequence at : as) {
+            String name = at.name;
+            if(!clippable.containsKey(name)) {
+                clippable.put(name, new HashMap<String, Boolean>());
+            }
+            for(String item : at.tags) {
+                clippable.get(name).put(item, true);
+            }
+        }
+    }
+    public void setTargetLanguage(List<AttributeSequence> as) {
+        for(AttributeSequence at : as) {
+            String name = at.name;
+            if(!clippable.containsKey(name)) {
+                clippable.put(name, new HashMap<String, Boolean>());
+                for(String item : at.tags) {
+                    clippable.get(name).put(item, false);
+                }
+            } else {
+                for(String item : at.tags) {
+                    if(!clippable.get(name).containsKey(item)) {
+                        clippable.get(name).put(item, false);
+                    }
+                }
+            }
+        }
     }
 }
