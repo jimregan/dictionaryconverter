@@ -41,6 +41,10 @@ public class AlignmentPair {
         this.left = left;
         this.right = right;
     }
+    public AlignmentPair(int left, int right) {
+        this.left = Integer.toString(left);
+        this.right = Integer.toString(right);
+    }
     public boolean canMakeLeftIndex() {
         return left.matches("^([0-9]+)[Cc]?$");
     }
@@ -163,7 +167,7 @@ public class AlignmentPair {
         int ar = Integer.parseInt(a.right);
         int bl = Integer.parseInt(b.left);
         int br = Integer.parseInt(b.right);
-        return new AlignmentPair(Integer.toString(al - 1 + bl), Integer.toString(ar - 1 + br));
+        return new AlignmentPair(al - 1 + bl, ar - 1 + br);
     }
     @Override
     public String toString() {
