@@ -28,8 +28,10 @@
 package ie.tcd.slscs.itut.ApertiumStream;
 
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.AlignmentPair;
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.Attributes;
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleMacroCall;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,6 +175,36 @@ public class RuleContainer {
         out.setSimple(rc.isSimple());
         out.setAlignments(AlignmentPair.reverseList(rc.getAlignments()));
         return out;
+    }
+
+    public static List<RuleContainer> fromFile(BufferedReader br) throws Exception {
+        List<RuleContainer> out = new ArrayList<RuleContainer>();
+        String line;
+        int lineno = 0;
+        while((line = br.readLine()) != null) {
+            lineno++;
+            try {
+                out.add(fromString(line));
+            } catch (Exception e) {
+                throw new IOException(e.getMessage() + " on line " + lineno);
+            }
+        }
+        return out;
+    }
+    public static List<RuleContainer> fromFile(InputStreamReader isr) throws Exception {
+        return fromFile(new BufferedReader(isr));
+    }
+    public static List<RuleContainer> fromFile(InputStream is) throws Exception {
+        return fromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<RuleContainer> fromFile(FileInputStream fi) throws Exception {
+        return fromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<RuleContainer> fromFile(File f) throws Exception {
+        return fromFile(new FileInputStream(f));
+    }
+    public static List<RuleContainer> fromFile(String s) throws Exception {
+        return fromFile(new File(s));
     }
 
     public static RuleContainer insertAtAlignmentPoint(RuleContainer base, RuleContainer insert, AlignmentPair a) {
