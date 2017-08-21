@@ -187,7 +187,7 @@ object TrxProc {
   implicit def DefCatsToJava(m: Map[String, List[CatItem]]): JDefCats = new JDefCats(m.toList.map{DefCatTupleToJDefCat}.asJava)
   implicit def JPatternItemToPatternItem(pi: JPatternItem): PatternItemElement = PatternItemElement(pi.getName)
   implicit def PatternToPatternElement(p: Pattern): PatternElement = PatternElement(p.getItems.asScala.map{JPatternItemToPatternItem}.toList)
-  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = RuleSide.toPattern(rs, m)
+  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = PatternToPatternElement(RuleSide.toPattern(rs, m))
   case class Blank() extends StreamItem
   case class PositionBlank(pos: Int) extends StreamItem
   def positionedBlankToPositionBlank(b: PositionedBlank): PositionBlank = PositionBlank(b.getPosition)
