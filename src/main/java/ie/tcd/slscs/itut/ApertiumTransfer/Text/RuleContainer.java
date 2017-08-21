@@ -125,6 +125,10 @@ public class RuleContainer {
     public void setSimple(boolean simple) {
         this.simple = simple;
     }
+
+    /**
+     * @see ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleSide#rewriteLUs(AttributeSequenceClippable, Map, Map)
+     */
     public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
         right.rewriteLUs(clippable, alignments, aseq);
     }

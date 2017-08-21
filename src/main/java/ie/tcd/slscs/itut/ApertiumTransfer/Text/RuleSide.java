@@ -49,6 +49,15 @@ public class RuleSide {
         this.lus = lus;
         this.tokens = tokens;
     }
+
+    /**
+     * Rewrite the word tokens to include source language alignment, and tag properties
+     * @param clippable for the associated AttributeSequence, contains a map of boolean values denoting whether or
+     *                  not the entries in the attribute sequence can be written as clips
+     * @param alignments map from which to attach the source language alignment
+     * @param aseq The AttributeSequence associated with the first tag of the WordToken
+     * @throws Exception if the WordToken has multiple alignments, an exception is thrown
+     */
     public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
         List<WordToken> newlus = new ArrayList<WordToken>();
         for(int i = 0; i < lus.size(); i++) {
