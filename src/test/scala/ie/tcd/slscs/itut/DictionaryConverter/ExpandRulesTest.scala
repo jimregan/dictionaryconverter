@@ -27,6 +27,7 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter
 
+import ie.tcd.slscs.itut.DictionaryConverter.ExpandRules.{TagsToken, TrivialDeletion, TrivialIdentity}
 import org.scalatest.FlatSpec
 
 class ExpandRulesTest extends FlatSpec {
@@ -51,5 +52,14 @@ class ExpandRulesTest extends FlatSpec {
     assert (al2out.get(1).get === Array(1))
     assert (al2out.get(2).get === Array(2, 3))
   }
-
+  "makeTrivialRule" should "make trivial rules" in {
+    val expdel = TrivialDeletion("GEN", List[TagsToken](TagsToken(List[String]("gen"))))
+    val expident = TrivialIdentity("comma", List[TagsToken](TagsToken(List[String]("cm"))))
+    val delin = "GEN | <gen> | 1-0"
+    val identin = "comma | <cm> | 1-1"
+    val outdel = ExpandRules.makeTrivialRule(delin.split("|").map{_.trim})
+    val outident = ExpandRules.makeTrivialRule(identin.split("|").map{_.trim})
+    assert (expdel === outdel)
+    assert (expident === outident)
+  }
 }
