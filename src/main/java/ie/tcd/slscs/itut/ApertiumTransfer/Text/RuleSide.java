@@ -49,7 +49,7 @@ public class RuleSide {
         this.lus = lus;
         this.tokens = tokens;
     }
-    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, List<AttributeSequence> aseq) throws Exception {
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
         List<WordToken> newlus = new ArrayList<WordToken>();
         for(int i = 0; i < lus.size(); i++) {
             WordToken cur = lus.get(i);
@@ -61,10 +61,8 @@ public class RuleSide {
             }
             wcur.setAlignment(curalign.get(0));
             wcur.setClippable(clippable.getClippable().get(cur.getFirstTag()));
-            for(AttributeSequence as : aseq) {
-                if(as.name.equals(cur.getFirstTag())) {
-                    wcur.setAttribseq(as);
-                }
+            if(aseq.containsKey(cur.getFirstTag())) {
+                wcur.setAttribseq(aseq.get(cur.getFirstTag()));
             }
         }
     }
