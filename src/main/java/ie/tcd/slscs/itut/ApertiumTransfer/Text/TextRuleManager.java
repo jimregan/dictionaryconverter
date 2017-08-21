@@ -35,14 +35,14 @@ import java.util.List;
 
 public class TextRuleManager {
     TransferType type;
-    Attributes sourceAttr;
-    Attributes targetAttr;
-    Attributes sourceAttrChunk;
-    Attributes targetAttrChunk;
-    AttributeSequence sourceSeq;
-    AttributeSequence targetSeq;
-    AttributeSequence sourceSeqChunk;
-    AttributeSequence targetSeqChunk;
+    List<Attributes> sourceAttr;
+    List<Attributes> targetAttr;
+    List<Attributes> sourceAttrChunk;
+    List<Attributes> targetAttrChunk;
+    List<AttributeSequence> sourceSeq;
+    List<AttributeSequence> targetSeq;
+    List<AttributeSequence> sourceSeqChunk;
+    List<AttributeSequence> targetSeqChunk;
     List<SimpleList> lists;
 
     List<SimpleTextMacro> macros;
@@ -51,58 +51,66 @@ public class TextRuleManager {
         this.macros = new ArrayList<SimpleTextMacro>();
         this.rules = new ArrayList<RuleContainer>();
         this.lists = new ArrayList<SimpleList>();
+        this.sourceAttr = new ArrayList<Attributes>();
+        this.targetAttr = new ArrayList<Attributes>();
+        this.sourceAttrChunk = new ArrayList<Attributes>();
+        this.targetAttrChunk = new ArrayList<Attributes>();
+        this.sourceSeq = new ArrayList<AttributeSequence>();
+        this.sourceSeqChunk = new ArrayList<AttributeSequence>();
+        this.targetSeq = new ArrayList<AttributeSequence>();
+        this.targetSeqChunk = new ArrayList<AttributeSequence>();
     }
     TextRuleManager(List<SimpleTextMacro> macros, List<RuleContainer> rules) {
         this.macros = macros;
         this.rules = rules;
     }
 
-    public Attributes getSourceAttr() {
+    public List<Attributes> getSourceAttr() {
         return sourceAttr;
     }
-    public void setSourceAttr(Attributes sourceAttr) {
+    public void setSourceAttr(List<Attributes> sourceAttr) {
         this.sourceAttr = sourceAttr;
     }
-    public Attributes getTargetAttr() {
+    public List<Attributes> getTargetAttr() {
         return targetAttr;
     }
-    public void setTargetAttr(Attributes targetAttr) {
+    public void setTargetAttr(List<Attributes> targetAttr) {
         this.targetAttr = targetAttr;
     }
-    public Attributes getSourceAttrChunk() {
+    public List<Attributes> getSourceAttrChunk() {
         return sourceAttrChunk;
     }
-    public void setSourceAttrChunk(Attributes sourceAttrChunk) {
+    public void setSourceAttrChunk(List<Attributes> sourceAttrChunk) {
         this.sourceAttrChunk = sourceAttrChunk;
     }
-    public Attributes getTargetAttrChunk() {
+    public List<Attributes> getTargetAttrChunk() {
         return targetAttrChunk;
     }
-    public void setTargetAttrChunk(Attributes targetAttrChunk) {
+    public void setTargetAttrChunk(List<Attributes> targetAttrChunk) {
         this.targetAttrChunk = targetAttrChunk;
     }
-    public AttributeSequence getSourceSeq() {
+    public List<AttributeSequence> getSourceSeq() {
         return sourceSeq;
     }
-    public void setSourceSeq(AttributeSequence sourceSeq) {
+    public void setSourceSeq(List<AttributeSequence> sourceSeq) {
         this.sourceSeq = sourceSeq;
     }
-    public AttributeSequence getTargetSeq() {
+    public List<AttributeSequence> getTargetSeq() {
         return targetSeq;
     }
-    public void setTargetSeq(AttributeSequence targetSeq) {
+    public void setTargetSeq(List<AttributeSequence> targetSeq) {
         this.targetSeq = targetSeq;
     }
-    public AttributeSequence getSourceSeqChunk() {
+    public List<AttributeSequence> getSourceSeqChunk() {
         return sourceSeqChunk;
     }
-    public void setSourceSeqChunk(AttributeSequence sourceSeqChunk) {
+    public void setSourceSeqChunk(List<AttributeSequence> sourceSeqChunk) {
         this.sourceSeqChunk = sourceSeqChunk;
     }
-    public AttributeSequence getTargetSeqChunk() {
+    public List<AttributeSequence> getTargetSeqChunk() {
         return targetSeqChunk;
     }
-    public void setTargetSeqChunk(AttributeSequence targetSeqChunk) {
+    public void setTargetSeqChunk(List<AttributeSequence> targetSeqChunk) {
         this.targetSeqChunk = targetSeqChunk;
     }
     public List<SimpleList> getLists() {
@@ -131,14 +139,14 @@ public class TextRuleManager {
     }
 
     public class Builder {
-        Attributes sourceAttr;
-        Attributes targetAttr;
-        Attributes sourceAttrChunk;
-        Attributes targetAttrChunk;
-        AttributeSequence sourceSeq;
-        AttributeSequence targetSeq;
-        AttributeSequence sourceSeqChunk;
-        AttributeSequence targetSeqChunk;
+        List<Attributes> sourceAttr;
+        List<Attributes> targetAttr;
+        List<Attributes> sourceAttrChunk;
+        List<Attributes> targetAttrChunk;
+        List<AttributeSequence> sourceSeq;
+        List<AttributeSequence> targetSeq;
+        List<AttributeSequence> sourceSeqChunk;
+        List<AttributeSequence> targetSeqChunk;
         List<SimpleList> lists;
         List<SimpleTextMacro> macros;
         List<RuleContainer> rules;
@@ -147,6 +155,14 @@ public class TextRuleManager {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
             this.lists = new ArrayList<SimpleList>();
+            this.sourceAttr = new ArrayList<Attributes>();
+            this.targetAttr = new ArrayList<Attributes>();
+            this.sourceAttrChunk = new ArrayList<Attributes>();
+            this.targetAttrChunk = new ArrayList<Attributes>();
+            this.sourceSeq = new ArrayList<AttributeSequence>();
+            this.sourceSeqChunk = new ArrayList<AttributeSequence>();
+            this.targetSeq = new ArrayList<AttributeSequence>();
+            this.targetSeqChunk = new ArrayList<AttributeSequence>();
         }
         public Builder setType(TransferType type) {
             this.type = type;
@@ -164,35 +180,35 @@ public class TextRuleManager {
             this.lists = lists;
             return this;
         }
-        public Builder withSourceAttributes(Attributes src) {
+        public Builder withSourceAttributes(List<Attributes> src) {
             this.sourceAttr = src;
             return this;
         }
-        public Builder withSourceChunkAttributes(Attributes src) {
+        public Builder withSourceChunkAttributes(List<Attributes> src) {
             this.sourceAttrChunk = src;
             return this;
         }
-        public Builder withTargetAttributes(Attributes src) {
+        public Builder withTargetAttributes(List<Attributes> src) {
             this.targetAttr = src;
             return this;
         }
-        public Builder withTargetChunkAttributes(Attributes src) {
+        public Builder withTargetChunkAttributes(List<Attributes> src) {
             this.targetAttrChunk = src;
             return this;
         }
-        public Builder withSourceSequence(AttributeSequence src) {
+        public Builder withSourceSequence(List<AttributeSequence> src) {
             this.sourceSeq = src;
             return this;
         }
-        public Builder withSourceChunkSequence(AttributeSequence src) {
+        public Builder withSourceChunkSequence(List<AttributeSequence> src) {
             this.sourceSeqChunk = src;
             return this;
         }
-        public Builder withTargetSequence(AttributeSequence src) {
+        public Builder withTargetSequence(List<AttributeSequence> src) {
             this.targetSeq = src;
             return this;
         }
-        public Builder withTargetChunkSequence(AttributeSequence src) {
+        public Builder withTargetChunkSequence(List<AttributeSequence> src) {
             this.targetSeqChunk = src;
             return this;
         }
@@ -224,6 +240,38 @@ public class TextRuleManager {
 //        }
         public Builder setListsFromFile(String filename) throws Exception {
             this.lists = SimpleList.fromFile(filename);
+            return this;
+        }
+        public Builder setSourceAttributesFromFile(String filename) throws Exception {
+            this.sourceAttr = Attributes.fromFile(filename);
+            return this;
+        }
+        public Builder setSourceChunkAttributesFromFile(String filename) throws Exception {
+            this.sourceAttrChunk = Attributes.fromFile(filename);
+            return this;
+        }
+        public Builder setTargetAttributesFromFile(String filename) throws Exception {
+            this.targetAttr = Attributes.fromFile(filename);
+            return this;
+        }
+        public Builder setTargetChunkAttributesFromFile(String filename) throws Exception {
+            this.targetAttrChunk = Attributes.fromFile(filename);
+            return this;
+        }
+        public Builder setSourceSequenceFromFile(String filename) throws Exception {
+            this.sourceSeq = AttributeSequence.fromFile(filename);
+            return this;
+        }
+        public Builder setSourceChunkSequenceFromFile(String filename) throws Exception {
+            this.sourceSeqChunk = AttributeSequence.fromFile(filename);
+            return this;
+        }
+        public Builder setTargetSequenceFromFile(String filename) throws Exception {
+            this.targetSeq = AttributeSequence.fromFile(filename);
+            return this;
+        }
+        public Builder setTargetChunkSequenceFromFile(String filename) throws Exception {
+            this.targetSeqChunk = AttributeSequence.fromFile(filename);
             return this;
         }
     }
