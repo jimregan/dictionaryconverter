@@ -57,8 +57,8 @@ class ExpandRulesTest extends FlatSpec {
     val expident = TrivialIdentity("comma", List[TagsToken](TagsToken(List[String]("cm"))))
     val delin = "GEN | <gen> | 1-0"
     val identin = "comma | <cm> | 1-1"
-    val outdel = ExpandRules.makeTrivialRule(delin.split("|").map{_.trim})
-    val outident = ExpandRules.makeTrivialRule(identin.split("|").map{_.trim})
+    val outdel = ExpandRules.makeTrivialRule(delin.split("\\|").map{_.trim})
+    val outident = ExpandRules.makeTrivialRule(identin.split("\\|").map{_.trim})
     assert (expdel === outdel)
     assert (expident === outident)
   }
