@@ -36,6 +36,9 @@ public class WritableWordToken extends WordToken {
     WritableWordToken() {
         super();
     }
+    public WritableWordToken(WordToken wt) {
+        super(wt);
+    }
     public String getAlignment() {
         return alignment;
     }
