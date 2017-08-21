@@ -32,6 +32,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.Text.AttributeSequence;
 public class WritableWordToken extends WordToken {
     String alignment;
     AttributeSequence attribseq;
+    boolean isInsertion = false;
     WritableWordToken() {
         super();
     }
@@ -46,5 +47,11 @@ public class WritableWordToken extends WordToken {
     }
     public void setAttribseq(AttributeSequence attribseq) {
         this.attribseq = attribseq;
+    }
+    public boolean isInsertion() {
+        return isInsertion;
+    }
+    public void setInsertion(boolean insertion) {
+        isInsertion = insertion;
     }
 }
