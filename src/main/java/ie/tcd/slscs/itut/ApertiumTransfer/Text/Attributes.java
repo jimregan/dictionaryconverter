@@ -31,10 +31,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.AttrItem;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefAttr;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Attributes {
     String name;
@@ -169,5 +166,33 @@ public class Attributes {
         }
         out.add(new DefAttr(a.name, base));
         return out;
+    }
+
+    private String itemToString(String s) {
+        if(s.equals(any)) {
+            return s + "?";
+        } else if(s.equals(undefined)) {
+            return s + "!";
+        } else {
+            return s;
+        }
+    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        if(fromDictionary) {
+            sb.append('!');
+        }
+        sb.append(" = ");
+        Iterator<String> it = items.iterator();
+        if(it.hasNext()) {
+            sb.append(itemToString(it.next()));
+        }
+        while(it.hasNext()) {
+            sb.append(' ');
+            sb.append(itemToString(it.next()));
+        }
+        return sb.toString();
     }
 }
