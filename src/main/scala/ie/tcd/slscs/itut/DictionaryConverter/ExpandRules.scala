@@ -78,8 +78,7 @@ object ExpandRules {
     val rp:RulePiece = RulePiece(r.trg, r.srcal, r.trgal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, r.src, List[RulePiece](rp))
   }
-  def stringToRule(s: String): Rule = {
-    val parts = s.split("|").map{_.trim}
+  def stringToRule(parts: Array[String]): Rule = {
     val tag = parts(0)
     val src = makeTokenList(parts(1))
     val trg = makeTokenList(parts(2))
@@ -91,7 +90,18 @@ object ExpandRules {
     val trgeg = parts(7)
     Rule(tag, src, trg, srcal, trgal, srcmac, trgmac, srceg, trgeg)
   }
-
+  trait TrivialRule
+  case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule
+  case class TrivialDeletion(tag: String, toks: List[Token]) extends TrivialRule
+  def makeTrivialRule(parts: Array[String]): TrivialRule = {
+    if(parts(2) == "1-0") {
+      TrivialDeletion(parts(0), makeTokenList(parts(1)))
+    } else if(parts(2) == "1-1") {
+      TrivialIdentity(parts(0), makeTokenList(parts(1)))
+    } else {
+      throw new Exception("Only 1-1 and 1-0 (deletion) alignments are currently handled")
+    }
+  }
   def mkRuleMap(in: List[Rule]): Map[String, Rule] = in.map{e => (e.tag, e)}.toMap
 }
 
