@@ -45,7 +45,7 @@ public class TextRuleManager {
     List<AttributeSequence> targetSeqChunk;
     List<SimpleList> lists;
     AttributeSequenceClippable clippable;
-
+    AttributeSequenceClippable clippableChunk;
     List<SimpleTextMacro> macros;
     List<RuleContainer> rules;
     TextRuleManager() {
@@ -61,6 +61,7 @@ public class TextRuleManager {
         this.targetSeq = new ArrayList<AttributeSequence>();
         this.targetSeqChunk = new ArrayList<AttributeSequence>();
         this.clippable = new AttributeSequenceClippable();
+        this.clippableChunk = new AttributeSequenceClippable();
     }
     TextRuleManager(List<SimpleTextMacro> macros, List<RuleContainer> rules) {
         this.macros = macros;
@@ -139,6 +140,18 @@ public class TextRuleManager {
     public void setType(TransferType type) {
         this.type = type;
     }
+    public AttributeSequenceClippable getClippable() {
+        return clippable;
+    }
+    public void setClippable(AttributeSequenceClippable clippable) {
+        this.clippable = clippable;
+    }
+    public AttributeSequenceClippable getClippableChunk() {
+        return clippableChunk;
+    }
+    public void setClippableChunk(AttributeSequenceClippable clippableChunk) {
+        this.clippableChunk = clippableChunk;
+    }
 
     public class Builder {
         List<Attributes> sourceAttr;
@@ -154,6 +167,7 @@ public class TextRuleManager {
         List<RuleContainer> rules;
         TransferType type;
         AttributeSequenceClippable clippable;
+        AttributeSequenceClippable clippableChunk;
         public Builder() {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
@@ -167,6 +181,7 @@ public class TextRuleManager {
             this.targetSeq = new ArrayList<AttributeSequence>();
             this.targetSeqChunk = new ArrayList<AttributeSequence>();
             this.clippable = new AttributeSequenceClippable();
+            this.clippableChunk = new AttributeSequenceClippable();
         }
         public Builder setType(TransferType type) {
             this.type = type;
@@ -204,6 +219,9 @@ public class TextRuleManager {
         public Builder withSourceChunkSequence(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeqChunk = src;
             this.targetSeqChunk = trg;
+            this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
+            this.clippableChunk.setSourceLanguage(sourceSeqChunk);
+            this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
         }
         public TextRuleManager build() {
@@ -219,6 +237,8 @@ public class TextRuleManager {
             out.setSourceSeqChunk(this.sourceSeqChunk);
             out.setTargetSeq(this.targetSeq);
             out.setTargetSeqChunk(this.targetSeqChunk);
+            out.setClippable(this.clippable);
+            out.setClippableChunk(this.clippableChunk);
             return out;
         }
     }
@@ -255,6 +275,9 @@ public class TextRuleManager {
         public Builder setSourceChunkSequenceFromFile(String src, String trg) throws Exception {
             this.sourceSeqChunk = AttributeSequence.fromFile(src);
             this.targetSeqChunk = AttributeSequence.fromFile(trg);
+            this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
+            this.clippableChunk.setSourceLanguage(sourceSeqChunk);
+            this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
         }
     }
