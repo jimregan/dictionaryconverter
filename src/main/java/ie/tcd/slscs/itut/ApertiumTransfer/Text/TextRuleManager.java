@@ -27,7 +27,6 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import ie.tcd.slscs.itut.ApertiumStream.RuleContainer;
 import ie.tcd.slscs.itut.ApertiumTransfer.TransferType;
 
 import java.util.ArrayList;

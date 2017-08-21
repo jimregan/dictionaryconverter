@@ -24,8 +24,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, PatternItem => JPatternItem, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._

@@ -25,12 +25,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleContainer;
 import junit.framework.TestCase;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class RuleContainerTest extends TestCase {
     public void testFromString() throws Exception {

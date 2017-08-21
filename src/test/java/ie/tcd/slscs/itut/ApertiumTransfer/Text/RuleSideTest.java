@@ -25,16 +25,16 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.ApertiumStream.*;
 import ie.tcd.slscs.itut.ApertiumTransfer.*;
+import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleSide;
 import junit.framework.TestCase;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class RuleSideTest extends TestCase {
     DefCats dc;
@@ -96,7 +96,7 @@ public class RuleSideTest extends TestCase {
         assertEquals((ckt.getChildren().get(1) instanceof BlankToken), true);
         assertEquals((ckt.getChildren().get(2) instanceof MLUReference), true);
         MLUReference mlur = (MLUReference) ckt.getChildren().get(2);
-        assertEquals(mlur.children.get(0).position, 1);
+        assertEquals(mlur.getChildren().get(0).position, 1);
         assertEquals((rs.tokens.get(2) instanceof LUReference), true);
         LUReference luref = (LUReference) rs.tokens.get(2);
         assertEquals(luref.position, 4);
@@ -126,7 +126,7 @@ public class RuleSideTest extends TestCase {
         List<PatternItem> lpi = new ArrayList<PatternItem>();
         lpi.add(new PatternItem("adj"));
         lpi.add(new PatternItem("noun"));
-        Pattern exp = new Pattern(lpi);
+        ie.tcd.slscs.itut.ApertiumTransfer.Pattern exp = new ie.tcd.slscs.itut.ApertiumTransfer.Pattern(lpi);
 
         RuleSide rs = RuleSide.convertSimpleTokens(stoksnolem);
         Pattern pout = RuleSide.toPattern(rs, dc);

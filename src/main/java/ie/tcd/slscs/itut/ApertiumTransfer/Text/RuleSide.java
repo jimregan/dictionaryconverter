@@ -25,8 +25,9 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.ApertiumStream.*;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
 import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
 import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;

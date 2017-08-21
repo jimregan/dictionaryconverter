@@ -30,7 +30,7 @@ package ie.tcd.slscs.itut.ApertiumStream;
 public class LUReference extends StreamToken {
     public int position;
 
-    LUReference(int pos) {
+    public LUReference(int pos) {
         this.position = pos;
     }
     @Override

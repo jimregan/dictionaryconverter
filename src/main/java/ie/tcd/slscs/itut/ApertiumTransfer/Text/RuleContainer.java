@@ -25,11 +25,11 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.AlignmentPair;
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.Attributes;
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleMacroCall;
+import ie.tcd.slscs.itut.ApertiumStream.ChunkToken;
+import ie.tcd.slscs.itut.ApertiumStream.SimpleToken;
+import ie.tcd.slscs.itut.ApertiumStream.StreamToken;
 
 import java.io.*;
 import java.util.ArrayList;

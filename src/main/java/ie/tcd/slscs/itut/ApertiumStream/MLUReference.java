@@ -35,7 +35,7 @@ public class MLUReference extends StreamToken {
     MLUReference() {
         children = new ArrayList<LUReference>();
     }
-    MLUReference(List<LUReference> mlus) {
+    public MLUReference(List<LUReference> mlus) {
         this.children = mlus;
     }
 
