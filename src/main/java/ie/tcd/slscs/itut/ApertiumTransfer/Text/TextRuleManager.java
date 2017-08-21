@@ -186,7 +186,16 @@ public class TextRuleManager {
         public TextRuleManager build() {
             TextRuleManager out = new TextRuleManager();
             out.setLists(this.lists);
-
+            out.setRules(this.rules);
+            out.setMacros(this.macros);
+            out.setSourceAttr(this.sourceAttr);
+            out.setSourceAttrChunk(this.sourceAttrChunk);
+            out.setTargetAttr(this.targetAttr);
+            out.setTargetAttrChunk(this.targetAttrChunk);
+            out.setSourceSeq(this.sourceSeq);
+            out.setSourceSeqChunk(this.sourceSeqChunk);
+            out.setTargetSeq(this.targetSeq);
+            out.setTargetSeqChunk(this.targetSeqChunk);
             return out;
         }
     }
