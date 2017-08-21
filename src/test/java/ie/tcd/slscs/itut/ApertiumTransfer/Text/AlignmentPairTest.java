@@ -78,7 +78,7 @@ public class AlignmentPairTest extends TestCase {
         AlignmentPair exp = new AlignmentPair("4", "2");
         AlignmentPair out = AlignmentPair.offsetPair(a, b);
         if(out.left == null || out.right == null) {
-            throw new Exception("failed to run test");
+            throw new Exception("failed to run test: \"" + a + "\" \"" + b + "\"");
         }
         assertEquals(exp.left, out.left);
         assertEquals(exp.right, out.right);
