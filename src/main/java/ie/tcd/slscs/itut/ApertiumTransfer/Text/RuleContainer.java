@@ -129,7 +129,8 @@ public class RuleContainer {
     /**
      * @see ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleSide#rewriteLUs(AttributeSequenceClippable, Map, Map)
      */
-    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, AttributeSequence> aseq) throws Exception {
+        Map<String, List<String>> alignments = AlignmentPair.getReverseMapFromList(getAlignments());
         right.rewriteLUs(clippable, alignments, aseq);
     }
     public static RuleContainer fromString(String s) throws Exception {
