@@ -110,6 +110,21 @@ public class Attributes {
         }
         return out;
     }
+    public static List<Attributes> fromFile(InputStreamReader isr) throws Exception {
+        return fromFile(new BufferedReader(isr));
+    }
+    public static List<Attributes> fromFile(InputStream is) throws Exception {
+        return fromFile(new InputStreamReader(is, "UTF-8"));
+    }
+    public static List<Attributes> fromFile(FileInputStream fi) throws Exception {
+        return fromFile(new InputStreamReader(fi, "UTF-8"));
+    }
+    public static List<Attributes> fromFile(File f) throws Exception {
+        return fromFile(new FileInputStream(f));
+    }
+    public static List<Attributes> fromFile(String s) throws Exception {
+        return fromFile(new File(s));
+    }
     public static List<DefAttr> defAttrFromFile(BufferedReader br) throws IOException {
         List<DefAttr> out = new ArrayList<DefAttr>();
         for(Attributes a : fromFile(br)) {
