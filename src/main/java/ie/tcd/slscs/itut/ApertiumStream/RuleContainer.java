@@ -176,16 +176,6 @@ public class RuleContainer {
     }
 
     public static RuleContainer insertAtAlignmentPoint(RuleContainer base, RuleContainer insert, AlignmentPair a) {
-        /*
-        a b NP c 1-3 2-1 3-2 4-4
-        b NP a c
-
-        a b c 1-2 2-3 3-1
-        c a b
-
-        a b (a b c) c 1-(5=3+2) 2-1 (3-2)[3-4 4-5 5-3]
-        b (c a b) a c
-         */
         return null;
     }
 }
