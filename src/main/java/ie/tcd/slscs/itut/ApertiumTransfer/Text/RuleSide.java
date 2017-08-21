@@ -35,6 +35,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class RuleSide {
     List<WordToken> lus;
@@ -47,6 +48,25 @@ public class RuleSide {
     RuleSide(List<WordToken> lus, List<StreamToken> tokens) {
         this.lus = lus;
         this.tokens = tokens;
+    }
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, List<AttributeSequence> aseq) throws Exception {
+        List<WordToken> newlus = new ArrayList<WordToken>();
+        for(int i = 0; i < lus.size(); i++) {
+            WordToken cur = lus.get(i);
+            WritableWordToken wcur = new WritableWordToken(cur);
+            String alignkey = Integer.toString(i + 1);
+            List<String> curalign = alignments.get(alignkey);
+            if(curalign.size() != 1) {
+                throw new Exception("Cannot currently handle multiple alignments");
+            }
+            wcur.setAlignment(curalign.get(0));
+            wcur.setClippable(clippable.getClippable().get(cur.getFirstTag()));
+            for(AttributeSequence as : aseq) {
+                if(as.name.equals(cur.getFirstTag())) {
+                    wcur.setAttribseq(as);
+                }
+            }
+        }
     }
     public class Builder {
         private List<WordToken> lus;
