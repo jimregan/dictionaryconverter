@@ -52,6 +52,7 @@ public class AttributesTest extends TestCase {
         Attributes in = Attributes.fromText(sin);
         List<DefAttr> out = Attributes.fromAttributes(in);
         assertEquals(3, out.size());
+        // FIXME: testing by accident. Shouldn't rely on gen_no_mf being first
         assertEquals("gen_no_mf", out.get(0).getName());
     }
 
