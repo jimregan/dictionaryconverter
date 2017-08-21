@@ -1,0 +1,4 @@
+noun = a_noun strength gen num case mut emph
+adj = a_adj strength gen num case mut
+verb = a_verb tense pers num neg itg mut emph
+det = a_det pers num gen
