@@ -71,4 +71,13 @@ public class AlignmentPairTest extends TestCase {
         List<AlignmentPair> out1 = AlignmentPair.listFromString(no);
         assertEquals(false, AlignmentPair.simpleAlignments(out1));
     }
+
+    public void testOffset() {
+        AlignmentPair a = new AlignmentPair("1", "2");
+        AlignmentPair b = new AlignmentPair("4", "1");
+        AlignmentPair exp = new AlignmentPair("4", "2");
+        AlignmentPair out = AlignmentPair.offsetPair(a, b);
+        assertEquals(exp.left, out.left);
+        assertEquals(exp.right, out.right);
+    }
 }
