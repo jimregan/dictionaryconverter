@@ -81,6 +81,7 @@ public class Attributes {
                     throw new Exception("Tag <" + tag + "> marked as \"any\" tag, but already have <" + any + ">");
                 }
                 any = tag.substring(0, tag.length() - 1);
+                items.add(any);
             } else if(tag.endsWith("!")) {
                 if(!undefined.equals("")) {
                     throw new Exception("Tag <" + tag + "> marked as \"to be defined\" tag, but already have <" + undefined + ">");

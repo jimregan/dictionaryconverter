@@ -51,8 +51,7 @@ public class AttributesTest extends TestCase {
         String sin = "gen = m f mf? GD!";
         Attributes in = Attributes.fromText(sin);
         List<DefAttr> out = Attributes.fromAttributes(in);
-        assertEquals(3, out.size());
-        // TODO: more checks here
+        assertEquals(4, out.size());
     }
 
     public void testFromDictionary() throws Exception {
