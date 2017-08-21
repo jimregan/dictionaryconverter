@@ -131,18 +131,18 @@ public class TextRuleManager {
     }
 
     public class Builder {
-        private Attributes sourceAttr;
-        private Attributes targetAttr;
-        private Attributes sourceAttrChunk;
-        private Attributes targetAttrChunk;
-        private AttributeSequence sourceSeq;
-        private AttributeSequence targetSeq;
-        private AttributeSequence sourceSeqChunk;
-        private AttributeSequence targetSeqChunk;
-        private List<SimpleList> lists;
-        private List<SimpleTextMacro> macros;
-        private List<RuleContainer> rules;
-        private TransferType type;
+        Attributes sourceAttr;
+        Attributes targetAttr;
+        Attributes sourceAttrChunk;
+        Attributes targetAttrChunk;
+        AttributeSequence sourceSeq;
+        AttributeSequence targetSeq;
+        AttributeSequence sourceSeqChunk;
+        AttributeSequence targetSeqChunk;
+        List<SimpleList> lists;
+        List<SimpleTextMacro> macros;
+        List<RuleContainer> rules;
+        TransferType type;
         public Builder() {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
@@ -210,6 +210,21 @@ public class TextRuleManager {
             out.setTargetSeq(this.targetSeq);
             out.setTargetSeqChunk(this.targetSeqChunk);
             return out;
+        }
+    }
+    class TextFileBuilder extends Builder {
+        public Builder setMacrosFromFile(String filename) throws Exception {
+            macros = SimpleTextMacro.fromFile(filename);
+            return this;
+        }
+        // TODO : missing method
+//        public Builder setRulesFromFile(String filename) throws Exception {
+//            this.rules = RuleContainer.listFromFile(filename);
+//            return this;
+//        }
+        public Builder setListsFromFile(String filename) throws Exception {
+            this.lists = SimpleList.fromFile(filename);
+            return this;
         }
     }
 }
