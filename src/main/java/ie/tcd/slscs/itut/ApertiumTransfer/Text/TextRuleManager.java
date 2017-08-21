@@ -233,11 +233,10 @@ public class TextRuleManager {
             macros = SimpleTextMacro.fromFile(filename);
             return this;
         }
-        // TODO : missing method
-//        public Builder setRulesFromFile(String filename) throws Exception {
-//            this.rules = RuleContainer.listFromFile(filename);
-//            return this;
-//        }
+        public Builder setRulesFromFile(String filename) throws Exception {
+            this.rules = RuleContainer.fromFile(filename);
+            return this;
+        }
         public Builder setListsFromFile(String filename) throws Exception {
             this.lists = SimpleList.fromFile(filename);
             return this;
