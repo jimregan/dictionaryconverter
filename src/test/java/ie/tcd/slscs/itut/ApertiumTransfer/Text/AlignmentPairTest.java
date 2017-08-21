@@ -96,6 +96,5 @@ public class AlignmentPairTest extends TestCase {
         assertEquals(exp.size(), out.size());
         assertEquals(exp.get(0).left, exp.get(0).left);
         assertEquals(exp.get(1).right, exp.get(1).right);
-
     }
 }
