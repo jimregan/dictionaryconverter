@@ -36,6 +36,12 @@ public class WritableWordToken extends WordToken {
     WritableWordToken() {
         super();
     }
+    public WritableWordToken(WordToken wt) {
+        this.lemh = wt.getLemh();
+        this.lemq = wt.getLemq();
+        this.tags = wt.getTags();
+        this.simple = wt.simple;
+    }
     public String getAlignment() {
         return alignment;
     }
