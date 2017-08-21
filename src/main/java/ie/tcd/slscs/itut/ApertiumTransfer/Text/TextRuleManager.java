@@ -151,6 +151,7 @@ public class TextRuleManager {
         List<SimpleTextMacro> macros;
         List<RuleContainer> rules;
         TransferType type;
+        AttributeSequenceClippable clippable;
         public Builder() {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
@@ -163,6 +164,7 @@ public class TextRuleManager {
             this.sourceSeqChunk = new ArrayList<AttributeSequence>();
             this.targetSeq = new ArrayList<AttributeSequence>();
             this.targetSeqChunk = new ArrayList<AttributeSequence>();
+            this.clippable = new AttributeSequenceClippable();
         }
         public Builder setType(TransferType type) {
             this.type = type;
@@ -180,36 +182,26 @@ public class TextRuleManager {
             this.lists = lists;
             return this;
         }
-        public Builder withSourceAttributes(List<Attributes> src) {
+        public Builder withAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttr = src;
+            this.targetAttr = trg;
             return this;
         }
-        public Builder withSourceChunkAttributes(List<Attributes> src) {
+        public Builder withSourceChunkAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttrChunk = src;
+            this.targetAttrChunk = trg;
             return this;
         }
-        public Builder withTargetAttributes(List<Attributes> src) {
-            this.targetAttr = src;
-            return this;
-        }
-        public Builder withTargetChunkAttributes(List<Attributes> src) {
-            this.targetAttrChunk = src;
-            return this;
-        }
-        public Builder withSourceSequence(List<AttributeSequence> src) {
+        public Builder withSequences(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeq = src;
+            this.targetSeq = trg;
+            this.clippable.setSourceLanguage(src);
+            this.clippable.setTargetLanguage(trg);
             return this;
         }
-        public Builder withSourceChunkSequence(List<AttributeSequence> src) {
+        public Builder withSourceChunkSequence(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeqChunk = src;
-            return this;
-        }
-        public Builder withTargetSequence(List<AttributeSequence> src) {
-            this.targetSeq = src;
-            return this;
-        }
-        public Builder withTargetChunkSequence(List<AttributeSequence> src) {
-            this.targetSeqChunk = src;
+            this.targetSeqChunk = trg;
             return this;
         }
         public TextRuleManager build() {
