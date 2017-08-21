@@ -69,10 +69,10 @@ public class AlignmentPair {
         }
     }
     public boolean isSimpleLeft() {
-        return (left == null || left.equals("0") || left.toLowerCase().endsWith("c"));
+        return !(left == null || left.equals("0") || left.toLowerCase().endsWith("c"));
     }
     public boolean isSimpleRight() {
-        return (right == null || right.equals("0") || right.toLowerCase().endsWith("c"));
+        return !(right == null || right.equals("0") || right.toLowerCase().endsWith("c"));
     }
     public boolean isSimple() {
         return isSimpleLeft() && isSimpleRight();
