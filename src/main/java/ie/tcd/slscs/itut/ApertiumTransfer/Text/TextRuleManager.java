@@ -54,6 +54,74 @@ public class TextRuleManager {
         this.macros = macros;
         this.rules = rules;
     }
+
+    public Attributes getSourceAttr() {
+        return sourceAttr;
+    }
+    public void setSourceAttr(Attributes sourceAttr) {
+        this.sourceAttr = sourceAttr;
+    }
+    public Attributes getTargetAttr() {
+        return targetAttr;
+    }
+    public void setTargetAttr(Attributes targetAttr) {
+        this.targetAttr = targetAttr;
+    }
+    public Attributes getSourceAttrChunk() {
+        return sourceAttrChunk;
+    }
+    public void setSourceAttrChunk(Attributes sourceAttrChunk) {
+        this.sourceAttrChunk = sourceAttrChunk;
+    }
+    public Attributes getTargetAttrChunk() {
+        return targetAttrChunk;
+    }
+    public void setTargetAttrChunk(Attributes targetAttrChunk) {
+        this.targetAttrChunk = targetAttrChunk;
+    }
+    public AttributeSequence getSourceSeq() {
+        return sourceSeq;
+    }
+    public void setSourceSeq(AttributeSequence sourceSeq) {
+        this.sourceSeq = sourceSeq;
+    }
+    public AttributeSequence getTargetSeq() {
+        return targetSeq;
+    }
+    public void setTargetSeq(AttributeSequence targetSeq) {
+        this.targetSeq = targetSeq;
+    }
+    public AttributeSequence getSourceSeqChunk() {
+        return sourceSeqChunk;
+    }
+    public void setSourceSeqChunk(AttributeSequence sourceSeqChunk) {
+        this.sourceSeqChunk = sourceSeqChunk;
+    }
+    public AttributeSequence getTargetSeqChunk() {
+        return targetSeqChunk;
+    }
+    public void setTargetSeqChunk(AttributeSequence targetSeqChunk) {
+        this.targetSeqChunk = targetSeqChunk;
+    }
+    public List<SimpleList> getLists() {
+        return lists;
+    }
+    public void setLists(List<SimpleList> lists) {
+        this.lists = lists;
+    }
+    public List<SimpleTextMacro> getMacros() {
+        return macros;
+    }
+    public void setMacros(List<SimpleTextMacro> macros) {
+        this.macros = macros;
+    }
+    public List<RuleContainer> getRules() {
+        return rules;
+    }
+    public void setRules(List<RuleContainer> rules) {
+        this.rules = rules;
+    }
+
     public class Builder {
         private Attributes sourceAttr;
         private Attributes targetAttr;
@@ -115,6 +183,11 @@ public class TextRuleManager {
             this.targetSeqChunk = src;
             return this;
         }
+        public TextRuleManager build() {
+            TextRuleManager out = new TextRuleManager();
+            out.setLists(this.lists);
 
+            return out;
+        }
     }
 }
