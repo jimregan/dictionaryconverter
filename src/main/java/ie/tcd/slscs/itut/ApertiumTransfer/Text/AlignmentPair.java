@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import scala.Int;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,10 @@ public class AlignmentPair {
     public AlignmentPair(String left, String right) {
         this.left = left;
         this.right = right;
+    }
+    public AlignmentPair(int left, int right) {
+        this.left = Integer.toString(left);
+        this.right = Integer.toString(right);
     }
     public boolean canMakeLeftIndex() {
         return left.matches("^([0-9]+)[Cc]?$");
@@ -62,7 +68,15 @@ public class AlignmentPair {
             return Integer.parseInt(right);
         }
     }
-
+    public boolean isSimpleLeft() {
+        return !(left == null || left.equals("0") || left.toLowerCase().endsWith("c"));
+    }
+    public boolean isSimpleRight() {
+        return !(right == null || right.equals("0") || right.toLowerCase().endsWith("c"));
+    }
+    public boolean isSimple() {
+        return isSimpleLeft() && isSimpleRight();
+    }
     public boolean leftChunkAlignment() {
         return left.toLowerCase().endsWith("c");
     }
@@ -83,6 +97,16 @@ public class AlignmentPair {
         Map<String, List<String>> out = new HashMap<String, List<String>>();
         for(AlignmentPair al : in) {
             out.get(al.right).add(al.left);
+        }
+        return out;
+    }
+    public static AlignmentPair reverse(AlignmentPair a) {
+        return new AlignmentPair(a.right, a.left);
+    }
+    public static List<AlignmentPair> reverseList(List<AlignmentPair> l) {
+        List<AlignmentPair> out = new ArrayList<AlignmentPair>();
+        for(AlignmentPair a : l) {
+            out.add(reverse(a));
         }
         return out;
     }
@@ -135,7 +159,23 @@ public class AlignmentPair {
     public boolean rightIsChunk() {
         return right.toLowerCase().endsWith("c");
     }
-
+    public static AlignmentPair offsetPair(AlignmentPair a, AlignmentPair b) {
+        if(!a.isSimple() || !b.isSimple()) {
+            return null;
+        }
+        int al = Integer.parseInt(a.left);
+        int ar = Integer.parseInt(a.right);
+        int bl = Integer.parseInt(b.left);
+        int br = Integer.parseInt(b.right);
+        return new AlignmentPair(al - 1 + bl, ar - 1 + br);
+    }
+    public static List<AlignmentPair> offsetList(List<AlignmentPair> list, AlignmentPair b) {
+        List<AlignmentPair> out = new ArrayList<AlignmentPair>();
+        for(AlignmentPair a : list) {
+            out.add(offsetPair(a, b));
+        }
+        return out;
+    }
     @Override
     public String toString() {
         return left + "-" + right;

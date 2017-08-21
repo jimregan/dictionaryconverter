@@ -71,4 +71,30 @@ public class AlignmentPairTest extends TestCase {
         List<AlignmentPair> out1 = AlignmentPair.listFromString(no);
         assertEquals(false, AlignmentPair.simpleAlignments(out1));
     }
+
+    public void testOffset() throws Exception {
+        AlignmentPair a = new AlignmentPair("1", "2");
+        AlignmentPair b = new AlignmentPair("4", "1");
+        AlignmentPair exp = new AlignmentPair("4", "2");
+        AlignmentPair out = AlignmentPair.offsetPair(a, b);
+        assertEquals(exp.left, out.left);
+        assertEquals(exp.right, out.right);
+    }
+    public void testOffsetList() throws Exception {
+        AlignmentPair a1 = new AlignmentPair(1, 2);
+        AlignmentPair a2 = new AlignmentPair(2, 1);
+        List<AlignmentPair> in = new ArrayList<AlignmentPair>();
+        in.add(a1);
+        in.add(a2);
+        AlignmentPair b = new AlignmentPair(3, 2);
+        AlignmentPair expa1 = new AlignmentPair(3, 3);
+        AlignmentPair expa2 = new AlignmentPair(4, 2);
+        List<AlignmentPair> exp = new ArrayList<AlignmentPair>();
+        exp.add(expa1);
+        exp.add(expa2);
+        List<AlignmentPair> out = AlignmentPair.offsetList(in, b);
+        assertEquals(exp.size(), out.size());
+        assertEquals(exp.get(0).left, exp.get(0).left);
+        assertEquals(exp.get(1).right, exp.get(1).right);
+    }
 }

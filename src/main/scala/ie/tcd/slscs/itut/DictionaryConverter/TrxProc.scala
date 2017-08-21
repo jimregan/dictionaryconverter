@@ -24,8 +24,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry, SimpleMacroCall => JSMacroCall}
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, PatternItem => JPatternItem, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
@@ -158,7 +158,6 @@ object TrxProc {
   }
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
-  // TODO helper: expand pattern string above with defcats - class method? - done in java
   // TODO: finish getters and setters for rules and macros
   // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
   // TODO: convert macros from SimpleTextMacro
@@ -183,6 +182,12 @@ object TrxProc {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
+  implicit def catItemToJCatItem(c: CatItem): JCatItem = if(c.name == "") new JCatItem(c.lemma, c.tags) else new JCatItem(c.name)
+  implicit def DefCatTupleToJDefCat(dc: (String, List[CatItem])): JDefCat = new JDefCat(dc._1, dc._2.map{catItemToJCatItem}.asJava)
+  implicit def DefCatsToJava(m: Map[String, List[CatItem]]): JDefCats = new JDefCats(m.toList.map{DefCatTupleToJDefCat}.asJava)
+  implicit def JPatternItemToPatternItem(pi: JPatternItem): PatternItemElement = PatternItemElement(pi.getName)
+  implicit def PatternToPatternElement(p: Pattern): PatternElement = PatternElement(p.getItems.asScala.map{JPatternItemToPatternItem}.toList)
+  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = RuleSide.toPattern(rs, m)
   case class Blank() extends StreamItem
   case class PositionBlank(pos: Int) extends StreamItem
   def positionedBlankToPositionBlank(b: PositionedBlank): PositionBlank = PositionBlank(b.getPosition)
@@ -193,7 +198,7 @@ object TrxProc {
       return Some(Blank())
     }
   }
-  // a list of SimpleLUs, from SimpleToken, have implicit blanks
+  // a list of SimpleLUs, from SimpleToken, have implicit blanks - but this is already handled!
   def simpleStreamDropLastBlank(l: List[StreamItem]): List[StreamItem] = {
     def dropLastBlank(l: List[StreamItem], acc: List[StreamItem]): List[StreamItem] = l match {
       case SimpleLU(a,b,c) :: Nil => acc :+ SimpleLU(a,b,c)
@@ -223,12 +228,9 @@ object TrxProc {
 
   /*
    * TODO: replace this PatternItem with one that can contain a target alignment
-   *
    * case class RuleElement(ruleid: String, rulecomment: String, comment: String,
                        pattern: PatternElement, action: ActionElement) extends TransferElement
    * case class RuleProc
-   * ruleid?
-   * rulecomment:
    * subrules? one is default?
    * macro calls - in subrules?
    * action pieces - list of aligned lu/mlu/etc.

@@ -28,16 +28,13 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import junit.framework.TestCase;
-import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-
-public class MergedAttributeSequencesTest extends TestCase {
+public class MergedAttributesTest extends TestCase {
     String insrc = "grade = comp sup\n" +
             "gen = m f nt mf GD\n" +
             "num = sg pl sp ND\n" +
@@ -62,22 +59,22 @@ public class MergedAttributeSequencesTest extends TestCase {
             "case = com gen voc dat GEN2\n" +
             "det_chunk = DEFART NODET DET RMART";
     public void testMerge() throws Exception {
-        List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
-        List<AttributeSequence> asintrg = AttributeSequence.fromFile(new ByteArrayInputStream(intrg.getBytes()));
-        List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
-        List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
-        MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
+        List<Attributes> asinsrc = Attributes.fromFile(new ByteArrayInputStream(insrc.getBytes()));
+        List<Attributes> asintrg = Attributes.fromFile(new ByteArrayInputStream(intrg.getBytes()));
+        List<Attributes> asinsrcch = Attributes.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
+        List<Attributes> asintrgch = Attributes.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
+        MergedAttributes mas = new MergedAttributes(asinsrc, asintrg, asinsrcch, asintrgch);
         assertEquals(false, mas.isClippable("case"));
         assertEquals(true, mas.isClippable("gen"));
         assertEquals(true, mas.hasChunkAgreement("num"));
         assertEquals(false, mas.hasChunkAgreement("neg_chunk"));
     }
     public void testGetChunkSequences() throws Exception {
-        List<AttributeSequence> asinsrc = AttributeSequence.fromFile(new ByteArrayInputStream(insrc.getBytes()));
-        List<AttributeSequence> asintrg = AttributeSequence.fromFile(new ByteArrayInputStream(intrg.getBytes()));
-        List<AttributeSequence> asinsrcch = AttributeSequence.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
-        List<AttributeSequence> asintrgch = AttributeSequence.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
-        MergedAttributeSequences mas = new MergedAttributeSequences(asinsrc, asintrg, asinsrcch, asintrgch);
+        List<Attributes> asinsrc = Attributes.fromFile(new ByteArrayInputStream(insrc.getBytes()));
+        List<Attributes> asintrg = Attributes.fromFile(new ByteArrayInputStream(intrg.getBytes()));
+        List<Attributes> asinsrcch = Attributes.fromFile(new ByteArrayInputStream(insrcch.getBytes()));
+        List<Attributes> asintrgch = Attributes.fromFile(new ByteArrayInputStream(intrgch.getBytes()));
+        MergedAttributes mas = new MergedAttributes(asinsrc, asintrg, asinsrcch, asintrgch);
         Map<String, Set<String>> foo = mas.getChunkSequences();
         assertEquals(2, foo.size());
         assertEquals(true, foo.containsKey("det_chunk"));

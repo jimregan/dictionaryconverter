@@ -29,22 +29,22 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import java.util.*;
 
-public class MergedAttributeSequences {
-    List<AttributeSequence> source;
-    List<AttributeSequence> target;
-    List<AttributeSequence> source_chunk;
-    List<AttributeSequence> target_chunk;
-    Map<String, Set<String>> sequences;
-    Map<String, Set<String>> chunk_sequences;
+public class MergedAttributes {
+    List<Attributes> source;
+    List<Attributes> target;
+    List<Attributes> source_chunk;
+    List<Attributes> target_chunk;
+    Map<String, Set<String>> attribs;
+    Map<String, Set<String>> chunk_attribs;
     Map<String, Boolean> clippable;
     Map<String, Boolean> agreement;
-    MergedAttributeSequences() {
-        this.sequences = new HashMap<String, Set<String>>();
-        this.chunk_sequences = new HashMap<String, Set<String>>();
+    MergedAttributes() {
+        this.attribs = new HashMap<String, Set<String>>();
+        this.chunk_attribs = new HashMap<String, Set<String>>();
         this.clippable = new HashMap<String, Boolean>();
         this.agreement = new HashMap<String, Boolean>();
     }
-    public MergedAttributeSequences(List<AttributeSequence> source, List<AttributeSequence> target, List<AttributeSequence> source_chunk, List<AttributeSequence> target_chunk) {
+    public MergedAttributes(List<Attributes> source, List<Attributes> target, List<Attributes> source_chunk, List<Attributes> target_chunk) {
         this();
         this.source = source;
         this.source_chunk = source_chunk;
@@ -53,46 +53,46 @@ public class MergedAttributeSequences {
         merge();
     }
     void merge() {
-        for(AttributeSequence as : source) {
+        for(Attributes as : source) {
             Set<String> tags = new HashSet<String>();
-            tags.addAll(as.tags);
-            sequences.put(as.name, tags);
+            tags.addAll(as.items);
+            attribs.put(as.name, tags);
             clippable.put(as.name, true);
         }
-        for(AttributeSequence as : target) {
-            if(sequences.containsKey(as.name)) {
-                sequences.get(as.name).addAll(as.tags);
+        for(Attributes as : target) {
+            if(attribs.containsKey(as.name)) {
+                attribs.get(as.name).addAll(as.items);
             } else {
                 clippable.put(as.name, false);
                 Set<String> tags = new HashSet<String>();
-                tags.addAll(as.tags);
-                sequences.put(as.name, tags);
+                tags.addAll(as.items);
+                attribs.put(as.name, tags);
             }
         }
-        for(AttributeSequence as : source_chunk) {
+        for(Attributes as : source_chunk) {
             mergeInnerAdd(as);
         }
-        for(AttributeSequence as : target_chunk) {
+        for(Attributes as : target_chunk) {
             mergeInnerAdd(as);
         }
     }
 
-    private void mergeInnerAdd(AttributeSequence as) {
-        if(sequences.containsKey(as.name)) {
+    private void mergeInnerAdd(Attributes as) {
+        if(attribs.containsKey(as.name)) {
             agreement.put(as.name, true);
-            sequences.get(as.name).addAll(as.tags);
+            attribs.get(as.name).addAll(as.items);
         } else {
             clippable.put(as.name, false);
             Set<String> tags = new HashSet<String>();
-            tags.addAll(as.tags);
-            chunk_sequences.put(as.name, tags);
+            tags.addAll(as.items);
+            chunk_attribs.put(as.name, tags);
         }
     }
-    public Map<String, Set<String>> getSequences() {
-        return sequences;
+    public Map<String, Set<String>> getAttributes() {
+        return attribs;
     }
     public Map<String, Set<String>> getChunkSequences() {
-        return chunk_sequences;
+        return chunk_attribs;
     }
     public Map<String, Boolean> getClippable() {
         return clippable;
