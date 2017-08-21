@@ -34,6 +34,7 @@ import ie.tcd.slscs.itut.ApertiumStream.StreamToken;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RuleContainer {
     private String tag;
@@ -123,6 +124,9 @@ public class RuleContainer {
     }
     public void setSimple(boolean simple) {
         this.simple = simple;
+    }
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
+        right.rewriteLUs(clippable, alignments, aseq);
     }
     public static RuleContainer fromString(String s) throws Exception {
         String[] parts = s.split("\\|");
