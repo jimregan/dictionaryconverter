@@ -37,20 +37,19 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class AttributeSequenceTest extends TestCase {
-    String fakefile = "grade = comp sup\n" +
-            "gen = m f nt mf GD\n" +
-            "num = sg pl sp ND\n" +
-            "case = com gen voc dat\n" +
-            "mut = len hpref ecl defart\n";
+    String fakefile = "noun = a_noun strength gen num case mut emph\n" +
+            "adj = a_adj strength gen num case mut\n" +
+            "verb = a_verb tense pers num neg itg mut emph\n" +
+            "det = a_det num gen\n" +
+            "prn = a_prn pers num gen emph\n";
     public void testFromString() throws Exception {
         List<String> taglist = new ArrayList<String>();
-        taglist.add("sg");
-        taglist.add("pl");
-        taglist.add("sp");
-        taglist.add("ND");
-        String in = "num = sg pl sp ND";
+        taglist.add("a_det");
+        taglist.add("num");
+        taglist.add("gen");
+        String in = "det = a_det num gen";
         AttributeSequence out = AttributeSequence.fromString(in);
-        AttributeSequence exp = new AttributeSequence("num", taglist);
+        AttributeSequence exp = new AttributeSequence("det", taglist);
         assertEquals(exp.name, out.name);
         assertEquals(exp.tags.size(), out.tags.size());
         assertEquals(exp.tags.get(0), out.tags.get(0));
@@ -59,9 +58,9 @@ public class AttributeSequenceTest extends TestCase {
     public void testFromFile() throws Exception {
         List<AttributeSequence> out = AttributeSequence.fromFile(new ByteArrayInputStream(fakefile.getBytes()));
         assertEquals(5, out.size());
-        assertEquals("grade", out.get(0).name);
-        assertEquals("mut", out.get(4).name);
-        assertEquals(4, out.get(4).tags.size());
+        assertEquals("noun", out.get(0).name);
+        assertEquals("prn", out.get(4).name);
+        assertEquals(5, out.get(4).tags.size());
     }
 
 }
