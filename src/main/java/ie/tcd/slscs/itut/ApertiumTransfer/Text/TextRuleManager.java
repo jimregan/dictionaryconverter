@@ -151,6 +151,11 @@ public class TextRuleManager {
     public void setClippableChunk(AttributeSequenceClippable clippableChunk) {
         this.clippableChunk = clippableChunk;
     }
+    public void rewriteLUs() throws Exception {
+        for(RuleContainer rc : rules) {
+            rc.rewriteLUs(clippable, AttributeSequence.listToMap(getTargetSeq()));
+        }
+    }
 
     public class Builder {
         List<Attributes> sourceAttr;
@@ -223,10 +228,9 @@ public class TextRuleManager {
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
         }
-        public TextRuleManager build() {
+        public TextRuleManager build() throws Exception {
             TextRuleManager out = new TextRuleManager();
             out.setLists(this.lists);
-            out.setRules(this.rules);
             out.setMacros(this.macros);
             out.setSourceAttr(this.sourceAttr);
             out.setSourceAttrChunk(this.sourceAttrChunk);
@@ -238,6 +242,8 @@ public class TextRuleManager {
             out.setTargetSeqChunk(this.targetSeqChunk);
             out.setClippable(this.clippable);
             out.setClippableChunk(this.clippableChunk);
+            out.rewriteLUs();
+            out.setRules(this.rules);
             return out;
         }
     }
