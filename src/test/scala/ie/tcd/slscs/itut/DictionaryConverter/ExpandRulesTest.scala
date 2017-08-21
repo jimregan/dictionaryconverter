@@ -32,10 +32,10 @@ import org.scalatest.FlatSpec
 class ExpandRulesTest extends FlatSpec {
   "splitAlignmentsSL" should "generate a map of SL to TL alignments" in {
     val al1 = "1-1 1-2"
-    val al1out = RuleExpander.splitAlignmentsSL(al1)
+    val al1out = ExpandRules.splitAlignmentsSL(al1)
     assert (al1out.get(1).get === Array(1, 2))
     val al2 = "1-1 2-3 3-2"
-    val al2out = RuleExpander.splitAlignmentsSL(al2)
+    val al2out = ExpandRules.splitAlignmentsSL(al2)
     assert (al2out.get(1).get === Array(1))
     assert (al2out.get(2).get === Array(3))
     assert (al2out.get(3).get === Array(2))
@@ -43,11 +43,11 @@ class ExpandRulesTest extends FlatSpec {
 
   "splitAlignmentsTL" should "generate a map of TL to SL alignments" in {
     val al1 = "1-1 1-2"
-    val al1out = RuleExpander.splitAlignmentsTL(al1)
+    val al1out = ExpandRules.splitAlignmentsTL(al1)
     assert (al1out.get(1).get === Array(1))
     assert (al1out.get(2).get === Array(1))
     val al2 = "1-1 2-2 3-2"
-    val al2out = RuleExpander.splitAlignmentsTL(al2)
+    val al2out = ExpandRules.splitAlignmentsTL(al2)
     assert (al2out.get(1).get === Array(1))
     assert (al2out.get(2).get === Array(2, 3))
   }
