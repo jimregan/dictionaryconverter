@@ -34,13 +34,13 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pattern {
+public class TextPattern {
     String lemma;
     List<String> tags;
-    Pattern() {
+    TextPattern() {
         tags = new ArrayList<String>();
     }
-    Pattern(String lemma, List<String> tags) {
+    TextPattern(String lemma, List<String> tags) {
         this();
         this.lemma = lemma;
         this.tags = tags;
@@ -51,10 +51,10 @@ public class Pattern {
     public List<String> getTags() {
         return tags;
     }
-    public static Pattern fromWordToken(WordToken wt) {
-        return new Pattern(wt.getLemma(), wt.getTags());
+    public static TextPattern fromWordToken(WordToken wt) {
+        return new TextPattern(wt.getLemma(), wt.getTags());
     }
-    public static CatItem toCatItem(Pattern p) {
+    public static CatItem toCatItem(TextPattern p) {
         String tags = Utils.join(p.tags, ".");
         return new CatItem(p.lemma, tags);
     }
