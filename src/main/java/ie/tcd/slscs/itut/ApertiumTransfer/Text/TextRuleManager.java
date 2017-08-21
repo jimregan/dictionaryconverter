@@ -28,11 +28,13 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import ie.tcd.slscs.itut.ApertiumStream.RuleContainer;
+import ie.tcd.slscs.itut.ApertiumTransfer.TransferType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextRuleManager {
+    TransferType type;
     Attributes sourceAttr;
     Attributes targetAttr;
     Attributes sourceAttrChunk;
@@ -121,6 +123,12 @@ public class TextRuleManager {
     public void setRules(List<RuleContainer> rules) {
         this.rules = rules;
     }
+    public TransferType getType() {
+        return type;
+    }
+    public void setType(TransferType type) {
+        this.type = type;
+    }
 
     public class Builder {
         private Attributes sourceAttr;
@@ -134,10 +142,15 @@ public class TextRuleManager {
         private List<SimpleList> lists;
         private List<SimpleTextMacro> macros;
         private List<RuleContainer> rules;
+        private TransferType type;
         public Builder() {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
             this.lists = new ArrayList<SimpleList>();
+        }
+        public Builder setType(TransferType type) {
+            this.type = type;
+            return this;
         }
         public Builder withMacros(List<SimpleTextMacro> macros) {
             this.macros = macros;
