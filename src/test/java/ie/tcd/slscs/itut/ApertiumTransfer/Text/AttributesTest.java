@@ -52,6 +52,7 @@ public class AttributesTest extends TestCase {
         Attributes in = Attributes.fromText(sin);
         List<DefAttr> out = Attributes.fromAttributes(in);
         assertEquals(3, out.size());
+        assertEquals("gen_no_mf", out.get(0).getName());
     }
 
     public void testFromDictionary() throws Exception {
