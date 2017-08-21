@@ -169,6 +169,13 @@ public class AlignmentPair {
         int br = Integer.parseInt(b.right);
         return new AlignmentPair(al - 1 + bl, ar - 1 + br);
     }
+    public static List<AlignmentPair> offsetList(List<AlignmentPair> list, AlignmentPair b) {
+        List<AlignmentPair> out = new ArrayList<AlignmentPair>();
+        for(AlignmentPair a : list) {
+            out.add(offsetPair(a, b));
+        }
+        return out;
+    }
     @Override
     public String toString() {
         return left + "-" + right;
