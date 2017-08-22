@@ -25,7 +25,9 @@ package ie.tcd.slscs.itut.gramadanj;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -186,6 +188,12 @@ public class Utils {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         docBuilderFactory.setValidating(false);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        docBuilder.setEntityResolver(new EntityResolver() {
+            @Override
+            public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+                return new InputSource(new StringReader(""));
+            }
+        });
         Document doc = docBuilder.parse(new InputSource(new StringReader(s)));
         String root = doc.getDocumentElement().getNodeName();
         Node n = doc.getDocumentElement().cloneNode(true);
