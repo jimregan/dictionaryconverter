@@ -184,6 +184,7 @@ public class Utils {
      */
     public static Node stringToNode(String s) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        docBuilderFactory.setValidating(false);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         Document doc = docBuilder.parse(new InputSource(new StringReader(s)));
         String root = doc.getDocumentElement().getNodeName();
