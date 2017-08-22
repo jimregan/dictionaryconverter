@@ -66,15 +66,17 @@ object ExpandRules {
     }
   }
   def makeTokenList(s: String): List[Token] = s.split(" ").map{makeToken}.toList
-  trait TrRule
+  abstract class TrRule(tag: String) {
+    def getTag:String = tag
+  }
   case class RulePiece(trg: List[Token], srcal: Map[Int, Array[Int]],
                        trgal: Map[Int, Array[Int]], srcmac: List[Macro],
                        trgmac: List[Macro], srceg: String, trgeg: String)
-  case class MultiPartRule(tag: String, src: List[Token], parts: List[RulePiece]) extends TrRule
+  case class MultiPartRule(tag: String, src: List[Token], parts: List[RulePiece]) extends TrRule(tag)
   case class Rule(tag: String, src: List[Token], trg: List[Token],
                   srcal: Map[Int, Array[Int]], trgal: Map[Int, Array[Int]],
                   srcmac: List[Macro], trgmac: List[Macro], srceg: String,
-                  trgeg: String) extends TrRule
+                  trgeg: String) extends TrRule(tag)
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
     val rp:RulePiece = RulePiece(r.trg, r.srcal, r.trgal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, r.src, List[RulePiece](rp))
@@ -91,9 +93,9 @@ object ExpandRules {
     val trgeg = parts(7)
     Rule(tag, src, trg, srcal, trgal, srcmac, trgmac, srceg, trgeg)
   }
-  trait TrivialRule extends TrRule
-  case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule
-  case class TrivialDeletion(tag: String, toks: List[Token]) extends TrivialRule
+  abstract class TrivialRule(tag: String) extends TrRule(tag)
+  case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule(tag)
+  case class TrivialDeletion(tag: String, toks: List[Token]) extends TrivialRule(tag)
   def makeTrivialRule(parts: Array[String]): TrivialRule = {
     if(parts(2) == "1-0") {
       TrivialDeletion(parts(0), makeTokenList(parts(1)))
@@ -103,6 +105,6 @@ object ExpandRules {
       throw new Exception("Only 1-1 and 1-0 (deletion) alignments are currently handled")
     }
   }
-  def mkRuleMap(in: List[Rule]): Map[String, Rule] = in.map{e => (e.tag, e)}.toMap
+  def mkRuleMap(in: List[TrRule]): Map[String, TrRule] = in.map{e => (e.getTag, e)}.toMap
 }
 
