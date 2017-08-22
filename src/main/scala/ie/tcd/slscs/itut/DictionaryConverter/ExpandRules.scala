@@ -66,14 +66,15 @@ object ExpandRules {
     }
   }
   def makeTokenList(s: String): List[Token] = s.split(" ").map{makeToken}.toList
+  trait TrRule
   case class RulePiece(trg: List[Token], srcal: Map[Int, Array[Int]],
                        trgal: Map[Int, Array[Int]], srcmac: List[Macro],
                        trgmac: List[Macro], srceg: String, trgeg: String)
-  case class MultiPartRule(tag: String, src: List[Token], parts: List[RulePiece])
+  case class MultiPartRule(tag: String, src: List[Token], parts: List[RulePiece]) extends TrRule
   case class Rule(tag: String, src: List[Token], trg: List[Token],
                   srcal: Map[Int, Array[Int]], trgal: Map[Int, Array[Int]],
                   srcmac: List[Macro], trgmac: List[Macro], srceg: String,
-                  trgeg: String)
+                  trgeg: String) extends TrRule
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
     val rp:RulePiece = RulePiece(r.trg, r.srcal, r.trgal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, r.src, List[RulePiece](rp))
@@ -90,7 +91,7 @@ object ExpandRules {
     val trgeg = parts(7)
     Rule(tag, src, trg, srcal, trgal, srcmac, trgmac, srceg, trgeg)
   }
-  trait TrivialRule
+  trait TrivialRule extends TrRule
   case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule
   case class TrivialDeletion(tag: String, toks: List[Token]) extends TrivialRule
   def makeTrivialRule(parts: Array[String]): TrivialRule = {
