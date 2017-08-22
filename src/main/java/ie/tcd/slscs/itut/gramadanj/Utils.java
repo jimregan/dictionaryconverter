@@ -186,14 +186,7 @@ public class Utils {
      */
     public static Node stringToNode(String s) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setValidating(false);
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        docBuilder.setEntityResolver(new EntityResolver() {
-            @Override
-            public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-                return new InputSource(new StringReader(""));
-            }
-        });
         Document doc = docBuilder.parse(new InputSource(new StringReader(s)));
         String root = doc.getDocumentElement().getNodeName();
         Node n = doc.getDocumentElement().cloneNode(true);
