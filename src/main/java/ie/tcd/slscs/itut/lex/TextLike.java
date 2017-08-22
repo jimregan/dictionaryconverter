@@ -27,6 +27,10 @@
 
 package ie.tcd.slscs.itut.lex;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class TextLike {
     String value;
     public String getValue() {
@@ -34,5 +38,28 @@ public abstract class TextLike {
     }
     public void setValue(String value) {
         this.value = value;
+    }
+    public static List<TextLike> fromString(String s) {
+        Character special[] = new Character[]{'\\', '{', '}', '+'};
+        List<Character> chars = Arrays.asList(special);
+        List<TextLike> out = new ArrayList<TextLike>();
+        boolean reading = false;
+        String cur = "";
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '\\' && (i + 1 < s.length()) && chars.contains(s.charAt(i + 1))) {
+                cur += s.charAt(i + 1);
+                i += 2;
+            }
+            if(!reading && s.charAt(i) == '{') {
+                out.add(new TextPiece(cur));
+                reading = true;
+            } else if(reading && s.charAt(i) == '}') {
+                out.add(new EntityPiece(cur));
+                reading = false;
+            } else {
+                cur += s.charAt(i);
+            }
+        }
+        return out;
     }
 }
