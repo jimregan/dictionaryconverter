@@ -30,7 +30,7 @@ package ie.tcd.slscs.itut.DictionaryConverter
 import scala.util.matching.Regex
 
 object ExpandRules {
-  //"NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór"
+  //NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór
   case class Macro(name: String, params: List[Int])
   def stringToMacro(s: String): Option[Macro] = {
     val in = s.split(":")
@@ -53,12 +53,12 @@ object ExpandRules {
     val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
     almap
   }
-  trait Token
-  case class LemmaToken(lemma: String, tags: List[String]) extends Token
-  case class TagsToken(tags: List[String]) extends Token
-  trait AlignedToken extends Token
-  case class LemmaAlignedToken(lemma: String, tags: List[String], pos: Int) extends AlignedToken
-  case class TagsAlignedToken(tags: List[String], pos: Int) extends AlignedToken
+  abstract class Token(tags: List[String])
+  case class LemmaToken(lemma: String, tags: List[String]) extends Token(tags)
+  case class TagsToken(tags: List[String]) extends Token(tags)
+  abstract class AlignedToken(tags: List[String], pos: Int) extends Token(tags)
+  case class LemmaAlignedToken(lemma: String, tags: List[String], pos: Int) extends AlignedToken(tags, pos)
+  case class TagsAlignedToken(tags: List[String], pos: Int) extends AlignedToken(tags, pos)
   def makeToken(s: String): Token = {
     val withLemma = new Regex("""^([^<]+)<(.*)>$""")
     val tagsOnly = new Regex("""^<(.*)>$""")
@@ -116,5 +116,12 @@ object ExpandRules {
     Some(m.map{e => (e._1, e._2(0))})
   } else {
     None
+  }
+  def tokenIsBasis(t: Token): Boolean = t match {
+    case LemmaToken(_, _) => false
+    case LemmaAlignedToken(_, _, _) => false
+    case TagsToken(l) => l.size == 1
+    case TagsAlignedToken(l, _) => l.size == 1
+    case _ => throw new Exception("Unexpected type")
   }
 }
