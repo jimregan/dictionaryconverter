@@ -106,5 +106,13 @@ object ExpandRules {
     }
   }
   def mkRuleMap(in: List[TrRule]): Map[String, TrRule] = in.map{e => (e.getTag, e)}.toMap
+
+  def offsetPair(a: (Int, Int), b: (Int, Int)): (Int, Int) = (a._1 - 1 + b._1, a._2 - 1 + b._2)
+  def checkSimpleAlignments(m: Map[Int, Array[Int]]): Boolean = (m.filter(e => (e._2.size == 1)).size == m.size)
+  def simplifyAlignments(m: Map[Int, Array[Int]]): Option[Map[Int, Int]] = if(checkSimpleAlignments(m)) {
+    Some(m.map{e => (e._1, e._2(0))})
+  } else {
+    None
+  }
 }
 
