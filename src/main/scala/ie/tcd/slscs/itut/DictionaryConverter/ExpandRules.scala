@@ -56,6 +56,9 @@ object ExpandRules {
   trait Token
   case class LemmaToken(lemma: String, tags: List[String]) extends Token
   case class TagsToken(tags: List[String]) extends Token
+  trait AlignedToken extends Token
+  case class LemmaAlignedToken(lemma: String, tags: List[String], pos: Int) extends AlignedToken
+  case class TagsAlignedToken(tags: List[String], pos: Int) extends AlignedToken
   def makeToken(s: String): Token = {
     val withLemma = new Regex("""^([^<]+)<(.*)>$""")
     val tagsOnly = new Regex("""^<(.*)>$""")
@@ -115,4 +118,3 @@ object ExpandRules {
     None
   }
 }
-
