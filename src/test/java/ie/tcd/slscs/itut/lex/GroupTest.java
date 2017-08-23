@@ -63,19 +63,19 @@ public class GroupTest extends TestCase {
     Node innode2;
     Node innode3;
     Node innode4;
-    PairGroup out1;
-    PairGroup out2;
-    PairGroup out3;
-    PairGroup out4;
+    Group out1;
+    Group out2;
+    Group out3;
+    Group out4;
     public void setUp() throws Exception {
         innode1 = Utils.stringToNode(in1);
         innode2 = Utils.stringToNode(in2);
         innode3 = Utils.stringToNode(in3);
         innode4 = Utils.stringToNode(in4);
-        out1 = PairGroup.fromNode(innode1);
-        out2 = PairGroup.fromNode(innode2);
-        out3 = PairGroup.fromNode(innode3);
-        out4 = PairGroup.fromNode(innode4);
+        out1 = Group.fromNode(innode1);
+        out2 = Group.fromNode(innode2);
+        out3 = Group.fromNode(innode3);
+        out4 = Group.fromNode(innode4);
     }
 
     public void testGetRegex() throws Exception {
