@@ -78,6 +78,9 @@ public class CharGroup extends Grouping {
             String content = "";
             if(n.getChildNodes().getLength() == 1 && n.getChildNodes().item(0).getNodeName().equals("#text")) {
                 content = n.getChildNodes().item(0).getTextContent();
+                if(negates != null || !negates.equals("")) {
+                    throw new Exception("chargroup " + name + " contains unexpected content");
+                }
             }
             CharGroup out = new CharGroup(name);
             out.setNegates(negates);
