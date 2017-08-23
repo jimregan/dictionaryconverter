@@ -59,7 +59,7 @@ public class CharGroup extends Grouping {
     public String getRegex() {
         setOpt();
         String neg = "";
-        if(!(negates == null) || !negates.equals("")) {
+        if(!(negates == null) && !negates.equals("")) {
             neg = "^";
         }
         return "([" + neg + raw_characters + "]" + opt + ")";
