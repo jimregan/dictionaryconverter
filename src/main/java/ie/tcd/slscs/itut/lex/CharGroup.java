@@ -51,6 +51,9 @@ public class CharGroup extends Grouping {
     public void setNegates(String negates) {
         this.negates = negates;
     }
+    public boolean isNegated() {
+        return !(negates == null || negates.equals(""));
+    }
 
     @Override
     public String getRegex() {
