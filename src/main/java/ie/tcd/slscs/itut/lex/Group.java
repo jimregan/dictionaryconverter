@@ -38,7 +38,9 @@ public class Group extends Grouping {
     Group() {
         this.items = new ArrayList<String>();
     }
-
+    public Group(String name) {
+        this.name = name;
+    }
     public List<String> getItems() {
         return items;
     }
