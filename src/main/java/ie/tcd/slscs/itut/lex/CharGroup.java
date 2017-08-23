@@ -70,7 +70,7 @@ public class CharGroup extends Grouping {
                 throw new Exception("No attribute \"name\" found");
             }
             String name = Utils.attrib(n, "name");
-            String repeated_str = Utils.attrib(n, "repeated");
+            String repeated_str = Utils.attrib(n, "repeats");
             boolean repeated = (repeated_str != null && repeated_str.equals("yes"));
             String optional_str = Utils.attrib(n, "optional");
             boolean optional = (optional_str != null && optional_str.equals("yes"));
