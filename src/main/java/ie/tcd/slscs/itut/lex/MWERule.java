@@ -37,15 +37,15 @@ import java.util.Map;
 
 public class MWERule {
     String name;
-    String tags;
+    String phrase;
     List<MWEEntry> entries;
     MWERule() {
         entries = new ArrayList<MWEEntry>();
     }
-    MWERule(String name, String tags) {
+    MWERule(String name, String phrase) {
         this();
         this.name = name;
-        this.tags = tags;
+        this.phrase= phrase;
     }
     public String getName() {
         return name;
@@ -53,11 +53,11 @@ public class MWERule {
     public void setName(String name) {
         this.name = name;
     }
-    public String getTags() {
-        return tags;
+    public String getPhrase() {
+        return phrase;
     }
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
     }
     public List<MWEEntry> getEntries() {
         return entries;
@@ -74,9 +74,9 @@ public class MWERule {
             if(name == null || name.equals("")) {
                 throw new Exception("Missing attribute tags");
             }
-            String tags = Utils.attrib(n, "tags");
-            if(tags == null || tags.equals("")) {
-                throw new Exception("Missing attribute tags");
+            String phrase = Utils.attrib(n, "phrase");
+            if(phrase == null || phrase.equals("")) {
+                throw new Exception("Missing attribute phrase");
             }
             if(n.getChildNodes().getLength() == 0) {
                 throw new Exception("Missing child elements");
@@ -93,7 +93,7 @@ public class MWERule {
                     throw new Exception("Unexpected node " + itemi.getNodeName());
                 }
             }
-            MWERule rule = new MWERule(name, tags);
+            MWERule rule = new MWERule(name, phrase);
             rule.setEntries(entries);
             return rule;
         } else {
