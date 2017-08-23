@@ -31,9 +31,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MWERule {
     String name;
