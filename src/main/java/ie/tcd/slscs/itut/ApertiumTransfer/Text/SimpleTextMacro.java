@@ -110,13 +110,6 @@ public class SimpleTextMacro {
                     String pos = Integer.toString(i + 1);
                     String idx = Integer.toString(i);
                     List<SimpleTextMacroAttr> src = lhs.get(i);
-                    if(src.size() > appliesTo.size()) {
-                        throw new Exception("source action (column 3) contains more entries than the pieces they apply to (column 2)");
-                    }
-                    for(int j = 0; j < src.size(); j++) {
-                        src.get(j).setPosition(j + 1);
-                        src.get(j).setAppliesTo(appliesTo.get(j));
-                    }
                     List<SimpleTextMacroAttr> trg = rhs.get(i);
                     List<SimpleTextMacroEntry> trgtmp = new ArrayList<SimpleTextMacroEntry>();
                     SimpleTextMacroEntry curl = new SimpleTextMacroEntry(i + 1, src);
