@@ -31,18 +31,19 @@ import scala.collection.JavaConverters._
 
 object TextMacro {
   trait MacroAttr
+  trait NotMacroAttr extends MacroAttr
   case class LemmaMacroAttr(s: String) extends MacroAttr
-  case class NotLemmaMacroAttr(s: String) extends MacroAttr
+  case class NotLemmaMacroAttr(s: String) extends NotMacroAttr
   case class ListMacroAttr(s: String) extends MacroAttr
-  case class NotListMacroAttr(s: String) extends MacroAttr
+  case class NotListMacroAttr(s: String) extends NotMacroAttr
   case class BeginListMacroAttr(s: String) extends MacroAttr
-  case class NotBeginListMacroAttr(s: String) extends MacroAttr
+  case class NotBeginListMacroAttr(s: String) extends NotMacroAttr
   case class EndListMacroAttr(s: String) extends MacroAttr
-  case class NotEndListMacroAttr(s: String) extends MacroAttr
+  case class NotEndListMacroAttr(s: String) extends NotMacroAttr
   case class KVMacroAttr(k: String, v: String) extends MacroAttr
-  case class NotKVMacroAttr(k: String, v: String) extends MacroAttr
+  case class NotKVMacroAttr(k: String, v: String) extends NotMacroAttr
   case class KeyOnlyMacroAttr(k: String) extends MacroAttr
-  case class NotKeyOnlyMacroAttr(k: String) extends MacroAttr
+  case class NotKeyOnlyMacroAttr(k: String) extends NotMacroAttr
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
       if(in.isNot) {
@@ -96,11 +97,22 @@ object TextMacro {
   }
   def convertMacroAttrToTest(in: MacroAttr, pos: Int): TestElement = in match {
     case LemmaMacroAttr(s) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", "lem", null, null, null), LitElement(s))))
+    case NotLemmaMacroAttr(s) => TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", "lem", null, null, null), LitElement(s)))))
     case ListMacroAttr(s) => TestElement(null, InElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true))
+    case NotListMacroAttr(s) => TestElement(null, NotElement(InElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true)))
+    case BeginListMacroAttr(s) => TestElement(null, BeginsWithListElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true))
+    case NotBeginListMacroAttr(s) => TestElement(null, NotElement(BeginsWithListElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true)))
+    case EndListMacroAttr(s) => TestElement(null, EndsWithListElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true))
+    case NotEndListMacroAttr(s) => TestElement(null, NotElement(EndsWithListElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true)))
     case KVMacroAttr(k, v) => if (v != "") {
       TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v))))
     } else {
       TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitElement(""))))
+    }
+    case NotKVMacroAttr(k, v) => if (v != "") {
+      TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v)))))
+    } else {
+      TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitElement("")))))
     }
     case _ => throw new Exception("Can't convert this tag")
   }
