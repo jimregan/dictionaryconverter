@@ -293,7 +293,7 @@ public class Utils {
         return s.toString();
     }
     public static boolean canSkipNode(Node n) {
-        if(n.getNodeName().equals("#text") && n.getTextContent().trim().equals("")) {
+        if(n.getNodeName().equals("#text") && trim(n.getTextContent()).equals("")) {
             return true;
         } else if(n.getNodeType() == Element.COMMENT_NODE) {
             return true;
