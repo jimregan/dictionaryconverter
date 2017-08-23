@@ -28,22 +28,48 @@
 package ie.tcd.slscs.itut.lex;
 
 import ie.tcd.slscs.itut.gramadanj.Utils;
-import junit.framework.TestCase;
-import org.junit.Test;
 import org.w3c.dom.Node;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MWEEntryTest extends TestCase {
-    public void testFromNode() throws Exception {
-        String in = "<entry tags=\"pl\">\n" +
-                "  <word tags=\"n.sg\"/>\n" +
-                "  <word tags=\"n.pl\"/>\n" +
-                "</entry>\n";
-        Node innode = Utils.stringToNode(in);
-        MWEEntry out = MWEEntry.fromNode(innode);
-        assertEquals("pl", out.getTags());
-        assertEquals(2, out.getParts().size());
+public class MWERules {
+    Map<String, MWERule> rules;
+    MWERules() {
+        this.rules = new HashMap<String, MWERule>();
     }
+    MWERules(Map<String, MWERule> rules) {
+        this();
+        this.rules = rules;
+    }
+    public Map<String, MWERule> getRules() {
+        return rules;
+    }
+    public void setRules(Map<String, MWERule> rules) {
+        this.rules = rules;
+    }
+    public static MWERules fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("multiword-rules")) {
+            if(n.getChildNodes().getLength() == 0) {
+                throw new Exception("Missing child elements");
+            }
+            Map<String, MWERule> rules = new HashMap<String, MWERule>();
+            for(int i = 0; i < n.getChildNodes().getLength(); i++) {
+                Node itemi = n.getChildNodes().item(i);
+                if(itemi.getNodeName().equals("rule")) {
+                    MWERule rule = MWERule.fromNode(itemi);
+                    rules.put(rule.name, rule);
+                } else if(Utils.canSkipNode(itemi)) {
+                    // do nothing
+                } else {
+                    throw new Exception("Unexpected node " + itemi.getNodeName());
+                }
+            }
+            MWERules out = new MWERules(rules);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
+    }
+
 }

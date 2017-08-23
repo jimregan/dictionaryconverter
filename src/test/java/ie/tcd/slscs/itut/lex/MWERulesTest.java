@@ -33,17 +33,27 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
-public class MWEEntryTest extends TestCase {
+public class MWERulesTest extends TestCase {
     public void testFromNode() throws Exception {
-        String in = "<entry tags=\"pl\">\n" +
-                "  <word tags=\"n.sg\"/>\n" +
-                "  <word tags=\"n.pl\"/>\n" +
-                "</entry>\n";
+        String in = "    <multiword-rules>\n" +
+                "      <rule name=\"adj_n\" phrase=\"np\">\n" +
+                "        <entry tags=\"sg\">\n" +
+                "          <word tags=\"adj\"/>\n" +
+                "          <word tags=\"n.sg\"/>\n" +
+                "        </entry>\n" +
+                "        <entry tags=\"pl\">\n" +
+                "          <word tags=\"adj\"/>\n" +
+                "          <word tags=\"n.pl\"/>\n" +
+                "        </entry>\n" +
+                "      </rule>\n" +
+                "    </multiword-rules>\n";
         Node innode = Utils.stringToNode(in);
-        MWEEntry out = MWEEntry.fromNode(innode);
-        assertEquals("pl", out.getTags());
-        assertEquals(2, out.getParts().size());
+        MWERules out = MWERules.fromNode(innode);
+        assertEquals(1, out.getRules().size());
+        assertEquals(true, out.getRules().containsKey("adj_n"));
+        assertEquals("np", out.getRules().get("adj_n").getPhrase());
+        assertEquals("adj_n", out.getRules().get("adj_n").getName());
+        assertEquals(2, out.getRules().get("adj_n").getEntries().size());
     }
 }
