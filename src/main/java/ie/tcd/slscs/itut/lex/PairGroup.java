@@ -95,7 +95,7 @@ public class PairGroup extends Grouping {
                         }
                     }
                     pairs.put(left, right);
-                } else if(Utils.canSkipNode(n)) {
+                } else if(Utils.canSkipNode(itemi)) {
 
                 } else {
                     throw new Exception("Unexpected node: " + itemi.getNodeName() + " (" + itemi.getTextContent() + ")");
