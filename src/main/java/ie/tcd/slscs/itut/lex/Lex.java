@@ -27,5 +27,61 @@
 
 package ie.tcd.slscs.itut.lex;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Lex {
+    Map<String, CharGroup> chargroups;
+    Lex() {
+        chargroups = new HashMap<String, CharGroup>();
+    }
+
+    public static Lex loadXML(InputSource is) throws Exception {
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse(is);
+        String root = doc.getDocumentElement().getNodeName();
+
+        Map<String, CharGroup> chargroups = new HashMap<String, CharGroup>();
+
+        if (root != "rules") {
+            throw new IOException("Expected root node " + root);
+        }
+        NodeList nl = doc.getDocumentElement().getChildNodes();
+        for(int i = 0; i < nl.getLength(); i++) {
+            Node itemi = nl.item(i);
+            if(itemi.getNodeName().equals("chargroup")) {
+                CharGroup cg = CharGroup.fromNode(itemi);
+                if(cg.isNegated()) {
+                    if(chargroups.containsKey(cg.getNegates())) {
+                        cg.setRawCharacters(chargroups.get(cg.getNegates()).getRawCharacters());
+                    } else {
+                        throw new Exception("chargroup " + cg.getName() + " negates non-existent chargroup " + cg.getNegates());
+                    }
+                }
+                chargroups.put(cg.getName(), cg);
+            }
+        }
+        return null;
+    }
+    public static Lex loadXML(InputStream is) throws Exception {
+        return loadXML(new InputSource(is));
+    }
+    public static Lex loadXML(File f) throws Exception {
+        return loadXML(new FileInputStream(f));
+    }
+    public static Lex loadXML(String filename) throws Exception {
+        return loadXML(new File(filename));
+    }
 }
