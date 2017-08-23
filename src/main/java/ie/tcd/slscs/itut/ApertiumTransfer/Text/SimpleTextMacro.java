@@ -104,6 +104,7 @@ public class SimpleTextMacro {
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
         lhs = addAppliesTo(lhs, appliesTo);
+        rhs = addAppliesTo(rhs, appliesTo);
         List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
         if(sp.length == 4 || sp[4].trim().equals("")) {
             if(lhs.size() == rhs.size()) {
