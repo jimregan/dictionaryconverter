@@ -59,7 +59,7 @@ public class MWEQueue extends MWEContainer {
     }
 
     public static MWEQueue fromNode(Node n) throws Exception {
-        if(n.getNodeName().equals("phrase")) {
+        if(n.getNodeName().equals("queue")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
                 throw new Exception("No attribute \"phrase\" found");
             }
