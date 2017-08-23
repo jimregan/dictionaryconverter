@@ -103,7 +103,7 @@ public class PairGroupTest extends TestCase {
         assertEquals(false, out1.isOptional());
     }
     public void testFromNodeRepeated2() throws Exception {
-        assertEquals(false, out2.isRepeated());
+        assertEquals(true, out2.isRepeated());
     }
     public void testFromNodeOptional2() throws Exception {
         assertEquals(false, out2.isOptional());
@@ -112,12 +112,12 @@ public class PairGroupTest extends TestCase {
         assertEquals(false, out3.isRepeated());
     }
     public void testFromNodeOptional3() throws Exception {
-        assertEquals(false, out3.isOptional());
+        assertEquals(true, out3.isOptional());
     }
     public void testFromNodeRepeated4() throws Exception {
-        assertEquals(false, out4.isRepeated());
+        assertEquals(true, out4.isRepeated());
     }
     public void testFromNodeOptional4() throws Exception {
-        assertEquals(false, out4.isOptional());
+        assertEquals(true, out4.isOptional());
     }
 }
