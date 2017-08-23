@@ -37,9 +37,9 @@ import static org.junit.Assert.*;
 public class CharGroupTest extends TestCase {
     public void testFromNode() throws Exception {
         String in1 = "<chargroup name=\"vowel\" repeats=\"no\">aeiou</chargroup>";
-        String in2 = "<chargroup name=\"nonvowel\" repeated=\"no\" negates=\"vowel\" />";
+        String in2 = "<chargroup name=\"nonvowel\" repeats=\"no\" negates=\"vowel\" />";
         String in3 = "<chargroup name=\"vowel\" repeats=\"yes\">aeiou</chargroup>";
-        String in4 = "<chargroup name=\"vowel\" optional=\"yes\" repeated=\"yes\">aeiou</chargroup>";
+        String in4 = "<chargroup name=\"vowel\" optional=\"yes\" repeats=\"yes\">aeiou</chargroup>";
 
         Node innode1 = Utils.stringToNode(in1);
         Node innode2 = Utils.stringToNode(in2);
