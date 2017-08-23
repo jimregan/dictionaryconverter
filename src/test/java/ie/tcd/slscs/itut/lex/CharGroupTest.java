@@ -52,6 +52,7 @@ public class CharGroupTest extends TestCase {
         CharGroup out4 = CharGroup.fromNode(innode4);
 
         assertEquals(false, out1.isNegated());
+        assertEquals("vowel", out1.getName());
         assertEquals(true, out2.isNegated());
         assertEquals("vowel", out2.getNegates());
         assertEquals(false, out1.isRepeated());
