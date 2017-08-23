@@ -32,9 +32,9 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlternateGroup extends Grouping {
+public class PairGroup extends Grouping {
     Map<String, String> groups;
-    AlternateGroup() {
+    PairGroup() {
         this.groups = new HashMap<String, String>();
     }
 
