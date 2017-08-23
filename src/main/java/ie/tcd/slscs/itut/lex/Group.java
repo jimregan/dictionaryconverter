@@ -28,20 +28,27 @@
 package ie.tcd.slscs.itut.lex;
 
 import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Group extends Grouping {
-    List<String> groups;
+    List<String> items;
     Group() {
-        this.groups = new ArrayList<String>();
+        this.items = new ArrayList<String>();
     }
 
+    public List<String> getItems() {
+        return items;
+    }
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
     @Override
     public String getRegex() {
         setOpt();
-        String inner = Utils.join(groups, "|");
+        String inner = Utils.join(items, "|");
         String start = "(";
         String end = ")";
         if(!opt.equals("")) {
@@ -49,5 +56,37 @@ public class Group extends Grouping {
             end = ")" + opt + ")";
         }
         return start + inner + end;
+    }
+    public static Group fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("group")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"name\" found");
+            }
+            Group out = new Group();
+            String name = Utils.attrib(n, "name");
+            String repeated_str = Utils.attrib(n, "repeats");
+            boolean repeated = (repeated_str != null && repeated_str.equals("yes"));
+            String optional_str = Utils.attrib(n, "optional");
+            boolean optional = (optional_str != null && optional_str.equals("yes"));
+            List<String> items = new ArrayList<String>();
+            for(int i = 0; i < n.getChildNodes().getLength(); i++) {
+                Node itemi = n.getChildNodes().item(i);
+                if(itemi.getNodeName().equals("item")) {
+                    String text = itemi.getTextContent();
+                    items.add(text);
+                } else if(Utils.canSkipNode(itemi)) {
+
+                } else {
+                    throw new Exception("Unexpected node: " + itemi.getNodeName() + " (" + itemi.getTextContent() + ")");
+                }
+            }
+            out.setName(name);
+            out.setOptional(optional);
+            out.setRepeated(repeated);
+            out.setItems(items);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }
