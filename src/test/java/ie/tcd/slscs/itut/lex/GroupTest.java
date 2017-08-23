@@ -38,22 +38,22 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class GroupTest extends TestCase {
-    String in1 = "    <group n=\"add_e\" repeats=\"no\">\n" +
+    String in1 = "    <group name=\"add_e\" repeats=\"no\">\n" +
             "      <item>ch</item>\n" +
             "      <item>sh</item>\n" +
             "      <item>x</item>\n" +
             "    </group>\n";
-    String in2 = "    <group n=\"add_e\" repeats=\"yes\">\n" +
+    String in2 = "    <group name=\"add_e\" repeats=\"yes\">\n" +
             "      <item>ch</item>\n" +
             "      <item>sh</item>\n" +
             "      <item>x</item>\n" +
             "    </group>\n";
-    String in3 = "    <group n=\"add_e\" optional=\"yes\">\n" +
+    String in3 = "    <group name=\"add_e\" optional=\"yes\">\n" +
             "      <item>ch</item>\n" +
             "      <item>sh</item>\n" +
             "      <item>x</item>\n" +
             "    </group>\n";
-    String in4 = "    <group n=\"add_e\" repeats=\"yes\" optional=\"yes\">\n" +
+    String in4 = "    <group name=\"add_e\" repeats=\"yes\" optional=\"yes\">\n" +
             "      <item>ch</item>\n" +
             "      <item>sh</item>\n" +
             "      <item>x</item>\n" +
