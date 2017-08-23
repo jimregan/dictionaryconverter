@@ -29,8 +29,6 @@ package ie.tcd.slscs.itut.DictionaryConverter;
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequenceClippable, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 
 import scala.collection.JavaConverters._
-import scala.collection.JavaConversions.mapAsScalaMap
-import scala.collection.mutable
 
 object TextMacro {
   trait MacroAttr
@@ -88,6 +86,9 @@ object TextMacro {
   }
   def convertAttributeSequenceClippable(in: AttributeSequenceClippable): Map[String, Map[String, Boolean]] = {
     in.getClippable.asScala.toMap.map{e => (e._1.toString, e._2.asScala.toMap.map{f => (f._1.toString, f._2.booleanValue)})}
+  }
+  def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
+    clip.getClippable.get(pos).get(attseq)
   }
   // TODO: kv -> assign to variable, or clip
   // a map with valid attributes for that pos is required, should be passed from elsewhere
