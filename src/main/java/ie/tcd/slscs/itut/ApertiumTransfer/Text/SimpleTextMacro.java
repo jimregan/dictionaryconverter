@@ -183,6 +183,18 @@ public class SimpleTextMacro {
         }
         return side;
     }
+    public static List<List<SimpleTextMacroAttr>> addAppliesTo(List<List<SimpleTextMacroAttr>> in, List<String> appliesto) throws Exception {
+        if(in.size() != appliesto.size()) {
+            throw new Exception("Size mismatch");
+        }
+        for(int i = 0; i < in.size(); i++) {
+            String tmpapply = appliesto.get(i);
+            for(SimpleTextMacroAttr macro : in.get(i)) {
+                macro.setAppliesTo(tmpapply);
+            }
+        }
+        return in;
+    }
 
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
         List<SimpleTextMacro> out = new ArrayList<SimpleTextMacro>();
