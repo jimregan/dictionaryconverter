@@ -50,7 +50,7 @@ public class MWEWord implements MWEPart {
     public static MWEWord fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("word")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
-                throw new Exception("No attribute \"name\" found");
+                throw new Exception("No attribute \"tags\" found");
             }
             String tags = Utils.attrib(n, "tags");
             if(tags == null || tags.equals("")) {

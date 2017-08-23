@@ -34,25 +34,16 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MWEContainer implements MWEPart {
-    String tags;
-    List<MWEPart> parts;
-    MWEContainer() {
-        parts = new ArrayList<MWEPart>();
+public class MWEPhrase extends MWEContainer {
+    MWEPhrase() {
+        super();
     }
-    public String getTags() {
-        return tags;
+    MWEPhrase(String phrase) {
+        this.tags = phrase;
     }
-    public void setTags(String tags) {
-        this.tags = tags;
+    public String getPhrase() {
+        return getTags();
     }
-    public List<MWEPart> getParts() {
-        return parts;
-    }
-    public void setParts(List<MWEPart> parts) {
-        this.parts = parts;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -66,22 +57,24 @@ public abstract class MWEContainer implements MWEPart {
         return sb.toString();
     }
 
-    public static List<MWEPart> fromNodeList(NodeList nl) throws Exception {
-        List<MWEPart> parts = new ArrayList<MWEPart>();
-        for(int i = 1; i < nl.getLength(); i++) {
-            Node n = nl.item(i);
-            if(n.getNodeName().equals("word")) {
-                parts.add(MWEWord.fromNode(n));
-            } else if(n.getNodeName().equals("queue")) {
-                parts.add(MWEQueue.fromNode(n));
-            } else if(n.getNodeName().equals("phrase")) {
-                parts.add(MWEPhrase.fromNode(n));
-            } else if(Utils.canSkipNode(n)) {
-
-            } else {
-                throw new Exception("Unexpected node " + n.getNodeName());
+    public static MWEPhrase fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("phrase")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"n\" found");
             }
+            String phrase = Utils.attrib(n, "n");
+            if(phrase == null || phrase.equals("")) {
+                throw new Exception("Missing attribute n");
+            }
+            if(n.getChildNodes().getLength() == 0) {
+                throw new Exception("Missing child elements");
+            }
+            List<MWEPart> parts = MWEContainer.fromNodeList(n.getChildNodes());
+            MWEPhrase out = new MWEPhrase(phrase);
+            out.setParts(parts);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
         }
-        return parts;
     }
 }

@@ -27,12 +27,22 @@
 
 package ie.tcd.slscs.itut.lex;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MWEQueue extends MWEContainer {
     MWEQueue() {
         super();
     }
     MWEQueue(String phrase) {
         this.tags = phrase;
+    }
+    public String getPhrase() {
+        return getTags();
     }
     @Override
     public String toString() {
@@ -46,5 +56,26 @@ public class MWEQueue extends MWEContainer {
         }
         sb.append(']');
         return sb.toString();
+    }
+
+    public static MWEQueue fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("phrase")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"phrase\" found");
+            }
+            String phrase = Utils.attrib(n, "phrase");
+            if(phrase == null || phrase.equals("")) {
+                throw new Exception("Missing attribute phrase");
+            }
+            if(n.getChildNodes().getLength() == 0) {
+                throw new Exception("Missing child elements");
+            }
+            List<MWEPart> parts = MWEContainer.fromNodeList(n.getChildNodes());
+            MWEQueue out = new MWEQueue(phrase);
+            out.setParts(parts);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }
