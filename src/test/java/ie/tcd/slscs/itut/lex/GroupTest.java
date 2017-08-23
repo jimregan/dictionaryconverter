@@ -68,6 +68,7 @@ public class GroupTest extends TestCase {
         Group g = new Group("add_e");
         g.setOptional(false);
         g.setRepeated(false);
+        g.setItems(items);
         assertEquals("(ch|sh|x)", g.getRegex());
     }
 
