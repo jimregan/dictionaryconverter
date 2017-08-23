@@ -39,5 +39,8 @@ public class SimpleTextMacroTest extends TestCase {
         String in = "det_type | <det> | no<det> | <negative=NEG> | 1-1C";
         SimpleTextMacro out = SimpleTextMacro.fromString(in);
         assertEquals(1, out.getParts().size());
+        assertEquals("det_type", out.getName());
+        assertEquals(1, out.getAppliesTo().size());
+        assertEquals("", out.toString());
     }
 }
