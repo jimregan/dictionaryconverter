@@ -280,7 +280,7 @@ public class Utils {
      * @param delim the delimiter to join them with
      * @return
      */
-    public static String join(List<String> l, String delim) {
+    public static <T extends Collection<String>> String join(T l, String delim) {
         StringBuilder s = new StringBuilder();
         Iterator<String> it = l.iterator();
         if (it.hasNext()) {
