@@ -179,6 +179,7 @@ public class SimpleTextMacro {
             }
             side.add(Utils.listclone(tmp));
             tmp.clear();
+            position++;
         }
         return side;
     }
