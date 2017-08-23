@@ -98,7 +98,7 @@ public class PairGroup extends Grouping {
                 } else if(Utils.canSkipNode(n)) {
 
                 } else {
-                    throw new Exception("Unexpected node: " + itemi.getNodeName());
+                    throw new Exception("Unexpected node: " + itemi.getNodeName() + " (" + itemi.getTextContent() + ")");
                 }
             }
             out.setPairs(pairs);
