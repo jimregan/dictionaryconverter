@@ -28,20 +28,27 @@
 package ie.tcd.slscs.itut.lex;
 
 import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PairGroup extends Grouping {
-    Map<String, String> groups;
+    Map<String, String> pairs;
     PairGroup() {
-        this.groups = new HashMap<String, String>();
+        this.pairs = new HashMap<String, String>();
     }
 
+    public Map<String, String> getPairs() {
+        return pairs;
+    }
+    public void setPairs(Map<String, String> pairs) {
+        this.pairs = pairs;
+    }
     @Override
     public String getRegex() {
         setOpt();
-        String inner = Utils.join(groups.keySet(), "|");
+        String inner = Utils.join(pairs.keySet(), "|");
         String start = "(";
         String end = ")";
         if(!opt.equals("")) {
@@ -49,5 +56,55 @@ public class PairGroup extends Grouping {
             end = ")" + opt + ")";
         }
         return start + inner + end;
+    }
+    public static PairGroup fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("pairgroup")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"name\" found");
+            }
+            PairGroup out = new PairGroup();
+            String name = Utils.attrib(n, "name");
+            String repeated_str = Utils.attrib(n, "repeated");
+            boolean repeated = (repeated_str != null && repeated_str.equals("yes"));
+            String optional_str = Utils.attrib(n, "optional");
+            boolean optional = (optional_str != null && optional_str.equals("yes"));
+            Map<String, String> pairs = new HashMap<String, String>();
+            for(int i = 0; i < n.getChildNodes().getLength(); i++) {
+                Node itemi = n.getChildNodes().item(i);
+                if(itemi.getNodeName().equals("pair")) {
+                    String left = "";
+                    String right = "";
+                    for(int j = 0; j < itemi.getChildNodes().getLength(); j++) {
+                        Node itemj = itemi.getChildNodes().item(j);
+                        if(itemj.getNodeName().equals("left")) {
+                            if(left.equals("")) {
+                                left = itemj.getFirstChild().getTextContent().trim();
+                            } else {
+                                throw new Exception("Pair can only contain one left node");
+                            }
+                        } else if(itemj.getNodeName().equals("right")) {
+                            if(right.equals("")) {
+                                right = itemj.getFirstChild().getTextContent().trim();
+                            } else {
+                                throw new Exception("Pair can only contain one right node");
+                            }
+                        } else if(Utils.canSkipNode(itemj)) {
+
+                        } else {
+                            throw new Exception("Unexpected node: " + itemj.getNodeName());
+                        }
+                    }
+                    pairs.put(left, right);
+                } else if(Utils.canSkipNode(n)) {
+
+                } else {
+                    throw new Exception("Unexpected node: " + itemi.getNodeName());
+                }
+            }
+            out.setPairs(pairs);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }
