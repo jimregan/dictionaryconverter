@@ -35,64 +35,89 @@ import org.w3c.dom.Node;
 import static org.junit.Assert.*;
 
 public class PairGroupTest extends TestCase {
-    public void testFromNode() throws Exception {
-        String in1 = "<pairgroup name=\"broaden\" repeats=\"no\">\n" +
-                "    <pair><left>ói</left><right>ó</right></pair>\n" +
-                "    <pair><left>ei</left><right>ea</right></pair>\n" +
-                "    <pair><left>éi</left><right>éa</right></pair>\n" +
-                "    <pair><left>i</left><right>ea</right></pair>\n" +
-                "    <pair><left>aí</left><right>aío</right></pair>\n" +
-                "    <pair><left>í</left><right>ío</right></pair>\n" +
-                "    <pair><left>ui</left><right>o</right></pair>\n" +
-                "    <pair><left>io</left><right>ea</right></pair>\n" +
-                "</pairgroup>";
-        String in2 = "<pairgroup name=\"slenderise\" repeats=\"yes\">\n" +
-                "    <pair><left>ea</left><right>i</right></pair>\n" +
-                "    <pair><left>éa</left><right>éi</right></pair>\n" +
-                "    <pair><left>ia</left><right>éi</right></pair>\n" +
-                "    <pair><left>ío</left><right>í</right></pair>\n" +
-                "    <pair><left>io</left><right>i</right></pair>\n" +
-                "    <pair><left>iu</left><right>i</right></pair>\n" +
-                "    <pair><left>ae</left><right>aei</right></pair>\n" +
-                "</pairgroup>";
-        String in3 = "<pairgroup name=\"slenderise\" optional=\"yes\">\n" +
-                "    <pair><left>ea</left><right>i</right></pair>\n" +
-                "    <pair><left>éa</left><right>éi</right></pair>\n" +
-                "    <pair><left>ia</left><right>éi</right></pair>\n" +
-                "    <pair><left>ío</left><right>í</right></pair>\n" +
-                "    <pair><left>io</left><right>i</right></pair>\n" +
-                "    <pair><left>iu</left><right>i</right></pair>\n" +
-                "    <pair><left>ae</left><right>aei</right></pair>\n" +
-                "</pairgroup>";
-        String in4 = "<pairgroup name=\"slenderise\" optional=\"yes\" repeats=\"yes\">\n" +
-                "    <pair><left>ea</left><right>i</right></pair>\n" +
-                "    <pair><left>éa</left><right>éi</right></pair>\n" +
-                "    <pair><left>ia</left><right>éi</right></pair>\n" +
-                "    <pair><left>ío</left><right>í</right></pair>\n" +
-                "    <pair><left>io</left><right>i</right></pair>\n" +
-                "    <pair><left>iu</left><right>i</right></pair>\n" +
-                "    <pair><left>ae</left><right>aei</right></pair>\n" +
-                "</pairgroup>";
+    String in1 = "<pairgroup name=\"broaden\" repeats=\"no\">\n" +
+            "    <pair><left>ói</left><right>ó</right></pair>\n" +
+            "    <pair><left>ei</left><right>ea</right></pair>\n" +
+            "    <pair><left>éi</left><right>éa</right></pair>\n" +
+            "    <pair><left>i</left><right>ea</right></pair>\n" +
+            "    <pair><left>aí</left><right>aío</right></pair>\n" +
+            "    <pair><left>í</left><right>ío</right></pair>\n" +
+            "    <pair><left>ui</left><right>o</right></pair>\n" +
+            "    <pair><left>io</left><right>ea</right></pair>\n" +
+            "</pairgroup>";
+    String in2 = "<pairgroup name=\"slenderise\" repeats=\"yes\">\n" +
+            "    <pair><left>ea</left><right>i</right></pair>\n" +
+            "    <pair><left>éa</left><right>éi</right></pair>\n" +
+            "    <pair><left>ia</left><right>éi</right></pair>\n" +
+            "    <pair><left>ío</left><right>í</right></pair>\n" +
+            "    <pair><left>io</left><right>i</right></pair>\n" +
+            "    <pair><left>iu</left><right>i</right></pair>\n" +
+            "    <pair><left>ae</left><right>aei</right></pair>\n" +
+            "</pairgroup>";
+    String in3 = "<pairgroup name=\"slenderise\" optional=\"yes\">\n" +
+            "    <pair><left>ea</left><right>i</right></pair>\n" +
+            "    <pair><left>éa</left><right>éi</right></pair>\n" +
+            "    <pair><left>ia</left><right>éi</right></pair>\n" +
+            "    <pair><left>ío</left><right>í</right></pair>\n" +
+            "    <pair><left>io</left><right>i</right></pair>\n" +
+            "    <pair><left>iu</left><right>i</right></pair>\n" +
+            "    <pair><left>ae</left><right>aei</right></pair>\n" +
+            "</pairgroup>";
+    String in4 = "<pairgroup name=\"slenderise\" optional=\"yes\" repeats=\"yes\">\n" +
+            "    <pair><left>ea</left><right>i</right></pair>\n" +
+            "    <pair><left>éa</left><right>éi</right></pair>\n" +
+            "    <pair><left>ia</left><right>éi</right></pair>\n" +
+            "    <pair><left>ío</left><right>í</right></pair>\n" +
+            "    <pair><left>io</left><right>i</right></pair>\n" +
+            "    <pair><left>iu</left><right>i</right></pair>\n" +
+            "    <pair><left>ae</left><right>aei</right></pair>\n" +
+            "</pairgroup>";
 
-        Node innode1 = Utils.stringToNode(in1);
-        Node innode2 = Utils.stringToNode(in2);
-        Node innode3 = Utils.stringToNode(in3);
-        Node innode4 = Utils.stringToNode(in4);
-
-        PairGroup out1 = PairGroup.fromNode(innode1);
-        PairGroup out2 = PairGroup.fromNode(innode2);
-        PairGroup out3 = PairGroup.fromNode(innode3);
-        PairGroup out4 = PairGroup.fromNode(innode4);
-
-        assertEquals("broaden", out1.getName());
-        assertEquals(false, out1.isRepeated());
-        assertEquals(false, out1.isOptional());
-        assertEquals(true, out2.isRepeated());
-        assertEquals(false, out2.isOptional());
-        assertEquals(false, out3.isRepeated());
-        //assertEquals(true, out3.isOptional());
-        //assertEquals(true, out4.isRepeated());
-        //assertEquals(true, out4.isOptional());
+    Node innode1;
+    Node innode2;
+    Node innode3;
+    Node innode4;
+    PairGroup out1;
+    PairGroup out2;
+    PairGroup out3;
+    PairGroup out4;
+    public void setUp() throws Exception {
+        innode1 = Utils.stringToNode(in1);
+        innode2 = Utils.stringToNode(in2);
+        innode3 = Utils.stringToNode(in3);
+        innode4 = Utils.stringToNode(in4);
+        out1 = PairGroup.fromNode(innode1);
+        out2 = PairGroup.fromNode(innode2);
+        out3 = PairGroup.fromNode(innode3);
+        out4 = PairGroup.fromNode(innode4);
     }
-
+    public void testFromNodeName() throws Exception {
+        assertEquals("broaden", out1.getName());
+        assertEquals("slenderise", out2.getName());
+        assertNotEquals("slenderise", out1.getName());
+    }
+    public void testFromNodeRepeated1() throws Exception {
+        assertEquals(false, out1.isRepeated());
+    }
+    public void testFromNodeOptional1() throws Exception {
+        assertEquals(false, out1.isOptional());
+    }
+    public void testFromNodeRepeated2() throws Exception {
+        assertEquals(false, out2.isRepeated());
+    }
+    public void testFromNodeOptional2() throws Exception {
+        assertEquals(false, out2.isOptional());
+    }
+    public void testFromNodeRepeated3() throws Exception {
+        assertEquals(false, out3.isRepeated());
+    }
+    public void testFromNodeOptional3() throws Exception {
+        assertEquals(false, out3.isOptional());
+    }
+    public void testFromNodeRepeated4() throws Exception {
+        assertEquals(false, out4.isRepeated());
+    }
+    public void testFromNodeOptional4() throws Exception {
+        assertEquals(false, out4.isOptional());
+    }
 }
