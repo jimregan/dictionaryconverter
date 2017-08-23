@@ -158,16 +158,21 @@ public class SimpleTextMacro {
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
         List<List<SimpleTextMacroAttr>> side = new ArrayList<List<SimpleTextMacroAttr>>();
         List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
+        int position = 1;
         for (String apply : s.trim().split(" ")) {
             if(apply.startsWith("<") && apply.endsWith(">")) {
                 for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                    SimpleTextMacroAttr toadd = SimpleTextMacroAttr.fromSimpleText(inner);
+                    toadd.setPosition(position);
+                    tmp.add(toadd);
                 }
             } else if(apply.endsWith(">")) {
                 int idx = apply.indexOf("<");
                 tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
                 for(String inner : apply.substring(idx + 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                    SimpleTextMacroAttr toadd = SimpleTextMacroAttr.fromSimpleText(inner);
+                    toadd.setPosition(position);
+                    tmp.add(toadd);
                 }
             } else {
                 throw new Exception("Error reading tag");
