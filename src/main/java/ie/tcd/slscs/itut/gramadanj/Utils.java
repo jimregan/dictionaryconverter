@@ -305,5 +305,21 @@ public class Utils {
             return false;
         }
     }
-
+    public static String attrib(Node n, String attrib, boolean required) throws Exception {
+        if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+            throw new Exception("Missing required attributes in node " + n.getNodeName());
+        }
+        if(n.getAttributes().getNamedItem(attrib) != null) {
+            return n.getAttributes().getNamedItem(attrib).getTextContent();
+        } else {
+            if(required) {
+                throw new Exception("Required attribute \"" + attrib + "\" missing in node " + n.getNodeName());
+            } else {
+                return null;
+            }
+        }
+    }
+    public static String attrib(Node n, String attrib) throws Exception {
+        return attrib(n, attrib, false);
+    }
 }
