@@ -32,18 +32,54 @@ import scala.collection.JavaConverters._
 object TextMacro {
   trait MacroAttr
   case class LemmaMacroAttr(s: String) extends MacroAttr
+  case class NotLemmaMacroAttr(s: String) extends MacroAttr
   case class ListMacroAttr(s: String) extends MacroAttr
+  case class NotListMacroAttr(s: String) extends MacroAttr
+  case class BeginListMacroAttr(s: String) extends MacroAttr
+  case class NotBeginListMacroAttr(s: String) extends MacroAttr
+  case class EndListMacroAttr(s: String) extends MacroAttr
+  case class NotEndListMacroAttr(s: String) extends MacroAttr
   case class KVMacroAttr(k: String, v: String) extends MacroAttr
+  case class NotKVMacroAttr(k: String, v: String) extends MacroAttr
   case class KeyOnlyMacroAttr(k: String) extends MacroAttr
+  case class NotKeyOnlyMacroAttr(k: String) extends MacroAttr
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
-      LemmaMacroAttr(in.getValue)
-    } else if(in.getKey == "inlist") {
-      ListMacroAttr(in.getValue)
+      if(in.isNot) {
+        NotLemmaMacroAttr(in.getValue)
+      } else {
+        LemmaMacroAttr(in.getValue)
+      }
+    } else if(in.isList) {
+      if(in.isNot) {
+        NotListMacroAttr(in.getValue)
+      } else {
+        ListMacroAttr(in.getValue)
+      }
+    } else if(in.isBeginsList) {
+      if(in.isNot) {
+        NotBeginListMacroAttr(in.getValue)
+      } else {
+        BeginListMacroAttr(in.getValue)
+      }
+    } else if(in.isEndsList) {
+      if(in.isNot) {
+        NotEndListMacroAttr(in.getValue)
+      } else {
+        EndListMacroAttr(in.getValue)
+      }
     } else if(in.getValue == "" || in.getValue == null) {
-      KeyOnlyMacroAttr(in.getKey)
+      if(in.isNot) {
+        NotKeyOnlyMacroAttr(in.getKey)
+      } else {
+        KeyOnlyMacroAttr(in.getKey)
+      }
     } else {
-      KVMacroAttr(in.getKey, in.getValue)
+      if(in.isNot) {
+        NotKVMacroAttr(in.getKey, in.getValue)
+      } else {
+        KVMacroAttr(in.getKey, in.getValue)
+      }
     }
   }
   // TODO: kv -> assign to variable, or clip
