@@ -45,15 +45,15 @@ public class MWEEntry extends MWEContainer {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
                 throw new Exception("No attribute \"tags\" found");
             }
-            String phrase = Utils.attrib(n, "tags");
-            if(phrase == null || phrase.equals("")) {
+            String tags = Utils.attrib(n, "tags");
+            if(tags == null || tags.equals("")) {
                 throw new Exception("Missing attribute tags");
             }
             if(n.getChildNodes().getLength() == 0) {
                 throw new Exception("Missing child elements");
             }
             List<MWEPart> parts = MWEContainer.fromNodeList(n.getChildNodes());
-            MWEEntry out = new MWEEntry(phrase);
+            MWEEntry out = new MWEEntry(tags);
             out.setParts(parts);
             return out;
         } else {
