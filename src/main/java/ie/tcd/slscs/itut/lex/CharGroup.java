@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.lex;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
+
 public class CharGroup extends Grouping {
     String raw_characters;
     String negates;
@@ -57,5 +60,30 @@ public class CharGroup extends Grouping {
             neg = "^";
         }
         return "([" + neg + raw_characters + "]" + opt + ")";
+    }
+    public static CharGroup fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("chargroup")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"name\" found");
+            }
+            String name = Utils.attrib(n, "name");
+            String repeated_str = Utils.attrib(n, "repeated");
+            boolean repeated = (repeated_str != null && repeated_str.equals("yes"));
+            String optional_str = Utils.attrib(n, "optional");
+            boolean optional = (optional_str != null && optional_str.equals("yes"));
+            String negates = Utils.attrib(n, "negates");
+            String content = "";
+            if(n.getChildNodes().getLength() == 1 && n.getChildNodes().item(0).getNodeName().equals("#text")) {
+                content = n.getChildNodes().item(0).getTextContent();
+            }
+            CharGroup out = new CharGroup(name);
+            out.setNegates(negates);
+            out.setOptional(optional);
+            out.setRepeated(repeated);
+            out.setRawCharacters(content);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }
