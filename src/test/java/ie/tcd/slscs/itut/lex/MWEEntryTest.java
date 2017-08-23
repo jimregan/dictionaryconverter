@@ -42,7 +42,7 @@ public class MWEEntryTest extends TestCase {
                 "  <word tags=\"n.pl\"/>\n" +
                 "</entry>\n";
         Node innode = Utils.stringToNode(in);
-        MWEQueue out = MWEQueue.fromNode(innode);
+        MWEEntry out = MWEEntry.fromNode(innode);
         assertEquals("pl", out.getTags());
         assertEquals(2, out.getParts().size());
 
