@@ -51,14 +51,14 @@ public class Utils {
         int start = 0;
         int end = s.length() - 1;
         for(int i = start; i < end; i++) {
-            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t') {
+            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t' || Character.isWhitespace(s.charAt(i))) {
                 start++;
             } else {
                 break;
             }
         }
         for(int i = end; i > start; i--) {
-            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t') {
+            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t' || Character.isWhitespace(s.charAt(i))) {
                 end--;
             } else {
                 break;
