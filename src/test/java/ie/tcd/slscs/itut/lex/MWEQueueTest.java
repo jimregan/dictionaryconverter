@@ -43,5 +43,17 @@ public class MWEQueueTest {
         assertEquals("adv", out.getTags());
         assertEquals(1, out.getParts().size());
     }
+    public void testFromNode2() throws Exception {
+        String in = "<queue phrase=\"pp\">\n" +
+                "  <word tags=\"pr\"/>\n" +
+                "  <phrase n=\"np\"/>\n" +
+                "    <word tags=\"n.sg\"/>\n" +
+                "  </phrase>\n" +
+                "</queue>\n";
+        Node innode = Utils.stringToNode(in);
+        MWEQueue out = MWEQueue.fromNode(innode);
+        assertEquals("adv", out.getTags());
+        assertEquals(2, out.getParts().size());
+    }
 
 }
