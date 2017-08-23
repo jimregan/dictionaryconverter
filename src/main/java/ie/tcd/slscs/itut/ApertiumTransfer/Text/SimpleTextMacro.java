@@ -103,6 +103,7 @@ public class SimpleTextMacro {
         Collections.addAll(appliesTo, sp[1].trim().split(" "));
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
+        lhs = addAppliesTo(lhs, appliesTo);
         List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
         if(sp.length == 4 || sp[4].trim().equals("")) {
             if(lhs.size() == rhs.size()) {
