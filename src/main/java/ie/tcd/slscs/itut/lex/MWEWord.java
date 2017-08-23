@@ -27,6 +27,9 @@
 
 package ie.tcd.slscs.itut.lex;
 
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
+
 public class MWEWord implements MWEPart {
     String tags;
     public MWEWord(String tags) {
@@ -43,5 +46,19 @@ public class MWEWord implements MWEPart {
         sb.append(tags);
         sb.append(']');
         return sb.toString();
+    }
+    public static MWEWord fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("word")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"name\" found");
+            }
+            String tags = Utils.attrib(n, "tags");
+            if(tags == null || tags.equals("")) {
+                throw new Exception("Missing attribute tags");
+            }
+            return new MWEWord(tags);
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }
