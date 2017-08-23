@@ -33,54 +33,54 @@ import scala.collection.JavaConverters._
 object TextMacro {
   trait MacroAttr
   trait NotMacroAttr extends MacroAttr
-  case class LemmaMacroAttr(s: String) extends MacroAttr
-  case class NotLemmaMacroAttr(s: String) extends NotMacroAttr
-  case class ListMacroAttr(s: String) extends MacroAttr
-  case class NotListMacroAttr(s: String) extends NotMacroAttr
-  case class BeginListMacroAttr(s: String) extends MacroAttr
-  case class NotBeginListMacroAttr(s: String) extends NotMacroAttr
-  case class EndListMacroAttr(s: String) extends MacroAttr
-  case class NotEndListMacroAttr(s: String) extends NotMacroAttr
-  case class KVMacroAttr(k: String, v: String) extends MacroAttr
-  case class NotKVMacroAttr(k: String, v: String) extends NotMacroAttr
-  case class KeyOnlyMacroAttr(k: String) extends MacroAttr
-  case class NotKeyOnlyMacroAttr(k: String) extends NotMacroAttr
+  case class LemmaMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotLemmaMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
+  case class ListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
+  case class BeginListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotBeginListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
+  case class EndListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotEndListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
+  case class KVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotKVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends NotMacroAttr
+  case class KeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends MacroAttr
+  case class NotKeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends NotMacroAttr
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
       if(in.isNot) {
-        NotLemmaMacroAttr(in.getValue)
+        NotLemmaMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       } else {
-        LemmaMacroAttr(in.getValue)
+        LemmaMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       }
     } else if(in.isList) {
       if(in.isNot) {
-        NotListMacroAttr(in.getValue)
+        NotListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       } else {
-        ListMacroAttr(in.getValue)
+        ListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       }
     } else if(in.isBeginsList) {
       if(in.isNot) {
-        NotBeginListMacroAttr(in.getValue)
+        NotBeginListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       } else {
-        BeginListMacroAttr(in.getValue)
+        BeginListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       }
     } else if(in.isEndsList) {
       if(in.isNot) {
-        NotEndListMacroAttr(in.getValue)
+        NotEndListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       } else {
-        EndListMacroAttr(in.getValue)
+        EndListMacroAttr(in.getValue, in.getPosition, in.getAppliesTo)
       }
     } else if(in.getValue == "" || in.getValue == null) {
       if(in.isNot) {
-        NotKeyOnlyMacroAttr(in.getKey)
+        NotKeyOnlyMacroAttr(in.getKey, in.getPosition, in.getAppliesTo)
       } else {
-        KeyOnlyMacroAttr(in.getKey)
+        KeyOnlyMacroAttr(in.getKey, in.getPosition, in.getAppliesTo)
       }
     } else {
       if(in.isNot) {
-        NotKVMacroAttr(in.getKey, in.getValue)
+        NotKVMacroAttr(in.getKey, in.getValue, in.getPosition, in.getAppliesTo)
       } else {
-        KVMacroAttr(in.getKey, in.getValue)
+        KVMacroAttr(in.getKey, in.getValue, in.getPosition, in.getAppliesTo)
       }
     }
   }
