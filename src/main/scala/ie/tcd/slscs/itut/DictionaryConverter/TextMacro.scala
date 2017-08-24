@@ -114,12 +114,12 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
-  def simpleClip(pos: Int, sl: Boolean, part: String): ClipElement = {
+  private def simpleClip(pos: Int, sl: Boolean, part: String): ClipElement = {
     val side = if(sl) "sl" else "tl"
     ClipElement(pos.toString, side, part, null, null, null)
   }
-  def dumbClip(pos: Int) = simpleClip(pos, true, "lem")
-  def simpleEquals(a: ValueElement, b: ValueElement) = EqualElement(true, List[ValueElement](a, b))
+  private def dumbClip(pos: Int) = simpleClip(pos, true, "lem")
+  private def simpleEquals(a: ValueElement, b: ValueElement) = EqualElement(true, List[ValueElement](a, b))
   def convertMacroAttrToTest(in: MacroAttr): TestElement = in match {
     case LemmaMacroAttr(s, pos, apto) => TestElement(null, simpleEquals(dumbClip(pos), LitElement(s)))
     case NotLemmaMacroAttr(s, pos, apto) => TestElement(null, NotElement(simpleEquals(dumbClip(pos), LitElement(s))))
