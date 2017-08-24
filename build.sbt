@@ -14,6 +14,6 @@ libraryDependencies ++= {
   	Seq(
   	    "org.scalatest" % "scalatest_2.10" % "2.0" % Test,
             "junit" % "junit" % "4.12" % Test,
-            "com.novocode" % "junit-interface" % "0.11" % "test"
+            "com.novocode" % "junit-interface" % "0.11" % Test
   	)
 }
