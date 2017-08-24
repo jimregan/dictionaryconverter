@@ -204,9 +204,10 @@ public class SimpleTextMacro {
         int lineno = 0;
         String last = "";
         SimpleTextMacro cur = new SimpleTextMacro();
+        SimpleTextMacro tmp = new SimpleTextMacro();
         while((line = br.readLine()) != null) {
             lineno++;
-            SimpleTextMacro tmp = new SimpleTextMacro();
+            tmp = new SimpleTextMacro();
             try {
                 tmp = fromString(line);
                 if(lineno == 1) {
@@ -223,6 +224,7 @@ public class SimpleTextMacro {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
         }
+        out.add(cur);
         return out;
     }
     public static List<SimpleTextMacro> fromFile(InputStreamReader isr) throws Exception {
