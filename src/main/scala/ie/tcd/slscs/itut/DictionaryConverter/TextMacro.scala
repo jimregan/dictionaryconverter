@@ -177,4 +177,16 @@ object TextMacro {
     }
   }
 
+  def sbtHelper(): Unit = {
+    val testrule = "det_type | <det> | no<a_det=det> | <negative=NEG> | 1-1C\n" + " |  | the<det> | <det_type=DEFART> | 1-1C\n" + " |  | a<det> | <det_type=NOART> | 1-1C\n" + " |  | this<det> | <det_type=DEF> | 1-1C\n"
+    //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
+    import java.io.ByteArrayInputStream
+    //val out = SimpleTextMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
+    val out = JSTMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
+    //import ie.tcd.slscs.itut.DictionaryConverter.TextMacro._
+    val ent = out.get(0)
+    val parts = ent.getParts
+    convertTextMacroEntry(parts.get(0))
+
+  }
 }
