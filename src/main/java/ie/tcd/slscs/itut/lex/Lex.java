@@ -55,6 +55,7 @@ public class Lex {
 
         Map<String, CharGroup> chargroups = new HashMap<String, CharGroup>();
         Map<String, Group> groups = new HashMap<String, Group>();
+        Map<String, PairGroup> pairgroups = new HashMap<String, PairGroup>();
 
         if (root != "rules") {
             throw new IOException("Expected root node " + root);
@@ -75,9 +76,17 @@ public class Lex {
             } else if(itemi.getNodeName().equals("group")) {
                 Group g = Group.fromNode(itemi);
                 if(chargroups.get(g.getName()) != null) {
-                    throw new Exception("Group " + g.getName() + " conflicts with existing chargroup");
+                    throw new Exception("group " + g.getName() + " conflicts with existing chargroup");
                 }
                 groups.put(g.name, g);
+            } else if(itemi.getNodeName().equals("pairgroup")) {
+                PairGroup pg = PairGroup.fromNode(itemi);
+                if(chargroups.get(pg.getName()) != null) {
+                    throw new Exception("pairgroup " + pg.getName() + " conflicts with existing chargroup");
+                } else if(groups.get(pg.getName()) != null) {
+                    throw new Exception("pairgroup " + pg.getName() + " conflicts with existing group");
+                }
+                pairgroups.put(pg.getName(), pg);
             }
         }
         return null;
