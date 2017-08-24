@@ -141,11 +141,11 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
-  def convertMacroAttrList(in: List[MacroAttr]): ConditionElement = {
+  def convertMacroAttrList(in: List[MacroAttr]): TestElement = {
     if(in.length == 1) {
       convertMacroAttrToTest(in(0))
     } else {
-      AndElement(in.map{convertMacroAttrToTest})
+      TestElement(null, AndElement(in.map{convertMacroAttrToTest}.map{e => e.cond}))
     }
   }
   abstract class BaseTextMacroEntry
