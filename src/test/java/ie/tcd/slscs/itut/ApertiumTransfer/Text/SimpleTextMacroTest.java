@@ -53,5 +53,6 @@ public class SimpleTextMacroTest extends TestCase {
         List<SimpleTextMacro> out = SimpleTextMacro.fromFile(new ByteArrayInputStream(in.getBytes()));
         assertEquals(1, out.size());
         assertEquals(4, out.get(0).getParts().size());
+        System.err.println(out.toString());
     }
 }
