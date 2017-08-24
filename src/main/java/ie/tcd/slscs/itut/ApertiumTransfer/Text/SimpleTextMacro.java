@@ -92,6 +92,15 @@ public class SimpleTextMacro {
     public List<SimpleTextMacroEntry> getParts() {
         return parts;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setAppliesTo(List<String> appliesTo) {
+        this.appliesTo = appliesTo;
+    }
+    public void setParts(List<SimpleTextMacroEntry> parts) {
+        this.parts = parts;
+    }
 
     public static SimpleTextMacro fromString(String s) throws Exception {
         String[] sp = s.split("\\|");
