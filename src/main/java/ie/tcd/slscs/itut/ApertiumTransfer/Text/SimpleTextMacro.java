@@ -32,6 +32,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -250,5 +251,19 @@ public class SimpleTextMacro {
     }
     public static List<SimpleTextMacro> fromFile(String s) throws Exception {
         return fromFile(new File(s));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append(" | ");
+        sb.append(Utils.join(appliesTo, " "));
+        sb.append(" | ");
+        Iterator<SimpleTextMacroEntry> it = parts.iterator();
+        while(it.hasNext()) {
+            sb.append(it.next().toString());
+        }
+        return sb.toString();
     }
 }
