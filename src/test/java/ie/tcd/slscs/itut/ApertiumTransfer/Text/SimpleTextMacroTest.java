@@ -47,9 +47,9 @@ public class SimpleTextMacroTest extends TestCase {
 
     public void testFromFile() throws Exception {
         String in = "det_type | <det> | no<det> | <negative=NEG> | 1-1C\n" +
-                " |  | the<det> | <det_type=DEFART> | 1-1C" +
-                " |  | a<det> | <det_type=NOART> | 1-1C" +
-                " |  | this<det> | <det_type=DEF> | 1-1C";
+                " |  | the<det> | <det_type=DEFART> | 1-1C\n" +
+                " |  | a<det> | <det_type=NOART> | 1-1C\n" +
+                " |  | this<det> | <det_type=DEF> | 1-1C\n";
         List<SimpleTextMacro> out = SimpleTextMacro.fromFile(new ByteArrayInputStream(in.getBytes()));
         assertEquals(1, out.size());
     }
