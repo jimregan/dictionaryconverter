@@ -52,5 +52,6 @@ public class SimpleTextMacroTest extends TestCase {
                 " |  | this<det> | <det_type=DEF> | 1-1C\n";
         List<SimpleTextMacro> out = SimpleTextMacro.fromFile(new ByteArrayInputStream(in.getBytes()));
         assertEquals(1, out.size());
+        assertEquals(4, out.get(0).getParts().size());
     }
 }
