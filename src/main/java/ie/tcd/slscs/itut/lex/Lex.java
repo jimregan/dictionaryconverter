@@ -54,6 +54,7 @@ public class Lex {
         String root = doc.getDocumentElement().getNodeName();
 
         Map<String, CharGroup> chargroups = new HashMap<String, CharGroup>();
+        Map<String, Group> groups = new HashMap<String, Group>();
 
         if (root != "rules") {
             throw new IOException("Expected root node " + root);
@@ -71,6 +72,12 @@ public class Lex {
                     }
                 }
                 chargroups.put(cg.getName(), cg);
+            } else if(itemi.getNodeName().equals("group")) {
+                Group g = Group.fromNode(itemi);
+                if(chargroups.get(g.getName()) != null) {
+                    throw new Exception("Group " + g.getName() + " conflicts with existing chargroup");
+                }
+                groups.put(g.name, g);
             }
         }
         return null;
