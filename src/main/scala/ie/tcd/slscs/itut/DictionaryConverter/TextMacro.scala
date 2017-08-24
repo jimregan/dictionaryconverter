@@ -119,24 +119,25 @@ object TextMacro {
     ClipElement(pos.toString, side, part, null, null, null)
   }
   def dumbClip(pos: Int) = simpleClip(pos, true, "lem")
+  def simpleEquals(a: ValueElement, b: ValueElement) = EqualElement(true, List[ValueElement](a, b))
   def convertMacroAttrToTest(in: MacroAttr): TestElement = in match {
-    case LemmaMacroAttr(s, pos, apto) => TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", "lem", null, null, null), LitElement(s))))
-    case NotLemmaMacroAttr(s, pos, apto) => TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", "lem", null, null, null), LitElement(s)))))
+    case LemmaMacroAttr(s, pos, apto) => TestElement(null, simpleEquals(dumbClip(pos), LitElement(s)))
+    case NotLemmaMacroAttr(s, pos, apto) => TestElement(null, NotElement(simpleEquals(dumbClip(pos), LitElement(s))))
     case ListMacroAttr(s, pos, apto) => TestElement(null, InElement(dumbClip(pos), ListElement(s), true))
     case NotListMacroAttr(s, pos, apto) => TestElement(null, NotElement(InElement(dumbClip(pos), ListElement(s), true)))
     case BeginListMacroAttr(s, pos, apto) => TestElement(null, BeginsWithListElement(dumbClip(pos), ListElement(s), true))
     case NotBeginListMacroAttr(s, pos, apto) => TestElement(null, NotElement(BeginsWithListElement(dumbClip(pos), ListElement(s), true)))
     case EndListMacroAttr(s, pos, apto) => TestElement(null, EndsWithListElement(dumbClip(pos), ListElement(s), true))
-    case NotEndListMacroAttr(s, pos, apto) => TestElement(null, NotElement(EndsWithListElement(ClipElement(pos.toString, "sl", "lem", null, null, null), ListElement(s), true)))
+    case NotEndListMacroAttr(s, pos, apto) => TestElement(null, NotElement(EndsWithListElement(dumbClip(pos), ListElement(s), true)))
     case KVMacroAttr(k, v, pos, apto) => if (v != "") {
-      TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v))))
+      TestElement(null, simpleEquals(simpleClip(pos, true, k), LitTagElement(v)))
     } else {
-      TestElement(null, EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitElement(""))))
+      TestElement(null, simpleEquals(simpleClip(pos, true, k), LitElement("")))
     }
     case NotKVMacroAttr(k, v, pos, apto) => if (v != "") {
-      TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitTagElement(v)))))
+      TestElement(null, NotElement(simpleEquals(simpleClip(pos, true, k), LitTagElement(v))))
     } else {
-      TestElement(null, NotElement(EqualElement(true, List[ValueElement](ClipElement(pos.toString, "sl", k, null, null, null), LitElement("")))))
+      TestElement(null, NotElement(simpleEquals(simpleClip(pos, true, k), LitElement(""))))
     }
     case _ => throw new Exception("Can't convert this tag")
   }
