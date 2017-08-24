@@ -42,7 +42,7 @@ public class SimpleTextMacroTest extends TestCase {
         assertEquals(1, out.getParts().size());
         assertEquals("det_type", out.getName());
         assertEquals(1, out.getAppliesTo().size());
-        assertEquals("", out.toString());
+        assertEquals("{1[<lemma=no>,<det>][{1(C)[<negative=NEG>][--]}]}", out.toString());
     }
 
     public void testFromFile() throws Exception {
@@ -53,6 +53,5 @@ public class SimpleTextMacroTest extends TestCase {
         List<SimpleTextMacro> out = SimpleTextMacro.fromFile(new ByteArrayInputStream(in.getBytes()));
         assertEquals(1, out.size());
         assertEquals(4, out.get(0).getParts().size());
-        System.err.println(out.toString());
     }
 }

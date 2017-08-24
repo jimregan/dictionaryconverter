@@ -263,7 +263,7 @@ public class SimpleTextMacro {
         Iterator<SimpleTextMacroEntry> it = parts.iterator();
         while(it.hasNext()) {
             sb.append(it.next().toString());
-            sb.append("\n\t");
+            sb.append("\n");
         }
         return sb.toString();
     }
