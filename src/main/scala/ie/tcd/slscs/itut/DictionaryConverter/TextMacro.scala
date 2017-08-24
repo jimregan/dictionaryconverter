@@ -141,6 +141,13 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
+  def convertMacroAttrList(in: List[MacroAttr]): ConditionElement = {
+    if(in.length == 1) {
+      convertMacroAttrToTest(in(0))
+    } else {
+      AndElement(in.map{convertMacroAttrToTest})
+    }
+  }
   abstract class BaseTextMacroEntry
   abstract class SrcTextMacroEntry extends BaseTextMacroEntry
   abstract class TrgTextMacroEntry extends BaseTextMacroEntry
@@ -182,9 +189,22 @@ object TextMacro {
       TrgBaseMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
     }
   }
+  def convertJSTMacro(m: JSTMacro): SimpleTextMacro = {
+    SimpleTextMacro(m.getName, m.getAppliesTo.asScala.toList, m.getParts.asScala.map{convertTrgTextMacroEntry}.toList)
+  }
+  def convertJSTMacros(f: String): List[SimpleTextMacro] = {
+    val out = JSTMacro.fromFile(f)
+    out.asScala.map{convertJSTMacro}.toList
+  }
+  //def SimpleTextMacroToXML(m: SimpleTextMacro): DefMacroElement = {
+  //  DefMacroElement(m.name, m.appliesTo.size, null, m.entries)
+  //}
+  //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
+    //case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, )
+  //}
 
   def sbtHelper(): Unit = {
-    val testrule = "det_type | <det> | no<a_det=det> | <negative=NEG> | 1-1C\n" + " |  | the<det> | <det_type=DEFART> | 1-1C\n" + " |  | a<det> | <det_type=NOART> | 1-1C\n" + " |  | this<det> | <det_type=DEF> | 1-1C\n"
+    val testrule = "det_type | <det> | no | <negative=NEG> | 1-1C\n" + " |  | the | <det_type=DEFART> | 1-1C\n" + " |  | a | <det_type=NOART> | 1-1C\n" + " |  | this | <det_type=DEF> | 1-1C\n"
     //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
     import java.io.ByteArrayInputStream
     //val out = SimpleTextMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
