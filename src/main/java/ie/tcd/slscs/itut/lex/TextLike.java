@@ -77,4 +77,34 @@ public abstract class TextLike {
         }
         return out;
     }
+    public static int getNumberOfWordBreaks(List<TextLike> in) {
+        int out = 0;
+        if(in.size() == 0) {
+            return 0;
+        }
+        for(TextLike t : in) {
+            if(t instanceof WordBreak) {
+                out++;
+            }
+        }
+        return out;
+    }
+    public static boolean isValidBreak(List<TextLike> in) {
+        int last = in.size() - 1;
+        if(in.get(0) instanceof WordBreak || in.get(last) instanceof WordBreak) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public static boolean matchesTags(List<TextLike> in, String tags) {
+        int count1 = getNumberOfWordBreaks(in);
+        int count2 = 0;
+        for(int i = 0; i < tags.length(); i++) {
+            if(tags.charAt(i) == '+') {
+                count2++;
+            }
+        }
+        return count1 == count2;
+    }
 }
