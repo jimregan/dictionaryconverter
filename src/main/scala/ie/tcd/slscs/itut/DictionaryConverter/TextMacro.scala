@@ -200,7 +200,7 @@ object TextMacro {
   //  DefMacroElement(m.name, m.appliesTo.size, null, m.entries)
   //}
   //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
-    //case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, )
+  //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ))
   //}
 
   def sbtHelper(): Unit = {
