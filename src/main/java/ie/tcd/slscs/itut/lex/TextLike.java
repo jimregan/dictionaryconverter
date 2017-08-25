@@ -62,9 +62,18 @@ public abstract class TextLike {
                 out.add(new EntityPiece(cur));
                 cur = "";
                 reading = false;
+                if(i + 1 < s.length() && s.charAt(i + 1) == '{') {
+                    i++;
+                    reading = true;
+                }
             } else {
                 cur += s.charAt(i);
             }
+        }
+        if(reading) {
+            out.add(new EntityPiece(cur));
+        } else if(s.charAt(s.length() - 1) != '}'){
+            out.add(new TextPiece(cur));
         }
         return out;
     }
