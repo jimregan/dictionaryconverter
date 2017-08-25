@@ -53,11 +53,14 @@ public abstract class TextLike {
             if(!reading && s.charAt(i) == '{') {
                 out.add(new TextPiece(cur));
                 reading = true;
+                cur = "";
             } else if(!reading && s.charAt(i) == '+') {
                     out.add(new TextPiece(cur));
                     out.add(new WordBreak());
+                    cur = "";
             } else if(reading && s.charAt(i) == '}') {
                 out.add(new EntityPiece(cur));
+                cur = "";
                 reading = false;
             } else {
                 cur += s.charAt(i);
