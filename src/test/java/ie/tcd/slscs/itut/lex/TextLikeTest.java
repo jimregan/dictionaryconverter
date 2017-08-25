@@ -45,4 +45,14 @@ public class TextLikeTest extends TestCase {
         assertEquals(exp.get(1).getValue(), out.get(1).getValue());
         assertEquals(exp.get(2).getValue(), out.get(2).getValue());
     }
+    public void testFromString4() throws Exception {
+        String in = "~\\{vowel{letter}";
+        List<TextLike> exp = new ArrayList<TextLike>();
+        exp.add(new TextPiece("~{vowel"));
+        exp.add(new EntityPiece("letter"));
+        List<TextLike> out = TextLike.fromString(in);
+        assertEquals(exp.size(), out.size());
+        assertEquals(exp.get(0).getValue(), out.get(0).getValue());
+        assertEquals(exp.get(1).getValue(), out.get(1).getValue());
+    }
 }
