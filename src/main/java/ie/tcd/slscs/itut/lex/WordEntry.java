@@ -70,6 +70,12 @@ public class WordEntry {
                 throw new Exception("Missing attribute text");
             }
             List<TextLike> text = TextLike.fromString(textatt);
+            if(!TextLike.matchesTags(text, tags)) {
+                throw new Exception("Mismatch in number of breaks in " + textatt + " and " + tags);
+            }
+            if(!TextLike.isValidBreak(text)) {
+                throw new Exception("Invalid word break in " + textatt + " (starts or ends with '+'");
+            }
             WordEntry out = new WordEntry(tags, text);
             return out;
         } else {
