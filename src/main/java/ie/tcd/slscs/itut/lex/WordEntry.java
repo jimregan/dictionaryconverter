@@ -36,8 +36,12 @@ import java.util.List;
 public class WordEntry {
     String tags;
     List<TextLike> text;
+    String equals;
     WordEntry() {
         text = new ArrayList<TextLike>();
+    }
+    WordEntry(String tags) {
+        this.tags = tags;
     }
     WordEntry(String tags, List<TextLike> text) {
         this();
@@ -56,27 +60,39 @@ public class WordEntry {
     public void setText(List<TextLike> text) {
         this.text = text;
     }
+    public String getEquals() {
+        return equals;
+    }
+    public void setEquals(String equals) {
+        this.equals = equals;
+    }
     public static WordEntry fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("entry")) {
-            if(n.getAttributes() == null || n.getAttributes().getLength() < 2) {
-                throw new Exception("Attributes \"tags\" and \"text\" are required");
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("Missing required atrtibute \"tags\"");
             }
             String tags = Utils.attrib(n, "tags");
             if(tags == null || tags.equals("")) {
                 throw new Exception("Missing attribute tags");
             }
+            WordEntry out = new WordEntry(tags);
             String textatt = Utils.attrib(n, "text");
-            if(textatt == null || textatt.equals("")) {
-                throw new Exception("Missing attribute text");
+            String equals = Utils.attrib(n, "equals");
+            if(equals == null && textatt == null) {
+                throw new Exception("entry must specify either \"text\" or \"equals\"");
             }
-            List<TextLike> text = TextLike.fromString(textatt);
-            if(!TextLike.matchesTags(text, tags)) {
-                throw new Exception("Mismatch in number of breaks in " + textatt + " and " + tags);
+            if(textatt != null) {
+                List<TextLike> text = TextLike.fromString(textatt);
+                if (!TextLike.matchesTags(text, tags)) {
+                    throw new Exception("Mismatch in number of breaks in " + textatt + " and " + tags);
+                }
+                if (!TextLike.isValidBreak(text)) {
+                    throw new Exception("Invalid word break in " + textatt + " (starts or ends with '+'");
+                }
+                out.setText(text);
+            } else {
+                out.setEquals(equals);
             }
-            if(!TextLike.isValidBreak(text)) {
-                throw new Exception("Invalid word break in " + textatt + " (starts or ends with '+'");
-            }
-            WordEntry out = new WordEntry(tags, text);
             return out;
         } else {
             throw new Exception("Unexpected node: " + n.getNodeName());
