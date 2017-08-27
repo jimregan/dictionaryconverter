@@ -254,19 +254,56 @@ public class TextRuleManager {
         }
         public TextRuleManager build() throws Exception {
             TextRuleManager out = new TextRuleManager();
+            if(!haveType) {
+                throw new Exception("Type not set");
+            }
+
+            if(!haveLists) {
+                throw new Exception("Lists not set");
+            }
             out.setLists(this.lists);
+            if(!haveMacros) {
+                throw new Exception("Macros not set");
+            }
             out.setMacros(this.macros);
+            if(!haveSourceAttr) {
+                throw new Exception("Source language attributes not set");
+            }
             out.setSourceAttr(this.sourceAttr);
+            if(!haveSourceAttrChunk) {
+                throw new Exception("Source language chunk attributes not set");
+            }
             out.setSourceAttrChunk(this.sourceAttrChunk);
+            if(!haveTargetAttr) {
+                throw new Exception("Target language attributes not set");
+            }
             out.setTargetAttr(this.targetAttr);
+            if(!haveTargetAttrChunk) {
+                throw new Exception("Target language chunk attributes not set");
+            }
             out.setTargetAttrChunk(this.targetAttrChunk);
+            if(!haveSourceSeq) {
+                throw new Exception("Source language tag sequences not set");
+            }
             out.setSourceSeq(this.sourceSeq);
+            if(!haveSourceSeqChunk) {
+                throw new Exception("Source language chunk tag sequences not set");
+            }
             out.setSourceSeqChunk(this.sourceSeqChunk);
+            if(!haveTargetSeq) {
+                throw new Exception("Source language tag sequences not set");
+            }
             out.setTargetSeq(this.targetSeq);
+            if(!haveTargetSeqChunk) {
+                throw new Exception("Target language chunk tag sequences not set");
+            }
             out.setTargetSeqChunk(this.targetSeqChunk);
             out.setClippable(this.clippable);
             out.setClippableChunk(this.clippableChunk);
             out.rewriteLUs();
+            if(!haveRules) {
+                throw new Exception("Rules not set");
+            }
             out.setRules(this.rules);
             return out;
         }
@@ -285,25 +322,25 @@ public class TextRuleManager {
             return this;
         }
         public Builder setAttributesFromFile(String src, String trg) throws Exception {
-            this.sourceAttr = Attributes.fromFile(src);
-            this.targetAttr = Attributes.fromFile(trg);
+            setSourceAttr(Attributes.fromFile(src));
+            setTargetAttr(Attributes.fromFile(trg));
             return this;
         }
         public Builder setChunkAttributesFromFile(String src, String trg) throws Exception {
-            this.sourceAttrChunk = Attributes.fromFile(src);
-            this.targetAttrChunk = Attributes.fromFile(trg);
+            setSourceAttrChunk(Attributes.fromFile(src));
+            setTargetAttrChunk(Attributes.fromFile(trg));
             return this;
         }
         public Builder setSequenceFromFile(String src, String trg) throws Exception {
-            this.sourceSeq = AttributeSequence.fromFile(src);
-            this.targetSeq = AttributeSequence.fromFile(trg);
+            setSourceSeq(AttributeSequence.fromFile(src));
+            setTargetSeq(AttributeSequence.fromFile(trg));
             this.clippable.setSourceLanguage(sourceSeq);
             this.clippable.setTargetLanguage(targetSeq);
             return this;
         }
         public Builder setSourceChunkSequenceFromFile(String src, String trg) throws Exception {
-            this.sourceSeqChunk = AttributeSequence.fromFile(src);
-            this.targetSeqChunk = AttributeSequence.fromFile(trg);
+            setSourceSeqChunk(AttributeSequence.fromFile(src));
+            setTargetSeqChunk(AttributeSequence.fromFile(trg));
             this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
             this.clippableChunk.setSourceLanguage(sourceSeqChunk);
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
