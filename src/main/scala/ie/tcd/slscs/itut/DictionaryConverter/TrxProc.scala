@@ -206,7 +206,9 @@ object TrxProc {
     }
     dropLastBlank(l, List.empty[StreamItem])
   }
-  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = {
+    simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+  }
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
     case b: BlankToken => convertBlanks(b)
@@ -222,7 +224,10 @@ object TrxProc {
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
   }
-  case class TextRuleMgrWrapper(trm: TextRuleManager)
+  case class TextRuleMgrWrapper(trm: TextRuleManager) {
+    def getLists = trm.getLists.asScala.map{convertSimpleList}
+
+  }
   object TextRuleMgrWrapper {
     def apply(arr: Array[String]): TextRuleMgrWrapper = {
       val trm: TextRuleManager = new TextRuleManager()
