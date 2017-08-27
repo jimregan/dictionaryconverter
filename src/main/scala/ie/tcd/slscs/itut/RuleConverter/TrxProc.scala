@@ -160,8 +160,6 @@ object TrxProc {
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
 
-  case class RuleMetadata(ruleid: String, rulecomment: String)
-  case class RuleProc(meta: RuleMetadata)
   trait StreamItem
   trait LexicalUnit extends StreamItem
   trait SingleLexicalUnit extends LexicalUnit
