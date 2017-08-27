@@ -156,6 +156,9 @@ public class TextRuleManager {
             rc.rewriteLUs(clippable, AttributeSequence.listToMap(getTargetSeq()));
         }
     }
+    public TextFileBuilder getTextFileBuilder() {
+        return new TextFileBuilder();
+    }
 
     public class Builder {
         List<Attributes> sourceAttr;
@@ -333,7 +336,10 @@ public class TextRuleManager {
             return out;
         }
     }
-    class TextFileBuilder extends Builder {
+    public class TextFileBuilder extends Builder {
+        public TextFileBuilder() {
+            super();
+        }
         public Builder setMacrosFromFile(String filename) throws Exception {
             setMacros(SimpleTextMacro.fromFile(filename));
             return this;
@@ -363,13 +369,51 @@ public class TextRuleManager {
             this.clippable.setTargetLanguage(targetSeq);
             return this;
         }
-        public Builder setSourceChunkSequenceFromFile(String src, String trg) throws Exception {
+        public Builder setChunkSequencesFromFile(String src, String trg) throws Exception {
             setSourceSeqChunk(AttributeSequence.fromFile(src));
             setTargetSeqChunk(AttributeSequence.fromFile(trg));
             this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
             this.clippableChunk.setSourceLanguage(sourceSeqChunk);
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
+        }
+        public Builder fromStringArray(String[] args) throws Exception {
+            TextFileBuilder tfb = new TextFileBuilder();
+            for(int i = 0; i < args.length; i += 2) {
+                if(args[i].startsWith("-") && ((i == args.length - 1) || (args[i+1].startsWith("-")))) {
+                    throw new Exception("Argument " + args[i] + " specified without value");
+                }
+                if(args[i].equals("-type")) {
+                    tfb = (TextFileBuilder) tfb.setType(args[i+1]);
+                } else if(args[i].equals("-attributes")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target attributes");
+                    }
+                    tfb = (TextFileBuilder) tfb.setAttributesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-attributes-chunk")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target chunk attributes");
+                    }
+                    tfb = (TextFileBuilder) tfb.setChunkAttributesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-sequences")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target sequences");
+                    }
+                    tfb = (TextFileBuilder) tfb.setSequenceFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-sequences-chunk")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target chunk sequences");
+                    }
+                    tfb = (TextFileBuilder) tfb.setChunkSequencesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-lists")) {
+                    tfb = (TextFileBuilder) tfb.setListsFromFile(args[i+1]);
+                } else if(args[i].equals("-macros")) {
+                    tfb = (TextFileBuilder) tfb.setMacrosFromFile(args[i+1]);
+                } else if(args[i].equals("-rules")) {
+                    tfb = (TextFileBuilder) tfb.setRulesFromFile(args[i+1]);
+                }
+            }
+            return tfb;
         }
     }
 }
