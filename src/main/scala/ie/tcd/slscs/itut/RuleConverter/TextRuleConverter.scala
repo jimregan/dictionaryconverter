@@ -25,10 +25,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.RuleConverter
 
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes}
-import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.convertDefAttr
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.Attributes
+import ie.tcd.slscs.itut.RuleConverter.TrxProc.convertDefAttr
 
 import scala.collection.JavaConverters._
 

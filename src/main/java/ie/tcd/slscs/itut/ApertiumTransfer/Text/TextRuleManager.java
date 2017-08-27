@@ -48,7 +48,7 @@ public class TextRuleManager {
     AttributeSequenceClippable clippableChunk;
     List<SimpleTextMacro> macros;
     List<RuleContainer> rules;
-    TextRuleManager() {
+    public TextRuleManager() {
         this.categories = new ArrayList<SimpleCats>();
         this.macros = new ArrayList<SimpleTextMacro>();
         this.rules = new ArrayList<RuleContainer>();

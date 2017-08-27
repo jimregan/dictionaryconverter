@@ -25,10 +25,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.RuleConverter
 
-import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.{PositionBlank, SimpleLU, StreamItem}
 import org.scalatest.FlatSpec
+import ie.tcd.slscs.itut.RuleConverter.TrxProc.{PositionBlank, SimpleLU, StreamItem}
 
 class TrxProcTest extends FlatSpec {
 

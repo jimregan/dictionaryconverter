@@ -25,10 +25,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.RuleConverter
 
-import ie.tcd.slscs.itut.DictionaryConverter.ExpandRules.{TagsToken, TrivialDeletion, TrivialIdentity}
 import org.scalatest.FlatSpec
+import ie.tcd.slscs.itut.RuleConverter.ExpandRules.{TagsToken, TrivialDeletion, TrivialIdentity}
 
 class ExpandRulesTest extends FlatSpec {
   "splitAlignmentsSL" should "generate a map of SL to TL alignments" in {
