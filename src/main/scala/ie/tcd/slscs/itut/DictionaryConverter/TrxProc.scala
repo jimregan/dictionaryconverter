@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequenceClippable, Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
@@ -230,6 +230,8 @@ object TrxProc {
     def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
     val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
     val transferType = trm.getTypeText
+    val clippables = TextMacro.convertAttributeSequenceClippable(trm.getClippable)
+    val clippablesChunk = TextMacro.convertAttributeSequenceClippable(trm.getClippableChunk)
   }
   object TextRuleMgrWrapper {
     def apply(arr: Array[String]): TextRuleMgrWrapper = {
