@@ -25,38 +25,39 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
+public abstract class Grouping {
+    String name;
+    boolean repeated;
+    boolean optional;
+    String opt = "";
+    public String getName() {
+        return name;
     }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public List<LUReference> getChildren() {
-        return children;
+    public boolean isRepeated() {
+        return repeated;
     }
-    @Override
-    public String getContent() {
-        return null;
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
     }
-
-    @Override
-    public String toString() {
-        return null;
+    public boolean isOptional() {
+        return optional;
     }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+    void setOpt() {
+        if(optional && repeated) {
+            opt = "*";
+        } else if(optional) {
+            opt = "?";
+        } else if(repeated) {
+            opt = "+";
         }
-        return new MLUReference(children);
     }
+    public abstract String getRegex();
 }

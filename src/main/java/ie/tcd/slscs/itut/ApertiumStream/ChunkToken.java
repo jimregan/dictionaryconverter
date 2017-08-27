@@ -39,7 +39,7 @@ public class ChunkToken extends StreamToken {
         tags = new ArrayList<String>();
         children = new ArrayList<StreamToken>();
     }
-    ChunkToken(String lemma, List<String> tags, List<StreamToken> children) {
+    public ChunkToken(String lemma, List<String> tags, List<StreamToken> children) {
         this();
         this.lemma = lemma;
         this.tags = tags;
@@ -103,7 +103,7 @@ public class ChunkToken extends StreamToken {
         List<StreamToken> tokens = MLUToken.listFromString(s.substring(chunk_start + 1, end), true);
         return new ChunkToken(chunk_lemma.getLemh(), chunk_lemma.getTags(), tokens);
     }
-    static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
+    public static List<StreamToken> listFromString(String s, boolean space_only) throws Exception {
         List<StreamToken> out = new ArrayList<StreamToken>();
         int start = 0;
         String cur = "";

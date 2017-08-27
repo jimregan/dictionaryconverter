@@ -25,15 +25,16 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.AlignmentPair;
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.Attributes;
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleMacroCall;
+import ie.tcd.slscs.itut.ApertiumStream.ChunkToken;
+import ie.tcd.slscs.itut.ApertiumStream.SimpleToken;
+import ie.tcd.slscs.itut.ApertiumStream.StreamToken;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RuleContainer {
     private String tag;
@@ -124,6 +125,14 @@ public class RuleContainer {
     public void setSimple(boolean simple) {
         this.simple = simple;
     }
+
+    /**
+     * @see ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleSide#rewriteLUs(AttributeSequenceClippable, Map, Map)
+     */
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, AttributeSequence> aseq) throws Exception {
+        Map<String, List<String>> alignments = AlignmentPair.getReverseMapFromList(getAlignments());
+        right.rewriteLUs(clippable, alignments, aseq);
+    }
     public static RuleContainer fromString(String s) throws Exception {
         String[] parts = s.split("\\|");
         if(parts.length < 7 || parts.length > 8) {
@@ -207,6 +216,7 @@ public class RuleContainer {
         return fromFile(new File(s));
     }
 
+    // TODO
     public static RuleContainer insertAtAlignmentPoint(RuleContainer base, RuleContainer insert, AlignmentPair a) {
         return null;
     }

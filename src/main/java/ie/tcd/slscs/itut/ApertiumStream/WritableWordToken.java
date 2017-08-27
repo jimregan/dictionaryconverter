@@ -29,11 +29,20 @@ package ie.tcd.slscs.itut.ApertiumStream;
 
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.AttributeSequence;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WritableWordToken extends WordToken {
     String alignment;
     AttributeSequence attribseq;
+    Map<String, Boolean> clippable;
+    boolean isInsertion = false;
     WritableWordToken() {
         super();
+        this.clippable = new HashMap<String, Boolean>();
+    }
+    public WritableWordToken(WordToken wt) {
+        super(wt);
     }
     public String getAlignment() {
         return alignment;
@@ -46,5 +55,17 @@ public class WritableWordToken extends WordToken {
     }
     public void setAttribseq(AttributeSequence attribseq) {
         this.attribseq = attribseq;
+    }
+    public boolean isInsertion() {
+        return isInsertion;
+    }
+    public void setInsertion(boolean insertion) {
+        isInsertion = insertion;
+    }
+    public Map<String, Boolean> getClippable() {
+        return clippable;
+    }
+    public void setClippable(Map<String, Boolean> clippable) {
+        this.clippable = clippable;
     }
 }

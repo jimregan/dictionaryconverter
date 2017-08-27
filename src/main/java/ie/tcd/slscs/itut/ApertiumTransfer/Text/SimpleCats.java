@@ -32,13 +32,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SimpleList {
+public class SimpleCats {
     String name;
     List<String> items;
-    SimpleList() {
+    SimpleCats() {
         this.items = new ArrayList<String>();
     }
-    SimpleList(String name, List<String> items) {
+    SimpleCats(String name, List<String> items) {
         this();
         this.name = name;
         this.items = items;
@@ -49,7 +49,7 @@ public class SimpleList {
     public List<String> getItems() {
         return items;
     }
-    public static SimpleList fromString(String s) throws Exception {
+    public static SimpleCats fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
         String[] tmp = s.split("=");
         if(tmp.length != 2) {
@@ -57,10 +57,10 @@ public class SimpleList {
         }
         String name = tmp[0].trim();
         tags = Arrays.asList(tmp[1].trim().split(" "));
-        return new SimpleList(name, tags);
+        return new SimpleCats(name, tags);
     }
-    public static List<SimpleList> fromFile(BufferedReader br) throws IOException {
-        List<SimpleList> out = new ArrayList<SimpleList>();
+    public static List<SimpleCats> fromFile(BufferedReader br) throws IOException {
+        List<SimpleCats> out = new ArrayList<SimpleCats>();
         String line;
         int lineno = 0;
         while((line = br.readLine()) != null) {
@@ -73,19 +73,19 @@ public class SimpleList {
         }
         return out;
     }
-    public static List<SimpleList> fromFile(InputStreamReader isr) throws Exception {
+    public static List<SimpleCats> fromFile(InputStreamReader isr) throws Exception {
         return fromFile(new BufferedReader(isr));
     }
-    public static List<SimpleList> fromFile(InputStream is) throws Exception {
+    public static List<SimpleCats> fromFile(InputStream is) throws Exception {
         return fromFile(new InputStreamReader(is, "UTF-8"));
     }
-    public static List<SimpleList> fromFile(FileInputStream fi) throws Exception {
+    public static List<SimpleCats> fromFile(FileInputStream fi) throws Exception {
         return fromFile(new InputStreamReader(fi, "UTF-8"));
     }
-    public static List<SimpleList> fromFile(File f) throws Exception {
+    public static List<SimpleCats> fromFile(File f) throws Exception {
         return fromFile(new FileInputStream(f));
     }
-    public static List<SimpleList> fromFile(String s) throws Exception {
+    public static List<SimpleCats> fromFile(String s) throws Exception {
         return fromFile(new File(s));
     }
 

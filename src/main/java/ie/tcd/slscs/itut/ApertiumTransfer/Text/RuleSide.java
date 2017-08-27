@@ -25,8 +25,9 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
+import ie.tcd.slscs.itut.ApertiumStream.*;
 import ie.tcd.slscs.itut.ApertiumTransfer.DefCats;
 import ie.tcd.slscs.itut.ApertiumTransfer.Pattern;
 import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
@@ -34,6 +35,7 @@ import ie.tcd.slscs.itut.ApertiumTransfer.PatternItem;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class RuleSide {
     List<WordToken> lus;
@@ -46,6 +48,32 @@ public class RuleSide {
     RuleSide(List<WordToken> lus, List<StreamToken> tokens) {
         this.lus = lus;
         this.tokens = tokens;
+    }
+
+    /**
+     * Rewrite the word tokens to include source language alignment, and tag properties
+     * @param clippable for the associated AttributeSequence, contains a map of boolean values denoting whether or
+     *                  not the entries in the attribute sequence can be written as clips
+     * @param alignments map from which to attach the source language alignment
+     * @param aseq The AttributeSequence associated with the first tag of the WordToken
+     * @throws Exception if the WordToken has multiple alignments, an exception is thrown
+     */
+    public void rewriteLUs(AttributeSequenceClippable clippable, Map<String, List<String>> alignments, Map<String, AttributeSequence> aseq) throws Exception {
+        List<WordToken> newlus = new ArrayList<WordToken>();
+        for(int i = 0; i < lus.size(); i++) {
+            WordToken cur = lus.get(i);
+            WritableWordToken wcur = new WritableWordToken(cur);
+            String alignkey = Integer.toString(i + 1);
+            List<String> curalign = alignments.get(alignkey);
+            if(curalign.size() != 1) {
+                throw new Exception("Cannot currently handle multiple alignments");
+            }
+            wcur.setAlignment(curalign.get(0));
+            wcur.setClippable(clippable.getClippable().get(cur.getFirstTag()));
+            if(aseq.containsKey(cur.getFirstTag())) {
+                wcur.setAttribseq(aseq.get(cur.getFirstTag()));
+            }
+        }
     }
     public class Builder {
         private List<WordToken> lus;

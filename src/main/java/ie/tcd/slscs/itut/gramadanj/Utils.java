@@ -25,7 +25,9 @@ package ie.tcd.slscs.itut.gramadanj;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,14 +51,14 @@ public class Utils {
         int start = 0;
         int end = s.length() - 1;
         for(int i = start; i < end; i++) {
-            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t') {
+            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t' || Character.isWhitespace(s.charAt(i))) {
                 start++;
             } else {
                 break;
             }
         }
         for(int i = end; i > start; i--) {
-            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t') {
+            if(s.charAt(i) == ' ' || s.charAt(i) == '\n' || s.charAt(i) == '\t' || Character.isWhitespace(s.charAt(i))) {
                 end--;
             } else {
                 break;
@@ -278,7 +280,7 @@ public class Utils {
      * @param delim the delimiter to join them with
      * @return
      */
-    public static String join(List<String> l, String delim) {
+    public static <T extends Collection<String>> String join(T l, String delim) {
         StringBuilder s = new StringBuilder();
         Iterator<String> it = l.iterator();
         if (it.hasNext()) {
@@ -291,7 +293,7 @@ public class Utils {
         return s.toString();
     }
     public static boolean canSkipNode(Node n) {
-        if(n.getNodeName().equals("#text") && n.getTextContent().trim().equals("")) {
+        if(n.getNodeName().equals("#text") && trim(n.getTextContent()).equals("")) {
             return true;
         } else if(n.getNodeType() == Element.COMMENT_NODE) {
             return true;
@@ -303,5 +305,21 @@ public class Utils {
             return false;
         }
     }
-
+    public static String attrib(Node n, String attrib, boolean required) throws Exception {
+        if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+            throw new Exception("Missing required attributes in node " + n.getNodeName());
+        }
+        if(n.getAttributes().getNamedItem(attrib) != null) {
+            return n.getAttributes().getNamedItem(attrib).getTextContent();
+        } else {
+            if(required) {
+                throw new Exception("Required attribute \"" + attrib + "\" missing in node " + n.getNodeName());
+            } else {
+                return null;
+            }
+        }
+    }
+    public static String attrib(Node n, String attrib) throws Exception {
+        return attrib(n, attrib, false);
+    }
 }

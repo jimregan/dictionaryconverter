@@ -29,6 +29,7 @@ package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -39,5 +40,18 @@ public class SimpleTextMacroTest extends TestCase {
         String in = "det_type | <det> | no<det> | <negative=NEG> | 1-1C";
         SimpleTextMacro out = SimpleTextMacro.fromString(in);
         assertEquals(1, out.getParts().size());
+        assertEquals("det_type", out.getName());
+        assertEquals(1, out.getAppliesTo().size());
+        assertEquals("det_type | <det> | {1[<lemma=no>,<det>][{1(C)[<negative=NEG>][--]}]}\n", out.toString());
+    }
+
+    public void testFromFile() throws Exception {
+        String in = "det_type | <det> | no<det> | <negative=NEG> | 1-1C\n" +
+                " |  | the<det> | <det_type=DEFART> | 1-1C\n" +
+                " |  | a<det> | <det_type=NOART> | 1-1C\n" +
+                " |  | this<det> | <det_type=DEF> | 1-1C\n";
+        List<SimpleTextMacro> out = SimpleTextMacro.fromFile(new ByteArrayInputStream(in.getBytes()));
+        assertEquals(1, out.size());
+        assertEquals(4, out.get(0).getParts().size());
     }
 }

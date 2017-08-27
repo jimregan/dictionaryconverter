@@ -61,6 +61,33 @@ public class Attributes {
         }
         return out;
     }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public boolean isFromDictionary() {
+        return fromDictionary;
+    }
+    public void setFromDictionary(boolean fromDictionary) {
+        this.fromDictionary = fromDictionary;
+    }
+    public String getUndefined() {
+        return undefined;
+    }
+    public void setUndefined(String undefined) {
+        this.undefined = undefined;
+    }
+    public String getAny() {
+        return any;
+    }
+    public void setAny(String any) {
+        this.any = any;
+    }
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
     public static Attributes fromText(String s) throws Exception {
         String[] tmppait = s.split("=");
         if(tmppait.length != 2) {

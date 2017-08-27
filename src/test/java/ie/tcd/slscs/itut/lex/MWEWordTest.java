@@ -25,38 +25,20 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import java.util.ArrayList;
-import java.util.List;
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.w3c.dom.Node;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
-    }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
-    }
+import static org.junit.Assert.*;
 
-    public List<LUReference> getChildren() {
-        return children;
-    }
-    @Override
-    public String getContent() {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return null;
-    }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
-        }
-        return new MLUReference(children);
+public class MWEWordTest extends TestCase {
+    public void testFromNode() throws Exception {
+        String in = "<word tags=\"n.sg\"/>";
+        Node innode = Utils.stringToNode(in);
+        MWEWord out = MWEWord.fromNode(innode);
+        assertEquals("n.sg", out.getTags());
     }
 }

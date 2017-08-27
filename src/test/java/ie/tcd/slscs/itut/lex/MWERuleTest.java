@@ -25,38 +25,34 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import java.util.ArrayList;
-import java.util.List;
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.w3c.dom.Node;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
-    }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+public class MWERuleTest extends TestCase {
+    public void testFromNode() throws Exception {
+        String in = "<rule name=\"adj_n\" phrase=\"np\">\n" +
+                "  <entry tags=\"sg\">\n" +
+                "    <word tags=\"adj\"/>\n" +
+                "    <word tags=\"n.sg\"/>\n" +
+                "  </entry>\n" +
+                "  <entry tags=\"pl\">\n" +
+                "    <word tags=\"adj\"/>\n" +
+                "    <word tags=\"n.pl\"/>\n" +
+                "  </entry>\n" +
+                "</rule>\n";
+        Node innode = Utils.stringToNode(in);
+        MWERule out = MWERule.fromNode(innode);
+        assertEquals("adj_n", out.getName());
+        assertEquals("np", out.getPhrase());
+        assertEquals(2, out.getEntries().size());
+
     }
 
-    public List<LUReference> getChildren() {
-        return children;
-    }
-    @Override
-    public String getContent() {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return null;
-    }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
-        }
-        return new MLUReference(children);
-    }
 }

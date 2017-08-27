@@ -24,8 +24,8 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, PatternItem => JPatternItem, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
@@ -136,6 +136,7 @@ object TrxProc {
   def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
   def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
   def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
+  def convertSimpleCats(in: SimpleCats): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
   def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
   def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
 
@@ -158,9 +159,6 @@ object TrxProc {
   }
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
-  // TODO: finish getters and setters for rules and macros
-  // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
-  // TODO: convert macros from SimpleTextMacro
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
   case class RuleProc(meta: RuleMetadata)
@@ -187,7 +185,7 @@ object TrxProc {
   implicit def DefCatsToJava(m: Map[String, List[CatItem]]): JDefCats = new JDefCats(m.toList.map{DefCatTupleToJDefCat}.asJava)
   implicit def JPatternItemToPatternItem(pi: JPatternItem): PatternItemElement = PatternItemElement(pi.getName)
   implicit def PatternToPatternElement(p: Pattern): PatternElement = PatternElement(p.getItems.asScala.map{JPatternItemToPatternItem}.toList)
-  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = RuleSide.toPattern(rs, m)
+  def convertRuleSideToPattern(rs: RuleSide, m: Map[String, List[CatItem]]): PatternElement = PatternToPatternElement(RuleSide.toPattern(rs, m))
   case class Blank() extends StreamItem
   case class PositionBlank(pos: Int) extends StreamItem
   def positionedBlankToPositionBlank(b: PositionedBlank): PositionBlank = PositionBlank(b.getPosition)
@@ -209,7 +207,9 @@ object TrxProc {
     }
     dropLastBlank(l, List.empty[StreamItem])
   }
-  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+  def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = {
+    simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+  }
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
     case b: BlankToken => convertBlanks(b)
@@ -225,14 +225,20 @@ object TrxProc {
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
   }
+  case class TextRuleMgrWrapper(trm: TextRuleManager) {
+    def getLists = trm.getLists.asScala.map{convertSimpleList}.toMap
+    def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
+    val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
+    val transferType = trm.getTypeText
+  }
+  object TextRuleMgrWrapper {
+    def apply(arr: Array[String]): TextRuleMgrWrapper = {
+      val trm: TextRuleManager = new TextRuleManager()
+      TextRuleMgrWrapper(trm.getTextFileBuilder.buildFromStringArray(arr))
+    }
+  }
 
-  /*
-   * TODO: replace this PatternItem with one that can contain a target alignment
-   * case class RuleElement(ruleid: String, rulecomment: String, comment: String,
-                       pattern: PatternElement, action: ActionElement) extends TransferElement
-   * case class RuleProc
-   * subrules? one is default?
-   * macro calls - in subrules?
-   * action pieces - list of aligned lu/mlu/etc.
-   */
+  def getDefaultAttributes(l: List[Attributes]): Map[String, String] = {
+    l.map{e => (e.getName, e.getUndefined)}.toMap
+  }
 }

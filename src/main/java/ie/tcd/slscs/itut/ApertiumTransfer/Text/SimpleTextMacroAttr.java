@@ -34,6 +34,8 @@ public class SimpleTextMacroAttr {
     boolean list;
     boolean beginslist;
     boolean endslist;
+    int position;
+    String appliesTo;
     public SimpleTextMacroAttr(String key, String value) {
         this.key = key;
         this.value = value;
@@ -81,6 +83,18 @@ public class SimpleTextMacroAttr {
     }
     public void setEndsList(boolean list) {
         this.endslist = list;
+    }
+    public int getPosition() {
+        return position;
+    }
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    public String getAppliesTo() {
+        return appliesTo;
+    }
+    public void setAppliesTo(String appliesTo) {
+        this.appliesTo = appliesTo;
     }
     public static SimpleTextMacroAttr createLemma(String s) {
         return new SimpleTextMacroAttr("lemma", s);

@@ -27,7 +27,6 @@
 
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import ie.tcd.slscs.itut.ApertiumStream.RuleContainer;
 import ie.tcd.slscs.itut.ApertiumTransfer.TransferType;
 
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import java.util.List;
 
 public class TextRuleManager {
     TransferType type;
+    List<SimpleCats> categories;
     List<Attributes> sourceAttr;
     List<Attributes> targetAttr;
     List<Attributes> sourceAttrChunk;
@@ -49,6 +49,7 @@ public class TextRuleManager {
     List<SimpleTextMacro> macros;
     List<RuleContainer> rules;
     TextRuleManager() {
+        this.categories = new ArrayList<SimpleCats>();
         this.macros = new ArrayList<SimpleTextMacro>();
         this.rules = new ArrayList<RuleContainer>();
         this.lists = new ArrayList<SimpleList>();
@@ -68,6 +69,17 @@ public class TextRuleManager {
         this.rules = rules;
     }
 
+    public String getTypeText() {
+        if(this.type == TransferType.Chunker) {
+            return "chunker";
+        } else if(this.type == TransferType.Postchunk) {
+            return "postchunk";
+        } else if(this.type == TransferType.Interchunk) {
+            return "interchunk";
+        } else {
+            return "transfer";
+        }
+    }
     public List<Attributes> getSourceAttr() {
         return sourceAttr;
     }
@@ -140,6 +152,12 @@ public class TextRuleManager {
     public void setType(TransferType type) {
         this.type = type;
     }
+    public List<SimpleCats> getCategories() {
+        return categories;
+    }
+    public void setCategories(List<SimpleCats> categories) {
+        this.categories = categories;
+    }
     public AttributeSequenceClippable getClippable() {
         return clippable;
     }
@@ -152,8 +170,17 @@ public class TextRuleManager {
     public void setClippableChunk(AttributeSequenceClippable clippableChunk) {
         this.clippableChunk = clippableChunk;
     }
+    public void rewriteLUs() throws Exception {
+        for(RuleContainer rc : rules) {
+            rc.rewriteLUs(clippable, AttributeSequence.listToMap(getTargetSeq()));
+        }
+    }
+    public TextFileBuilder getTextFileBuilder() {
+        return new TextFileBuilder();
+    }
 
     public class Builder {
+        List<SimpleCats> categories;
         List<Attributes> sourceAttr;
         List<Attributes> targetAttr;
         List<Attributes> sourceAttrChunk;
@@ -168,7 +195,21 @@ public class TextRuleManager {
         TransferType type;
         AttributeSequenceClippable clippable;
         AttributeSequenceClippable clippableChunk;
+        private boolean haveSourceAttr = false;
+        private boolean haveTargetAttr = false;
+        private boolean haveSourceAttrChunk = false;
+        private boolean haveTargetAttrChunk = false;
+        private boolean haveLists = false;
+        private boolean haveSourceSeq = false;
+        private boolean haveTargetSeq = false;
+        private boolean haveSourceSeqChunk = false;
+        private boolean haveTargetSeqChunk = false;
+        private boolean haveMacros = false;
+        private boolean haveRules = false;
+        private boolean haveType = false;
+        private boolean haveCategories = false;
         public Builder() {
+            this.categories = new ArrayList<SimpleCats>();
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
             this.lists = new ArrayList<SimpleList>();
@@ -185,33 +226,61 @@ public class TextRuleManager {
         }
         public Builder setType(TransferType type) {
             this.type = type;
+            this.haveType = true;
+            return this;
+        }
+        public Builder setType(String s) {
+            if(s.equals("interchunk")) {
+                this.type = TransferType.Interchunk;
+            } else if(s.equals("postchunk")) {
+                this.type = TransferType.Postchunk;
+            } else if(s.equals("chunker")) {
+                this.type = TransferType.Chunker;
+            } else {
+                this.type = TransferType.Transfer;
+            }
+            this.haveType = true;
+            return this;
+        }
+        public Builder withCategories(List<SimpleCats> categories) {
+            this.categories = categories;
+            this.haveCategories = true;
             return this;
         }
         public Builder withMacros(List<SimpleTextMacro> macros) {
             this.macros = macros;
+            this.haveMacros = true;
             return this;
         }
         public Builder withRules(List<RuleContainer> rules) {
             this.rules = rules;
+            this.haveRules = true;
             return this;
         }
         public Builder withLists(List<SimpleList> lists) {
             this.lists = lists;
+            this.haveLists = true;
             return this;
         }
         public Builder withAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttr = src;
             this.targetAttr = trg;
+            this.haveSourceAttr = true;
+            this.haveTargetAttr = true;
             return this;
         }
         public Builder withSourceChunkAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttrChunk = src;
             this.targetAttrChunk = trg;
+            this.haveSourceAttrChunk = true;
+            this.haveTargetAttrChunk = true;
             return this;
         }
         public Builder withSequences(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeq = src;
             this.targetSeq = trg;
+            this.haveSourceSeq = true;
+            this.haveTargetSeq = true;
             this.clippable.setSourceLanguage(src);
             this.clippable.setTargetLanguage(trg);
             return this;
@@ -219,66 +288,174 @@ public class TextRuleManager {
         public Builder withSourceChunkSequence(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeqChunk = src;
             this.targetSeqChunk = trg;
+            this.haveSourceSeqChunk = true;
+            this.haveTargetSeqChunk = true;
             this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
             this.clippableChunk.setSourceLanguage(sourceSeqChunk);
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
         }
-        public TextRuleManager build() {
+        public TextRuleManager build() throws Exception {
             TextRuleManager out = new TextRuleManager();
+            if(!haveType) {
+                throw new Exception("Type not set");
+            }
+
+            if(!haveLists) {
+                throw new Exception("Lists not set");
+            }
             out.setLists(this.lists);
-            out.setRules(this.rules);
+
+            if(!haveMacros) {
+                throw new Exception("Macros not set");
+            }
             out.setMacros(this.macros);
+
+            if(!haveCategories) {
+                throw new Exception("Categories not set");
+            }
+            out.setCategories(this.categories);
+
+            if(!haveSourceAttr) {
+                throw new Exception("Source language attributes not set");
+            }
             out.setSourceAttr(this.sourceAttr);
+
+            if(!haveSourceAttrChunk) {
+                throw new Exception("Source language chunk attributes not set");
+            }
             out.setSourceAttrChunk(this.sourceAttrChunk);
+
+            if(!haveTargetAttr) {
+                throw new Exception("Target language attributes not set");
+            }
             out.setTargetAttr(this.targetAttr);
+
+            if(!haveTargetAttrChunk) {
+                throw new Exception("Target language chunk attributes not set");
+            }
             out.setTargetAttrChunk(this.targetAttrChunk);
+
+            if(!haveSourceSeq) {
+                throw new Exception("Source language tag sequences not set");
+            }
             out.setSourceSeq(this.sourceSeq);
+
+            if(!haveSourceSeqChunk) {
+                throw new Exception("Source language chunk tag sequences not set");
+            }
             out.setSourceSeqChunk(this.sourceSeqChunk);
+
+            if(!haveTargetSeq) {
+                throw new Exception("Source language tag sequences not set");
+            }
             out.setTargetSeq(this.targetSeq);
+
+            if(!haveTargetSeqChunk) {
+                throw new Exception("Target language chunk tag sequences not set");
+            }
             out.setTargetSeqChunk(this.targetSeqChunk);
+
             out.setClippable(this.clippable);
             out.setClippableChunk(this.clippableChunk);
+            out.rewriteLUs();
+
+            if(!haveRules) {
+                throw new Exception("Rules not set");
+            }
+            out.setRules(this.rules);
+
             return out;
         }
     }
-    class TextFileBuilder extends Builder {
+    public class TextFileBuilder extends Builder {
+        public TextFileBuilder() {
+            super();
+        }
         public Builder setMacrosFromFile(String filename) throws Exception {
-            macros = SimpleTextMacro.fromFile(filename);
+            setMacros(SimpleTextMacro.fromFile(filename));
             return this;
         }
         public Builder setRulesFromFile(String filename) throws Exception {
-            this.rules = RuleContainer.fromFile(filename);
+            setRules(RuleContainer.fromFile(filename));
             return this;
         }
         public Builder setListsFromFile(String filename) throws Exception {
-            this.lists = SimpleList.fromFile(filename);
+            setLists(SimpleList.fromFile(filename));
+            return this;
+        }
+        public Builder setCategoriesFromFile(String filename) throws Exception {
+            setCategories(SimpleCats.fromFile(filename));
             return this;
         }
         public Builder setAttributesFromFile(String src, String trg) throws Exception {
-            this.sourceAttr = Attributes.fromFile(src);
-            this.targetAttr = Attributes.fromFile(trg);
+            setSourceAttr(Attributes.fromFile(src));
+            setTargetAttr(Attributes.fromFile(trg));
             return this;
         }
         public Builder setChunkAttributesFromFile(String src, String trg) throws Exception {
-            this.sourceAttrChunk = Attributes.fromFile(src);
-            this.targetAttrChunk = Attributes.fromFile(trg);
+            setSourceAttrChunk(Attributes.fromFile(src));
+            setTargetAttrChunk(Attributes.fromFile(trg));
             return this;
         }
         public Builder setSequenceFromFile(String src, String trg) throws Exception {
-            this.sourceSeq = AttributeSequence.fromFile(src);
-            this.targetSeq = AttributeSequence.fromFile(trg);
+            setSourceSeq(AttributeSequence.fromFile(src));
+            setTargetSeq(AttributeSequence.fromFile(trg));
             this.clippable.setSourceLanguage(sourceSeq);
             this.clippable.setTargetLanguage(targetSeq);
             return this;
         }
-        public Builder setSourceChunkSequenceFromFile(String src, String trg) throws Exception {
-            this.sourceSeqChunk = AttributeSequence.fromFile(src);
-            this.targetSeqChunk = AttributeSequence.fromFile(trg);
+        public Builder setChunkSequencesFromFile(String src, String trg) throws Exception {
+            setSourceSeqChunk(AttributeSequence.fromFile(src));
+            setTargetSeqChunk(AttributeSequence.fromFile(trg));
             this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
             this.clippableChunk.setSourceLanguage(sourceSeqChunk);
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
             return this;
+        }
+        public Builder fromStringArray(String[] args) throws Exception {
+            TextFileBuilder tfb = new TextFileBuilder();
+            for(int i = 0; i < args.length; i += 2) {
+                if(args[i].startsWith("-") && ((i == args.length - 1) || (args[i+1].startsWith("-")))) {
+                    throw new Exception("Argument " + args[i] + " specified without value");
+                }
+                if(args[i].equals("-type")) {
+                    tfb = (TextFileBuilder) tfb.setType(args[i+1]);
+                } else if(args[i].equals("-attributes")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target attributes");
+                    }
+                    tfb = (TextFileBuilder) tfb.setAttributesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-attributes-chunk")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target chunk attributes");
+                    }
+                    tfb = (TextFileBuilder) tfb.setChunkAttributesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-sequences")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target sequences");
+                    }
+                    tfb = (TextFileBuilder) tfb.setSequenceFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-sequences-chunk")) {
+                    if(i + 2 >= args.length) {
+                        throw new Exception("Need to specify both source and target chunk sequences");
+                    }
+                    tfb = (TextFileBuilder) tfb.setChunkSequencesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-cats")) {
+                    tfb = (TextFileBuilder) tfb.setCategoriesFromFile(args[i+1]);
+                } else if(args[i].equals("-lists")) {
+                    tfb = (TextFileBuilder) tfb.setListsFromFile(args[i+1]);
+                } else if(args[i].equals("-macros")) {
+                    tfb = (TextFileBuilder) tfb.setMacrosFromFile(args[i+1]);
+                } else if(args[i].equals("-rules")) {
+                    tfb = (TextFileBuilder) tfb.setRulesFromFile(args[i+1]);
+                }
+            }
+            return tfb;
+        }
+        public TextRuleManager buildFromStringArray(String[] arr) throws Exception {
+            Builder tfb = fromStringArray(arr);
+            return tfb.build();
         }
     }
 }

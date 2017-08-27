@@ -25,38 +25,37 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
+
+import ie.tcd.slscs.itut.ApertiumStream.WordToken;
+import ie.tcd.slscs.itut.ApertiumTransfer.CatItem;
+import ie.tcd.slscs.itut.gramadanj.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
+public class TextPattern {
+    String lemma;
+    List<String> tags;
+    TextPattern() {
+        tags = new ArrayList<String>();
     }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
+    TextPattern(String lemma, List<String> tags) {
+        this();
+        this.lemma = lemma;
+        this.tags = tags;
     }
-
-    public List<LUReference> getChildren() {
-        return children;
+    public String getLemma() {
+        return lemma;
     }
-    @Override
-    public String getContent() {
-        return null;
+    public List<String> getTags() {
+        return tags;
     }
-
-    @Override
-    public String toString() {
-        return null;
+    public static TextPattern fromWordToken(WordToken wt) {
+        return new TextPattern(wt.getLemma(), wt.getTags());
     }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
-        }
-        return new MLUReference(children);
+    public static CatItem toCatItem(TextPattern p) {
+        String tags = Utils.join(p.tags, ".");
+        return new CatItem(p.lemma, tags);
     }
 }

@@ -25,38 +25,40 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import java.util.ArrayList;
-import java.util.List;
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
-    }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
-    }
-
-    public List<LUReference> getChildren() {
-        return children;
+public class MWEWord implements MWEPart {
+    String tags;
+    public MWEWord(String tags) {
+        this.tags = tags;
     }
     @Override
-    public String getContent() {
-        return null;
+    public String getTags() {
+        return tags;
     }
-
     @Override
     public String toString() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(tags);
+        sb.append(']');
+        return sb.toString();
     }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
+    public static MWEWord fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("word")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"tags\" found");
+            }
+            String tags = Utils.attrib(n, "tags");
+            if(tags == null || tags.equals("")) {
+                throw new Exception("Missing attribute tags");
+            }
+            return new MWEWord(tags);
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
         }
-        return new MLUReference(children);
     }
 }

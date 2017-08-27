@@ -25,38 +25,10 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
-    }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
-    }
-
-    public List<LUReference> getChildren() {
-        return children;
-    }
-    @Override
-    public String getContent() {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return null;
-    }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
-        }
-        return new MLUReference(children);
+public class WordBreak extends TextLike {
+    WordBreak() {
+        this.value = "+";
     }
 }

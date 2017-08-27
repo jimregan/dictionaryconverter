@@ -32,6 +32,7 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -92,6 +93,15 @@ public class SimpleTextMacro {
     public List<SimpleTextMacroEntry> getParts() {
         return parts;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setAppliesTo(List<String> appliesTo) {
+        this.appliesTo = appliesTo;
+    }
+    public void setParts(List<SimpleTextMacroEntry> parts) {
+        this.parts = parts;
+    }
 
     public static SimpleTextMacro fromString(String s) throws Exception {
         String[] sp = s.split("\\|");
@@ -103,6 +113,8 @@ public class SimpleTextMacro {
         Collections.addAll(appliesTo, sp[1].trim().split(" "));
         List<List<SimpleTextMacroAttr>> lhs = extractSimpleTokens(sp[2]);
         List<List<SimpleTextMacroAttr>> rhs = extractSimpleTokens(sp[3]);
+        lhs = addAppliesTo(lhs, appliesTo);
+        rhs = addAppliesTo(rhs, appliesTo);
         List<SimpleTextMacroEntry> pieces = new ArrayList<SimpleTextMacroEntry>();
         if(sp.length == 4 || sp[4].trim().equals("")) {
             if(lhs.size() == rhs.size()) {
@@ -158,24 +170,42 @@ public class SimpleTextMacro {
     public static List<List<SimpleTextMacroAttr>> extractSimpleTokens(String s) throws Exception {
         List<List<SimpleTextMacroAttr>> side = new ArrayList<List<SimpleTextMacroAttr>>();
         List<SimpleTextMacroAttr> tmp = new ArrayList<SimpleTextMacroAttr>();
+        int position = 1;
         for (String apply : s.trim().split(" ")) {
             if(apply.startsWith("<") && apply.endsWith(">")) {
                 for(String inner : apply.substring(1, apply.length() - 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                    SimpleTextMacroAttr toadd = SimpleTextMacroAttr.fromSimpleText(inner);
+                    toadd.setPosition(position);
+                    tmp.add(toadd);
                 }
             } else if(apply.endsWith(">")) {
                 int idx = apply.indexOf("<");
                 tmp.add(SimpleTextMacroAttr.createLemma(apply.substring(0, idx)));
                 for(String inner : apply.substring(idx + 1).split("><")) {
-                    tmp.add(SimpleTextMacroAttr.fromSimpleText(inner));
+                    SimpleTextMacroAttr toadd = SimpleTextMacroAttr.fromSimpleText(inner);
+                    toadd.setPosition(position);
+                    tmp.add(toadd);
                 }
             } else {
                 throw new Exception("Error reading tag");
             }
             side.add(Utils.listclone(tmp));
             tmp.clear();
+            position++;
         }
         return side;
+    }
+    public static List<List<SimpleTextMacroAttr>> addAppliesTo(List<List<SimpleTextMacroAttr>> in, List<String> appliesto) throws Exception {
+        if(in.size() != appliesto.size()) {
+            throw new Exception("Size mismatch");
+        }
+        for(int i = 0; i < in.size(); i++) {
+            String tmpapply = appliesto.get(i);
+            for(SimpleTextMacroAttr macro : in.get(i)) {
+                macro.setAppliesTo(tmpapply);
+            }
+        }
+        return in;
     }
 
     public static List<SimpleTextMacro> fromFile(BufferedReader br) throws IOException {
@@ -184,9 +214,10 @@ public class SimpleTextMacro {
         int lineno = 0;
         String last = "";
         SimpleTextMacro cur = new SimpleTextMacro();
+        SimpleTextMacro tmp = new SimpleTextMacro();
         while((line = br.readLine()) != null) {
             lineno++;
-            SimpleTextMacro tmp = new SimpleTextMacro();
+            tmp = new SimpleTextMacro();
             try {
                 tmp = fromString(line);
                 if(lineno == 1) {
@@ -203,6 +234,7 @@ public class SimpleTextMacro {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
         }
+        out.add(cur);
         return out;
     }
     public static List<SimpleTextMacro> fromFile(InputStreamReader isr) throws Exception {
@@ -219,5 +251,20 @@ public class SimpleTextMacro {
     }
     public static List<SimpleTextMacro> fromFile(String s) throws Exception {
         return fromFile(new File(s));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append(" | ");
+        sb.append(Utils.join(appliesTo, " "));
+        sb.append(" | ");
+        Iterator<SimpleTextMacroEntry> it = parts.iterator();
+        while(it.hasNext()) {
+            sb.append(it.next().toString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

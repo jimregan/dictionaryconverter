@@ -28,10 +28,7 @@
 package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Define the sequence of attributes for a part of speech/chunk type;
@@ -47,6 +44,18 @@ public class AttributeSequence {
     AttributeSequence(String name, List<String> tags) {
         this();
         this.name = name;
+        this.tags = tags;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public List<String> getTags() {
+        return tags;
+    }
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
     public static AttributeSequence fromString(String s) throws Exception {
@@ -97,6 +106,17 @@ public class AttributeSequence {
      * @return true if name has been defined
      */
     public static boolean isValidAttributeSequenceName(AttributeSequence as, Map<String, Attributes> map) {
-        return map.containsKey(as.name);
+        return map.containsKey(as.getName());
+    }
+    public static Map<String, AttributeSequence> listToMap(List<AttributeSequence> list) {
+        Map<String, AttributeSequence> out = new HashMap<String, AttributeSequence>();
+        for(AttributeSequence as : list) {
+            if(!out.containsKey(as.getName())) {
+                System.err.println("No attribute sequence for: " + as.getName());
+            } else {
+                out.put(as.name, as);
+            }
+        }
+        return out;
     }
 }

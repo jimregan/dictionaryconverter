@@ -25,31 +25,40 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumTransfer.Text;
+package ie.tcd.slscs.itut.lex;
 
-import ie.tcd.slscs.itut.ApertiumStream.WordToken;
-import ie.tcd.slscs.itut.ApertiumTransfer.CatItem;
 import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Pattern {
-    String lemma;
-    List<String> tags;
-    Pattern() {
-        tags = new ArrayList<String>();
+public class MWEEntry extends MWEContainer {
+    MWEEntry() {
+        super();
     }
-    Pattern(String lemma, List<String> tags) {
+    MWEEntry(String tags) {
         this();
-        this.lemma = lemma;
         this.tags = tags;
     }
-    public static Pattern fromWordToken(WordToken wt) {
-        return new Pattern(wt.getLemma(), wt.getTags());
+    public static MWEEntry fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("entry")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"tags\" found");
+            }
+            String tags = Utils.attrib(n, "tags");
+            if(tags == null || tags.equals("")) {
+                throw new Exception("Missing attribute tags");
+            }
+            if(n.getChildNodes().getLength() == 0) {
+                throw new Exception("Missing child elements");
+            }
+            List<MWEPart> parts = MWEContainer.fromNodeList(n.getChildNodes());
+            MWEEntry out = new MWEEntry(tags);
+            out.setParts(parts);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
-    public static CatItem toCatItem(Pattern p) {
-        String tags = Utils.join(p.tags, ".");
-        return new CatItem(p.lemma, tags);
-    }
+
 }

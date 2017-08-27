@@ -25,38 +25,57 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
+
+import ie.tcd.slscs.itut.gramadanj.Utils;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
+public class MWEQueue extends MWEContainer {
+    MWEQueue() {
+        super();
     }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
+    MWEQueue(String phrase) {
+        this.tags = phrase;
     }
-
-    public List<LUReference> getChildren() {
-        return children;
+    public String getPhrase() {
+        return getTags();
     }
-    @Override
-    public String getContent() {
-        return null;
-    }
-
     @Override
     public String toString() {
-        return null;
-    }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(tags);
+        sb.append(' ');
+        sb.append('#');
+        for(MWEPart part : parts) {
+            sb.append(part.toString());
         }
-        return new MLUReference(children);
+        sb.append(']');
+        return sb.toString();
+    }
+
+    public static MWEQueue fromNode(Node n) throws Exception {
+        if(n.getNodeName().equals("queue")) {
+            if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
+                throw new Exception("No attribute \"phrase\" found");
+            }
+            String phrase = Utils.attrib(n, "phrase");
+            if(phrase == null || phrase.equals("")) {
+                throw new Exception("Missing attribute phrase");
+            }
+            if(n.getChildNodes().getLength() == 0) {
+                throw new Exception("Missing child elements");
+            }
+            List<MWEPart> parts = MWEContainer.fromNodeList(n.getChildNodes());
+            MWEQueue out = new MWEQueue(phrase);
+            out.setParts(parts);
+            return out;
+        } else {
+            throw new Exception("Unexpected node: " + n.getNodeName());
+        }
     }
 }

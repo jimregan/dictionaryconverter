@@ -25,21 +25,8 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.lex;
 
-import junit.framework.TestCase;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-public class RuleContainerTest extends TestCase {
-    public void testFromString() throws Exception {
-        String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór";
-        RuleContainer rc = RuleContainer.fromString(simple);
-        assertEquals("NP", rc.getTag());
-        assertEquals("big dog → madra mór", rc.getCommentString());
-        assertEquals(1, rc.getLeftMacrocalls().size());
-        assertEquals(3, rc.getLeft().tokens.size());
-    }
-
+public interface MWEPart {
+    String getTags();
 }

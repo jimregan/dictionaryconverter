@@ -25,38 +25,19 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.ApertiumStream;
+package ie.tcd.slscs.itut.ApertiumTransfer.Text;
 
-import java.util.ArrayList;
-import java.util.List;
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.RuleContainer;
+import junit.framework.TestCase;
 
-public class MLUReference extends StreamToken {
-    List<LUReference> children;
-    MLUReference() {
-        children = new ArrayList<LUReference>();
-    }
-    public MLUReference(List<LUReference> mlus) {
-        this.children = mlus;
-    }
-
-    public List<LUReference> getChildren() {
-        return children;
-    }
-    @Override
-    public String getContent() {
-        return null;
+public class RuleContainerTest extends TestCase {
+    public void testFromString() throws Exception {
+        String simple = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór";
+        RuleContainer rc = RuleContainer.fromString(simple);
+        assertEquals("NP", rc.getTag());
+        assertEquals("big dog → madra mór", rc.getCommentString());
+        assertEquals(1, rc.getLeftMacrocalls().size());
+        assertEquals(3, rc.getLeft().tokens.size());
     }
 
-    @Override
-    public String toString() {
-        return null;
-    }
-    public static MLUReference fromMLUToken(MLUToken mlu, int offset) {
-        List<LUReference> children = new ArrayList<LUReference>();
-        for(WordToken wt : mlu.getLUs()) {
-            children.add(new LUReference(offset));
-            offset++;
-        }
-        return new MLUReference(children);
-    }
 }
