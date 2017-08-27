@@ -26,7 +26,7 @@
  */
 package ie.tcd.slscs.itut.RuleConverter
 
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
+import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats}
 
 import scala.collection.JavaConverters._
 
