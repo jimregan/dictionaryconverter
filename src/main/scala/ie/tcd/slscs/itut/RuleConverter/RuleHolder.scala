@@ -29,8 +29,7 @@ package ie.tcd.slscs.itut.RuleConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, RuleContainer => JRuleContainer, SimpleMacroCall => JSMacroCall}
-import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
-import ie.tcd.slscs.itut.RuleConverter.TrxProc.{JPatternItemToPatternItem, PatternToPatternElement}
+import ie.tcd.slscs.itut.ApertiumTransfer.{Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 
 import scala.collection.JavaConverters._
 
