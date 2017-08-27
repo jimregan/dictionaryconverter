@@ -31,7 +31,9 @@ import ie.tcd.slscs.itut.gramadanj.Utils;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WordSubRule {
     String name;
@@ -79,6 +81,13 @@ public class WordSubRule {
     }
     private void setDefaultRule(String s) {
         this.defaultRule = (s != null && s.toLowerCase().equals("yes"));
+    }
+    public Map<String, WordEntry> getEntryMap() {
+        Map<String, WordEntry> out = new HashMap<String, WordEntry>();
+        for(WordEntry we : this.entries) {
+            out.put(we.tags, we);
+        }
+        return out;
     }
     public static WordSubRule fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("subrule") || n.getNodeName().equals("common")) {
