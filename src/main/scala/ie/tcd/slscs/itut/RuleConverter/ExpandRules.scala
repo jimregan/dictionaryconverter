@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.RuleConverter
 
 import scala.util.matching.Regex
 

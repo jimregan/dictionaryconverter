@@ -25,7 +25,8 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.DictionaryConverter;
+package ie.tcd.slscs.itut.RuleConverter
+
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequenceClippable, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 
 import scala.collection.JavaConverters._

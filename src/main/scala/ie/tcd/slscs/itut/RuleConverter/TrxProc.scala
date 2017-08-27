@@ -1,9 +1,12 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Jim O'Regan
+ * Copyright © 2017 Trinity College, Dublin
+ * Irish Speech and Language Technology Research Centre
+ * Cóipcheart © 2017 Coláiste na Tríonóide, Baile Átha Cliath
+ * An tIonad taighde do Theicneolaíocht Urlabhra agus Teangeolaíochta na Gaeilge
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -21,12 +24,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ie.tcd.slscs.itut.DictionaryConverter
+package ie.tcd.slscs.itut.RuleConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, SimpleMacroCall => JSMacroCall}
 import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
-import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
 import scala.collection.JavaConverters._
 
@@ -135,8 +137,6 @@ object TrxProc {
   def convertCatItem(in: JCatItem): CatItem = CatItem(in.getTags, in.getLemma, in.getName)
   def convertCatItems(in: JDefCats): Map[String, List[CatItem]] = in.getCategories.asScala.map{convertDefCat}.toMap
   def convertDefCat(in: JDefCat): (String, List[CatItem]) = (in.getName, in.getItems.asScala.toList.map{convertCatItem})
-  def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
-  def convertSimpleCats(in: SimpleCats): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
   def convertAttrItem(in: AttrItem): AttrItemElement = AttrItemElement(in.getTags)
   def convertDefAttr(in: DefAttr): DefAttrElement = DefAttrElement(in.getName, in.getItems.asScala.map{convertAttrItem}.toList)
 
@@ -224,21 +224,5 @@ object TrxProc {
   }
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
-  }
-  case class TextRuleMgrWrapper(trm: TextRuleManager) {
-    def getLists = trm.getLists.asScala.map{convertSimpleList}.toMap
-    def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
-    val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
-    val transferType = trm.getTypeText
-  }
-  object TextRuleMgrWrapper {
-    def apply(arr: Array[String]): TextRuleMgrWrapper = {
-      val trm: TextRuleManager = new TextRuleManager()
-      TextRuleMgrWrapper(trm.getTextFileBuilder.buildFromStringArray(arr))
-    }
-  }
-
-  def getDefaultAttributes(l: List[Attributes]): Map[String, String] = {
-    l.map{e => (e.getName, e.getUndefined)}.toMap
   }
 }
