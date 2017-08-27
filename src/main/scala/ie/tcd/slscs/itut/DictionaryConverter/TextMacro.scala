@@ -202,17 +202,19 @@ object TextMacro {
   //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
   //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ), None)
   //}
-
-  def sbtHelper(): Unit = {
-    val testrule = "det_type | <det> | no | <negative=NEG> | 1-1C\n" + " |  | the | <det_type=DEFART> | 1-1C\n" + " |  | a | <det_type=NOART> | 1-1C\n" + " |  | this | <det_type=DEF> | 1-1C\n"
-    //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
+  def JSTMacroFromString(s: String): List[JSTMacro] = {
     import java.io.ByteArrayInputStream
+    JSTMacro.fromFile(new ByteArrayInputStream(s.getBytes)).asScala.toList
+  }
+  def sbtHelper(): Unit = {
+    val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
+    //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
+
     //val out = SimpleTextMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
-    val out = JSTMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
     //import ie.tcd.slscs.itut.DictionaryConverter.TextMacro._
-    val ent = out.get(0)
-    val parts = ent.getParts
-    convertTextMacroEntry(parts.get(0))
+    //val ent = out.get(0)
+    //val parts = ent.getParts
+    //convertTextMacroEntry(parts.get(0))
 
   }
 }
