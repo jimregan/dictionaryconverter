@@ -124,4 +124,6 @@ object ExpandRules {
     case TagsAlignedToken(l, _) => l.size == 1
     case _ => throw new Exception("Unexpected type")
   }
+  def offsetMacro(m: Macro, offset: Int): Macro = Macro(m.name, m.params.map{e => e + offset})
+  def offsetMacroList(l: List[Macro], offset: Int): List[Macro] = l.map{e => offsetMacro(e, offset)}
 }

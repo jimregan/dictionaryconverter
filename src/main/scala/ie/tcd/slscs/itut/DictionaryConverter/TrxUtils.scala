@@ -38,10 +38,6 @@ object TrxUtils {
     val name = defvar.name
     LetElement(VarElement(name), LitElement(to))
   }
-  def mkResetVarsMacro(vars: List[DefVarElement], name: String = "resetVars") = {
-    val out = vars.map{defvarToLet}
-    DefMacroElement(name, "0", null, out)
-  }
   def WordTokenToLiteralLU(wt: WordToken): LUElement = {
     val lemhlit = LitElement(wt.getLemh)
     val lemqlit = LitElement(wt.getLemq)
@@ -53,10 +49,6 @@ object TrxUtils {
       LUElement(outlist)
     }
   }
-  /*
-  TODO
-  Inner tags for chunk:
-   */
 
   def mkChunkTagTransfer(tag: String, pos: String, map: Map[String, String]): TagElement = {
     if(tag.startsWith("*")) {
@@ -78,19 +70,13 @@ object TrxUtils {
     val tags = mkChunkTagsTransfer(chunkToken.getTags.asScala.toList, pos, map)
     ChunkElement(name, null, null, null, Some(tags), List.empty[ValueElement])
   }
-  // TODO: mkChunkInterchunk
 
-//  def dixSectionToChoose(sect: Section): ChooseElement = {
-//  }
   def mkSLLemmaTest(s: String, clip: String, caseless: Boolean = true): TestElement = {
     TestElement(null, EqualElement(caseless, List[ValueElement](ClipElement(clip, "sl", "lemma", null, null, null), LitElement(s))))
   }
   def mkTLLemmaLet(s: String, clip: String): LetElement = {
     LetElement(ClipElement(clip, "tl", "lemma", null, null, null), LitElement(s))
   }
-  // TODO:
-  // test
-  // generate action/right portion
   def dixEntryToWhen(entry: E, clip: String, attrs: Map[String, String]): WhenElement = entry.children match {
     case P(l, r) :: nil => {
       val ltxt = DixUtils.getTextPieces(l)
@@ -102,6 +88,5 @@ object TrxUtils {
       WhenElement(null, ltxtck, List[SentenceElement](rtxtck))
     }
   }
-  // TODO macro can apply to rule
 }
 
