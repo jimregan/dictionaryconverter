@@ -32,20 +32,20 @@ import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleTextMacroAttr, SimpleTextM
 import scala.collection.JavaConverters._
 
 object TextMacro {
-  trait MacroAttr
-  trait NotMacroAttr extends MacroAttr
-  case class LemmaMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotLemmaMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class ListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class BeginListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotBeginListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class EndListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotEndListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class KVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotKVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class KeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotKeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends NotMacroAttr
+  abstract class MacroAttr(pos: Int, appliesto: String)
+  abstract class NotMacroAttr(pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class LemmaMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotLemmaMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class ListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class BeginListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotBeginListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class EndListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotEndListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class KVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotKVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class KeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotKeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
       if(in.isNot) {
@@ -102,7 +102,7 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
-  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
+  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
     case KVMacroAttr(k, v, pos, apto) => {
       val litpart = litSetter(v)
