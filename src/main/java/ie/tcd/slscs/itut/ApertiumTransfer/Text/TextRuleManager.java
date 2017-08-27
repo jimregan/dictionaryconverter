@@ -172,6 +172,18 @@ public class TextRuleManager {
         TransferType type;
         AttributeSequenceClippable clippable;
         AttributeSequenceClippable clippableChunk;
+        private boolean haveSourceAttr = false;
+        private boolean haveTargetAttr = false;
+        private boolean haveSourceAttrChunk = false;
+        private boolean haveTargetAttrChunk = false;
+        private boolean haveLists = false;
+        private boolean haveSourceSeq = false;
+        private boolean haveTargetSeq = false;
+        private boolean haveSourceSeqChunk = false;
+        private boolean haveTargetSeqChunk = false;
+        private boolean haveMacros = false;
+        private boolean haveRules = false;
+        private boolean haveType = false;
         public Builder() {
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
@@ -189,33 +201,43 @@ public class TextRuleManager {
         }
         public Builder setType(TransferType type) {
             this.type = type;
+            this.haveType = true;
             return this;
         }
         public Builder withMacros(List<SimpleTextMacro> macros) {
             this.macros = macros;
+            this.haveMacros = true;
             return this;
         }
         public Builder withRules(List<RuleContainer> rules) {
             this.rules = rules;
+            this.haveRules = true;
             return this;
         }
         public Builder withLists(List<SimpleList> lists) {
             this.lists = lists;
+            this.haveLists = true;
             return this;
         }
         public Builder withAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttr = src;
             this.targetAttr = trg;
+            this.haveSourceAttr = true;
+            this.haveTargetAttr = true;
             return this;
         }
         public Builder withSourceChunkAttributes(List<Attributes> src, List<Attributes> trg) {
             this.sourceAttrChunk = src;
             this.targetAttrChunk = trg;
+            this.haveSourceAttrChunk = true;
+            this.haveTargetAttrChunk = true;
             return this;
         }
         public Builder withSequences(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeq = src;
             this.targetSeq = trg;
+            this.haveSourceSeq = true;
+            this.haveTargetSeq = true;
             this.clippable.setSourceLanguage(src);
             this.clippable.setTargetLanguage(trg);
             return this;
@@ -223,6 +245,8 @@ public class TextRuleManager {
         public Builder withSourceChunkSequence(List<AttributeSequence> src, List<AttributeSequence> trg) {
             this.sourceSeqChunk = src;
             this.targetSeqChunk = trg;
+            this.haveSourceSeqChunk = true;
+            this.haveTargetSeqChunk = true;
             this.clippableChunk.getClippable().putAll(this.clippable.getClippable());
             this.clippableChunk.setSourceLanguage(sourceSeqChunk);
             this.clippableChunk.setTargetLanguage(targetSeqChunk);
@@ -249,15 +273,15 @@ public class TextRuleManager {
     }
     class TextFileBuilder extends Builder {
         public Builder setMacrosFromFile(String filename) throws Exception {
-            macros = SimpleTextMacro.fromFile(filename);
+            setMacros(SimpleTextMacro.fromFile(filename));
             return this;
         }
         public Builder setRulesFromFile(String filename) throws Exception {
-            this.rules = RuleContainer.fromFile(filename);
+            setRules(RuleContainer.fromFile(filename));
             return this;
         }
         public Builder setListsFromFile(String filename) throws Exception {
-            this.lists = SimpleList.fromFile(filename);
+            setLists(SimpleList.fromFile(filename));
             return this;
         }
         public Builder setAttributesFromFile(String src, String trg) throws Exception {
