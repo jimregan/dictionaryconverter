@@ -415,5 +415,9 @@ public class TextRuleManager {
             }
             return tfb;
         }
+        public TextRuleManager buildFromStringArray(String[] arr) throws Exception {
+            Builder tfb = fromStringArray(arr);
+            return tfb.build();
+        }
     }
 }
