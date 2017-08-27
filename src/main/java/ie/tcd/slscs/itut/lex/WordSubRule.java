@@ -81,7 +81,7 @@ public class WordSubRule {
         this.defaultRule = (s != null && s.toLowerCase().equals("yes"));
     }
     public static WordSubRule fromNode(Node n) throws Exception {
-        if(n.getNodeName().equals("subrule")) {
+        if(n.getNodeName().equals("subrule") || n.getNodeName().equals("common")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
                 throw new Exception("Attribute \"name\" not found");
             }
