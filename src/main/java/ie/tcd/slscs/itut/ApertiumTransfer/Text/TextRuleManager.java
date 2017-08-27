@@ -275,49 +275,61 @@ public class TextRuleManager {
                 throw new Exception("Lists not set");
             }
             out.setLists(this.lists);
+
             if(!haveMacros) {
                 throw new Exception("Macros not set");
             }
             out.setMacros(this.macros);
+
             if(!haveSourceAttr) {
                 throw new Exception("Source language attributes not set");
             }
             out.setSourceAttr(this.sourceAttr);
+
             if(!haveSourceAttrChunk) {
                 throw new Exception("Source language chunk attributes not set");
             }
             out.setSourceAttrChunk(this.sourceAttrChunk);
+
             if(!haveTargetAttr) {
                 throw new Exception("Target language attributes not set");
             }
             out.setTargetAttr(this.targetAttr);
+
             if(!haveTargetAttrChunk) {
                 throw new Exception("Target language chunk attributes not set");
             }
             out.setTargetAttrChunk(this.targetAttrChunk);
+
             if(!haveSourceSeq) {
                 throw new Exception("Source language tag sequences not set");
             }
             out.setSourceSeq(this.sourceSeq);
+
             if(!haveSourceSeqChunk) {
                 throw new Exception("Source language chunk tag sequences not set");
             }
             out.setSourceSeqChunk(this.sourceSeqChunk);
+
             if(!haveTargetSeq) {
                 throw new Exception("Source language tag sequences not set");
             }
             out.setTargetSeq(this.targetSeq);
+
             if(!haveTargetSeqChunk) {
                 throw new Exception("Target language chunk tag sequences not set");
             }
             out.setTargetSeqChunk(this.targetSeqChunk);
+
             out.setClippable(this.clippable);
             out.setClippableChunk(this.clippableChunk);
             out.rewriteLUs();
+
             if(!haveRules) {
                 throw new Exception("Rules not set");
             }
             out.setRules(this.rules);
+
             return out;
         }
     }
