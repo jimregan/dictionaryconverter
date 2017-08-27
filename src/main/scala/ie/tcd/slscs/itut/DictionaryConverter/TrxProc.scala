@@ -158,7 +158,6 @@ object TrxProc {
   }
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
-  // TODO: finish getters and setters for rules and macros
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
   case class RuleProc(meta: RuleMetadata)
@@ -230,14 +229,4 @@ object TrxProc {
       TextRuleMgrWrapper(trm.getTextFileBuilder.buildFromStringArray(arr))
     }
   }
-
-  /*
-   * TODO: replace this PatternItem with one that can contain a target alignment
-   * case class RuleElement(ruleid: String, rulecomment: String, comment: String,
-                       pattern: PatternElement, action: ActionElement) extends TransferElement
-   * case class RuleProc
-   * subrules? one is default?
-   * macro calls - in subrules?
-   * action pieces - list of aligned lu/mlu/etc.
-   */
 }
