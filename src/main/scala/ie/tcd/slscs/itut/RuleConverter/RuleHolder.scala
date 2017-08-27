@@ -30,11 +30,16 @@ package ie.tcd.slscs.itut.RuleConverter
 import ie.tcd.slscs.itut.ApertiumStream._
 import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, RuleContainer => JRuleContainer, SimpleMacroCall => JSMacroCall}
 import ie.tcd.slscs.itut.ApertiumTransfer.{Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
+import ie.tcd.slscs.itut.RuleConverter.RuleHolder._
 
 import scala.collection.JavaConverters._
 
-case class RuleHolder() {
-
+case class RuleHolder(rc: JRuleContainer) {
+  val tag = rc.getTag
+  val example = rc.getCommentString
+  val leftRule: RuleBody = convertRuleSideToRuleBody(rc.getLeft)
+  val rightRule: RuleBody = convertRuleSideToRuleBody(rc.getRight)
+  val simple: Boolean = rc.isSimple
 }
 object RuleHolder {
   trait StreamItem
