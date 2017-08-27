@@ -186,13 +186,20 @@ object TextMacro {
     if(in.isInsertion) {
       TrgInsertionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
     } else if(in.isDeletion) {
-      TrgDeletionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
+      //TrgDeletionMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
+      throw new Exception("Cannot process deletions")
     } else if(in.isChunkAlignment) {
       TrgChunkMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
     } else {
       TrgBaseMacroEntry(in.getPosition, in.getAttrs.asScala.map{convertSimpleTextMacroAttr}.toList, in.getTarget.asScala.map{convertSrcTextMacroEntry}.toList)
     }
   }
+
+//  def extractChunkAttributes(in: TrgTextMacroEntry): Map[String, String] = in match {
+  //  case TrgChunkMacroEntry(a, b, c) => c match {
+    //  case
+    //}
+ // }
   def convertJSTMacro(m: JSTMacro): SimpleTextMacro = {
     SimpleTextMacro(m.getName, m.getAppliesTo.asScala.toList, m.getParts.asScala.map{convertTrgTextMacroEntry}.toList)
   }
