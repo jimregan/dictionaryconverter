@@ -35,6 +35,7 @@ import scala.collection.JavaConverters._
 case class TextRuleMgrWrapper(trm: TextRuleManager) {
   def getLists: Map[String, List[String]] = trm.getLists.asScala.map{convertSimpleList}.toMap
   def getCats: Map[String, List[String]] = trm.getCategories.asScala.map{convertSimpleCats}.toMap
+  def getCatItems: Map[String, List[CatItem]] = getCats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
   val transferType = trm.getTypeText
   val clippables = convertAttributeSequenceClippable(trm.getClippable)
