@@ -204,6 +204,19 @@ public class TextRuleManager {
             this.haveType = true;
             return this;
         }
+        public Builder setType(String s) {
+            if(s.equals("interchunk")) {
+                this.type = TransferType.Interchunk;
+            } else if(s.equals("postchunk")) {
+                this.type = TransferType.Postchunk;
+            } else if(s.equals("chunker")) {
+                this.type = TransferType.Chunker;
+            } else {
+                this.type = TransferType.Transfer;
+            }
+            this.haveType = true;
+            return this;
+        }
         public Builder withMacros(List<SimpleTextMacro> macros) {
             this.macros = macros;
             this.haveMacros = true;
