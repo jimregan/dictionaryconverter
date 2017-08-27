@@ -235,7 +235,9 @@ object TrxProc {
     val transferType = trm.getTypeText
     val clippables = TextMacro.convertAttributeSequenceClippable(trm.getClippable)
     val clippablesChunk = TextMacro.convertAttributeSequenceClippable(trm.getClippableChunk)
+    val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
     val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
+    val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
     val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
   }
   object TextRuleMgrWrapper {
