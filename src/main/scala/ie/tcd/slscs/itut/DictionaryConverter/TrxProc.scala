@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, SimpleList, SimpleTextMacroAttr, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
@@ -224,6 +224,13 @@ object TrxProc {
   }
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
+  }
+  case class TextRuleMgrWrapper(trm: TextRuleManager)
+  object TextRuleMgrWrapper {
+    def apply(arr: Array[String]): TextRuleMgrWrapper = {
+      val trm: TextRuleManager = new TextRuleManager()
+      TextRuleMgrWrapper(trm.getTextFileBuilder.buildFromStringArray(arr))
+    }
   }
 
   /*
