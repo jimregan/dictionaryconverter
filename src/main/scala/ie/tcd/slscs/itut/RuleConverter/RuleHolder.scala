@@ -34,16 +34,17 @@ import ie.tcd.slscs.itut.RuleConverter.RuleHolder._
 
 import scala.collection.JavaConverters._
 
-case class RuleHolder(tag: String, example: String, left: PatternElement, right: RuleBody, lmacros: List[SimpleMacroCall], simple: Boolean) {
+case class RuleHolder(tag: String, example: String, leftPattern: PatternElement, left: RuleBody, right: RuleBody, lmacros: List[SimpleMacroCall], simple: Boolean) {
 }
 object RuleHolder {
   def convertRuleContainer(rc: JRuleContainer, m: Map[String, List[CatItem]]):RuleHolder = {
     val lmacs: List[SimpleMacroCall] = rc.getLeftMacrocalls.asScala.map{convertMacroCalls}.toList
     val tag = rc.getTag
     val eg = rc.getCommentString
-    val left: PatternElement = convertRuleSideToPattern(rc.getLeft, m)
+    val leftPattern: PatternElement = convertRuleSideToPattern(rc.getLeft, m)
+    var left: RuleBody = convertRuleSideToRuleBody(rc.getLeft)
     var right: RuleBody = convertRuleSideToRuleBody(rc.getRight)
-    RuleHolder(tag, eg, left, right, lmacs, rc.isSimple)
+    RuleHolder(tag, eg, leftPattern, left, right, lmacs, rc.isSimple)
   }
   trait StreamItem
   trait LexicalUnit extends StreamItem
