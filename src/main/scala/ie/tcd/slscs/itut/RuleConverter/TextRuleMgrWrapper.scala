@@ -37,8 +37,8 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
   val transferType = trm.getTypeText
-  val clippables = TextMacro.convertAttributeSequenceClippable(trm.getClippable)
-  val clippablesChunk = TextMacro.convertAttributeSequenceClippable(trm.getClippableChunk)
+  val clippables = convertAttributeSequenceClippable(trm.getClippable)
+  val clippablesChunk = convertAttributeSequenceClippable(trm.getClippableChunk)
   val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
@@ -57,4 +57,10 @@ object TextRuleMgrWrapper {
   }
   def convertSimpleCats(in: SimpleCats): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
   def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
+  def convertAttributeSequenceClippable(in: AttributeSequenceClippable): Map[String, Map[String, Boolean]] = {
+    in.getClippable.asScala.toMap.map{e => (e._1.toString, e._2.asScala.toMap.map{f => (f._1.toString, f._2.booleanValue)})}
+  }
+  def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
+    clip.getClippable.get(pos).get(attseq)
+  }
 }
