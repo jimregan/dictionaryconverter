@@ -159,8 +159,6 @@ object TrxProc {
   def mkDefVar(name: String, value: String): DefVarElement = DefVarElement(name, value)
   def patternToStringList(p: PatternElement): List[String] = p.children.map{_.n}
   // TODO: finish getters and setters for rules and macros
-  // TODO: mutable rule? maybe divide by contents - add macros separately, e.g.
-  // TODO: convert macros from SimpleTextMacro
 
   case class RuleMetadata(ruleid: String, rulecomment: String)
   case class RuleProc(meta: RuleMetadata)
