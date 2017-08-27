@@ -34,14 +34,12 @@ import ie.tcd.slscs.itut.RuleConverter.RuleHolder._
 
 import scala.collection.JavaConverters._
 
-case class RuleHolder(rc: JRuleContainer) {
-  val tag = rc.getTag
-  val example = rc.getCommentString
-  val leftRule: RuleBody = convertRuleSideToRuleBody(rc.getLeft)
-  val rightRule: RuleBody = convertRuleSideToRuleBody(rc.getRight)
-  val simple: Boolean = rc.isSimple
+case class RuleHolder(tag: String, example: String, left: RuleBody, right: RuleBody, simple: Boolean) {
 }
 object RuleHolder {
+  def apply(rc: JRuleContainer) {
+    RuleHolder(rc.getTag, rc.getCommentString, convertRuleSideToRuleBody(rc.getLeft), convertRuleSideToRuleBody(rc.getRight), rc.isSimple)
+  }
   trait StreamItem
   trait LexicalUnit extends StreamItem
   trait SingleLexicalUnit extends LexicalUnit
