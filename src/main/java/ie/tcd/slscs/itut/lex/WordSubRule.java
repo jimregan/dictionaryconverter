@@ -35,15 +35,16 @@ import java.util.List;
 
 public class WordSubRule {
     String name;
-    String phrase;
+    String equals;
     List<WordEntry> entries;
+    List<TextLike> match;
     WordSubRule() {
         entries = new ArrayList<WordEntry>();
+        match = new ArrayList<TextLike>();
     }
-    WordSubRule(String name, String phrase) {
+    WordSubRule(String name) {
         this();
         this.name = name;
-        this.phrase= phrase;
     }
     public String getName() {
         return name;
@@ -51,30 +52,42 @@ public class WordSubRule {
     public void setName(String name) {
         this.name = name;
     }
-    public String getPhrase() {
-        return phrase;
-    }
-    public void setPhrase(String phrase) {
-        this.phrase = phrase;
-    }
     public List<WordEntry> getEntries() {
         return entries;
     }
     public void setEntries(List<WordEntry> entries) {
         this.entries = entries;
     }
+    public List<TextLike> getMatch() {
+        return match;
+    }
+    public void setMatch(List<TextLike> match) {
+        this.match = match;
+    }
+    public String getEquals() {
+        return equals;
+    }
+    public void setEquals(String equals) {
+        this.equals = equals;
+    }
     public static WordSubRule fromNode(Node n) throws Exception {
-        if(n.getNodeName().equals("rule")) {
+        if(n.getNodeName().equals("subrule")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
-                throw new Exception("Attributes \"name\" and \"tags\" not found");
+                throw new Exception("Attribute \"name\" not found");
             }
             String name = Utils.attrib(n, "name");
             if(name == null || name.equals("")) {
                 throw new Exception("Missing attribute tags");
             }
-            String phrase = Utils.attrib(n, "phrase");
-            if(phrase == null || phrase.equals("")) {
-                throw new Exception("Missing attribute phrase");
+            WordSubRule rule = new WordSubRule(name);
+            String matchtxt = Utils.attrib(n, "match");
+            if(matchtxt != null) {
+                List<TextLike> text = TextLike.fromString(matchtxt);
+                rule.setMatch(text);
+            }
+            String equals = Utils.attrib(n, "equals");
+            if(equals != null) {
+                rule.setEquals(equals);
             }
             if(n.getChildNodes().getLength() == 0) {
                 throw new Exception("Missing child elements");
@@ -91,7 +104,6 @@ public class WordSubRule {
                     throw new Exception("Unexpected node " + itemi.getNodeName());
                 }
             }
-            WordSubRule rule = new WordSubRule(name, phrase);
             rule.setEntries(entries);
             return rule;
         } else {
