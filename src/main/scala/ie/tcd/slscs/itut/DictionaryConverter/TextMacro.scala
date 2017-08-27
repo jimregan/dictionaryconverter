@@ -212,6 +212,7 @@ object TextMacro {
   //}
   //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
   //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ), None)
+  //  case TrgInsertionMacroEntry
   //}
   def JSTMacroFromString(s: String): List[JSTMacro] = {
     import java.io.ByteArrayInputStream
