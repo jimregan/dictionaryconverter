@@ -86,25 +86,34 @@ object TextMacro {
     }
   }
 
-  def convertMacroAttrToLet(in: MacroAttr, clippable: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
+  def litSetter(v: String) = if(v != "") LitTagElement(v) else LitElement("")
+  def convertMacroAttrToLet(in: MacroAttr, clippable: Boolean): (LetElement, Option[String]) = in match {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
-    case KVMacroAttr(k, v, pos, apto) => if (v != "") {
-      if(clippable.get(apto) != null && clippable.get(apto).get(k)) {
+    case KVMacroAttr(k, v, pos, apto) => {
+      val litpart = litSetter(v)
+      if(clippable) {
         val clip = ClipElement(pos.toString, "tl", k, null, null, null)
-        (LetElement(clip, LitTagElement(v)), None)
+        (LetElement(clip, litpart), None)
       } else {
         val varname:String = "var_" + k
         val clip = VarElement(varname)
-        (LetElement(clip, LitTagElement(v)), Some(varname))
+        (LetElement(clip, litpart), Some(varname))
       }
-    } else {
-      if(clippable.get(apto) != null && clippable.get(apto).get(k)) {
+    }
+    case _ => throw new Exception("Can't convert this tag")
+  }
+  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
+    case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
+    case KVMacroAttr(k, v, pos, apto) => {
+      val litpart = litSetter(v)
+      val clippable = clippables.get(apto) != null && clippables.get(apto).get(k)
+      if(clippable) {
         val clip = ClipElement(pos.toString, "tl", k, null, null, null)
-        (LetElement(clip, LitElement("")), None)
+        (LetElement(clip, litpart), None)
       } else {
         val varname:String = "var_" + k
         val clip = VarElement(varname)
-        (LetElement(clip, LitElement("")), Some(varname))
+        (LetElement(clip, litpart), Some(varname))
       }
     }
     case _ => throw new Exception("Can't convert this tag")
