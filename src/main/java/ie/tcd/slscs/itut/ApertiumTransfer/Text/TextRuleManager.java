@@ -67,6 +67,17 @@ public class TextRuleManager {
         this.rules = rules;
     }
 
+    public String getTypeText() {
+        if(this.type == TransferType.Chunker) {
+            return "chunker";
+        } else if(this.type == TransferType.Postchunk) {
+            return "postchunk";
+        } else if(this.type == TransferType.Interchunk) {
+            return "interchunk";
+        } else {
+            return "transfer";
+        }
+    }
     public List<Attributes> getSourceAttr() {
         return sourceAttr;
     }
