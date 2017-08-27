@@ -85,12 +85,6 @@ object TextMacro {
       }
     }
   }
-  def convertAttributeSequenceClippable(in: AttributeSequenceClippable): Map[String, Map[String, Boolean]] = {
-    in.getClippable.asScala.toMap.map{e => (e._1.toString, e._2.asScala.toMap.map{f => (f._1.toString, f._2.booleanValue)})}
-  }
-  def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
-    clip.getClippable.get(pos).get(attseq)
-  }
 
   def convertMacroAttrToLet(in: MacroAttr, clippable: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
