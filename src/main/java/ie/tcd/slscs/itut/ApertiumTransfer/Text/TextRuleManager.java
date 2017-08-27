@@ -34,6 +34,7 @@ import java.util.List;
 
 public class TextRuleManager {
     TransferType type;
+    List<SimpleCats> categories;
     List<Attributes> sourceAttr;
     List<Attributes> targetAttr;
     List<Attributes> sourceAttrChunk;
@@ -48,6 +49,7 @@ public class TextRuleManager {
     List<SimpleTextMacro> macros;
     List<RuleContainer> rules;
     TextRuleManager() {
+        this.categories = new ArrayList<SimpleCats>();
         this.macros = new ArrayList<SimpleTextMacro>();
         this.rules = new ArrayList<RuleContainer>();
         this.lists = new ArrayList<SimpleList>();
@@ -150,6 +152,12 @@ public class TextRuleManager {
     public void setType(TransferType type) {
         this.type = type;
     }
+    public List<SimpleCats> getCategories() {
+        return categories;
+    }
+    public void setCategories(List<SimpleCats> categories) {
+        this.categories = categories;
+    }
     public AttributeSequenceClippable getClippable() {
         return clippable;
     }
@@ -172,6 +180,7 @@ public class TextRuleManager {
     }
 
     public class Builder {
+        List<SimpleCats> categories;
         List<Attributes> sourceAttr;
         List<Attributes> targetAttr;
         List<Attributes> sourceAttrChunk;
@@ -198,7 +207,9 @@ public class TextRuleManager {
         private boolean haveMacros = false;
         private boolean haveRules = false;
         private boolean haveType = false;
+        private boolean haveCategories = false;
         public Builder() {
+            this.categories = new ArrayList<SimpleCats>();
             this.macros = new ArrayList<SimpleTextMacro>();
             this.rules = new ArrayList<RuleContainer>();
             this.lists = new ArrayList<SimpleList>();
@@ -229,6 +240,11 @@ public class TextRuleManager {
                 this.type = TransferType.Transfer;
             }
             this.haveType = true;
+            return this;
+        }
+        public Builder withCategories(List<SimpleCats> categories) {
+            this.categories = categories;
+            this.haveCategories = true;
             return this;
         }
         public Builder withMacros(List<SimpleTextMacro> macros) {
@@ -294,6 +310,11 @@ public class TextRuleManager {
                 throw new Exception("Macros not set");
             }
             out.setMacros(this.macros);
+
+            if(!haveCategories) {
+                throw new Exception("Categories not set");
+            }
+            out.setCategories(this.categories);
 
             if(!haveSourceAttr) {
                 throw new Exception("Source language attributes not set");
@@ -363,6 +384,10 @@ public class TextRuleManager {
             setLists(SimpleList.fromFile(filename));
             return this;
         }
+        public Builder setCategoriesFromFile(String filename) throws Exception {
+            setCategories(SimpleCats.fromFile(filename));
+            return this;
+        }
         public Builder setAttributesFromFile(String src, String trg) throws Exception {
             setSourceAttr(Attributes.fromFile(src));
             setTargetAttr(Attributes.fromFile(trg));
@@ -416,6 +441,8 @@ public class TextRuleManager {
                         throw new Exception("Need to specify both source and target chunk sequences");
                     }
                     tfb = (TextFileBuilder) tfb.setChunkSequencesFromFile(args[i+1], args[i+2]);
+                } else if(args[i].equals("-cats")) {
+                    tfb = (TextFileBuilder) tfb.setCategoriesFromFile(args[i+1]);
                 } else if(args[i].equals("-lists")) {
                     tfb = (TextFileBuilder) tfb.setListsFromFile(args[i+1]);
                 } else if(args[i].equals("-macros")) {
