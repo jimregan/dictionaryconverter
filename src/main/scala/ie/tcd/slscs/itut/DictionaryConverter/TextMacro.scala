@@ -150,15 +150,19 @@ object TextMacro {
   }
   abstract class BaseTextMacroEntry
   abstract class SrcTextMacroEntry extends BaseTextMacroEntry
-  abstract class TrgTextMacroEntry extends BaseTextMacroEntry
+  abstract class TrgTextMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends BaseTextMacroEntry {
+    def getPos: Int = pos
+    def getMatches: List[MacroAttr] = matches
+    def getTargets: List[SrcTextMacroEntry] = targets
+  }
   case class SrcBaseMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
   case class SrcInsertionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
   case class SrcDeletionMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
   case class SrcChunkMacroEntry(pos: Int, matches: List[MacroAttr]) extends SrcTextMacroEntry
-  case class TrgBaseMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
-  case class TrgInsertionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
-  case class TrgDeletionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
-  case class TrgChunkMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry
+  case class TrgBaseMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class TrgInsertionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class TrgDeletionMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
+  case class TrgChunkMacroEntry(pos: Int, matches: List[MacroAttr], targets: List[SrcTextMacroEntry]) extends TrgTextMacroEntry(pos, matches, targets)
   case class SimpleTextMacro(name: String, appliesTo: List[String], entries: List[TrgTextMacroEntry])
   def convertTextMacroEntry(in: JSTMEntry): BaseTextMacroEntry = {
     if(in.hasTarget) {
