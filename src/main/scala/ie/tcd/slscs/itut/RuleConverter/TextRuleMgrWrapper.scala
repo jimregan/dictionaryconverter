@@ -44,6 +44,7 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
   val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
+  val rules: List[RuleHolder] = trm.getRules.asScala.map{e => RuleHolder.convertRuleContainer(e, getCatItems)}.toList
 }
 object TextRuleMgrWrapper {
   def apply(arr: Array[String]): TextRuleMgrWrapper = {
