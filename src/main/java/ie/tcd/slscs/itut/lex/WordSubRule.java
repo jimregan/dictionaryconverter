@@ -33,14 +33,14 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordRule {
+public class WordSubRule {
     String name;
     String phrase;
     List<WordEntry> entries;
-    WordRule() {
+    WordSubRule() {
         entries = new ArrayList<WordEntry>();
     }
-    WordRule(String name, String phrase) {
+    WordSubRule(String name, String phrase) {
         this();
         this.name = name;
         this.phrase= phrase;
@@ -63,7 +63,7 @@ public class WordRule {
     public void setEntries(List<WordEntry> entries) {
         this.entries = entries;
     }
-    public static WordRule fromNode(Node n) throws Exception {
+    public static WordSubRule fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("rule")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
                 throw new Exception("Attributes \"name\" and \"tags\" not found");
@@ -91,7 +91,7 @@ public class WordRule {
                     throw new Exception("Unexpected node " + itemi.getNodeName());
                 }
             }
-            WordRule rule = new WordRule(name, phrase);
+            WordSubRule rule = new WordSubRule(name, phrase);
             rule.setEntries(entries);
             return rule;
         } else {
