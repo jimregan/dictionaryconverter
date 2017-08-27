@@ -227,7 +227,7 @@ object TrxProc {
   case class TextRuleMgrWrapper(trm: TextRuleManager) {
     def getLists = trm.getLists.asScala.map{convertSimpleList}
     val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
-
+    val transferType = trm.getTypeText
   }
   object TextRuleMgrWrapper {
     def apply(arr: Array[String]): TextRuleMgrWrapper = {
