@@ -24,7 +24,7 @@
 package ie.tcd.slscs.itut.DictionaryConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequenceClippable, Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequence, AttributeSequenceClippable, Attributes, RuleSide, SimpleCats, SimpleList, SimpleTextMacroAttr, TextRuleManager, SimpleMacroCall => JSMacroCall, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 import ie.tcd.slscs.itut.ApertiumTransfer.{AttrItem, DefAttr, Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.DictionaryConverter.TrxProc.RuleBody
 
@@ -225,6 +225,9 @@ object TrxProc {
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
   }
+  def convertAttributeSequence(as: AttributeSequence): (String, List[String]) = {
+    (as.getName, as.getTags.asScala.toList)
+  }
   case class TextRuleMgrWrapper(trm: TextRuleManager) {
     def getLists = trm.getLists.asScala.map{convertSimpleList}.toMap
     def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
@@ -232,6 +235,8 @@ object TrxProc {
     val transferType = trm.getTypeText
     val clippables = TextMacro.convertAttributeSequenceClippable(trm.getClippable)
     val clippablesChunk = TextMacro.convertAttributeSequenceClippable(trm.getClippableChunk)
+    val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
+    val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
   }
   object TextRuleMgrWrapper {
     def apply(arr: Array[String]): TextRuleMgrWrapper = {
