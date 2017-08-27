@@ -38,6 +38,7 @@ public class WordSubRule {
     String equals;
     List<WordEntry> entries;
     List<TextLike> match;
+    boolean defaultRule;
     WordSubRule() {
         entries = new ArrayList<WordEntry>();
         match = new ArrayList<TextLike>();
@@ -70,6 +71,15 @@ public class WordSubRule {
     public void setEquals(String equals) {
         this.equals = equals;
     }
+    public boolean isDefaultRule() {
+        return defaultRule;
+    }
+    public void setDefaultRule(boolean defaultRule) {
+        this.defaultRule = defaultRule;
+    }
+    private void setDefaultRule(String s) {
+        this.defaultRule = (s != null && s.toLowerCase().equals("yes"));
+    }
     public static WordSubRule fromNode(Node n) throws Exception {
         if(n.getNodeName().equals("subrule")) {
             if(n.getAttributes() == null || n.getAttributes().getLength() == 0) {
@@ -77,7 +87,7 @@ public class WordSubRule {
             }
             String name = Utils.attrib(n, "name");
             if(name == null || name.equals("")) {
-                throw new Exception("Missing attribute tags");
+                throw new Exception("Missing attribute name");
             }
             WordSubRule rule = new WordSubRule(name);
             String matchtxt = Utils.attrib(n, "match");
@@ -89,6 +99,8 @@ public class WordSubRule {
             if(equals != null) {
                 rule.setEquals(equals);
             }
+            String defaultrl = Utils.attrib(n, "default");
+            rule.setDefaultRule(defaultrl);
             if(n.getChildNodes().getLength() == 0) {
                 throw new Exception("Missing child elements");
             }
