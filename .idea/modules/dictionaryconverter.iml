@@ -28,5 +28,6 @@
     <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-reflect:2.10.2:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scala-sbt:test-interface:1.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scalatest:scalatest_2.10:2.0:jar" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.10.2" level="application" />
   </component>
 </module>

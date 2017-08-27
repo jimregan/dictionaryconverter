@@ -41,5 +41,4 @@ public class MWEWordTest extends TestCase {
         MWEWord out = MWEWord.fromNode(innode);
         assertEquals("n.sg", out.getTags());
     }
-
 }
