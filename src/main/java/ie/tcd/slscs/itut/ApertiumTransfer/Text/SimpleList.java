@@ -51,7 +51,6 @@ public class SimpleList {
     }
     public static SimpleList fromString(String s) throws Exception {
         List<String> tags = new ArrayList<String>();
-        boolean fromDictionary = false;
         String[] tmp = s.split("=");
         if(tmp.length != 2) {
             throw new Exception("Single '=' expected, got: " + s);
