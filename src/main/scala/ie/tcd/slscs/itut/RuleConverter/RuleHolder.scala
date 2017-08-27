@@ -28,7 +28,7 @@
 package ie.tcd.slscs.itut.RuleConverter
 
 import ie.tcd.slscs.itut.ApertiumStream._
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, RuleContainer => JRuleContainer, SimpleMacroCall => JSMacroCall}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{RuleSide, RuleContainer => JRuleContainer, SimpleMacroCall => JSMacroCall, AlignmentPair => JAlignmentPair}
 import ie.tcd.slscs.itut.ApertiumTransfer.{Pattern, CatItem => JCatItem, DefCat => JDefCat, DefCats => JDefCats, PatternItem => JPatternItem}
 import ie.tcd.slscs.itut.RuleConverter.RuleHolder._
 
@@ -63,6 +63,16 @@ object RuleHolder {
   def convertRuleSideToRuleBody(rs: RuleSide): RuleBody = {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
+  }
+  def convertAlignmentPair(ap: JAlignmentPair): (String, String) = (ap.getLeft, ap.getRight)
+  def filteredConvertAlignmentPair(ap: JAlignmentPair): Option[(Int, Int)] = {
+    if(ap.leftIsChunk() || ap.rightIsChunk()) {
+      None
+    } else if(ap.insertion()) {
+      None
+    } else {
+      Some((ap.getLeftPosition, ap.getRightPosition))
+    }
   }
   case class Blank() extends StreamItem
   case class PositionBlank(pos: Int) extends StreamItem
