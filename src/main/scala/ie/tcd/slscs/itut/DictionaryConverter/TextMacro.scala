@@ -197,10 +197,10 @@ object TextMacro {
     out.asScala.map{convertJSTMacro}.toList
   }
   //def SimpleTextMacroToXML(m: SimpleTextMacro): DefMacroElement = {
-  //  DefMacroElement(m.name, m.appliesTo.size, null, m.entries)
+  //  DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
   //}
   //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
-  //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ))
+  //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ), None)
   //}
 
   def sbtHelper(): Unit = {
