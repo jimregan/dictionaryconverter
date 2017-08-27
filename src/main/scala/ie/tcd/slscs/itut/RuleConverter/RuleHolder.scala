@@ -37,7 +37,7 @@ import scala.collection.JavaConverters._
 case class RuleHolder(tag: String, example: String, left: RuleBody, right: RuleBody, lmacros: List[SimpleMacroCall], rmacros: List[SimpleMacroCall], simple: Boolean) {
 }
 object RuleHolder {
-  def apply(rc: JRuleContainer) {
+  def convertRuleContainer(rc: JRuleContainer):RuleHolder = {
     val lmacs: List[SimpleMacroCall] = rc.getLeftMacrocalls.asScala.map{convertMacroCalls}.toList
     val rmacs: List[SimpleMacroCall] = rc.getRightMacrocalls.asScala.map{convertMacroCalls}.toList
     val tag = rc.getTag
