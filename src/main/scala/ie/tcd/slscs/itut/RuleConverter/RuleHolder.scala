@@ -64,6 +64,20 @@ object RuleHolder {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
+  /*
+  def ChunkToChunkElement(c: Chunk): ChunkElement = {
+    val namefrom = ""
+    val ccase = ""
+    ChunkElement(c.lemma, namefrom, ccase, null)
+  }*/
+  def singleLUToInterchunkChunk(slu: SingleLexicalUnit, pos: Int): ChunkElement = slu match {
+    case SimpleLU("", "", list) => if(list.length == 1) {
+      ChunkElement(null, null, null, null, None, List(ClipElement(pos.toString, "", "whole", null, null, null)))
+    } else {
+      throw new Exception("Chunk writing with tags not handled")
+    }
+    case _ => throw new Exception("FIXME")
+  }
   def convertAlignmentPair(ap: JAlignmentPair): (String, String) = (ap.getLeft, ap.getRight)
   def filteredConvertAlignmentPair(ap: JAlignmentPair): Option[(Int, Int)] = {
     if(ap.leftIsChunk() || ap.rightIsChunk()) {
