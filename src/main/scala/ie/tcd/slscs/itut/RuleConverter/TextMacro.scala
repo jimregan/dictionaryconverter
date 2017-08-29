@@ -199,11 +199,6 @@ object TextMacro {
     }
   }
 
-//  def extractChunkAttributes(in: TrgTextMacroEntry): Map[String, String] = in match {
-  //  case TrgChunkMacroEntry(a, b, c) => c match {
-    //  case
-    //}
- // }
   def convertJSTMacro(m: JSTMacro): SimpleTextMacro = {
     SimpleTextMacro(m.getName, m.getAppliesTo.asScala.toList, m.getParts.asScala.map{convertTrgTextMacroEntry}.toList)
   }
@@ -216,10 +211,13 @@ object TextMacro {
   }
   //def SimpleTextMacroToXML(m: SimpleTextMacro): DefMacroElement = {
   //  DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
-  //}
-  //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
-  //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ), None)
-  //  case TrgInsertionMacroEntry
+ // }
+  //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = {
+  //  val whens:List[TestElement] = in.getMatches.map{convertMacroAttrToTest}
+  //  in match {
+   //   case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, test ,), None)
+ //     case TrgInsertionMacroEntry => Nil
+  //  }
   //}
   def JSTMacroFromString(s: String): List[JSTMacro] = {
     import java.io.ByteArrayInputStream
