@@ -102,6 +102,16 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
+  def MacroAttrToLitTag(m: MacroAttr): LitTagElement = m match {
+    case KVMacroAttr(k, v, pos, apto) => LitTagElement(v)
+    case KeyOnlyMacroAttr(k, pos, apto) => LitTagElement(k)
+    case _ => throw new Exception("Cannot convert this type of MacroAttr " + m.toString)
+  }
+  def mkAppend(varname: String, kvs: List[MacroAttr]): AppendElement = {
+    val tags = kvs.map{MacroAttrToLitTag}
+    val tagend = tags :+ LitElement("$ ")
+    AppendElement(varname, tagend)
+  }
   def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
     case KVMacroAttr(k, v, pos, apto) => {
