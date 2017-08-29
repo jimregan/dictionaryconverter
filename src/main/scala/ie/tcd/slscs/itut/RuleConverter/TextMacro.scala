@@ -247,7 +247,7 @@ object TextMacro {
 
       val whens: List[TestElement] = in.getMatches.map{convertMacroAttrToTest}
       val srcmacout = in.getTargets.map{convertSrcMacroEntry}
-      if(whens.size != srcmacout) {
+      if(whens.length != srcmacout.length) {
         throw new Exception("Size mismatch")
       }
       val sents = srcmacout.map{e => e._1}
