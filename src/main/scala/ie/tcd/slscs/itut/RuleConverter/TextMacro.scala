@@ -121,7 +121,7 @@ object TextMacro {
         case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
         case _ => throw new Exception("Insertion macro entry missing lemma " + s.toString)
       }
-      val letpart = convertMacroAttrToLet(first, clippables, chunkname)
+      val letpart = convertMacroAttrToLet(first, false, chunkname)
       val rest = matches.tail
       val appendname = if(letpart._2 == None) "" else letpart._2.get
       val appendpart = mkAppend(appendname, rest)
