@@ -87,7 +87,7 @@ object TextMacro {
   }
 
   def litSetter(v: String) = if(v != "") LitTagElement(v) else LitElement("")
-  def convertMacroAttrToLet(in: MacroAttr, clippable: Boolean): (LetElement, Option[String]) = in match {
+  def convertMacroAttrToLet(in: MacroAttr, clippable: Boolean, tpl: String = "var_"): (LetElement, Option[String]) = in match {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
     case KVMacroAttr(k, v, pos, apto) => {
       val litpart = litSetter(v)
@@ -95,7 +95,7 @@ object TextMacro {
         val clip = ClipElement(pos.toString, "tl", k, null, null, null)
         (LetElement(clip, litpart), None)
       } else {
-        val varname:String = "var_" + k
+        val varname:String = if(tpl.startsWith("_")) k + tpl else tpl + k
         val clip = VarElement(varname)
         (LetElement(clip, litpart), Some(varname))
       }
