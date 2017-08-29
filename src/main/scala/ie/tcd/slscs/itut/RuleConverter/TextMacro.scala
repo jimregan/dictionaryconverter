@@ -211,6 +211,17 @@ object TextMacro {
             (LetElement(clip, litpart), Some(varname))
           }
         }
+        case KeyOnlyMacroAttr(k, pos, apto) => {
+          if(clippable) {
+            val clip = ClipElement(pos.toString, "tl", k, null, null, null)
+            (LetElement(clip, LitElement("")), None)
+          } else {
+            val varbase: String = if(varnm == "") k else varnm + "_" + k
+            val varname: String = if(tpl.startsWith("_")) varbase + tpl else tpl + varbase
+            val clip = VarElement(varname)
+            (LetElement(clip, LitElement("")), Some(varname))
+          }
+        }
         case _ => throw new Exception("Can't convert this tag")
       }
       def convertMacroAttrToLetClip(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
