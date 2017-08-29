@@ -224,11 +224,9 @@ object TextMacro {
   }
   def sbtHelper(): Unit = {
     val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
-    //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
-
-    //val out = SimpleTextMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
-    //import ie.tcd.slscs.itut.DictionaryConverter.TextMacro._
-    //val ent = out.get(0)
+    //import ie.tcd.slscs.itut.RuleConverter.TextMacro._
+    //val out = JSTMacroFromString(testrule)
+    //val ent = out(0)
     //val parts = ent.getParts
     //convertTextMacroEntry(parts.get(0))
 
