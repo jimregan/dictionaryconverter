@@ -207,7 +207,7 @@ object TextMacro {
   def convertJSTMacro(m: JSTMacro): SimpleTextMacro = {
     SimpleTextMacro(m.getName, m.getAppliesTo.asScala.toList, m.getParts.asScala.map{convertTrgTextMacroEntry}.toList)
   }
-  def convertJSTMacros(f: String): List[SimpleTextMacro] = {
+  def convertJSTMacroFile(f: String): List[SimpleTextMacro] = {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
