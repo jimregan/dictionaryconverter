@@ -102,6 +102,14 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
+  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]], tpl: String = "var_"): (LetElement, Option[String]) = {
+    val clippable: Boolean = in match {
+      case KVMacroAttr(k, v, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+      case KeyOnlyMacroAttr(k, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+      case _ => false
+    }
+    convertMacroAttrToLet(in, clippable, tpl)
+  }
   def MacroAttrToLitTag(m: MacroAttr): LitTagElement = m match {
     case KVMacroAttr(k, v, pos, apto) => LitTagElement(v)
     case KeyOnlyMacroAttr(k, pos, apto) => LitTagElement(k)
@@ -111,22 +119,6 @@ object TextMacro {
     val tags = kvs.map{MacroAttrToLitTag}
     val tagend = tags :+ LitElement("$ ")
     AppendElement(varname, tagend)
-  }
-  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
-    case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
-    case KVMacroAttr(k, v, pos, apto) => {
-      val litpart = litSetter(v)
-      val clippable = clippables.get(apto) != null && clippables.get(apto).get(k)
-      if(clippable) {
-        val clip = ClipElement(pos.toString, "tl", k, null, null, null)
-        (LetElement(clip, litpart), None)
-      } else {
-        val varname:String = "var_" + k
-        val clip = VarElement(varname)
-        (LetElement(clip, litpart), Some(varname))
-      }
-    }
-    case _ => throw new Exception("Can't convert this tag")
   }
   private def simpleClip(pos: Int, sl: Boolean, part: String): ClipElement = {
     val side = if(sl) "sl" else "tl"
