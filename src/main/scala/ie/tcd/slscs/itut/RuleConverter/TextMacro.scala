@@ -185,10 +185,10 @@ object TextMacro {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
-  def mkClearVar(name: String): LetElement = {
-    LetElement(VarElement(name), LitElement(""))
-  }
   def SimpleTextMacroToXML(m: SimpleTextMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = {
+    def mkClearVar(name: String): LetElement = {
+      LetElement(VarElement(name), LitElement(""))
+    }
     def posvarpart(pos: Int): String = {
       m.appliesTo(pos - 1).replaceAll("><", "_").replace("<", "").replace(">", "")
     }
@@ -260,6 +260,8 @@ object TextMacro {
   }
   def sbtHelper(): Unit = {
     val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
+    val testrule2 = "strength_to_chunk | <n> | <strength!=> | <strength=strength> <strength=> | 1-1C 1-1\n"
+    val clippable = Map("n" -> Map("strength" -> false))
     //import ie.tcd.slscs.itut.RuleConverter.TextMacro._
     //val out = JSTMacroFromString(testrule)
     //val ent = out(0)
