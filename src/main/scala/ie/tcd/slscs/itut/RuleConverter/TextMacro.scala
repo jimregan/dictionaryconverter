@@ -278,15 +278,4 @@ object TextMacro {
     import java.io.ByteArrayInputStream
     JSTMacro.fromFile(new ByteArrayInputStream(s.getBytes)).asScala.toList
   }
-  def sbtHelper(): Unit = {
-    val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
-    val testrule2 = "strength_to_chunk | <n> | <strength!=> | <strength=strength> | 1-1C\n | | <strength!=> | <strength=> | 1-1\n"
-    val clippable = Map("n" -> Map("strength" -> false))
-    //import ie.tcd.slscs.itut.RuleConverter.TextMacro._
-    //val out = JSTMacroFromString(testrule)
-    //val ent = out(0)
-    //val parts = ent.getParts
-    //convertTextMacroEntry(parts.get(0))
-
-  }
 }
