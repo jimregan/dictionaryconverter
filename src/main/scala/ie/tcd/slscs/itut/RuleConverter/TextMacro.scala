@@ -133,7 +133,7 @@ object TextMacro {
     }
     case SrcBaseMacroEntry(pos, matches) => {
       val tmp = matches.map{e => convertMacroAttrToLet(e, clippables)}
-      (tmp.map{e => e._1}, Map("parts" -> tmp.map{e => e._2}))
+      (tmp.map{e => e._1}, Map(pos.toString -> tmp.map{e => e._2}))
     }
     case _ => throw new Exception("Cannot convert this " + s.toString)
   }
