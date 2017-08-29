@@ -211,6 +211,9 @@ object TextMacro {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
+  def mkClearVar(name: String): LetElement = {
+    LetElement(VarElement(name), LitElement(""))
+  }
   //def SimpleTextMacroToXML(m: SimpleTextMacro): DefMacroElement = {
   //  DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
   //}
