@@ -115,7 +115,7 @@ object TextMacro {
     }
     convertMacroAttrToLet(in, clippable, varnm, tpl)
   }
-  def convertSrcMacroEntry(s: SrcTextMacroEntry, clippables: Map[String, Map[String, Boolean]], chunkname: String): (List[SentenceElement], List[Option[String]]) = s match {
+  def convertSrcMacroEntry(s: SrcTextMacroEntry, clippables: Map[String, Map[String, Boolean]], chunkname: String): (List[SentenceElement], Map[String, List[Option[String]]]) = s match {
     case SrcInsertionMacroEntry(pos, matches) => {
       val first = matches(0) match {
         case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
@@ -125,15 +125,15 @@ object TextMacro {
       val rest = matches.tail
       val appendname = if(letpart._2 == None) "" else letpart._2.get
       val appendpart = mkAppend(appendname, rest)
-      (List[SentenceElement](letpart._1, appendpart), List(letpart._2))
+      (List[SentenceElement](letpart._1, appendpart), Map("insert" -> List(letpart._2)))
     }
     case SrcChunkMacroEntry(pos, matches) => {
       val tmp = matches.map{e => convertMacroAttrToLet(e, false, "", "_chunk")}
-      (tmp.map{e => e._1}, tmp.map{e => e._2})
+      (tmp.map{e => e._1}, Map("chunk" -> tmp.map{e => e._2}))
     }
     case SrcBaseMacroEntry(pos, matches) => {
       val tmp = matches.map{e => convertMacroAttrToLet(e, clippables)}
-      (tmp.map{e => e._1}, tmp.map{e => e._2})
+      (tmp.map{e => e._1}, Map("parts" -> tmp.map{e => e._2}))
     }
     case _ => throw new Exception("Cannot convert this " + s.toString)
   }
