@@ -102,7 +102,7 @@ object TextMacro {
     }
     case _ => throw new Exception("Can't convert this tag")
   }
-  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = {
+  def convertMacroAttrToLet(in: MacroAttr, clippables: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
     case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
     case KVMacroAttr(k, v, pos, apto) => {
       val litpart = litSetter(v)
