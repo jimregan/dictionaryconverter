@@ -115,7 +115,7 @@ object TextMacro {
     }
     convertMacroAttrToLet(in, clippable, varnm, tpl)
   }
-  def convertSrcMacroEntry(s: SrcTextMacroEntry, clippables: Map[String, Map[String, Boolean]], chunkname: String): List[SentenceElement] = s match {
+  def convertSrcMacroEntry(s: SrcTextMacroEntry, clippables: Map[String, Map[String, Boolean]], chunkname: String): (List[SentenceElement], List[Option[String]]) = s match {
     case SrcInsertionMacroEntry(pos, matches) => {
       val first = matches(0) match {
         case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
@@ -125,7 +125,7 @@ object TextMacro {
       val rest = matches.tail
       val appendname = if(letpart._2 == None) "" else letpart._2.get
       val appendpart = mkAppend(appendname, rest)
-      List[SentenceElement](letpart._1, appendpart)
+      (List[SentenceElement](letpart._1, appendpart), List(letpart._2))
     }
   }
   def MacroAttrToLitTag(m: MacroAttr): LitTagElement = m match {
