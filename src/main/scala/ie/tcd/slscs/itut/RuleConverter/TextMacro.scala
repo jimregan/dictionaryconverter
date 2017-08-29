@@ -213,7 +213,7 @@ object TextMacro {
         }
         case _ => throw new Exception("Can't convert this tag")
       }
-      def convertMacroAttrToLet(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
+      def convertMacroAttrToLetClip(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
         val clippable: Boolean = in match {
           case KVMacroAttr(k, v, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
           case KeyOnlyMacroAttr(k, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
@@ -239,16 +239,26 @@ object TextMacro {
         }
         case SrcBaseMacroEntry(pos, matches) => {
           val posstr: String = posvarpart(pos)
-          val tmp = matches.map{e => convertMacroAttrToLet(e, posstr)}
+          val tmp = matches.map{e => convertMacroAttrToLetClip(e, posstr)}
           (tmp.map{e => e._1}, Map(posstr -> tmp.map{e => e._2}))
         }
         case _ => throw new Exception("Cannot convert this " + s.toString)
       }
 
       val whens: List[TestElement] = in.getMatches.map{convertMacroAttrToTest}
+      val srcmacout = in.getTargets.map{convertSrcMacroEntry}
+      if(whens.size != srcmacout) {
+        throw new Exception("Size mismatch")
+      }
+      val sents = srcmacout.map{e => e._1}
+      val varlists = srcmacout.map{e => e._2}
+      val whensxml: List[WhenElement] = whens.zip(sents).map{e => WhenElement(null, e._1, e._2)}
       in match {
-        case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, test ,), None)
-        case TrgInsertionMacroEntry => Nil
+        case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        // FIXME: should behave differently?
+        case TrgInsertionMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        case TrgChunkMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        case _ => throw new Exception("Unhandled")
       }
     }
     //DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
