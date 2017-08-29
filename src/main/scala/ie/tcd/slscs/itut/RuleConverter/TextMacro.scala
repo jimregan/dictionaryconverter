@@ -261,8 +261,7 @@ object TextMacro {
         case _ => throw new Exception("Unhandled")
       }
     }
-    //DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
-    DefMacroElement(m.name, m.appliesTo.size.toString, null, null)
+    DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries.map{convertTrgTextMacroEntryToXML})
   }
   def JSTMacroFromString(s: String): List[JSTMacro] = {
     import java.io.ByteArrayInputStream
@@ -270,7 +269,7 @@ object TextMacro {
   }
   def sbtHelper(): Unit = {
     val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
-    val testrule2 = "strength_to_chunk | <n> | <strength!=> | <strength=strength> <strength=> | 1-1C 1-1\n"
+    val testrule2 = "strength_to_chunk | <n> | <strength!=> | <strength=strength> | 1-1C\n | | <strength!=> | <strength=> | 1-1\n"
     val clippable = Map("n" -> Map("strength" -> false))
     //import ie.tcd.slscs.itut.RuleConverter.TextMacro._
     //val out = JSTMacroFromString(testrule)
