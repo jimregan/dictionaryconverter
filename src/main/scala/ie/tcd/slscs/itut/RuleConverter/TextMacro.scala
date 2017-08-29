@@ -127,6 +127,15 @@ object TextMacro {
       val appendpart = mkAppend(appendname, rest)
       (List[SentenceElement](letpart._1, appendpart), List(letpart._2))
     }
+    case SrcChunkMacroEntry(pos, matches) => {
+      val tmp = matches.map{e => convertMacroAttrToLet(e, false, "", "_chunk")}
+      (tmp.map{e => e._1}, tmp.map{e => e._2})
+    }
+    case SrcBaseMacroEntry(pos, matches) => {
+      val tmp = matches.map{e => convertMacroAttrToLet(e, clippables)}
+      (tmp.map{e => e._1}, tmp.map{e => e._2})
+    }
+    case _ => throw new Exception("Cannot convert this " + s.toString)
   }
   def MacroAttrToLitTag(m: MacroAttr): LitTagElement = m match {
     case KVMacroAttr(k, v, pos, apto) => LitTagElement(v)
