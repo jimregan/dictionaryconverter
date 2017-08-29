@@ -27,25 +27,25 @@
 
 package ie.tcd.slscs.itut.RuleConverter
 
-import ie.tcd.slscs.itut.ApertiumTransfer.Text.{AttributeSequenceClippable, SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
+import ie.tcd.slscs.itut.ApertiumTransfer.Text.{SimpleTextMacroAttr, SimpleTextMacro => JSTMacro, SimpleTextMacroEntry => JSTMEntry}
 
 import scala.collection.JavaConverters._
 
 object TextMacro {
-  trait MacroAttr
-  trait NotMacroAttr extends MacroAttr
-  case class LemmaMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotLemmaMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class ListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class BeginListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotBeginListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class EndListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotEndListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class KVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotKVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends NotMacroAttr
-  case class KeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends MacroAttr
-  case class NotKeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends NotMacroAttr
+  abstract class MacroAttr(pos: Int, appliesto: String)
+  abstract class NotMacroAttr(pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class LemmaMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotLemmaMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class ListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class BeginListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotBeginListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class EndListMacroAttr(s: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotEndListMacroAttr(s: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class KVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotKVMacroAttr(k: String, v: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
+  case class KeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends MacroAttr(pos, appliesto)
+  case class NotKeyOnlyMacroAttr(k: String, pos: Int, appliesto: String) extends NotMacroAttr(pos, appliesto)
   def convertSimpleTextMacroAttr(in: SimpleTextMacroAttr): MacroAttr = {
     if(in.getKey == "lemma") {
       if(in.isNot) {
@@ -85,35 +85,17 @@ object TextMacro {
       }
     }
   }
-  def convertAttributeSequenceClippable(in: AttributeSequenceClippable): Map[String, Map[String, Boolean]] = {
-    in.getClippable.asScala.toMap.map{e => (e._1.toString, e._2.asScala.toMap.map{f => (f._1.toString, f._2.booleanValue)})}
-  }
-  def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
-    clip.getClippable.get(pos).get(attseq)
-  }
 
-  def convertMacroAttrToLet(in: MacroAttr, clippable: Map[String, Map[String, Boolean]]): (LetElement, Option[String]) = in match {
-    case LemmaMacroAttr(s, pos, apto) => (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), None)
-    case KVMacroAttr(k, v, pos, apto) => if (v != "") {
-      if(clippable.get(apto) != null && clippable.get(apto).get(k)) {
-        val clip = ClipElement(pos.toString, "tl", k, null, null, null)
-        (LetElement(clip, LitTagElement(v)), None)
-      } else {
-        val varname:String = "var_" + k
-        val clip = VarElement(varname)
-        (LetElement(clip, LitTagElement(v)), Some(varname))
-      }
-    } else {
-      if(clippable.get(apto) != null && clippable.get(apto).get(k)) {
-        val clip = ClipElement(pos.toString, "tl", k, null, null, null)
-        (LetElement(clip, LitElement("")), None)
-      } else {
-        val varname:String = "var_" + k
-        val clip = VarElement(varname)
-        (LetElement(clip, LitElement("")), Some(varname))
-      }
-    }
-    case _ => throw new Exception("Can't convert this tag")
+  def litSetter(v: String) = if(v != "") LitTagElement(v) else LitElement("")
+  def MacroAttrToLitTag(m: MacroAttr): LitTagElement = m match {
+    case KVMacroAttr(k, v, pos, apto) => LitTagElement(v)
+    case KeyOnlyMacroAttr(k, pos, apto) => LitTagElement(k)
+    case _ => throw new Exception("Cannot convert this type of MacroAttr " + m.toString)
+  }
+  def mkAppend(varname: String, kvs: List[MacroAttr]): AppendElement = {
+    val tags = kvs.map{MacroAttrToLitTag}
+    val tagend = tags :+ LitElement("$ ")
+    AppendElement(varname, tagend)
   }
   private def simpleClip(pos: Int, sl: Boolean, part: String): ClipElement = {
     val side = if(sl) "sl" else "tl"
@@ -196,36 +178,113 @@ object TextMacro {
     }
   }
 
-//  def extractChunkAttributes(in: TrgTextMacroEntry): Map[String, String] = in match {
-  //  case TrgChunkMacroEntry(a, b, c) => c match {
-    //  case
-    //}
- // }
   def convertJSTMacro(m: JSTMacro): SimpleTextMacro = {
     SimpleTextMacro(m.getName, m.getAppliesTo.asScala.toList, m.getParts.asScala.map{convertTrgTextMacroEntry}.toList)
   }
-  def convertJSTMacros(f: String): List[SimpleTextMacro] = {
+  def convertJSTMacroFile(f: String): List[SimpleTextMacro] = {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
-  //def SimpleTextMacroToXML(m: SimpleTextMacro): DefMacroElement = {
-  //  DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries)
-  //}
-  //def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = in match {
-  //  case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, WhenElement(null, convertMacroAttrToTest(src), ), None)
-  //  case TrgInsertionMacroEntry
-  //}
+  def SimpleTextMacroToXML(m: SimpleTextMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = {
+    def mkClearVar(name: String): LetElement = {
+      LetElement(VarElement(name), LitElement(""))
+    }
+    def posvarpart(pos: Int): String = {
+      m.appliesTo(pos - 1).replaceAll("><", "_").replace("<", "").replace(">", "")
+    }
+    def convertTrgTextMacroEntryToXML(in: TrgTextMacroEntry): SentenceElement = {
+      def convertMacroAttrToLet(in: MacroAttr, clippable: Boolean = false, varnm: String = "", tpl: String = "var_"): (LetElement, Option[String]) = in match {
+        case LemmaMacroAttr(s, pos, apto) => {
+          val varstr = if(tpl.startsWith("_")) varnm + tpl else tpl + varnm
+          val varout = if(varnm == "") None else Some(varstr)
+          (LetElement(ClipElement(pos.toString, "tl", "lem", null, null, null), LitElement(s)), varout)
+        }
+        case KVMacroAttr(k, v, pos, apto) => {
+          val litpart = litSetter(v)
+          if(clippable) {
+            val clip = ClipElement(pos.toString, "tl", k, null, null, null)
+            (LetElement(clip, litpart), None)
+          } else {
+            val varbase: String = if(varnm == "") k else varnm + "_" + k
+            val varname: String = if(tpl.startsWith("_")) varbase + tpl else tpl + varbase
+            val clip = VarElement(varname)
+            (LetElement(clip, litpart), Some(varname))
+          }
+        }
+        case KeyOnlyMacroAttr(k, pos, apto) => {
+          if(clippable) {
+            val clip = ClipElement(pos.toString, "tl", k, null, null, null)
+            (LetElement(clip, LitElement("")), None)
+          } else {
+            val varbase: String = if(varnm == "") k else varnm + "_" + k
+            val varname: String = if(tpl.startsWith("_")) varbase + tpl else tpl + varbase
+            val clip = VarElement(varname)
+            (LetElement(clip, LitElement("")), Some(varname))
+          }
+        }
+        case _ => throw new Exception("Can't convert this tag")
+      }
+      def convertMacroAttrToLetClip(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
+        val clippable: Boolean = in match {
+          case KVMacroAttr(k, v, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+          case KeyOnlyMacroAttr(k, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+          case _ => false
+        }
+        convertMacroAttrToLet(in, clippable, varname, tpl)
+      }
+      def convertSrcMacroEntry(s: SrcTextMacroEntry): (List[SentenceElement], Map[String, List[Option[String]]]) = s match {
+        case SrcInsertionMacroEntry(_, matches) => {
+          val first = matches(0) match {
+            case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
+            case _ => throw new Exception("Insertion macro entry missing lemma " + s.toString)
+          }
+          val letpart = convertMacroAttrToLet(first, false, m.name)
+          val rest = matches.tail
+          val appendname = if(letpart._2 == None) "" else letpart._2.get
+          val appendpart = mkAppend(appendname, rest)
+          (List[SentenceElement](letpart._1, appendpart), Map("insert" -> List(letpart._2)))
+        }
+        case SrcChunkMacroEntry(_, matches) => {
+          val tmp = matches.map{e => convertMacroAttrToLet(e, false, "", "_chunk")}
+          (tmp.map{e => e._1}, Map("chunk" -> tmp.map{e => e._2}))
+        }
+        case SrcBaseMacroEntry(pos, matches) => {
+          val posstr: String = posvarpart(pos)
+          val tmp = matches.map{e => convertMacroAttrToLetClip(e, posstr)}
+          (tmp.map{e => e._1}, Map(posstr -> tmp.map{e => e._2}))
+        }
+        case _ => throw new Exception("Cannot convert this " + s.toString)
+      }
+
+      val whens: List[TestElement] = in.getMatches.map{convertMacroAttrToTest}
+      val srcmacout = in.getTargets.map{convertSrcMacroEntry}
+      if(whens.length != srcmacout.length) {
+        throw new Exception("Size mismatch")
+      }
+      val sents = srcmacout.map{e => e._1}
+      val varlists = srcmacout.map{e => e._2}
+      val whensxml: List[WhenElement] = whens.zip(sents).map{e => WhenElement(null, e._1, e._2)}
+      in match {
+        case TrgBaseMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        // FIXME: should behave differently?
+        case TrgInsertionMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        case TrgChunkMacroEntry(p, src, trg) => ChooseElement(null, whensxml, None)
+        case _ => throw new Exception("Unhandled")
+      }
+    }
+    DefMacroElement(m.name, m.appliesTo.size.toString, null, m.entries.map{convertTrgTextMacroEntryToXML})
+  }
   def JSTMacroFromString(s: String): List[JSTMacro] = {
     import java.io.ByteArrayInputStream
     JSTMacro.fromFile(new ByteArrayInputStream(s.getBytes)).asScala.toList
   }
   def sbtHelper(): Unit = {
     val testrule = "det_type | <det> | <lemma=no> | <negative=NEG> | 1-1C\n" + " |  | <lemma=the> | <det_type=DEFART> | 1-1C\n" + " |  | <lemma=a> | <det_type=NOART> | 1-1C\n" + " |  | <lemma=this> | <det_type=DEF> | 1-1C\n"
-    //import ie.tcd.slscs.itut.ApertiumTransfer.Text.SimpleTextMacro._
-
-    //val out = SimpleTextMacro.fromFile(new ByteArrayInputStream(testrule.getBytes))
-    //import ie.tcd.slscs.itut.DictionaryConverter.TextMacro._
-    //val ent = out.get(0)
+    val testrule2 = "strength_to_chunk | <n> | <strength!=> | <strength=strength> | 1-1C\n | | <strength!=> | <strength=> | 1-1\n"
+    val clippable = Map("n" -> Map("strength" -> false))
+    //import ie.tcd.slscs.itut.RuleConverter.TextMacro._
+    //val out = JSTMacroFromString(testrule)
+    //val ent = out(0)
     //val parts = ent.getParts
     //convertTextMacroEntry(parts.get(0))
 

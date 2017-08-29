@@ -45,6 +45,18 @@ public class AlignmentPair {
         this.left = Integer.toString(left);
         this.right = Integer.toString(right);
     }
+    public String getLeft() {
+        return left;
+    }
+    public void setLeft(String left) {
+        this.left = left;
+    }
+    public String getRight() {
+        return right;
+    }
+    public void setRight(String right) {
+        this.right = right;
+    }
     public boolean canMakeLeftIndex() {
         return left.matches("^([0-9]+)[Cc]?$");
     }

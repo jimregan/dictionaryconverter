@@ -33,16 +33,19 @@ import ie.tcd.slscs.itut.RuleConverter.TextRuleMgrWrapper._
 import scala.collection.JavaConverters._
 
 case class TextRuleMgrWrapper(trm: TextRuleManager) {
-  def getLists = trm.getLists.asScala.map{convertSimpleList}.toMap
-  def getCats = trm.getCategories.asScala.map{convertSimpleCats}.toMap
+  def getLists: Map[String, List[String]] = trm.getLists.asScala.map{convertSimpleList}.toMap
+  def getCats: Map[String, List[String]] = trm.getCategories.asScala.map{convertSimpleCats}.toMap
+  def getCatItems: Map[String, List[CatItem]] = getCats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
   val transferType = trm.getTypeText
-  val clippables = TextMacro.convertAttributeSequenceClippable(trm.getClippable)
-  val clippablesChunk = TextMacro.convertAttributeSequenceClippable(trm.getClippableChunk)
+  val clippables = convertAttributeSequenceClippable(trm.getClippable)
+  val clippablesChunk = convertAttributeSequenceClippable(trm.getClippableChunk)
   val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
+  def getSeq(s: String): List[String] = if(targetSeq.get(s) == None) List.empty[String] else targetSeq.get(s).get
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
   val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
+  val rules: List[RuleHolder] = trm.getRules.asScala.map{e => RuleHolder.convertRuleContainer(e, getCatItems)}.toList
 }
 object TextRuleMgrWrapper {
   def apply(arr: Array[String]): TextRuleMgrWrapper = {
@@ -57,4 +60,10 @@ object TextRuleMgrWrapper {
   }
   def convertSimpleCats(in: SimpleCats): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
   def convertSimpleList(in: SimpleList): (String, List[String]) = (in.getName, in.getItems.asScala.toList)
+  def convertAttributeSequenceClippable(in: AttributeSequenceClippable): Map[String, Map[String, Boolean]] = {
+    in.getClippable.asScala.toMap.map{e => (e._1.toString, e._2.asScala.toMap.map{f => (f._1.toString, f._2.booleanValue)})}
+  }
+  def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
+    clip.getClippable.get(pos).get(attseq)
+  }
 }
