@@ -68,6 +68,26 @@ object ExpandRules {
       case _ => throw new Exception("Unexpected value: " + s)
     }
   }
+  def diffTags(la: List[String], lb: List[String]): List[String] = {
+    val count = la.zip(lb).takeWhile(e => e._1 == e._2).length
+    lb.drop(count)
+  }
+  case class TokenDifference(lemma: String, tags: List[String])
+  def diffTokens(a: Token, b: Token): TokenDifference = {
+    a match {
+      case LemmaToken(l, t) => b match {
+        case LemmaToken(ll, tt) => {
+          val outlem = if(l != ll) ll else ""
+          TokenDifference(outlem, diffTags(t, tt))
+        }
+        case TagsToken(tt) => throw new Exception("Wrong order for comparison")
+      }
+      case TagsToken(t) => b match {
+        case LemmaToken(l, tt) => TokenDifference(l, diffTags(t, tt))
+        case TagsToken(tt) => TokenDifference("", diffTags(t, tt))
+      }
+    }
+  }
   def makeTokenList(s: String): List[Token] = s.split(" ").map{makeToken}.toList
   abstract class TrRule(tag: String) {
     def getTag:String = tag
