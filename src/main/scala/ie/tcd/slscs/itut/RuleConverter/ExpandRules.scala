@@ -53,7 +53,9 @@ object ExpandRules {
     val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
     almap
   }
-  abstract class Token(tags: List[String])
+  abstract class Token(tags: List[String]) {
+    def getTags = tags
+  }
   case class LemmaToken(lemma: String, tags: List[String]) extends Token(tags)
   case class TagsToken(tags: List[String]) extends Token(tags)
   abstract class AlignedToken(tags: List[String], pos: Int) extends Token(tags)
@@ -97,12 +99,29 @@ object ExpandRules {
                        trgmac: List[Macro], srceg: String, trgeg: String)
   case class MultiPartRule(tag: String, parts: List[RulePiece]) extends TrRule(tag)
   case class Rule(tag: String, src: List[Token], trg: List[Token],
-                  srcal: Map[Int, Array[Int]],
-                  srcmac: List[Macro], trgmac: List[Macro], srceg: String,
-                  trgeg: String) extends TrRule(tag)
+                  srcal: Map[Int, Array[Int]], srcmac: List[Macro],
+                  trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule(tag)
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
     val rp:RulePiece = RulePiece(r.src, r.trg, r.srcal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, List[RulePiece](rp))
+  }
+  def flipMacro(pos: Int, mac: Macro): Macro = {
+    Macro(mac.name, mac.params.map{e => if (e <= pos) e else -e})
+  }
+  def ruleExpander(r: Rule, m: Map[String, List[Rule]]): Map[String, List[Rule]] = {
+    val srcskip = r.src.takeWhile{e => e.getTags.length != 1 || !m.contains(e.getTags(0))}
+    if (srcskip == r.src) {
+      m
+    }
+    val skiplen = srcskip.length
+    val srccur = r.src.drop(skiplen).head
+    val srcrest = r.src.drop(skiplen + 1)
+
+    if(r.srcal(skiplen + 1).length != 1) {
+      throw new Exception("Non-terminal cannot have multiple alignments")
+    }
+
+    m
   }
   def stringToRule(parts: Array[String]): Rule = {
     val tag = parts(0)
