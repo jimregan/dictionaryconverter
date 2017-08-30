@@ -80,7 +80,7 @@ object ExpandRules {
           val outlem = if(l != ll) ll else ""
           TokenDifference(outlem, diffTags(t, tt))
         }
-        case TagsToken(tt) => throw new Exception("Wrong order for comparison")
+        case TagsToken(_) => throw new Exception("Wrong order for comparison")
       }
       case TagsToken(t) => b match {
         case LemmaToken(l, tt) => TokenDifference(l, diffTags(t, tt))
