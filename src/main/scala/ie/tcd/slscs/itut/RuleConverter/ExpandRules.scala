@@ -72,17 +72,17 @@ object ExpandRules {
   abstract class TrRule(tag: String) {
     def getTag:String = tag
   }
-  case class RulePiece(trg: List[Token], srcal: Map[Int, Array[Int]],
-                       trgal: Map[Int, Array[Int]], srcmac: List[Macro],
+  case class RulePiece(src: List[Token], trg: List[Token],
+                       al: Map[Int, Array[Int]], srcmac: List[Macro],
                        trgmac: List[Macro], srceg: String, trgeg: String)
-  case class MultiPartRule(tag: String, src: List[Token], parts: List[RulePiece]) extends TrRule(tag)
+  case class MultiPartRule(tag: String, parts: List[RulePiece]) extends TrRule(tag)
   case class Rule(tag: String, src: List[Token], trg: List[Token],
-                  srcal: Map[Int, Array[Int]], trgal: Map[Int, Array[Int]],
+                  srcal: Map[Int, Array[Int]],
                   srcmac: List[Macro], trgmac: List[Macro], srceg: String,
                   trgeg: String) extends TrRule(tag)
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
-    val rp:RulePiece = RulePiece(r.trg, r.srcal, r.trgal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
-    MultiPartRule(r.tag, r.src, List[RulePiece](rp))
+    val rp:RulePiece = RulePiece(r.src, r.trg, r.srcal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
+    MultiPartRule(r.tag, List[RulePiece](rp))
   }
   def stringToRule(parts: Array[String]): Rule = {
     val tag = parts(0)
@@ -94,7 +94,7 @@ object ExpandRules {
     val trgmac = stringToMacroList(parts(5))
     val srceg = parts(6)
     val trgeg = parts(7)
-    Rule(tag, src, trg, srcal, trgal, srcmac, trgmac, srceg, trgeg)
+    Rule(tag, src, trg, srcal, srcmac, trgmac, srceg, trgeg)
   }
   abstract class TrivialRule(tag: String) extends TrRule(tag)
   case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule(tag)
