@@ -122,7 +122,7 @@ object ExpandRules {
     }
 
     // check! off-by-one -- or many -- potential
-    val trgpos = r.srcal(skiplen - 1)
+    val trgpos = r.srcal(skiplen - 1)(0)
     val trgskip = r.trg.take(trgpos - 1)
     val trgcur = r.trg.drop(trgpos - 1).head
     val trgrest = r.trg.drop(trgpos)
