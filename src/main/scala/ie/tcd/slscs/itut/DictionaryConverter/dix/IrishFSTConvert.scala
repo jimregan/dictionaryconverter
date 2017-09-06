@@ -45,13 +45,16 @@ class IrishFSTConvert {
 
   def maptags(str: String): List[String] = {
     val chop = if(str.charAt(0) == '+') str.substring(1) else str
-    
+
+    List.empty[String]
   }
-  def procWords(surface: String, lemma: String, tags: String): Entry = {
+  def procWords(surface: String, lemma: String, tags: String): Option[Entry] = {
     if(lronly_whole.contains(tags)) {
-      Entry(surface, lemma, lronly_whole.get(tags).get.split("\\.").toList, "lr")
+      Some(Entry(surface, lemma, lronly_whole.get(tags).get.split("\\.").toList, "lr"))
+    } else if(skip_whole.contains(tags)) {
+      None
     } else {
-      Entry(surface, lemma, maptags(tags))
+      Some(Entry(surface, lemma, maptags(tags)))
     }
   }
 }
