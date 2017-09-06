@@ -130,10 +130,10 @@ object ExpandRules {
       throw new Exception("Non-terminal cannot have multiple alignments")
     }
 
-    // check! off-by-one -- or many -- potential
-    val trgpos = r.srcal(skiplen - 1)(0)
-    val trgskip = r.trg.take(trgpos - 1)
-    val trgcur = r.trg.drop(trgpos - 1).head
+    val trgpos = r.srcal(skiplen + 1)(0)
+    val trgpostake = if(trgpos <= 0) 0 else trgpos - 1
+    val trgskip = r.trg.take(trgpostake)
+    val trgcur = r.trg.drop(trgpostake).head
     val trgrest = r.trg.drop(trgpos)
 
     m
