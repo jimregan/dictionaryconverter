@@ -50,12 +50,28 @@ class IrishFSTConvert {
                         "+Foreign+English+Pron",
                         "+Foreign+English+Verb",
                         "+XMLTag",
-                        "+Event")
+                        "+Cmc",
+                        "+Cmc+English",
+                        "+Event",
+                        "+Adj+Base+DeNom",
+                        "+Adj+Base+DeNom+Com+Sg",
+                        "+Adj+Base+DeNom+Com+Sg+Ecl",
+                        "+Adj+Base+DeNom+Com+Sg+Len",
+                        "+Adj+Base+DeNom+DefArt",
+                        "+Adj+Base+DeNom+Ecl",
+                        "+Adj+Base+DeNom+Gen+Sg+Ecl",
+                        "+Adj+Base+DeNom+Gen+Sg+Len",
+                        "+Adj+Base+DeNom+Len",
+)
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
                         "+Art+Pl+Def" -> "det.def.mf.pl",
                         "+Art+Sg+Def" -> "det.def.mf.sg",
-                        "+Punct+Fin" -> "sent")
+                        "+Punct+Fin" -> "sent",
+                        "+Adv+Q+Wh" -> "adv.itg",
+                        "+Prep+Simp" -> "pr",
+                        "+Conj+Coord" -> "cnjcoo",
+                        "+Conj+Subord" -> "cnjsub")
 
   val tag_remap = Map("Masc" -> "m",
                       "Fem" -> "f",
@@ -63,7 +79,32 @@ class IrishFSTConvert {
                       "2P" -> "p2",
                       "3P" -> "p3",
                       "Verb" -> "vblex",
-                      "Noun" -> "n"
+                      "Noun" -> "n",
+                      "Com" -> "com",
+                      "Gen" -> "gen",
+                      "hPref" -> "hpref",
+                      "DefArt" -> "defart",
+                      "Ecl" -> "ecl",
+                      "Sg" -> "sg",
+                      "Len" -> "len",
+                      "Adj" -> "adj",
+                      "Adv" -> "adv",
+                      "Voc" -> "voc",
+                      "Dat" -> "dat",
+                      "Pl" -> "pl",
+                      "Cond" -> "cni",
+                      "Imper" -> "imp",
+                      "FutInd" -> "fti",
+                      "Q" -> "itg",
+                      "Neg" -> "neg",
+                      "Auto" -> "aut",
+                      "Rel" -> "rel",
+                      "Emph" -> "emph",
+                      "PresInd" -> "pri",
+                      "PresSubj" -> "prs",
+                      "Cop" -> "cop",
+                      "Pres" -> "pres",
+                      "Strong" -> "strong"
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
