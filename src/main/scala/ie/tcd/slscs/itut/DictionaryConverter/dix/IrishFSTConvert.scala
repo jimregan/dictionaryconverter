@@ -83,15 +83,18 @@ class IrishFSTConvert {
     }
     val chop = if(str.charAt(0) == '+') str.substring(1) else str
     if(chop.startsWith("Subst+Noun+")) {
+      maptagsInner(List("n", "mf"), chop.substring(11).split("\\+").toList)
+    } else if(chop.startsWith("Prop+Noun+")) {
+      maptagsInner(List("np"), chop.substring(10).split("\\+").toList)
+    } else {
+      maptagsInner(List.empty[String], chop.split("\\+").toList)
     }
-
-    List.empty[String]
   }
   def procWords(surface: String, lemma: String, tags: String): Option[Entry] = {
     if(lronly_whole.contains(tags)) {
-      Some(Entry(surface, lemma, lronly_whole.get(tags).get.split("\\.").toList, "lr"))
+      Some(Entry(surface, lemma, lronly_whole(tags).split("\\.").toList, "lr"))
     } else if(remap_whole.contains(tags)) {
-      Some(Entry(surface, lemma, remap_whole.get(tags).get.split("\\.").toList))
+      Some(Entry(surface, lemma, remap_whole(tags).split("\\.").toList))
     } else if(skip_whole.contains(tags)) {
       None
     } else {
