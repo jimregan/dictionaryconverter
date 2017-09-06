@@ -33,6 +33,9 @@ object ExpandRules {
   //NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór
   case class Macro(name: String, params: List[Int])
   def stringToMacro(s: String): Option[Macro] = {
+    if(s == null || s == "") {
+      None
+    }
     val in = s.split(":")
     if(in.length != 2) {
       None
@@ -40,7 +43,13 @@ object ExpandRules {
     val params = in(1).split(",").map{_.trim}.map{_.toInt}.toList
     Some(Macro(in(0), params))
   }
-  implicit def stringToMacroList(s: String): List[Macro] = s.split(" ").flatMap{stringToMacro}.toList
+  implicit def stringToMacroList(s: String): List[Macro] = {
+    if(s == null || s == "") {
+      List.empty[Macro]
+    } else {
+      s.split(" ").flatMap{stringToMacro}.toList
+    }
+  }
   def splitAlignmentsSL(al: String): Map[Int, Array[Int]] = {
     def toTuple(i: Array[Int]): (Int, Int) = (i(0), i(1))
     val als = al.split(" ").map {_.split("-").map(_.toInt)}.map{toTuple}
@@ -121,13 +130,16 @@ object ExpandRules {
       throw new Exception("Non-terminal cannot have multiple alignments")
     }
 
-    // check! off-by-one -- or many -- potential
-    val trgpos = r.srcal(skiplen - 1)(0)
-    val trgskip = r.trg.take(trgpos - 1)
-    val trgcur = r.trg.drop(trgpos - 1).head
+    val trgpos = r.srcal(skiplen + 1)(0)
+    val trgpostake = if(trgpos <= 0) 0 else trgpos - 1
+    val trgskip = r.trg.take(trgpostake)
+    val trgcur = r.trg.drop(trgpostake).head
     val trgrest = r.trg.drop(trgpos)
 
     m
+  }
+  def stringToRule(s: String): Rule = {
+    stringToRule(s.split("\\|").map{_.trim})
   }
   def stringToRule(parts: Array[String]): Rule = {
     val tag = parts(0)
