@@ -43,7 +43,13 @@ object ExpandRules {
     val params = in(1).split(",").map{_.trim}.map{_.toInt}.toList
     Some(Macro(in(0), params))
   }
-  implicit def stringToMacroList(s: String): List[Macro] = s.split(" ").flatMap{stringToMacro}.toList
+  implicit def stringToMacroList(s: String): List[Macro] = {
+    if(s == null || s == "") {
+      List.empty[Macro]
+    } else {
+      s.split(" ").flatMap{stringToMacro}.toList
+    }
+  }
   def splitAlignmentsSL(al: String): Map[Int, Array[Int]] = {
     def toTuple(i: Array[Int]): (Int, Int) = (i(0), i(1))
     val als = al.split(" ").map {_.split("-").map(_.toInt)}.map{toTuple}
