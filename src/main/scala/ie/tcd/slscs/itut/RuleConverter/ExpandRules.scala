@@ -33,6 +33,9 @@ object ExpandRules {
   //NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór
   case class Macro(name: String, params: List[Int])
   def stringToMacro(s: String): Option[Macro] = {
+    if(s == null || s == "") {
+      None
+    }
     val in = s.split(":")
     if(in.length != 2) {
       None
@@ -128,6 +131,9 @@ object ExpandRules {
     val trgrest = r.trg.drop(trgpos)
 
     m
+  }
+  def stringToRule(s: String): Rule = {
+    stringToRule(s.split("\\|").map{_.trim})
   }
   def stringToRule(parts: Array[String]): Rule = {
     val tag = parts(0)
