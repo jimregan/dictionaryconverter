@@ -129,6 +129,8 @@ object ExpandRules {
     if(r.srcal(skiplen + 1).length != 1) {
       throw new Exception("Non-terminal cannot have multiple alignments")
     }
+    val alskip = r.srcal.take(skiplen)
+    val alrest = r.srcal.drop(skiplen + 1)
 
     val trgpos = r.srcal(skiplen + 1)(0)
     val trgpostake = if(trgpos <= 0) 0 else trgpos - 1
