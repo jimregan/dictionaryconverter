@@ -35,22 +35,63 @@ class IrishFSTConvert {
                          "+Art+Sg+Def+NG" -> "det.def.mf.sg")
   val skip_whole = List("+Abr",
                         "+Abr+Title",
-                        "+Adj+Pref")
+                        "+Adj+Pref",
+                        "+Filler",
+                        "+Xxx",
+                        "+Foreign+English+Adj",
+                        "+Foreign+English+Adv",
+                        "+Foreign+English+Conj",
+                        "+Foreign+English+Det",
+                        "+Foreign+English+Noun",
+                        "+Foreign+English+Noun+Prop",
+                        "+Foreign+English+Noun+Prop+Def",
+                        "+Foreign+English+Num",
+                        "+Foreign+English+Prep",
+                        "+Foreign+English+Pron",
+                        "+Foreign+English+Verb",
+                        "+XMLTag",
+                        "+Event")
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
                         "+Art+Pl+Def" -> "det.def.mf.pl",
-                        "+Art+Sg+Def" -> "det.def.mf.sg")
+                        "+Art+Sg+Def" -> "det.def.mf.sg",
+                        "+Punct+Fin" -> "sent")
 
+  val tag_remap = Map("Masc" -> "m",
+                      "Fem" -> "f",
+                      "1P" -> "p1",
+                      "2P" -> "p2",
+                      "3P" -> "p3",
+                      "Verb" -> "vblex",
+                      "Noun" -> "n"
+                      )
+  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
 
   def maptags(str: String): List[String] = {
+    def maptagsInner(l: List[String], cur: List[String]): List[String] = cur match {
+      case head :: tail => {
+        if(crap_tags.contains(head)) {
+          maptagsInner(l, tail)
+        } else if(remap_whole.contains(head)) {
+          maptagsInner(l :+ head, tail)
+        } else {
+          throw new Exception("Unmapped tag: " + head)
+        }
+      }
+      case Nil => l
+    }
     val chop = if(str.charAt(0) == '+') str.substring(1) else str
+    if(chop.startsWith("Subst+Noun+")) {
+    }
 
     List.empty[String]
   }
   def procWords(surface: String, lemma: String, tags: String): Option[Entry] = {
     if(lronly_whole.contains(tags)) {
       Some(Entry(surface, lemma, lronly_whole.get(tags).get.split("\\.").toList, "lr"))
+    } else if(remap_whole.contains(tags)) {
+      Some(Entry(surface, lemma, remap_whole.get(tags).get.split("\\.").toList))
     } else if(skip_whole.contains(tags)) {
       None
     } else {
