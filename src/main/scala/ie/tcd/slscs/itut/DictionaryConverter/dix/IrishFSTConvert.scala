@@ -176,26 +176,31 @@ object IrishFSTConvert {
       Some(Entry(surface, lemma, maptags(tags)))
     }
   }
-
-  object Mapper extends App {
-    import scala.io.Source
-    val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")))
-    if(args.length < 1) {
-      throw new Exception("No filename specified")
-    }
-    val filename = args(0)
-    def mapper(s: String): Option[Entry] = {
-      if(remap_whole.contains(s)) {
-        remap_whole.get(s)
-      } else {
-        val parts = s.split("\t")
-        val first_plus = s.indexOf('+')
-        val lemma = s.substring(0, first_plus)
-        val tags = parts(0).substring(first_plus)
-        val surface = parts(1)
-        procWords(surface, lemma, tags)
-      }
-    }
-    val parts = Source.fromFile(filename).getLines.map{mapper}
-  }
 }
+
+object Mapper extends App {
+  import scala.io.Source
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
+
+  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")))
+  if(args.length < 1) {
+    throw new Exception("No filename specified")
+  }
+  val filename = args(0)
+
+  def mapper(s: String): Option[Entry] = {
+    if(remap_whole.contains(s)) {
+      remap_whole.get(s)
+    } else {
+      val parts = s.split("\t")
+      val first_plus = s.indexOf('+')
+      val lemma = s.substring(0, first_plus)
+      val tags = parts(0).substring(first_plus)
+      val surface = parts(1)
+      procWords(surface, lemma, tags)
+    }
+  }
+  val parts = Source.fromFile(filename).getLines.map{mapper}
+}
+
