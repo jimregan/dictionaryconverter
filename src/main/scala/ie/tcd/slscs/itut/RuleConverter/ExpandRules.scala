@@ -148,8 +148,8 @@ object ExpandRules {
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, children: List[Rule], macros: List[Macro]) extends TokenNode
   def expandRuleToSausage(r: RulePiece): (List[TokenNode], List[TokenNode]) = {
-    val srcMacroMap: Map[Int, List[Macro]] = r.srcmac.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).mapValues(_.map(_._2))
-    val trgMacroMap: Map[Int, List[Macro]] = r.trgmac.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).mapValues(_.map(_._2))
+    val srcMacroMap: Map[Int, List[Macro]] = r.srcmac.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
+    val trgMacroMap: Map[Int, List[Macro]] = r.trgmac.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
     (List.empty[TokenNode], List.empty[TokenNode])
   }
 
