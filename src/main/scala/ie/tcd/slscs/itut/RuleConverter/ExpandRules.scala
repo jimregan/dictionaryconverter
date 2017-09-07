@@ -119,7 +119,7 @@ object ExpandRules {
   }
   def ruleExpander(r: Rule, m: Map[String, List[Rule]]): Map[String, List[Rule]] = {
     val srcskip = r.src.takeWhile{e => e.getTags.length != 1 || !m.contains(e.getTags(0))}
-    if (srcskip == r.src) {
+    if (srcskip.length == r.src.length) {
       m
     }
     val skiplen = srcskip.length
