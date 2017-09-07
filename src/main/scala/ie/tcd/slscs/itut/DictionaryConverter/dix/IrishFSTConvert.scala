@@ -27,7 +27,7 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter.dix
 
-class IrishFSTConvert {
+object IrishFSTConvert {
   val lronly_whole = Map("+Adv+Temp+Gen+Sg" -> "adv",
                          "+Adv+Temp+NG" -> "adv",
                          "+Adv+Gn+NG" -> "adv",
@@ -61,7 +61,7 @@ class IrishFSTConvert {
                         "+Adj+Base+DeNom+Ecl",
                         "+Adj+Base+DeNom+Gen+Sg+Ecl",
                         "+Adj+Base+DeNom+Gen+Sg+Len",
-                        "+Adj+Base+DeNom+Len",
+                        "+Adj+Base+DeNom+Len"
 )
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
@@ -119,7 +119,7 @@ class IrishFSTConvert {
                       "Dep" -> "dep",
                       "Weak" -> "weak",
                       "Conj" -> "cnjadv",
-                      "Itj" -> "ij",
+                      "Itj" -> "ij"
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
