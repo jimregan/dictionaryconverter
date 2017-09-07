@@ -179,6 +179,19 @@ object IrishFSTConvert {
       Some(Entry(surface, lemma, maptags(tags)))
     }
   }
+
+  def prpersMaker(tags: String): List[String] = {
+    def gender(s: String) = if(s.contains("Masc")) "m" else if(s.contains("Fem")) "f" else "mf"
+    def number(s: String) = if(s.contains("Sg")) "sg" else if(s.contains("Pl")) "pl" else "sp"
+    def person(s: String) = if(s.contains("1P")) "p1" else if(s.contains("2P")) "p2" else "p3"
+    def addtags(s: String) = List[String](person(s), gender(s), number(s))
+    if(!tags.contains("Pron+Prep")) {
+      List.empty[String]
+    } else {
+      val base = List("prn", "obj")
+      base ++ addtags(tags)
+    }
+  }
 }
 
 object Mapper extends App {
