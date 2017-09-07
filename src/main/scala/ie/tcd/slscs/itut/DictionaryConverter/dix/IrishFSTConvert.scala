@@ -71,7 +71,10 @@ object IrishFSTConvert {
                         "+Conj+Coord" -> "cnjcoo",
                         "+Conj+Subord" -> "cnjsub",
                         "+Cmc" -> "ij",
-                        "+Cmc+English" -> "ij"
+                        "+Cmc+English" -> "ij",
+                        "+Adv+Temp" -> "adv",
+                        "+Adv+Gn" -> "adv",
+                        "+Adv+Loc" -> "adv"
                         )
 
   val tag_remap = Map("Masc" -> "m",
