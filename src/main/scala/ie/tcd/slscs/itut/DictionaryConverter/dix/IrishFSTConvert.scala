@@ -128,7 +128,10 @@ object IrishFSTConvert {
                       "Obj" -> "obj"
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
-  case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
+  abstract class EntryBasis
+  case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis
+  case class RHS(lemma: String, tags: List[String])
+  case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis
 
   def maptags(str: String): List[String] = {
     val number = List("Sg", "Pl")
