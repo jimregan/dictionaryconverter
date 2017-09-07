@@ -102,20 +102,47 @@ class IrishFSTConvert {
                       "Emph" -> "emph",
                       "PresInd" -> "pri",
                       "PresSubj" -> "prs",
+                      "PresImp" -> "imp",
                       "Cop" -> "cop",
                       "Pres" -> "pres",
-                      "Strong" -> "strong"
+                      "Strong" -> "strong",
+                      "PastImp" -> "pii",
+                      "PastInd" -> "ifi",
+                      "PastSubj" -> "ifs",
+                      "Past" -> "past",
+                      "Ref" -> "ref",
+                      "Pers" -> "pers",
+                      "FutInd" -> "fti",
+                      "Qty" -> "qnt",
+                      "Imp" -> "imp",
+                      "Idf" -> "ind",
+                      "Dep" -> "dep",
+                      "Weak" -> "weak",
+                      "Conj" -> "cnjadv",
+                      "Itj" -> "ij",
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
 
   def maptags(str: String): List[String] = {
+    val number = List("Sg", "Pl")
+    val cases = List("Com", "Gen", "Voc", "Dat")
     def maptagsInner(l: List[String], cur: List[String]): List[String] = cur match {
       case head :: tail => {
         if(crap_tags.contains(head)) {
           maptagsInner(l, tail)
-        } else if(remap_whole.contains(head)) {
-          maptagsInner(l :+ head, tail)
+        } else if(tag_remap.contains(head)) {
+          if(cases.contains(head)) {
+            tail match {
+              case x :: xs => if(number.contains(x)) {
+                maptagsInner(l ++ List(tag_remap(x), tag_remap(head)), xs)
+              } else {
+                maptagsInner(l :+ tag_remap(head), tail)
+              }
+            }
+          } else {
+            maptagsInner(l :+ tag_remap(head), tail)
+          }
         } else {
           throw new Exception("Unmapped tag: " + head)
         }
