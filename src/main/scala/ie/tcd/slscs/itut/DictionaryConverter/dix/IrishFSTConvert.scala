@@ -119,7 +119,9 @@ object IrishFSTConvert {
                       "Dep" -> "dep",
                       "Weak" -> "weak",
                       "Conj" -> "cnjadv",
-                      "Itj" -> "ij"
+                      "Itj" -> "ij",
+                      "Dem" -> "dem",
+                      "Obj" -> "obj"
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null)
@@ -141,7 +143,11 @@ object IrishFSTConvert {
               }
             }
           } else {
-            maptagsInner(l :+ tag_remap(head), tail)
+            if(head == "NegQ") {
+              maptagsInner(l ++ List("itg", "neg"), tail)
+            } else {
+              maptagsInner(l :+ tag_remap(head), tail)
+            }
           }
         } else {
           throw new Exception("Unmapped tag: " + head)
