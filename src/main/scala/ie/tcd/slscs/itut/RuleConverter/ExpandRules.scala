@@ -143,7 +143,9 @@ object ExpandRules {
   }
   */
   abstract class TokenNode
-  case class TerminalToken(pos: Int, align: Int, child: Token, macros: List[Macro]) extends TokenNode
+  case class TerminalToken(pos: Int, align: List[Int], child: Token, macros: List[Macro]) extends TokenNode
+  case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
+  case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, children: List[Rule], macros: List[Macro]) extends TokenNode
 
 
