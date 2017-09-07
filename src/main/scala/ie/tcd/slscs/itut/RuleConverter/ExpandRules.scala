@@ -152,6 +152,10 @@ object ExpandRules {
   def expandRuleToSausage(r: RulePiece): (List[TokenNode], List[TokenNode]) = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val trgMacroMap: Map[Int, List[Macro]] = macroListToMap(r.trgmac)
+    // Make token sausage from src, trg
+    //zipWithIndex.map{e => (e._1, e._2 + 1)}
+    // do I need to keep the original alignments list to unflip the macros?
+    // probably, need to pass through twice: first, adjust positions, keeping a map of old -> new; second, flip
     (List.empty[TokenNode], List.empty[TokenNode])
   }
 
