@@ -117,6 +117,7 @@ object ExpandRules {
   def flipMacro(pos: Int, mac: Macro): Macro = {
     Macro(mac.name, mac.params.map{e => if (e <= pos) e else -e})
   }
+  /*
   def ruleExpander(r: Rule, m: Map[String, List[Rule]]): Map[String, List[Rule]] = {
     val srcskip = r.src.takeWhile{e => e.getTags.length != 1 || !m.contains(e.getTags(0))}
     if (srcskip.length == r.src.length) {
@@ -140,6 +141,12 @@ object ExpandRules {
 
     m
   }
+  */
+  abstract class TokenNode
+  case class TerminalToken(pos: Int, align: Int, child: Token, macros: List[Macro]) extends TokenNode
+  case class NonTerminalToken(pos: Int, align: Int, children: List[Rule], macros: List[Macro]) extends TokenNode
+
+
   def stringToRule(s: String): Rule = {
     stringToRule(s.split("\\|").map{_.trim})
   }
