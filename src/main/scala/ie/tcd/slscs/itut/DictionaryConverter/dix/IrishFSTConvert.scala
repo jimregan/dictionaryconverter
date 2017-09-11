@@ -172,6 +172,15 @@ object IrishFSTConvert {
   case class RHS(lemma: String, tags: List[String])
   case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis
 
+  val DIALECTS = List("CC", "CM", "CU")
+
+  def getDialect(tags: String): (String, String) = {
+    val tagsw = if(tags.startsWith("+")) tags.substring(1) else tags
+    val tagsa = tagsw.split("\\+")
+    val tagsout = tagsa.filter{!DIALECTS.contains(_)}.mkString("+")
+    val dialecttaga = tagsa.filter{DIALECTS.contains(_)}.mkString(",")
+    return (tagsout, dialecttaga)
+  }
   def maptags(str: String): List[String] = {
     val number = List("Sg", "Pl")
     val cases = List("Com", "Gen", "Voc", "Dat")
