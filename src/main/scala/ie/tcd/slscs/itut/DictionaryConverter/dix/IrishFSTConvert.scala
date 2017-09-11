@@ -174,12 +174,13 @@ object IrishFSTConvert {
 
   val DIALECTS = List("CC", "CM", "CU")
 
-  def getDialect(tags: String): (String, String) = {
+  def getDialect(tags: String): String = {
     val tagsw = if(tags.startsWith("+")) tags.substring(1) else tags
-    val tagsa = tagsw.split("\\+")
-    val tagsout = tagsa.filter{!DIALECTS.contains(_)}.mkString("+")
-    val dialecttaga = tagsa.filter{DIALECTS.contains(_)}.mkString(",")
-    return (tagsout, dialecttaga)
+    tagsw.split("\\+").filter{DIALECTS.contains(_)}.mkString(",")
+  }
+  def stripDialect(tags: String): String = {
+    val tagsw = if(tags.startsWith("+")) tags.substring(1) else tags
+    tagsw.split("\\+").filter{!DIALECTS.contains(_)}.mkString("+")
   }
   def maptags(str: String): List[String] = {
     val number = List("Sg", "Pl")
@@ -210,7 +211,7 @@ object IrishFSTConvert {
       }
       case Nil => l
     }
-    val chop = if(str.charAt(0) == '+') str.substring(1) else str
+    val chop = stripDialect(str)
     if(chop.startsWith("Subst+Noun+")) {
       maptagsInner(List("n", "mf"), chop.substring(11).split("\\+").toList)
     } else if(chop.startsWith("Prop+Noun+")) {
