@@ -110,7 +110,7 @@ object RuleHolder {
     dropLastBlank(l, List.empty[StreamItem])
   }
   def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = {
-    simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+    simpleStreamDropLastBlank(l.zipWithIndex.flatMap{e => List(e._1, PositionBlank(e._2 + 1))})
   }
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
