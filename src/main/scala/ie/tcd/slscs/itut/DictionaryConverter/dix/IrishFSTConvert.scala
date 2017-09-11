@@ -51,7 +51,7 @@ object IrishFSTConvert {
                          "+Cop+Pres+Dep+VF" -> "cop.pres.dep",
                          "+Cop+Pres+RelInd+VF" -> "cop.pres.rel.ind",
                          "+Cop+PresSubj+Neg+VF" -> "cop.prs.neg",
-                         "+Cop+PresSubj+VF" -> "cop.prs.subj",
+                         "+Cop+PresSubj+VF" -> "cop.prs.subj"
                          )
   val skip_whole = List("+Abr",
                         "+Abr+Title",
@@ -113,7 +113,7 @@ object IrishFSTConvert {
                         "+Cop+Pres+Dep" -> "cop.pres.dep",
                         "+Cop+Pres+RelInd" -> "cop.pres.rel.ind",
                         "+Cop+PresSubj+Neg" -> "cop.prs.neg",
-                        "+Cop+PresSubj" -> "cop.prs.subj",
+                        "+Cop+PresSubj" -> "cop.prs.subj"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -251,7 +251,8 @@ object Mapper extends App {
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
-  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")))
+  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
+                        "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")))
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
