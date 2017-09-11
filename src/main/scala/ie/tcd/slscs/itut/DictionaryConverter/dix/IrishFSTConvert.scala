@@ -51,7 +51,8 @@ object IrishFSTConvert {
                          "+Cop+Pres+Dep+VF" -> "cop.pres.dep",
                          "+Cop+Pres+RelInd+VF" -> "cop.pres.rel.ind",
                          "+Cop+PresSubj+Neg+VF" -> "cop.prs.neg",
-                         "+Cop+PresSubj+VF" -> "cop.prs.subj"
+                         "+Cop+PresSubj+VF" -> "cop.prs.subj",
+                         "+Prep+Simp+DefArt" -> "pr"
                          )
   val skip_whole = List("+Abr",
                         "+Abr+Title",
@@ -79,13 +80,20 @@ object IrishFSTConvert {
                         "+Adj+Base+DeNom+Ecl",
                         "+Adj+Base+DeNom+Gen+Sg+Ecl",
                         "+Adj+Base+DeNom+Gen+Sg+Len",
-                        "+Adj+Base+DeNom+Len"
+                        "+Adj+Base+DeNom+Len",
+                        "Punct"
 )
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
                         "+Art+Pl+Def" -> "det.def.mf.pl",
                         "+Art+Sg+Def" -> "det.def.mf.sg",
                         "+Punct+Fin" -> "sent",
+                        "+Punct+Fin+Q" -> "sent",
+                        "+Punct+Int" -> "sent",
+                        "+Punct+Quo" -> "quot",
+                        "+Punct+Brack+St" -> "lpar",
+                        "+Punct+Brack+End" -> "rpar",
+                        "+Punct+Bar" -> "guio",
                         "+Adv+Q+Wh" -> "adv.itg",
                         "+Prep+Simp" -> "pr",
                         "+Conj+Coord" -> "cnjcoo",
@@ -215,6 +223,7 @@ object IrishFSTConvert {
     if(chop.startsWith("Subst+Noun+")) {
       maptagsInner(List("n", "mf"), chop.substring(11).split("\\+").toList)
     } else if(chop.startsWith("Prop+Noun+")) {
+      // skipped outside
       maptagsInner(List("np"), chop.substring(10).split("\\+").toList)
     } else {
       maptagsInner(List.empty[String], chop.split("\\+").toList)
@@ -226,6 +235,8 @@ object IrishFSTConvert {
     } else if(remap_whole.contains(tags)) {
       Some(Entry(surface, lemma, remap_whole(tags).split("\\.").toList))
     } else if(skip_whole.contains(tags)) {
+      None
+    } else if(tags.contains("Prop+Noun")) {
       None
     } else {
       Some(Entry(surface, lemma, maptags(tags)))
@@ -252,7 +263,9 @@ object Mapper extends App {
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
-                        "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")))
+                        "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
+                        ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
+                        "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")))
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
