@@ -32,7 +32,7 @@ object IrishFSTConvert {
                          "+Adv+Temp+NG" -> "adv",
                          "+Adv+Gn+NG" -> "adv",
                          "+Adv+Loc+NG" -> "adv",
-                         "+Art+Sg+Def+NG" -> "det.def.mf.sg"
+                         "+Art+Sg+Def+NG" -> "det.def.mf.sg",
                          "+Cop+Cond+Ecl+VF" -> "cop.cni",
                          "+Cop+Cond+VF" -> "cop.cni",
                          "+Cop+Past+Dep+Neg+Q+VF" -> "cop.past.itg.neg",
@@ -94,7 +94,7 @@ object IrishFSTConvert {
                         "+Cmc+English" -> "ij",
                         "+Adv+Temp" -> "adv",
                         "+Adv+Gn" -> "adv",
-                        "+Adv+Loc" -> "adv"
+                        "+Adv+Loc" -> "adv",
                         "+Cop+Cond+Ecl" -> "cop.cni",
                         "+Cop+Cond" -> "cop.cni",
                         "+Cop+Past+Dep+Neg+Q" -> "cop.past.itg.neg",
