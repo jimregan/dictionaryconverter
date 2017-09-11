@@ -152,7 +152,19 @@ object ExpandRules {
   def expandRuleToSausage(r: RulePiece): (List[TokenNode], List[TokenNode]) = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val trgMacroMap: Map[Int, List[Macro]] = macroListToMap(r.trgmac)
-
+    val macromap = macroListToMap(r.srcmac)
+    def rewriteToken(t: (Token, Int)): TokenNode = {
+      val pos = t._2
+      val tok: Token = t._1
+      val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos)(0) == 0
+      val macros: List[Macro] = macromap(pos)
+      val align: List[Int] = r.al(pos).toList
+      if(isDelete) {
+        DeletionTerminalToken(pos, tok, macros)
+      } else {
+        TerminalToken(pos, align, tok, macros)
+      }
+    }
     // Make token sausage from src, trg
     //zipWithIndex.map{e => (e._1, e._2 + 1)}
     // do I need to keep the original alignments list to unflip the macros?
