@@ -121,7 +121,9 @@ object IrishFSTConvert {
                         "+Cop+Pres+Dep" -> "cop.pres.dep",
                         "+Cop+Pres+RelInd" -> "cop.pres.rel.ind",
                         "+Cop+PresSubj+Neg" -> "cop.prs.neg",
-                        "+Cop+PresSubj" -> "cop.prs.subj"
+                        "+Cop+PresSubj" -> "cop.prs.subj",
+                        "+Det+Poss+3P+Sg+Fem" -> "det.pos.p3.f.sg",
+                        "+Det+Poss+3P+Sg+Masc" -> "det.pos.p3.m.sg"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -172,7 +174,8 @@ object IrishFSTConvert {
                       "Conj" -> "cnjadv",
                       "Itj" -> "ij",
                       "Dem" -> "dem",
-                      "Obj" -> "obj"
+                      "Obj" -> "obj",
+                      "Poss" -> "pos"
                       )
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
   abstract class EntryBasis
