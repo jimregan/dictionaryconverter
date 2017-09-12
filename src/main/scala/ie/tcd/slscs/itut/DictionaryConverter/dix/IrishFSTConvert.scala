@@ -238,7 +238,7 @@ object IrishFSTConvert {
                       // Fake addition
                       "Vbser" -> "vbser"
                       )
-  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base")
+  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var")
   abstract class EntryBasis
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis
   case class RHS(lemma: String, tags: List[String])
@@ -298,6 +298,10 @@ object IrishFSTConvert {
   def procWords(surface: String, lemma: String, tags: String): Option[Entry] = {
     if(lronly_whole.contains(tags)) {
       Some(Entry(surface, lemma, lronly_whole(tags).split("\\.").toList, "lr"))
+    } else if(tags.contains("+Var")) {
+      Some(Entry(surface, lemma, maptags(tags), "lr"))
+    } else if(tags.contains("+Emph") && surface.endsWith("-s")) {
+      Some(Entry(surface, lemma, maptags(tags), "lr"))
     } else if(remap_whole.contains(tags)) {
       Some(Entry(surface, lemma, remap_whole(tags).split("\\.").toList))
     } else if(skip_whole.contains(tags)) {
