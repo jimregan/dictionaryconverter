@@ -236,7 +236,7 @@ object IrishFSTConvert {
           } else {
             if(head == "NegQ") {
               maptagsInner(l ++ List("itg", "neg"), tail)
-            else if(head == "RelInd") {
+            } else if(head == "RelInd") {
               maptagsInner(l ++ List("rel", "ind"), tail)
             } else {
               maptagsInner(l :+ tag_remap(head), tail)
