@@ -81,7 +81,8 @@ object IrishFSTConvert {
                         "+Adj+Base+DeNom+Gen+Sg+Ecl",
                         "+Adj+Base+DeNom+Gen+Sg+Len",
                         "+Adj+Base+DeNom+Len",
-                        "Punct"
+                        "+Punct",
+                        "+Part+Pat"
 )
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
