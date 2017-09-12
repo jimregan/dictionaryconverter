@@ -52,7 +52,11 @@ object IrishFSTConvert {
                          "+Cop+Pres+RelInd+VF" -> "cop.pres.rel.ind",
                          "+Cop+PresSubj+Neg+VF" -> "cop.prs.neg",
                          "+Cop+PresSubj+VF" -> "cop.prs.subj",
-                         "+Prep+Simp+DefArt" -> "pr"
+                         "+Prep+Simp+DefArt" -> "pr",
+                         "+Prep+CmpdNoGen" -> "pr.cmpd",
+                         "+Verb+VI+PresInd+Rel+Typo" -> "vbser.pri.rel",
+                         "+Verb+VI+PresInd+Typo" -> "vbser.pri"
+
                          )
   val skip_whole = List("+Abr",
                         "+Abr+Title",
@@ -104,6 +108,8 @@ object IrishFSTConvert {
                         "+Adv+Temp" -> "adv",
                         "+Adv+Gn" -> "adv",
                         "+Adv+Loc" -> "adv",
+                        "+Adv+Its" -> "adv",
+                        "+Adj+Its" -> "adj.phr",
                         "+Cop+Cond+Ecl" -> "cop.cni",
                         "+Cop+Cond" -> "cop.cni",
                         "+Cop+Past+Dep+Neg+Q" -> "cop.past.itg.neg",
@@ -124,7 +130,18 @@ object IrishFSTConvert {
                         "+Cop+PresSubj+Neg" -> "cop.prs.neg",
                         "+Cop+PresSubj" -> "cop.prs.subj",
                         "+Det+Poss+3P+Sg+Fem" -> "det.pos.p3.f.sg",
-                        "+Det+Poss+3P+Sg+Masc" -> "det.pos.p3.m.sg"
+                        "+Det+Poss+3P+Sg+Masc" -> "det.pos.p3.m.sg",
+                        "+Prep+Cmpd" -> "pr.cmpd",
+                        "+Num+Card+Def" -> "num.defart",
+                        "+Num+Card" -> "num",
+                        "+Num+Card+Ecl" -> "num.ecl",
+                        "+Num+Card+hPref" -> "num.hpref",
+                        "+Num+Card+Len" -> "num.len",
+                        "+Num+Ord+Def" -> "det.ord.sp.defart",
+                        "+Num+Ord" -> "det.ord.sp",
+                        "+Num+Ord+Ecl" -> "det.ord.sp.ecl",
+                        "+Num+Ord+hPref" -> "det.ord.sp.hpref",
+                        "+Num+Ord+Len" -> "det.ord.sp.len"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -176,9 +193,15 @@ object IrishFSTConvert {
                       "Itj" -> "ij",
                       "Dem" -> "dem",
                       "Obj" -> "obj",
-                      "Poss" -> "pos"
+                      "Poss" -> "pos",
+                      "Sbj" -> "subj",
+                      "Subj" -> "sub",
+                      "Det" -> "det",
+                      "Inf" -> "inf",
+                      // Fake addition
+                      "Vbser" -> "vbser"
                       )
-  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD")
+  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base")
   abstract class EntryBasis
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis
   case class RHS(lemma: String, tags: List[String])
@@ -213,6 +236,8 @@ object IrishFSTConvert {
           } else {
             if(head == "NegQ") {
               maptagsInner(l ++ List("itg", "neg"), tail)
+            else if(head == "RelInd") {
+              maptagsInner(l ++ List("rel", "ind"), tail)
             } else {
               maptagsInner(l :+ tag_remap(head), tail)
             }
@@ -243,6 +268,7 @@ object IrishFSTConvert {
     } else if(tags.contains("Prop+Noun")) {
       None
     } else {
+      val tagtweak = if(lemma == "bí" && tags.contains("+Verb")) tags.replace("+Verb", "+Vbser") else tags
       Some(Entry(surface, lemma, maptags(tags)))
     }
   }
