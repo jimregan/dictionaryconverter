@@ -27,8 +27,6 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter.dix
 
-import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.{JoinedEntry, RHS}
-
 object IrishFSTConvert {
   val lronly_whole = Map("+Adv+Temp+Gen+Sg" -> "adv",
                          "+Adv+Temp+NG" -> "adv",
@@ -366,6 +364,8 @@ Pro
 object Mapper extends App {
   import scala.io.Source
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.JoinedEntry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.RHS
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
