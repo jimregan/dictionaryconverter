@@ -349,7 +349,7 @@ object IrishFSTConvert {
       None
     } else {
       val tagtweak = if(lemma == "bí" && tags.contains("+Verb")) tags.replace("+Verb", "+Vbser") else tags
-      Some(Entry(surface, lemma, maptags(tags)))
+      Some(Entry(surface, lemma, maptags(tagtweak)))
     }
   }
 
