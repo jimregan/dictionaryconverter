@@ -89,7 +89,7 @@ class ScratchPad {
       case NTNode(v) :: xs => if(acc.isEmpty) {
         expandInner(xs, v)
       } else {
-        expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(e, f) } })
+        expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(List(e, f).flatten) } })
       }
     }
     expandInner(l, List.empty[List[Node]])
