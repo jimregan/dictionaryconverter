@@ -65,9 +65,9 @@ class HARuleConvert {
 class ScratchPad {
   abstract class Node
   case class TNode(v: String) extends Node
-  case class NTNode(v: List[List[String]]) extends Node
+  case class NTNode(v: List[List[Node]]) extends Node
 
-  def mkNodes(l: List[String], b: Map[String,List[List[String]]]): List[Node] = {
+  def mkNodes(l: List[String], b: Map[String,List[List[Node]]]): List[Node] = {
     def mkNode(s: String) = if(b.contains(s)) {
       NTNode(b(s))
     } else {
@@ -81,7 +81,8 @@ class ScratchPad {
     def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
       case Nil => acc
       case TNode(s) :: xs => expandInner(xs, acc.map{ e => e :+ TNode(s) })
-      case NTNode(v) :: xs => expandInner(xs, acc.map{ e => e.map{ f => List(e, f)}}.flatten)
+      case NTNode(v) :: xs => expandInner(xs, acc.map{ e: List[Node]  => v.map{ f: List[Node] => List(e, f)}}.flatten.flatten)
+      // val u = s.map{ a => t.map{ b => List(a, b)} }.flatten
     }
     expandInner(l, List.empty[List[Node]])
   }
