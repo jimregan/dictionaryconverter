@@ -27,6 +27,8 @@
 
 package ie.tcd.slscs.itut.DictionaryConverter.dix
 
+import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.{JoinedEntry, RHS}
+
 object IrishFSTConvert {
   val lronly_whole = Map("+Adv+Temp+Gen+Sg" -> "adv",
                          "+Adv+Temp+NG" -> "adv",
@@ -378,7 +380,19 @@ object Mapper extends App {
                         "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
                         "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
                         "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
-                        "ní_b'+Subst+Noun+Sg+Part+Comp\tní b'" -> Entry("ní b'", "ní ba", List("adv"), "lr"))
+                        "ní_b'+Subst+Noun+Sg+Part+Comp\tní b'" -> Entry("ní b'", "ní ba", List("adv"), "lr"),
+                        "i+Prep+Art+Pl\tsna" -> JoinedEntry("sna", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
+                        "de+Prep+Art+Pl\tdena" -> JoinedEntry("dena", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
+                        "i+Prep+Art+Sg\tinsa" -> JoinedEntry("insa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "i+Prep+Art+Sg\tinsan" -> JoinedEntry("insan", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "i+Prep+Art+Sg\tins" -> JoinedEntry("ins", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "i+Prep+Art+Sg\tsan" -> JoinedEntry("san", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "i+Prep+Art+Sg\tsa" -> JoinedEntry("sa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "de+Prep+Art+Sg\tden" -> JoinedEntry("den", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "do+Prep+Art+Sg\tdon" -> JoinedEntry("don", List(RHS("do", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "faoi+Prep+Art+Sg\tfaoin" -> JoinedEntry("faoin", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+                        "faoi+Prep+Art+Sg\tfén" -> JoinedEntry("fén", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr"),
+                        "faoi+Prep+Art+Sg\tfán" -> JoinedEntry("fán", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr", "CU"))
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
