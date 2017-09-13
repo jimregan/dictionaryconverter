@@ -76,6 +76,7 @@ class ScratchPad {
     l.map{mkNode}
   }
 
+  def toNodes(b: Map[String, List[List[String]]]): Map[String, List[List[Node]]] = b.map{e => (e._1, e._2.map{_.map{g => TNode(g)}})}
 
   def expandNodes(l: List[Node]): List[List[Node]] = {
     def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
