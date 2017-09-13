@@ -29,6 +29,7 @@ package ie.tcd.slscs.itut.RuleConverter
 
 import ie.tcd.slscs.itut.ApertiumTransfer.Text._
 import ie.tcd.slscs.itut.RuleConverter.TextRuleMgrWrapper._
+import ie.tcd.slscs.itut.RuleConverter.TextMacro._
 
 import scala.collection.JavaConverters._
 
@@ -43,6 +44,7 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
   def getSeq(s: String): List[String] = if(targetSeq.get(s) == None) List.empty[String] else targetSeq.get(s).get
+  val sourceMacros: List[DefMacroElement] = trm.getMacros.asScala.map{e => convertJSTMacroToXML(e, clippables)}.toList
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
   val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
   val rules: List[RuleHolder] = trm.getRules.asScala.map{e => RuleHolder.convertRuleContainer(e, getCatItems)}.toList

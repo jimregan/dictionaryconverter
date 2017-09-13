@@ -185,6 +185,7 @@ object TextMacro {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
+  def convertJSTMacroToXML(m: JSTMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = SimpleTextMacroToXML(convertJSTMacro(m), clippables)
   def SimpleTextMacroToXML(m: SimpleTextMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = {
     def mkClearVar(name: String): LetElement = {
       LetElement(VarElement(name), LitElement(""))
