@@ -253,15 +253,24 @@ object IrishFSTConvert {
                       // Fake addition
                       "Vbser" -> "vbser",
                       "Prep" -> "pr",
-                      "Part" -> "part"
+                      "Part" -> "part",
+                      "Deg" -> "deg"
                       )
                       /*
-Cmpl
-Deg
-Indirect
-Op
-Part
-Pro
++Part+Vb+Cmpl
++Part+Vb+Cmpl+Past
++Part+Vb+Neg+Cmpl
++Part+Vb+Neg+Cmpl+Past
++Prep+Deg
++Part+Vb+Rel+Indirect
++Part+Vb+Rel+Indirect+Past
++Part+Vb+Rel+Indirect+Pro
++Num+Op
++CC+Cop+Pro+Q
++Cop+Pro+Dem
++Cop+Pro+Q
++Cop+Pro+Q+Cop
++CU+Cop+Pro+Q
 +Det+Q+Art+Sg
 +Cop+Q+Art+Sg
 +Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def
