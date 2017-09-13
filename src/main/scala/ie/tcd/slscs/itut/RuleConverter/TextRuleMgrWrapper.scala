@@ -35,6 +35,7 @@ import scala.collection.JavaConverters._
 
 case class TextRuleMgrWrapper(trm: TextRuleManager) {
   def getLists: Map[String, List[String]] = trm.getLists.asScala.map{convertSimpleList}.toMap
+  def listsToXML: List[DefListElement] = getLists.map(e => listToXML(e._1, e._2)).toList
   def getCats: Map[String, List[String]] = trm.getCategories.asScala.map{convertSimpleCats}.toMap
   def getCatItems: Map[String, List[CatItem]] = getCats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
@@ -67,5 +68,9 @@ object TextRuleMgrWrapper {
   }
   def asClippableLookup(clip: AttributeSequenceClippable, pos: String, attseq: String): Boolean = {
     clip.getClippable.get(pos).get(attseq)
+  }
+  def listToXML(s: String, l: List[String]): DefListElement = {
+    val children = l.map{e => ListItemElement(e)}
+    DefListElement(s, children)
   }
 }
