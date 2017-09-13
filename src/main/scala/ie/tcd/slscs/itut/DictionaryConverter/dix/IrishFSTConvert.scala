@@ -140,6 +140,7 @@ object IrishFSTConvert {
                         "+Adv+Loc" -> "adv",
                         "+Adv+Its" -> "adv",
                         "+Adj+Its" -> "adj.phr",
+                        "+Adv+Dir" -> "adv",
                         "+Cop+Cond+Ecl" -> "cop.cni",
                         "+Cop+Cond" -> "cop.cni",
                         "+Cop+Past+Dep+Neg+Q" -> "cop.past.itg.neg",
@@ -178,7 +179,8 @@ object IrishFSTConvert {
                         "+Num+Ord" -> "det.ord.sp",
                         "+Num+Ord+Ecl" -> "det.ord.sp.ecl",
                         "+Num+Ord+hPref" -> "det.ord.sp.hpref",
-                        "+Num+Ord+Len" -> "det.ord.sp.len"
+                        "+Num+Ord+Len" -> "det.ord.sp.len",
+                        "+Part+Ad" -> "adv"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -235,10 +237,15 @@ object IrishFSTConvert {
                       "Subj" -> "sub",
                       "Det" -> "det",
                       "Inf" -> "inf",
+                      "Ord" -> "ord",
+                      "Part" -> "part",
+                      "Nm" -> "num",
+                      "Num" -> "num",
+                      "Cp" -> "cop",
                       // Fake addition
                       "Vbser" -> "vbser"
                       )
-  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf")
+  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb")
   abstract class EntryBasis
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis
   case class RHS(lemma: String, tags: List[String])
@@ -336,7 +343,8 @@ object Mapper extends App {
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
-                        "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")))
+                        "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
+                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",)))
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
