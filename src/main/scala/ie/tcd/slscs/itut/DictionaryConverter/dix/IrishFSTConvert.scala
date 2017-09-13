@@ -442,15 +442,6 @@ object IrishFSTConvert {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     List.empty[Pardef]
   }
-}
-
-object Mapper extends App {
-  import scala.io.Source
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.EntryBasis
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.JoinedEntry
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.RHS
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
   def checkSame(a: EntryBasis, b: EntryBasis): Boolean = {
     def innerCompare(lem: String, tags: List[String], lemb: String, tagsb: List[String]): Boolean = {
@@ -487,6 +478,111 @@ object Mapper extends App {
       }
     }
   }
+
+  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
+    "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
+    "m.sh.+Abr\tm.sh." -> Entry("m.sh.", "m.sh.", List("adv")),
+    "e.g.+Abr\te.g." -> Entry("e.g.", "e.g.", List("adv")),
+    "i.e.+Abr\ti.e." -> Entry("i.e.", "i.e.", List("adv")),
+    "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
+    ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
+    "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
+    "++Num+Op\t+" -> Entry("+", "+", List("num", "op")),
+    "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
+    "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
+    "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
+    "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
+    "ní_b'+Subst+Noun+Sg+Part+Comp\tní b'" -> Entry("ní b'", "ní ba", List("adv"), "lr"),
+    "i+Prep+Art+Pl\tsna" -> JoinedEntry("sna", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
+    "de+Prep+Art+Pl\tdena" -> JoinedEntry("dena", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
+    "i+Prep+Art+Sg\tinsa" -> JoinedEntry("insa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "i+Prep+Art+Sg\tinsan" -> JoinedEntry("insan", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "i+Prep+Art+Sg\tins" -> JoinedEntry("ins", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "i+Prep+Art+Sg\tsan" -> JoinedEntry("san", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "i+Prep+Art+Sg\tsa" -> JoinedEntry("sa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "de+Prep+Art+Sg\tden" -> JoinedEntry("den", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "do+Prep+Art+Sg\tdon" -> JoinedEntry("don", List(RHS("do", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "faoi+Prep+Art+Sg\tfaoin" -> JoinedEntry("faoin", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
+    "faoi+Prep+Art+Sg\tfén" -> JoinedEntry("fén", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr"),
+    "faoi+Prep+Art+Sg\tfán" -> JoinedEntry("fán", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr", "CU"),
+    "de+Prep+Deg\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("part", "deg")))),
+    "de+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "de+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "de+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "do+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "do+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "do+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "do+Prep+Poss+3P+Pl+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "do+Prep+Poss+3P+Sg+Fem+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "do+Prep+Poss+3P+Sg+Masc+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "faoi+Prep+Poss+3P+Pl+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
+    "faoi+Prep+Poss+3P+Pl+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
+    "faoi+Prep+Poss+3P+Pl\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "faoi+Prep+Poss+3P+Sg+Fem+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
+    "faoi+Prep+Poss+3P+Sg+Fem+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
+    "faoi+Prep+Poss+3P+Sg+Fem\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "faoi+Prep+Poss+3P+Sg+Masc+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
+    "faoi+Prep+Poss+3P+Sg+Masc+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
+    "faoi+Prep+Poss+3P+Sg+Masc\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "go+Prep+Poss+3P+Pl+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
+    "go+Prep+Poss+3P+Sg+Fem+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
+    "go+Prep+Poss+3P+Sg+Masc+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
+    "i+Prep+Poss+3P+Pl+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
+    "i+Prep+Poss+3P+Pl\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "i+Prep+Poss+3P+Sg+Fem+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
+    "i+Prep+Poss+3P+Sg+Fem\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "i+Prep+Poss+3P+Sg+Masc+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
+    "i+Prep+Poss+3P+Sg+Masc\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "le+Prep+Poss+3P+Pl\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "le+Prep+Poss+3P+Sg+Fem\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "le+Prep+Poss+3P+Sg+Masc\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "ó+Prep+Poss+3P+Pl+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
+    "ó+Prep+Poss+3P+Pl\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "ó+Prep+Poss+3P+Sg+Fem+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
+    "ó+Prep+Poss+3P+Sg+Fem\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "ó+Prep+Poss+3P+Sg+Masc+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
+    "ó+Prep+Poss+3P+Sg+Masc\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "trí+Prep+Poss+3P+Pl\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+    "trí+Prep+Poss+3P+Sg+Fem\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+    "trí+Prep+Poss+3P+Sg+Masc\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+    "i+Prep+Poss+1P+Pl\tinár" -> JoinedEntry("inár", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "ó+Prep+Poss+1P+Pl\tónár" -> JoinedEntry("ónár", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "do+Prep+Poss+2P+Sg+NG\tdod" -> JoinedEntry("dod", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
+    "do+Prep+Poss+2P+Sg+NG\tdod'" -> JoinedEntry("dod'", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
+    "de+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "do+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "faoi+Prep+Poss+1P+Pl\tfaoinár" -> JoinedEntry("faoinár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "faoi+Prep+Poss+1P+Pl+NG\tfénár" -> JoinedEntry("fénár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
+    "go+Prep+Poss+1P+Pl+NG\tgonár" -> JoinedEntry("gonár", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
+    "le+Prep+Poss+1P+Pl\tlenár" -> JoinedEntry("lenár", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
+    "le+Prep+Poss+1P+Sg+NG\tlem" -> JoinedEntry("lem", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
+    "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
+    "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    // this is a noun, not an adjective, but we can catch the phrase all the same
+    "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv"))
+  )
+  def mapper(s: String): Option[EntryBasis] = {
+    if(remap_whole.contains(s)) {
+      remap_whole.get(s)
+    } else {
+      val parts = s.split("\t")
+      val first_plus = s.indexOf('+')
+      val lemma = s.substring(0, first_plus)
+      val tags = parts(0).substring(first_plus)
+      val surface = parts(1)
+      procWords(surface, lemma, tags)
+    }
+  }
+
+}
+
+object Mapper extends App {
+  import scala.io.Source
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.EntryBasis
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.JoinedEntry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.mapper
+
   def makeEntryKey(a: EntryBasis): String = {
     def tagrep(tags: List[String]): String = {
       if(tags(0) == "n" || tags(0) == "np")
@@ -500,105 +596,11 @@ object Mapper extends App {
     }
   }
 
-  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
-                        "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
-                        "m.sh.+Abr\tm.sh." -> Entry("m.sh.", "m.sh.", List("adv")),
-                        "e.g.+Abr\te.g." -> Entry("e.g.", "e.g.", List("adv")),
-                        "i.e.+Abr\ti.e." -> Entry("i.e.", "i.e.", List("adv")),
-                        "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
-                        ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
-                        "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
-                        "++Num+Op\t+" -> Entry("+", "+", List("num", "op")),
-                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
-                        "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
-                        "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
-                        "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
-                        "ní_b'+Subst+Noun+Sg+Part+Comp\tní b'" -> Entry("ní b'", "ní ba", List("adv"), "lr"),
-                        "i+Prep+Art+Pl\tsna" -> JoinedEntry("sna", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
-                        "de+Prep+Art+Pl\tdena" -> JoinedEntry("dena", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "pl")))),
-                        "i+Prep+Art+Sg\tinsa" -> JoinedEntry("insa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "i+Prep+Art+Sg\tinsan" -> JoinedEntry("insan", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "i+Prep+Art+Sg\tins" -> JoinedEntry("ins", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "i+Prep+Art+Sg\tsan" -> JoinedEntry("san", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "i+Prep+Art+Sg\tsa" -> JoinedEntry("sa", List(RHS("i", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "de+Prep+Art+Sg\tden" -> JoinedEntry("den", List(RHS("de", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "do+Prep+Art+Sg\tdon" -> JoinedEntry("don", List(RHS("do", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "faoi+Prep+Art+Sg\tfaoin" -> JoinedEntry("faoin", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
-                        "faoi+Prep+Art+Sg\tfén" -> JoinedEntry("fén", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr"),
-                        "faoi+Prep+Art+Sg\tfán" -> JoinedEntry("fán", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr", "CU"),
-                        "de+Prep+Deg\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("part", "deg")))),
-                        "de+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "de+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "de+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "do+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "do+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "do+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("dá", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "do+Prep+Poss+3P+Pl+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "do+Prep+Poss+3P+Sg+Fem+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "do+Prep+Poss+3P+Sg+Masc+Obj\tá" -> JoinedEntry("á", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "faoi+Prep+Poss+3P+Pl+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
-                        "faoi+Prep+Poss+3P+Pl+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
-                        "faoi+Prep+Poss+3P+Pl\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "faoi+Prep+Poss+3P+Sg+Fem+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
-                        "faoi+Prep+Poss+3P+Sg+Fem+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
-                        "faoi+Prep+Poss+3P+Sg+Fem\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "faoi+Prep+Poss+3P+Sg+Masc+NG\tfána" -> JoinedEntry("fána", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
-                        "faoi+Prep+Poss+3P+Sg+Masc+NG\tféna" -> JoinedEntry("féna", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
-                        "faoi+Prep+Poss+3P+Sg+Masc\tfaoina" -> JoinedEntry("faoina", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "go+Prep+Poss+3P+Pl+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
-                        "go+Prep+Poss+3P+Sg+Fem+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
-                        "go+Prep+Poss+3P+Sg+Masc+NG\tgona" -> JoinedEntry("gona", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
-                        "i+Prep+Poss+3P+Pl+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
-                        "i+Prep+Poss+3P+Pl\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "i+Prep+Poss+3P+Sg+Fem+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
-                        "i+Prep+Poss+3P+Sg+Fem\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "i+Prep+Poss+3P+Sg+Masc+NG\t'na" -> JoinedEntry("'na", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
-                        "i+Prep+Poss+3P+Sg+Masc\tina" -> JoinedEntry("ina", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "le+Prep+Poss+3P+Pl\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "le+Prep+Poss+3P+Sg+Fem\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "le+Prep+Poss+3P+Sg+Masc\tlena" -> JoinedEntry("lena", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "ó+Prep+Poss+3P+Pl+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))), "lr"),
-                        "ó+Prep+Poss+3P+Pl\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "ó+Prep+Poss+3P+Sg+Fem+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg"))), "lr"),
-                        "ó+Prep+Poss+3P+Sg+Fem\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "ó+Prep+Poss+3P+Sg+Masc+NG\t'na" -> JoinedEntry("'na", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg"))), "lr"),
-                        "ó+Prep+Poss+3P+Sg+Masc\tóna" -> JoinedEntry("óna", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "trí+Prep+Poss+3P+Pl\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
-                        "trí+Prep+Poss+3P+Sg+Fem\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
-                        "trí+Prep+Poss+3P+Sg+Masc\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-                        "i+Prep+Poss+1P+Pl\tinár" -> JoinedEntry("inár", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        "ó+Prep+Poss+1P+Pl\tónár" -> JoinedEntry("ónár", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        "do+Prep+Poss+2P+Sg+NG\tdod" -> JoinedEntry("dod", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
-                        "do+Prep+Poss+2P+Sg+NG\tdod'" -> JoinedEntry("dod'", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
-                        "de+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        "do+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        "faoi+Prep+Poss+1P+Pl\tfaoinár" -> JoinedEntry("faoinár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        "faoi+Prep+Poss+1P+Pl+NG\tfénár" -> JoinedEntry("fénár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-                        "go+Prep+Poss+1P+Pl+NG\tgonár" -> JoinedEntry("gonár", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-                        "le+Prep+Poss+1P+Pl\tlenár" -> JoinedEntry("lenár", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-                        "le+Prep+Poss+1P+Sg+NG\tlem" -> JoinedEntry("lem", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
-                        "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
-                        "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-                        // this is a noun, not an adjective, but we can catch the phrase all the same
-                        "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv"))
-                        )
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
   val filename = args(0)
 
-  def mapper(s: String): Option[EntryBasis] = {
-    if(remap_whole.contains(s)) {
-      remap_whole.get(s)
-    } else {
-      val parts = s.split("\t")
-      val first_plus = s.indexOf('+')
-      val lemma = s.substring(0, first_plus)
-      val tags = parts(0).substring(first_plus)
-      val surface = parts(1)
-      procWords(surface, lemma, tags)
-    }
-  }
   val parts = Source.fromFile(filename).getLines.map{mapper}.flatten
   val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
   print(partmap)
