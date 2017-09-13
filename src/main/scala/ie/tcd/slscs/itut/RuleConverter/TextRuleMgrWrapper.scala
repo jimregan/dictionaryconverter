@@ -37,9 +37,9 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   def getCats: Map[String, List[String]] = trm.getCategories.asScala.map{convertSimpleCats}.toMap
   def getCatItems: Map[String, List[CatItem]] = getCats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
-  val transferType = trm.getTypeText
-  val clippables = convertAttributeSequenceClippable(trm.getClippable)
-  val clippablesChunk = convertAttributeSequenceClippable(trm.getClippableChunk)
+  val transferType: String = trm.getTypeText
+  val clippables: Map[String, Map[String, Boolean]] = convertAttributeSequenceClippable(trm.getClippable)
+  val clippablesChunk: Map[String, Map[String, Boolean]] = convertAttributeSequenceClippable(trm.getClippableChunk)
   val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
   def getSeq(s: String): List[String] = if(targetSeq.get(s) == None) List.empty[String] else targetSeq.get(s).get
