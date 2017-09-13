@@ -81,8 +81,7 @@ class ScratchPad {
     def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
       case Nil => acc
       case TNode(s) :: xs => expandInner(xs, acc.map{ e => e :+ TNode(s) })
-      case NTNode(v) :: xs => expandInner(xs, acc.map{ e: List[Node]  => v.map{ f: List[Node] => List(e, f)}}.flatten.flatten)
-      // val u = s.map{ a => t.map{ b => List(a, b)} }.flatten
+      case NTNode(v) :: xs => expandInner(xs, acc.flatMap{ e: List[Node]  => v.flatMap{ f: List[Node] => List(e, f)}})
     }
     expandInner(l, List.empty[List[Node]])
   }
