@@ -242,10 +242,25 @@ object IrishFSTConvert {
                       "Nm" -> "num",
                       "Num" -> "num",
                       "Cp" -> "cop",
+                      "Slender" -> "slender",
+                      "Pron" -> "pron",
                       // Fake addition
                       "Vbser" -> "vbser"
                       )
-  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb")
+                      /*
+                      Art
+Cmpl
+Deg
+Direct
+Indirect
+Op
+Part
+Pat
+Prep
+Pro
+Sup
+                      */
+  val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb", "NotSlen")
   abstract class EntryBasis
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis
   case class RHS(lemma: String, tags: List[String])
@@ -307,7 +322,7 @@ object IrishFSTConvert {
       Some(Entry(surface, lemma, lronly_whole(tags).split("\\.").toList, "lr"))
     } else if(tags.contains("+Var") || tags.contains("+Suf")) {
       Some(Entry(surface, lemma, maptags(tags), "lr"))
-    } else if(tags.contains("+Emph") && surface.endsWith("-s")) {
+    } else if(tags.contains("+Emph") && (surface.endsWith("-s") || (surface.endsWith("-sa") || surface.endsWith("-se")))) {
       Some(Entry(surface, lemma, maptags(tags), "lr"))
     } else if(remap_whole.contains(tags)) {
       Some(Entry(surface, lemma, remap_whole(tags).split("\\.").toList))
@@ -344,7 +359,11 @@ object Mapper extends App {
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
                         "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
-                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",)))
+                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",))
+                        "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
+                        "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
+                        "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
+                        "ní_b'+Subst+Noun+Sg+Part+Comp\tní b'" -> Entry("ní b'", "ní ba", List("adv"), "lr"))
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
