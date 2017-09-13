@@ -117,7 +117,9 @@ object IrishFSTConvert {
                         "+Verbal+Noun+VTI+hPref",
                         "+Verbal+Noun+VTI+Len",
                         "+Verbal+Noun+VT+Len",
-                        "+Part+Pat"
+                        "+Part+Pat",
+                        // "Arabacha": probably a one off thing in a corpus
+                        "+Adj+Masc+Com+Pl"
 )
 
   val remap_whole = Map("+Art+Gen+Sg+Def+Fem" -> "det.def.f.sg.gen",
@@ -450,7 +452,9 @@ object Mapper extends App {
                         "le+Prep+Poss+1P+Pl\tlenár" -> JoinedEntry("lenár", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
                         "le+Prep+Poss+1P+Sg+NG\tlem" -> JoinedEntry("lem", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
                         "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
-                        "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))))
+                        "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+                        // this is a noun, not an adjective, but we can catch the phrase all the same
+                        "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv"))
                         )
   if(args.length < 1) {
     throw new Exception("No filename specified")
