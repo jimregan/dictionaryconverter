@@ -261,7 +261,6 @@ object IrishFSTConvert {
 +Part+Vb+Cmpl+Past
 +Part+Vb+Neg+Cmpl
 +Part+Vb+Neg+Cmpl+Past
-+Prep+Deg
 +Part+Vb+Rel+Indirect
 +Part+Vb+Rel+Indirect+Past
 +Part+Vb+Rel+Indirect+Pro
@@ -398,7 +397,15 @@ object Mapper extends App {
                         "do+Prep+Art+Sg\tdon" -> JoinedEntry("don", List(RHS("do", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
                         "faoi+Prep+Art+Sg\tfaoin" -> JoinedEntry("faoin", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg")))),
                         "faoi+Prep+Art+Sg\tfén" -> JoinedEntry("fén", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr"),
-                        "faoi+Prep+Art+Sg\tfán" -> JoinedEntry("fán", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr", "CU"))
+                        "faoi+Prep+Art+Sg\tfán" -> JoinedEntry("fán", List(RHS("faoi", List("pr")), RHS("an", List("det", "def", "mf", "sg"))), "lr", "CU"),
+                        "de+Prep+Deg\tdá" -> JoinedEntry("de", List(RHS("de", List("pr")), RHS("a", List("part", "deg")))),
+                        "de+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("de", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+                        "de+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("de", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+                        "de+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("de", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
+                        "do+Prep+Poss+3P+Sg+Masc\tdá" -> JoinedEntry("do", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
+                        "do+Prep+Poss+3P+Sg+Fem\tdá" -> JoinedEntry("do", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
+                        "do+Prep+Poss+3P+Pl\tdá" -> JoinedEntry("do", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl"))))
+                        )
   if(args.length < 1) {
     throw new Exception("No filename specified")
   }
