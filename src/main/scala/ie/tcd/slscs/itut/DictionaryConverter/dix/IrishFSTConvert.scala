@@ -180,7 +180,8 @@ object IrishFSTConvert {
                         "+Num+Ord+Ecl" -> "det.ord.sp.ecl",
                         "+Num+Ord+hPref" -> "det.ord.sp.hpref",
                         "+Num+Ord+Len" -> "det.ord.sp.len",
-                        "+Part+Ad" -> "adv"
+                        "+Part+Ad" -> "adv",
+                        "+Part+Vb+Rel+Direct" -> "rel.an.mf.sp"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -251,7 +252,6 @@ object IrishFSTConvert {
                       Art
 Cmpl
 Deg
-Direct
 Indirect
 Op
 Part
@@ -359,7 +359,7 @@ object Mapper extends App {
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
                         "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
-                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",))
+                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",)),
                         "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
                         "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
                         "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
