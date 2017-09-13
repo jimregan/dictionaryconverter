@@ -479,7 +479,7 @@ object IrishFSTConvert {
     }
   }
 
-  val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
+  val remap_whole_entry = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
     "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
     "m.sh.+Abr\tm.sh." -> Entry("m.sh.", "m.sh.", List("adv")),
     "e.g.+Abr\te.g." -> Entry("e.g.", "e.g.", List("adv")),
@@ -562,8 +562,8 @@ object IrishFSTConvert {
     "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv"))
   )
   def mapper(s: String): Option[EntryBasis] = {
-    if(remap_whole.contains(s)) {
-      remap_whole.get(s)
+    if(remap_whole_entry.contains(s)) {
+      remap_whole_entry.get(s)
     } else {
       val parts = s.split("\t")
       val first_plus = s.indexOf('+')
