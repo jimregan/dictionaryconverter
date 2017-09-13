@@ -585,14 +585,14 @@ object Mapper extends App {
 
   def makeEntryKey(a: EntryBasis): String = {
     def tagrep(tags: List[String]): String = {
-      if(tags(0) == "n" || tags(0) == "np")
-        tags(0) + "_" + tags(1)
+      if(tags.head == "n" || tags.head == "np")
+        tags.head + "_" + tags(1)
       else
-        tags(0)
+        tags.head
     }
     a match {
       case Entry(_, lem, tags, _, _) => lem + "_" + tagrep(tags)
-      case JoinedEntry(_, in, _, _) => in(0).lemma + "_" + tagrep(in(0).tags)
+      case JoinedEntry(_, in, _, _) => in.head.lemma + "_" + tagrep(in.head.tags)
     }
   }
 
