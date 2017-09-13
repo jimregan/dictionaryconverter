@@ -365,6 +365,28 @@ object IrishFSTConvert {
       base ++ addtags(tags)
     }
   }
+
+  def getMutation(e: EntryBasis): String = {
+    val MUTATIONS = List("len", "ecl", "hpref", "defart")
+    def checkForMutation(l: List[String]): String = {
+      val o = l.filter(MUTATIONS.contains(_))
+      if(o.length == 1) {
+        o.head
+      } else if(o.length == 0) {
+        ""
+      } else {
+        throw new Exception("List contains more than one mutation: " + l)
+      }
+    }
+    e match {
+      case Entry(_, _, t, _, _) => checkForMutation(t)
+      case JoinedEntry(_, e, _, _) => checkForMutation(e.head.tags)
+    }
+  }
+  def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
+
+    List.empty[Pardef]
+  }
 }
 
 object Mapper extends App {
