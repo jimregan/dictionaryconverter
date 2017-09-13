@@ -44,7 +44,7 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   val clippablesChunk: Map[String, Map[String, Boolean]] = convertAttributeSequenceClippable(trm.getClippableChunk)
   val sourceSeq: Map[String, List[String]] = trm.getSourceSeq.asScala.map{convertAttributeSequence}.toMap
   val targetSeq: Map[String, List[String]] = trm.getTargetSeq.asScala.map{convertAttributeSequence}.toMap
-  def getSeq(s: String): List[String] = if(targetSeq.get(s) == None) List.empty[String] else targetSeq.get(s).get
+  def getSeq(s: String): List[String] = if(targetSeq.get(s).isEmpty) List.empty[String] else targetSeq(s)
   val sourceMacros: List[DefMacroElement] = trm.getMacros.asScala.map{e => convertJSTMacroToXML(e, clippables)}.toList
   def macrosToXML = sourceMacros
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
