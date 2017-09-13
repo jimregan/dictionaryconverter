@@ -256,7 +256,8 @@ object IrishFSTConvert {
                       "Vbser" -> "vbser",
                       "Prep" -> "pr",
                       "Part" -> "part",
-                      "Deg" -> "deg"
+                      "Deg" -> "deg",
+                      "Op" -> "op"
                       )
                       /*
 +Part+Vb+Cmpl
@@ -266,7 +267,6 @@ object IrishFSTConvert {
 +Part+Vb+Rel+Indirect
 +Part+Vb+Rel+Indirect+Past
 +Part+Vb+Rel+Indirect+Pro
-+Num+Op
 +CC+Cop+Pro+Q
 +Cop+Pro+Dem
 +Cop+Pro+Q
@@ -384,6 +384,7 @@ object Mapper extends App {
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
                         "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
+                        "++Num+Op\t+" -> Entry("+", "+", List("num", "op")),
                         "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
                         "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
                         "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
