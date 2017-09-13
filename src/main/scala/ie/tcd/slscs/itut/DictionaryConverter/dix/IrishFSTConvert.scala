@@ -372,7 +372,7 @@ object IrishFSTConvert {
       val o = l.filter(MUTATIONS.contains(_))
       if(o.length == 1) {
         o.head
-      } else if(o.length == 0) {
+      } else if(o.isEmpty) {
         ""
       } else {
         throw new Exception("List contains more than one mutation: " + l)
@@ -380,7 +380,7 @@ object IrishFSTConvert {
     }
     e match {
       case Entry(_, _, t, _, _) => checkForMutation(t)
-      case JoinedEntry(_, e, _, _) => checkForMutation(e.head.tags)
+      case JoinedEntry(_, es, _, _) => checkForMutation(es.head.tags)
     }
   }
   val mutationStarts: Map[Char, List[String]] = Map('b' -> List("mb", "bh"), 'c' -> List("gc", "ch"), 'd' -> List("nd", "dh"),
@@ -434,8 +434,9 @@ object IrishFSTConvert {
       } else {
         ""
       }
+    } else {
+      ""
     }
-    return ""
   }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
