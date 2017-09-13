@@ -37,7 +37,7 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   val lists: Map[String, List[String]] = trm.getLists.asScala.map{convertSimpleList}.toMap
   def listsToXML: List[DefListElement] = lists.map(e => listToXML(e._1, e._2)).toList
   val cats: Map[String, List[String]] = trm.getCategories.asScala.map{convertSimpleCats}.toMap
-  def getCatItems: Map[String, List[CatItem]] = cats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
+  val catItems: Map[String, List[CatItem]] = cats.map{e => (e._1, e._2.map{f => CatItem(f, null, null)})}
   val defaultAttribs: Map[String, String] = getDefaultAttributes(trm.getTargetAttr.asScala.toList)
   val transferType: String = trm.getTypeText
   val clippables: Map[String, Map[String, Boolean]] = convertAttributeSequenceClippable(trm.getClippable)
@@ -49,7 +49,7 @@ case class TextRuleMgrWrapper(trm: TextRuleManager) {
   def macrosToXML = sourceMacros
   val sourceSeqChunk: Map[String, List[String]] = trm.getSourceSeqChunk.asScala.map{convertAttributeSequence}.toMap
   val targetSeqChunk: Map[String, List[String]] = trm.getTargetSeqChunk.asScala.map{convertAttributeSequence}.toMap
-  val rules: List[RuleHolder] = trm.getRules.asScala.map{e => RuleHolder.convertRuleContainer(e, getCatItems)}.toList
+  val rules: List[RuleHolder] = trm.getRules.asScala.map{e => RuleHolder.convertRuleContainer(e, catItems)}.toList
 }
 object TextRuleMgrWrapper {
   def apply(arr: Array[String]): TextRuleMgrWrapper = {
