@@ -386,7 +386,57 @@ object IrishFSTConvert {
   val mutationStarts: Map[Char, List[String]] = Map('b' -> List("mb", "bh"), 'c' -> List("gc", "ch"), 'd' -> List("nd", "dh"),
     'f' -> List("bhf", "fh"), 'g' -> List("ng", "gh"), 'm' -> List("mh"), 'p' -> List("bp", "ph"), 's' -> List("ts", "sh"),
     't' -> List("dt", "th"), 'a' -> List("h-a", "t-a", "n-a"), 'e' -> List("h-e", "t-e", "n-e"),
-    'i' -> List("h-i", "t-i", "n-i"), 'o' -> List("h-o", "t-o", "n-o"), 'u' -> List("h-u", "t-u", "n-u"))
+    'i' -> List("h-i", "t-i", "n-i"), 'o' -> List("h-o", "t-o", "n-o"), 'u' -> List("h-u", "t-u", "n-u"),
+    'á' -> List("h-á", "t-á", "n-á"), 'é' -> List("h-é", "t-é", "n-é"),
+    'í' -> List("h-í", "t-í", "n-í"), 'ó' -> List("h-ó", "t-ó", "n-ó"), 'ú' -> List("h-ú", "t-ú", "n-ú"),
+    'B' -> List("mB", "Bh"), 'C' -> List("gC", "Ch"), 'D' -> List("nD", "Dh"),
+    'F' -> List("bhF", "Fh"), 'G' -> List("nG", "Gh"), 'M' -> List("Mh"), 'P' -> List("bP", "Ph"), 'S' -> List("tS", "Sh"),
+    'T' -> List("dT", "Th"), 'A' -> List("hA", "tA", "nA"), 'E' -> List("hE", "tE", "nE"),
+    'I' -> List("hI", "tI", "nI"), 'O' -> List("hO", "tO", "nO"), 'U' -> List("hU", "tU", "nU"),
+    'Á' -> List("hÁ", "tÁ", "nÁ"), 'É' -> List("hÉ", "tÉ", "nÉ"),
+    'Í' -> List("hÍ", "tÍ", "nÍ"), 'Ó' -> List("hÓ", "tÓ", "nÓ"), 'Ú' -> List("hÚ", "tÚ", "nÚ"))
+  def isUpperVowel(v: Char): Boolean = {
+    val vowels = List('A', 'E', 'I', 'O', 'U', 'Á', 'É', 'Í', 'Ó', 'Ú')
+    return vowels.contains(v)
+  }
+  def isLowerVowel(v: Char): Boolean = {
+    val vowels = List('a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú')
+    return vowels.contains(v)
+  }
+  def isVowel(v: Char): Boolean = {
+    isUpperVowel(v) || isLowerVowel(v)
+  }
+  def getMutation(lemma: String, surface: String): String = {
+    val lenites: List[Char] = List('b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't')
+    val eclcons: List[Char] = List('b', 'c', 'd', 'f', 'g', 'p', 't')
+    if(lemma.charAt(0) == surface.charAt(0)) {
+      if(lenites.contains(lemma.charAt(0).toLower) && surface(1) == 'h' && surface(1) != lemma(1)) {
+        "len"
+      } else {
+        ""
+      }
+    } else if(isVowel(lemma.charAt(0))) {
+      if(surface.charAt(0) == 't') {
+        "defart"
+      } else if(surface.charAt(0) == 'h') {
+        "hpref"
+      } else if(surface.charAt(0) == 'n') {
+        "ecl"
+      } else {
+        ""
+      }
+    } else if(lemma.toLowerCase().charAt(0) == 's' && surface.charAt(0) == 't') {
+      "defart"
+    } else if(eclcons.contains(lemma.toLowerCase().charAt(0))) {
+      val ecl_cons = Map('b' -> "mb", 'c' -> "gc", 'd' -> "nd", 'f' -> "bhf", 'g' -> "ng", 'p' -> "bp", 't' -> "dt")
+      if(surface.toLowerCase.startsWith(ecl_cons(lemma.toLowerCase.charAt(0)))) {
+        "ecl"
+      } else {
+        ""
+      }
+    }
+    return ""
+  }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     List.empty[Pardef]
