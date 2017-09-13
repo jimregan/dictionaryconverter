@@ -56,6 +56,7 @@ object IrishFSTConvert {
                          "+Prep+CmpdNoGen" -> "pr.cmpd",
                          "+Verb+VI+PresInd+Rel+Typo" -> "vbser.pri.rel",
                          "+Verb+VI+PresInd+Typo" -> "vbser.pri"
+                         
 
                          )
   val skip_whole = List("+Abr",
@@ -181,7 +182,11 @@ object IrishFSTConvert {
                         "+Num+Ord+hPref" -> "det.ord.sp.hpref",
                         "+Num+Ord+Len" -> "det.ord.sp.len",
                         "+Part+Ad" -> "adv",
-                        "+Part+Vb+Rel+Direct" -> "rel.an.mf.sp"
+                        "+Part+Vb+Rel+Direct" -> "rel.an.mf.sp",
+                        "+Part+Sup" -> "adv",
+                        "+Art+Sg+Def" -> "det.def.mf.sg",
+                        "+Art+Pl+Def" -> "det.def.mf.pl",
+                        "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -246,19 +251,25 @@ object IrishFSTConvert {
                       "Slender" -> "slender",
                       "Pron" -> "pron",
                       // Fake addition
-                      "Vbser" -> "vbser"
+                      "Vbser" -> "vbser",
+                      "Prep" -> "pr"
                       )
                       /*
-                      Art
 Cmpl
 Deg
 Indirect
 Op
 Part
 Pat
-Prep
 Pro
-Sup
++Prep+Art+Pl
++Prep+Art+Sg
++Prep+Art+Sg+NG
++Det+Q+Art+Sg
++Cop+Q+Art+Sg
++Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def
++Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def+Subst+Noun+Sg
+
                       */
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb", "NotSlen")
   abstract class EntryBasis
@@ -356,6 +367,10 @@ object Mapper extends App {
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
+                        "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
+                        "m.sh.+Abr\tm.sh." -> Entry("m.sh.", "m.sh.", List("adv")),
+                        "e.g.+Abr\te.g." -> Entry("e.g.", "e.g.", List("adv")),
+                        "i.e.+Abr\ti.e." -> Entry("i.e.", "i.e.", List("adv")),
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
                         "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
