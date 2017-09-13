@@ -384,7 +384,7 @@ object IrishFSTConvert {
     }
   }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
-
+    val tup: List[List[EntryBasis]] = l.map{e => (getMutation(e), e)}.toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}.map{e => e._2}.toList
     List.empty[Pardef]
   }
 }
