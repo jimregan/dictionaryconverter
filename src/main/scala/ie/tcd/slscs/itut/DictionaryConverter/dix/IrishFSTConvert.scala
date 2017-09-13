@@ -371,6 +371,7 @@ object IrishFSTConvert {
 object Mapper extends App {
   import scala.io.Source
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.EntryBasis
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.JoinedEntry
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.RHS
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
@@ -383,7 +384,7 @@ object Mapper extends App {
                         "cá+Adv+Q+Wh+Past\tcár" -> Entry("cár", "cár", List("adv.itg")),
                         ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
                         "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
-                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg",)),
+                        "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
                         "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
                         "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
                         "ní_ba+Subst+Noun+Sg+Part+Comp\tní ba" -> Entry("ní ba", "ní ba", List("adv")),
@@ -461,7 +462,7 @@ object Mapper extends App {
   }
   val filename = args(0)
 
-  def mapper(s: String): Option[Entry] = {
+  def mapper(s: String): Option[EntryBasis] = {
     if(remap_whole.contains(s)) {
       remap_whole.get(s)
     } else {
