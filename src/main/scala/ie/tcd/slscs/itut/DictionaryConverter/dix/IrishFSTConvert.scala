@@ -410,6 +410,18 @@ object Mapper extends App {
       }
     }
   }
+  def makeEntryKey(a: EntryBasis): String = {
+    def tagrep(tags: List[String]): String = {
+      if(tags(0) == "n" || tags(0) == "np")
+        tags(0) + "_" + tags(1)
+      else
+        tags(0)
+    }
+    a match {
+      case Entry(_, lem, tags, _, _) => lem + "_" + tagrep(tags)
+      case JoinedEntry(_, in, _, _) => in(0).lemma + "_" + tagrep(in(0).tags)
+    }
+  }
 
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
                         "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
@@ -511,5 +523,6 @@ object Mapper extends App {
     }
   }
   val parts = Source.fromFile(filename).getLines.map{mapper}
+  //val cluster = parts.filter{checkSame(_, _)}
 }
 
