@@ -188,7 +188,8 @@ object IrishFSTConvert {
                         "+Part+Sup" -> "adv",
                         "+Art+Sg+Def" -> "det.def.mf.sg",
                         "+Art+Pl+Def" -> "det.def.mf.pl",
-                        "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg"
+                        "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg",
+                        "+Noun+Masc+Dat+Pl" -> "n.m.pl.dat"
                         )
 
   val tag_remap = Map("Masc" -> "m",
