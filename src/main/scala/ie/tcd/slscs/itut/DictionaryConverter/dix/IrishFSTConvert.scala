@@ -252,7 +252,8 @@ object IrishFSTConvert {
                       "Pron" -> "pron",
                       // Fake addition
                       "Vbser" -> "vbser",
-                      "Prep" -> "pr"
+                      "Prep" -> "pr",
+                      "Part" -> "part"
                       )
                       /*
 Cmpl
@@ -260,11 +261,7 @@ Deg
 Indirect
 Op
 Part
-Pat
 Pro
-+Prep+Art+Pl
-+Prep+Art+Sg
-+Prep+Art+Sg+NG
 +Det+Q+Art+Sg
 +Cop+Q+Art+Sg
 +Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def
