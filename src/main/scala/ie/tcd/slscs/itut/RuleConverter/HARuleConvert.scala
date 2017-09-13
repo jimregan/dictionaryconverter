@@ -81,8 +81,16 @@ class ScratchPad {
   def expandNodes(l: List[Node]): List[List[Node]] = {
     def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
       case Nil => acc
-      case TNode(s) :: xs => expandInner(xs, acc.map{ e => e :+ TNode(s) })
-      case NTNode(v) :: xs => expandInner(xs, acc.flatMap{ e: List[Node]  => v.flatMap{ f: List[Node] => List(e, f)}})
+      case TNode(s) :: xs => if(acc.isEmpty) {
+        expandInner(xs, List(List(TNode(s))))
+      } else {
+        expandInner(xs, acc.map{ e => e :+ TNode(s) })
+      }
+      case NTNode(v) :: xs => if(acc.isEmpty) {
+        expandInner(xs, v)
+      } else {
+        expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(e, f) } })
+      }
     }
     expandInner(l, List.empty[List[Node]])
   }
