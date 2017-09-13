@@ -299,30 +299,28 @@ object IrishFSTConvert {
     val number = List("Sg", "Pl")
     val cases = List("Com", "Gen", "Voc", "Dat")
     def maptagsInner(l: List[String], cur: List[String]): List[String] = cur match {
-      case head :: tail => {
-        if(crap_tags.contains(head)) {
-          maptagsInner(l, tail)
-        } else if(tag_remap.contains(head)) {
-          if(cases.contains(head)) {
-            tail match {
-              case x :: xs => if(number.contains(x)) {
-                maptagsInner(l ++ List(tag_remap(x), tag_remap(head)), xs)
-              } else {
-                maptagsInner(l :+ tag_remap(head), tail)
-              }
-            }
-          } else {
-            if(head == "NegQ") {
-              maptagsInner(l ++ List("itg", "neg"), tail)
-            } else if(head == "RelInd") {
-              maptagsInner(l ++ List("rel", "ind"), tail)
+      case head :: tail => if(crap_tags.contains(head)) {
+        maptagsInner(l, tail)
+      } else if(tag_remap.contains(head)) {
+        if(cases.contains(head)) {
+          tail match {
+            case x :: xs => if(number.contains(x)) {
+              maptagsInner(l ++ List(tag_remap(x), tag_remap(head)), xs)
             } else {
               maptagsInner(l :+ tag_remap(head), tail)
             }
           }
         } else {
-          throw new Exception("Unmapped tag: " + head)
+          if(head == "NegQ") {
+            maptagsInner(l ++ List("itg", "neg"), tail)
+          } else if(head == "RelInd") {
+            maptagsInner(l ++ List("rel", "ind"), tail)
+          } else {
+            maptagsInner(l :+ tag_remap(head), tail)
+          }
         }
+      } else {
+        throw new Exception("Unmapped tag: " + head)
       }
       case Nil => l
     }
