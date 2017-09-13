@@ -400,7 +400,7 @@ object Mapper extends App {
           innerCompare(lem, tags, pcs(0).lemma, pcs(0).tags)
         }
       }
-      case JoinedEntry(_, apcs, _, _) => {
+      case JoinedEntry(_, apcs, _, _) => b match {
         case Entry(_, lemb, tagsb, _, _) => {
           innerCompare(apcs(0).lemma, apcs(0).tags, lemb, tagsb)
         }
@@ -522,7 +522,8 @@ object Mapper extends App {
       procWords(surface, lemma, tags)
     }
   }
-  val parts = Source.fromFile(filename).getLines.map{mapper}
-  //val cluster = parts.filter{checkSame(_, _)}
+  val parts = Source.fromFile(filename).getLines.map{mapper}.flatten
+  val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+  print(partmap)
 }
 
