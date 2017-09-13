@@ -375,6 +375,42 @@ object Mapper extends App {
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.RHS
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.procWords
 
+  def checkSame(a: EntryBasis, b: EntryBasis): Boolean = {
+    def innerCompare(lem: String, tags: List[String], lemb: String, tagsb: List[String]): Boolean = {
+      if(lem != lemb && tags(0) != tagsb(0)) {
+        false
+      } else {
+        if(tags(0) == "n" || tags(0) == "np") {
+          if(tags(1) != tagsb(1)) {
+            false
+          } else {
+            true
+          }
+        } else {
+          true
+        }
+      }
+    }
+    a match {
+      case Entry(_, lem, tags, _, _) => b match {
+        case Entry(_, lemb, tagsb, _, _) => {
+          innerCompare(lem, tags, lemb, tagsb)
+        }
+        case JoinedEntry(_, pcs, _, _) => {
+          innerCompare(lem, tags, pcs(0).lemma, pcs(0).tags)
+        }
+      }
+      case JoinedEntry(_, apcs, _, _) => {
+        case Entry(_, lemb, tagsb, _, _) => {
+          innerCompare(apcs(0).lemma, apcs(0).tags, lemb, tagsb)
+        }
+        case JoinedEntry(_, pcs, _, _) => {
+          innerCompare(apcs(0).lemma, apcs(0).tags, pcs(0).lemma, pcs(0).tags)
+        }
+      }
+    }
+  }
+
   val remap_whole = Map(".i.+Abr\t.i." -> Entry(".i.", ".i.", List("adv")),
                         "srl.+Abr\tsrl." -> Entry("srl.", "srl.", List("adv")),
                         "m.sh.+Abr\tm.sh." -> Entry("m.sh.", "m.sh.", List("adv")),
