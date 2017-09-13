@@ -383,8 +383,12 @@ object IrishFSTConvert {
       case JoinedEntry(_, e, _, _) => checkForMutation(e.head.tags)
     }
   }
+  val mutationStarts: Map[Char, List[String]] = Map('b' -> List("mb", "bh"), 'c' -> List("gc", "ch"), 'd' -> List("nd", "dh"),
+    'f' -> List("bhf", "fh"), 'g' -> List("ng", "gh"), 'm' -> List("mh"), 'p' -> List("bp", "ph"), 's' -> List("ts", "sh"),
+    't' -> List("dt", "th"), 'a' -> List("h-a", "t-a", "n-a"), 'e' -> List("h-e", "t-e", "n-e"),
+    'i' -> List("h-i", "t-i", "n-i"), 'o' -> List("h-o", "t-o", "n-o"), 'u' -> List("h-u", "t-u", "n-u"))
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
-    val tup: List[List[EntryBasis]] = l.map{e => (getMutation(e), e)}.toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}.map{e => e._2}.toList
+    val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     List.empty[Pardef]
   }
 }
