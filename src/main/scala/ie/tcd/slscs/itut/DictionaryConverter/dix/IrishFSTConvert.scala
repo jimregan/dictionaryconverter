@@ -55,8 +55,9 @@ object IrishFSTConvert {
                          "+Prep+Simp+DefArt" -> "pr",
                          "+Prep+CmpdNoGen" -> "pr.cmpd",
                          "+Verb+VI+PresInd+Rel+Typo" -> "vbser.pri.rel",
-                         "+Verb+VI+PresInd+Typo" -> "vbser.pri"
-                         
+                         "+Verb+VI+PresInd+Typo" -> "vbser.pri",
+                         "+CM+Prep+Simp+NG" -> "pr",
+                         "Prep+Simp+NG" -> "pr"
 
                          )
   val skip_whole = List("+Abr",
@@ -220,7 +221,8 @@ object IrishFSTConvert {
                         "+Art+Sg+Def" -> "det.def.mf.sg",
                         "+Art+Pl+Def" -> "det.def.mf.pl",
                         "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg",
-                        "+Noun+Masc+Dat+Pl" -> "n.m.pl.dat"
+                        "+Noun+Masc+Dat+Pl" -> "n.m.pl.dat",
+                        "+Noun+Masc+Voc+Pl+Def+Len" -> "n.m.pl.voc.len"
                         )
 
   val tag_remap = Map("Masc" -> "m",
