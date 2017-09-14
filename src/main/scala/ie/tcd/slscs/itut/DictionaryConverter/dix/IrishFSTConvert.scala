@@ -466,6 +466,8 @@ object IrishFSTConvert {
     }
   }
 
+  def mkSdefs(): List[Sdef] = tag_remap.values.map{e => Sdef(e)}.toList
+
   def IrishLongestCommonPrefix(a: String, b: String): String = {
     if(a == "" || b == "") {
       a
