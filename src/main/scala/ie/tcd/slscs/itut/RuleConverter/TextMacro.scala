@@ -185,6 +185,7 @@ object TextMacro {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
+  def convertJSTMacroToXML(m: JSTMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = SimpleTextMacroToXML(convertJSTMacro(m), clippables)
   def SimpleTextMacroToXML(m: SimpleTextMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = {
     def mkClearVar(name: String): LetElement = {
       LetElement(VarElement(name), LitElement(""))
@@ -226,8 +227,8 @@ object TextMacro {
       }
       def convertMacroAttrToLetClip(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
         val clippable: Boolean = in match {
-          case KVMacroAttr(k, v, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
-          case KeyOnlyMacroAttr(k, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+          case KVMacroAttr(k, v, pos, apto) => clippables(apto) != null && clippables(apto)(k)
+          case KeyOnlyMacroAttr(k, pos, apto) => clippables(apto) != null && clippables(apto)(k)
           case _ => false
         }
         convertMacroAttrToLet(in, clippable, varname, tpl)

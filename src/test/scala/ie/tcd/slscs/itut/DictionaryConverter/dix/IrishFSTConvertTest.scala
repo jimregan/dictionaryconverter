@@ -25,25 +25,13 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.RuleConverter
+package ie.tcd.slscs.itut.DictionaryConverter.dix
 
 import org.scalatest.FlatSpec
-import ie.tcd.slscs.itut.RuleConverter.RuleHolder.{PositionBlank, SimpleLU, StreamItem}
+import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert
 
-class TrxProcTest extends FlatSpec {
-
-  "simpleStreamDropLastBlank" should "drop the last PositionBlank from a converted stream" in {
-    val exp: List[StreamItem] = List(SimpleLU("foo", "", List("n", "sg")), PositionBlank(1), SimpleLU("bar", "", List("n", "sg")))
-    val inp: List[StreamItem] = List(SimpleLU("foo", "", List("n", "sg")), PositionBlank(1), SimpleLU("bar", "", List("n", "sg")), PositionBlank(2))
-    //val out = TrxProc.simpleStreamDropLastBlank(inp)
-    //assert(exp == out)
-  }
-
-  "listSimpleToStream" should "convert a list of SimpleTokens to a stream with blanks" in {
-    val st1 = new SimpleLU("foo", "", List[String]("n", "sg"))
-    val st2 = new SimpleLU("bar", "", List[String]("n", "sg"))
-    val exp: List[StreamItem] = List(SimpleLU("foo", "", List("n", "sg")), PositionBlank(1), SimpleLU("bar", "", List("n", "sg")))
-    //val out = TrxProc.listSimpleToStream(List(st1, st2))
-    //assert(exp == out)
+class IrishFSTConvertTest extends FlatSpec {
+  "maptags" should "convert IrishFST tags to something Apertium-like" in {
+    assert(List("np", "m", "pl", "voc", "defart") == IrishFSTConvert.maptags("+Prop+Noun+Masc+Voc+Pl+DefArt"))
   }
 }
