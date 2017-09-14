@@ -559,6 +559,9 @@ object IrishFSTConvert {
     checkMutation()
 
     val surfaceforms: List[String] = l.map{_.getSurface}
+    val lcs = IrishLongestCommonPrefixList(lemma, surfaceforms)
+    val stemmed_entries = l.map{e => stemEntry(e, lcs)}
+
     List.empty[Pardef]
   }
 
