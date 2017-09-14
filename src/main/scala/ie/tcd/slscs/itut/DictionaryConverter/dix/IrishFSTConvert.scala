@@ -756,14 +756,23 @@ object IrishFSTConvert {
     }
   }
 
+  def makeEntryKey(a: EntryBasis): String = {
+    def tagrep(tags: List[String]): String = {
+      if(tags.head == "n" || tags.head == "np")
+        tags.head + "_" + tags(1)
+      else
+        tags.head
+    }
+    a match {
+      case Entry(_, lem, tags, _, _) => lem + "__" + tagrep(tags)
+      case JoinedEntry(_, in, _, _) => in.head.lemma + "__" + tagrep(in.head.tags)
+    }
+  }
 }
 
 object Mapper extends App {
   import scala.io.Source
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.Entry
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.EntryBasis
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.JoinedEntry
-  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert.mapper
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert._
   import scala.xml._
 
   val prsubj =     <pardef n="prsubj__prn">
@@ -822,19 +831,6 @@ object Mapper extends App {
     <e r="LR"><p><l>iad-sin</l><r>prpers<s n="prn"/><s n="subj"/><s n="p3"/><s n="mf"/><s n="pl"/><j/>sin<s n="det"/><s n="dem"/><s n="sp"/></r></p></e>
   </pardef>
 
-
-  def makeEntryKey(a: EntryBasis): String = {
-    def tagrep(tags: List[String]): String = {
-      if(tags.head == "n" || tags.head == "np")
-        tags.head + "_" + tags(1)
-      else
-        tags.head
-    }
-    a match {
-      case Entry(_, lem, tags, _, _) => lem + "_" + tagrep(tags)
-      case JoinedEntry(_, in, _, _) => in.head.lemma + "_" + tagrep(in.head.tags)
-    }
-  }
 
   if(args.length < 1) {
     throw new Exception("No filename specified")
