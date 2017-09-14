@@ -908,9 +908,13 @@ object Mapper extends App {
 
   lazy val parts = Source.fromFile(filename).getLines.flatMap{mapper}
   lazy val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
-  val pardefs: List[Pardef] = List(nodetopardef(prsubj), nodetopardef(probj))
+  val defaultpardefs: List[Pardef] = List(nodetopardef(prsubj), nodetopardef(probj))
   val defaultentries = List(E(List(I(List.empty[TextLike]), Par("prsubj"))), E(List(I(List.empty[TextLike]), Par("probj"))))
-  val section: Section = Section("main", "standard", defaultentries)
+  val pieces = partmap.map{e => mkPardefs(e._2)}
+  val pardefs: List[Pardef] = defaultpardefs ++ pieces.keys.flatten
+  val entries: List[E] = defaultentries ++ pieces.values.flatten
+  val section: Section = Section("main", "standard", entries)
+  val dix = Dix("abcdefghijklmnopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ", mkSdefs(), pardefs, List(section))
 
   print(partmap)
 }
