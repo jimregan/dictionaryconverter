@@ -914,7 +914,8 @@ object Mapper extends App {
   val pardefs: List[Pardef] = defaultpardefs ++ pieces.keys.flatten
   val entries: List[E] = defaultentries ++ pieces.values.flatten
   val section: Section = Section("main", "standard", entries)
-  val dix = Dix("abcdefghijklmnopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ", mkSdefs(), pardefs, List(section))
+  val alphabet = "abcdefghijklmnopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ"
+  val dix = Dix(alphabet, mkSdefs(), pardefs, List(section))
 
   print(partmap)
 }
