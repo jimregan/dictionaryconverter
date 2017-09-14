@@ -561,14 +561,14 @@ object IrishFSTConvert {
     val l = L(List(Txt(ent.surface)))
     val rhsparts = ent.parts.map{RHSToTextLike}
     val r = R(joinRHS(rhsparts))
-    E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
+    E(List(P(l, r)), null, restr, null, null, false, null, null, null, ent.variant)
   }
   def convertToE(ent: StemmedEntryBasis): E = ent match {
     case s: StemmedEntry => stemmedEntryToE(s)
     case s: StemmedJoinedEntry => stemmedJoinedEntryToE(s)
     case _ => throw new Exception("Nobody expects the Spanish Inquisition: " + ent)
   }
-  def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
+  def mkPardefs(l: List[EntryBasis]): (List[Pardef], List[E]) = {
     val name_basis = makeEntryKey(l.head)
     val lemmas: List[String] = l.map{_.getLemma}.distinct
     if(lemmas.nonEmpty) {
@@ -591,14 +591,42 @@ object IrishFSTConvert {
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
     val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val tup_conv: Map[String, List[E]] = tup.map{e => (e._1, e._2.map{convertToE})}
-    val pardeflists: List[Pardef] = tup_conv.map{
-      e => {
-        val name = if(e._1 != "") pardefname + "__" + e._1 else e._1
-        Pardef(name, null, e._2)
-      }
-    }.toList
+    val pardefmap: Map[String, Pardef] = tup_conv.map{ e => {
+      val name = if(e._1 != "") pardefname + "__" + e._1 else e._1
+      (e._1, Pardef(name, null, e._2))
+    }}
+    val pardeflists: List[Pardef] = pardefmap.values.toList
+    def entriesFromPardefs(m: Map[String, Pardef]): List[E] = {
+      val lm = lemma
+      val first = lm.charAt(0)
 
-    pardeflists
+      def firstParts(mut: String): List[TextLikeContainer] = {
+        val i = I(List(Txt(lcs)))
+        val initpar = Par(first + "__" + mut)
+        if (lcs == "") {
+          if (mut == "") {
+            List.empty[TextLikeContainer]
+          } else {
+            List(initpar)
+          }
+        } else {
+          if (mut == "") {
+            List(i)
+          } else {
+            List(initpar, i)
+          }
+        }
+      }
+
+      val entryl: List[E] = m.map{ e => {
+        val fp = firstParts(e._1)
+        val name: Par = Par(e._2.name)
+        E(fp :+ name, lm, null, "irishfst")
+      }}.toList
+      entryl
+    }
+    val entrylists = entriesFromPardefs(pardefmap)
+    (pardeflists, entrylists)
   }
 
   def checkSame(a: EntryBasis, b: EntryBasis): Boolean = {
