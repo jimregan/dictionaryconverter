@@ -444,7 +444,8 @@ object IrishFSTConvert {
     } else {
       null
     }
-    JoinedEntry(surface, List(pr, prn, dem).flatten, "LR", dial)
+    val l: List[Option[RHS]] = List(Some(pr), Some(prn), dem)
+    JoinedEntry(surface, l.flatten, "LR", dial)
   }
 
   def getMutation(e: EntryBasis): String = {
