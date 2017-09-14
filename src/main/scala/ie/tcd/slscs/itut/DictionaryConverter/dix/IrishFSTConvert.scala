@@ -288,11 +288,13 @@ object IrishFSTConvert {
                       "Num" -> "num",
                       "Cp" -> "cop",
                       "Slender" -> "slender",
-                      "Pron" -> "pron",
+                      "Pron" -> "prn",
                       "Prep" -> "pr",
                       "Part" -> "part",
                       "Deg" -> "deg",
                       "Op" -> "op",
+                      "Direct" -> "dir",
+                      "Indirect" -> "indir",
                       // Fake addition
                       "Vbser" -> "vbser"
                       )
@@ -505,7 +507,12 @@ object IrishFSTConvert {
     }
   }
 
-  def mkSdefs(): List[Sdef] = tag_remap.values.map{e => Sdef(e)}.toList
+  def mkSdefs(): List[Sdef] = {
+    val frommap = tag_remap.values.filter { e => !e.contains(".") }
+    val sdefadds = List("mf", "sp")
+    val sdefs = frommap.toList ++ sdefadds
+    sdefs.map { e => Sdef(e) }
+  }
 
   def IrishLongestCommonPrefix(a: String, b: String): String = {
     if(a == "" || b == "" || a == null || b == null) {
@@ -633,7 +640,7 @@ object IrishFSTConvert {
     val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutationFromEntryBasis(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val tup_conv: Map[String, List[E]] = tup.map{e => (e._1, e._2.map{convertToE})}
     val pardefmap: Map[String, Pardef] = tup_conv.map{ e => {
-      val name = if(e._1 != "") pardefname + "__" + e._1 else e._1
+      val name = if(e._1 != "") pardefname + "__" + e._1 else pardefname
       (e._1, Pardef(name, null, e._2))
     }}
     val pardeflists: List[Pardef] = pardefmap.values.toList
@@ -920,7 +927,7 @@ object Mapper extends App {
   lazy val parts = Source.fromFile(filename).getLines.flatMap{mapper}
   lazy val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
   val defaultpardefs: List[Pardef] = List(nodetopardef(prsubj), nodetopardef(probj))
-  val defaultentries = List(E(List(I(List.empty[TextLike]), Par("prsubj"))), E(List(I(List.empty[TextLike]), Par("probj"))))
+  val defaultentries = List(E(List(I(List.empty[TextLike]), Par("prsubj__prn"))), E(List(I(List.empty[TextLike]), Par("probj__prn"))))
   val pieces = partmap.map{e => mkPardefs(e._2)}
   val pardefs: List[Pardef] = defaultpardefs ++ pieces.keys.flatten
   val entries: List[E] = defaultentries ++ pieces.values.flatten
