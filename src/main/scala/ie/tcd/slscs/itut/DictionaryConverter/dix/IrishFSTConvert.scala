@@ -623,11 +623,11 @@ object IrishFSTConvert {
     "cés_móite+Conj+Subord\tcés móite" -> Entry("cés moite", "cé is moite", List("cnjsub"), "lr"),
     "cé_is_moite+Conj+Subord\tcé is moite" -> Entry("cé is moite", "cé is moite", List("cnjsub")),
     "cé_is_móite+Conj+Subord\tcé is móite" -> Entry("cé is móite", "cé is moite", List("cnjsub"), "lr"),
-    "ea+Pron+Pers+3P+Sg\tea" -> Entry("ea", "prpers", List("prn", "subj", "p3", "nt", "sg")),
-    "ea+Pron+Pers+3P+Sg\teadh" -> Entry("eadh", "prpers", List("prn", "subj", "p3", "nt", "sg"), "lr"),
+    "ea+Pron+Pers+3P+Sg\tea" -> Entry("ea", "ea", List("prn", "subj", "p3", "nt", "sg")),
+    "ea+Pron+Pers+3P+Sg\teadh" -> Entry("eadh", "ea", List("prn", "subj", "p3", "nt", "sg"), "lr"),
     // this is fixed in my fork, including both entries in case
-    "ea+Pron+Pers+3P+Sg\thea" -> Entry("hea", "prpers", List("prn", "subj", "p3", "nt", "sg", "hpref")),
-    "ea+Pron+Pers+3P+Sg+hPref\thea" -> Entry("hea", "prpers", List("prn", "subj", "p3", "nt", "sg", "hpref"))
+    "ea+Pron+Pers+3P+Sg\thea" -> Entry("hea", "ea", List("prn", "subj", "p3", "nt", "sg", "hpref")),
+    "ea+Pron+Pers+3P+Sg+hPref\thea" -> Entry("hea", "ea", List("prn", "subj", "p3", "nt", "sg", "hpref"))
 /*
       cad_é+CU+Cop+Pro+Q\tcaidé
       cé+Cop+Pro+Q\tcé
