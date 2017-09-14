@@ -406,12 +406,12 @@ object IrishFSTConvert {
   def isVowel(v: Char): Boolean = {
     isUpperVowel(v) || isLowerVowel(v)
   }
-  def findBeginning(s: String, l: List[String]): Int = {
+  def findBeginning(s: String, l: List[String]): String = {
     val f = l.dropWhile(e => !s.startsWith(e))
-    if(f.length == 0) {
-      0
+    if(f.isEmpty) {
+      ""
     } else {
-      f.head.length
+      f.head
     }
   }
 
@@ -420,7 +420,8 @@ object IrishFSTConvert {
       a
     }
     val first_char = a.charAt(0)
-    val j = findBeginning(b, mutationStarts(first_char))
+    val b_begin = findBeginning(b, mutationStarts(first_char))
+    val j = if(!a.startsWith(b_begin)) b_begin.length else 0
     val i = if(j == 0) 0 else 1
 
     val comp_a = a.substring(i)
