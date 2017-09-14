@@ -281,14 +281,14 @@ object IrishFSTConvert {
                       */
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb", "NotSlen")
   abstract class EntryBasis {
-    def getLemmaList: List[String]
+    def getLemma: String
   }
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis {
-    override def getLemmaList: List[String] = List(lemma)
+    override def getLemma: String = lemma
   }
   case class RHS(lemma: String, tags: List[String])
   case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis {
-    override def getLemmaList: List[String] = parts.map{_.lemma}
+    override def getLemma: String = parts.head.lemma
   }
 
   val DIALECTS = List("CC", "CM", "CU")
@@ -485,7 +485,7 @@ object IrishFSTConvert {
   }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
-    val lemmas: List[String] = l.flatMap{_.getLemmaList}.distinct
+    val lemmas: List[String] = l.map{_.getLemma}.distinct
     if(lemmas.length != 0) {
       throw new Exception("Expected one lemma, got: " + lemmas.mkString(", "))
     }
