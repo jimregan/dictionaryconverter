@@ -841,6 +841,8 @@ object Mapper extends App {
   import scala.io.Source
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert._
   import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix.nodetopardef
+  import java.io.{BufferedWriter, FileOutputStream, OutputStreamWriter}
+  import java.nio.charset.Charset
   import scala.xml._
 
   val prsubj =     <pardef n="prsubj__prn">
@@ -916,6 +918,10 @@ object Mapper extends App {
   val section: Section = Section("main", "standard", entries)
   val alphabet = "abcdefghijklmnopqrstuvwxyzáéíóúABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚ"
   val dix = Dix(alphabet, mkSdefs(), pardefs, List(section))
+  val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outname), Charset.forName("UTF-8")))
+  writer.write(dix.toXMLString)
+  writer.close()
+  System.exit(0)
 
   print(partmap)
 }
