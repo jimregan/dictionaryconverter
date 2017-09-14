@@ -544,7 +544,7 @@ object IrishFSTConvert {
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val lemmas: List[String] = l.map{_.getLemma}.distinct
-    if(lemmas.length != 0) {
+    if(lemmas.nonEmpty) {
       throw new Exception("Expected one lemma, got: " + lemmas.mkString(", "))
     }
     val lemma = lemmas.head
@@ -564,10 +564,10 @@ object IrishFSTConvert {
 
   def checkSame(a: EntryBasis, b: EntryBasis): Boolean = {
     def innerCompare(lem: String, tags: List[String], lemb: String, tagsb: List[String]): Boolean = {
-      if(lem != lemb && tags(0) != tagsb(0)) {
+      if(lem != lemb && tags.head != tagsb.head) {
         false
       } else {
-        if(tags(0) == "n" || tags(0) == "np") {
+        if(tags.head == "n" || tags.head == "np") {
           if(tags(1) != tagsb(1)) {
             false
           } else {
@@ -584,15 +584,15 @@ object IrishFSTConvert {
           innerCompare(lem, tags, lemb, tagsb)
         }
         case JoinedEntry(_, pcs, _, _) => {
-          innerCompare(lem, tags, pcs(0).lemma, pcs(0).tags)
+          innerCompare(lem, tags, pcs.head.lemma, pcs.head.tags)
         }
       }
       case JoinedEntry(_, apcs, _, _) => b match {
         case Entry(_, lemb, tagsb, _, _) => {
-          innerCompare(apcs(0).lemma, apcs(0).tags, lemb, tagsb)
+          innerCompare(apcs.head.lemma, apcs.head.tags, lemb, tagsb)
         }
         case JoinedEntry(_, pcs, _, _) => {
-          innerCompare(apcs(0).lemma, apcs(0).tags, pcs(0).lemma, pcs(0).tags)
+          innerCompare(apcs.head.lemma, apcs.head.tags, pcs.head.lemma, pcs.head.tags)
         }
       }
     }
