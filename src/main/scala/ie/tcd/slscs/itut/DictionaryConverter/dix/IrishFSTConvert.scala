@@ -283,12 +283,12 @@ object IrishFSTConvert {
                       "Cp" -> "cop",
                       "Slender" -> "slender",
                       "Pron" -> "pron",
-                      // Fake addition
-                      "Vbser" -> "vbser",
                       "Prep" -> "pr",
                       "Part" -> "part",
                       "Deg" -> "deg",
-                      "Op" -> "op"
+                      "Op" -> "op",
+                      // Fake addition
+                      "Vbser" -> "vbser"
                       )
                       /*
 +Part+Vb+Cmpl
@@ -305,8 +305,6 @@ object IrishFSTConvert {
 +CU+Cop+Pro+Q
 +Det+Q+Art+Sg
 +Cop+Q+Art+Sg
-+Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def
-+Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def+Subst+Noun+Sg
 
                       */
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb", "NotSlen")
