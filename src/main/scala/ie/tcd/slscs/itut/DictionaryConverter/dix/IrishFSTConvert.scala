@@ -406,6 +406,15 @@ object IrishFSTConvert {
   def isVowel(v: Char): Boolean = {
     isUpperVowel(v) || isLowerVowel(v)
   }
+  def findBeginning(s: String, l: List[String]): Int = {
+    val f = l.dropWhile(e => !s.startsWith(e))
+    if(f.length == 0) {
+      0
+    } else {
+      f.head.length
+    }
+  }
+
   def getMutation(lemma: String, surface: String): String = {
     val lenites: List[Char] = List('b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't')
     val eclcons: List[Char] = List('b', 'c', 'd', 'f', 'g', 'p', 't')
