@@ -810,6 +810,7 @@ object IrishFSTConvert {
 object Mapper extends App {
   import scala.io.Source
   import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert._
+  import ie.tcd.slscs.itut.DictionaryConverter.dix.Dix.nodetopardef
   import scala.xml._
 
   val prsubj =     <pardef n="prsubj__prn">
@@ -877,6 +878,9 @@ object Mapper extends App {
 
   lazy val parts = Source.fromFile(filename).getLines.flatMap{mapper}
   lazy val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+  val pardefs: List[Pardef] = List(nodetopardef(prsubj), nodetopardef(probj))
+  val section: Section = Section("main", "standard", List(E(List(I(List.empty[TextLike]),Par("prsubj"))), E(List(I(List.empty[TextLike]),Par("probj")))))
+
   print(partmap)
 }
 
