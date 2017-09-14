@@ -415,6 +415,24 @@ object IrishFSTConvert {
     }
   }
 
+  def IrishCommonPrefix(a: String, b: String): String = {
+    if(a == "" || b == "") {
+      ""
+    }
+    val first_char = a.charAt(0)
+    val j = findBeginning(b, mutationStarts(first_char))
+    val i = if(j == 0) 0 else 1
+
+    val comp_a = a.substring(i)
+    val comp_b = b.substring(j)
+    val inner = (comp_a, comp_b).zipped.takeWhile(Function.tupled(_ == _)).map(_._1).mkString
+    if(i != 0) {
+      first_char + inner
+    } else {
+      inner
+    }
+  }
+
   def getMutation(lemma: String, surface: String): String = {
     val lenites: List[Char] = List('b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't')
     val eclcons: List[Char] = List('b', 'c', 'd', 'f', 'g', 'p', 't')
