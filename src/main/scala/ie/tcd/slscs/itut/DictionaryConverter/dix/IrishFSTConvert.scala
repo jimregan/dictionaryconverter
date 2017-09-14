@@ -563,6 +563,11 @@ object IrishFSTConvert {
     val r = R(joinRHS(rhsparts))
     E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
   }
+  def convertToE(ent: StemmedEntryBasis): E = ent match {
+    case s: StemmedEntry => stemmedEntryToE(s)
+    case s: StemmedJoinedEntry => stemmedJoinedEntryToE(s)
+    case _ => throw new Exception("Nobody expects the Spanish Inquisition: " + ent)
+  }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val lemmas: List[String] = l.map{_.getLemma}.distinct
@@ -583,6 +588,7 @@ object IrishFSTConvert {
     val surfaceforms: List[String] = l.map{_.getSurface}
     val lcs = IrishLongestCommonPrefixList(lemma, surfaceforms)
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
+    val e_entries = stemmed_entries.map{convertToE}
 
     List.empty[Pardef]
   }
