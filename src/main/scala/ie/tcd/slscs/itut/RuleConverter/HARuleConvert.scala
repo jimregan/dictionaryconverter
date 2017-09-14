@@ -89,6 +89,11 @@ class ScratchPad {
       case NTNode(v) :: xs => if(acc.isEmpty) {
         expandInner(xs, v)
       } else {
+        // instead of 'List(List(e, f).flatten)', a function can be used to do this part, also adjusting positions
+        // probably need to stick all relevant parts into each node, then reorder TL side as a postprocessing step
+        // maybe also keep track of initial position and final position, for macro adjustment
+        // insert in the transformer function, create a map in a second pass, then adjust classes with proper positions
+        // case class Foo(d: data, pos: Int) -> FooX(d, initPos, newPos) -> Foo(d, newPos)
         expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(List(e, f).flatten) } })
       }
     }
