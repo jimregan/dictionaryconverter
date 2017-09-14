@@ -590,10 +590,15 @@ object IrishFSTConvert {
     val pardefname = lcs + "/" + name_basis.substring(lcs.length)
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
     val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+    val tup_conv: Map[String, List[E]] = tup.map{e => (e._1, e._2.map{convertToE})}
+    val pardeflists: List[Pardef] = tup_conv.map{
+      e => {
+        val name = if(e._1 != "") pardefname + "__" + e._1 else e._1
+        Pardef(name, null, e._2)
+      }
+    }.toList
 
-    //val e_entries = stemmed_entries.map{convertToE}
-
-    List.empty[Pardef]
+    pardeflists
   }
 
   def checkSame(a: EntryBasis, b: EntryBasis): Boolean = {
