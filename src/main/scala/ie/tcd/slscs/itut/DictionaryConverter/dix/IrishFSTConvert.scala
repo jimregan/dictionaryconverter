@@ -415,9 +415,9 @@ object IrishFSTConvert {
     }
   }
 
-  def IrishCommonPrefix(a: String, b: String): String = {
+  def IrishLongestCommonPrefix(a: String, b: String): String = {
     if(a == "" || b == "") {
-      ""
+      a
     }
     val first_char = a.charAt(0)
     val j = findBeginning(b, mutationStarts(first_char))
@@ -430,6 +430,17 @@ object IrishFSTConvert {
       first_char + inner
     } else {
       inner
+    }
+  }
+
+  def IrishLongestCommonPrefixList(lemma: String, surface_forms: List[String]): String = {
+    val lcps = surface_forms.map{f => IrishLongestCommonPrefix(lemma, f)}
+    val shortest = lcps.reduceLeft((a, b) => if(a.length < b.length) a else b)
+    val shortest_forms = lcps.filter{_.length == shortest.length}.distinct
+    if(shortest_forms.size == 1) {
+      shortest_forms.head
+    } else {
+      throw new Exception("Shouldn't happen: " + lemma + surface_forms + shortest_forms)
     }
   }
 
