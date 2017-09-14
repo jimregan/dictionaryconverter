@@ -313,15 +313,26 @@ object IrishFSTConvert {
     def getSurface: String
     def getTags: List[String]
   }
+  abstract class StemmedEntryBasis extends EntryBasis
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = lemma
     override def getSurface: String = surface
+    override def getTags: List[String] = tags
+  }
+  case class StemmedEntry(lcs: String, surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends StemmedEntryBasis {
+    override def getLemma: String = lcs + lemma
+    override def getSurface: String = lcs + surface
     override def getTags: List[String] = tags
   }
   case class RHS(lemma: String, tags: List[String])
   case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = parts.head.lemma
     override def getSurface: String = surface
+    override def getTags: List[String] = parts.head.tags
+  }
+  case class StemmedJoinedEntry(lcs: String, surface: String, parts: List[RHS], r: String = null, variant: String = null) extends StemmedEntryBasis {
+    override def getLemma: String = lcs + parts.head.lemma
+    override def getSurface: String = lcs + surface
     override def getTags: List[String] = parts.head.tags
   }
 
