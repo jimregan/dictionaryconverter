@@ -454,7 +454,7 @@ object IrishFSTConvert {
     JoinedEntry(surface, l.flatten, "LR", dial)
   }
 
-  def getMutation(e: EntryBasis): String = {
+  def getMutationFromEntryBasis(e: EntryBasis): String = {
     val MUTATIONS = List("len", "ecl", "hpref", "defart")
     def checkForMutation(l: List[String]): String = {
       val o = l.filter(MUTATIONS.contains(_))
@@ -469,6 +469,8 @@ object IrishFSTConvert {
     e match {
       case Entry(_, _, t, _, _) => checkForMutation(t)
       case JoinedEntry(_, es, _, _) => checkForMutation(es.head.tags)
+      case StemmedEntry(_, _, _, t, _, _) => checkForMutation(t)
+      case StemmedJoinedEntry(_, _, es, _, _) => checkForMutation(es.head.tags)
     }
   }
   val mutationStarts: Map[Char, List[String]] = Map('b' -> List("mb", "bh"), 'c' -> List("gc", "ch"), 'd' -> List("nd", "dh"),
@@ -506,11 +508,11 @@ object IrishFSTConvert {
   def mkSdefs(): List[Sdef] = tag_remap.values.map{e => Sdef(e)}.toList
 
   def IrishLongestCommonPrefix(a: String, b: String): String = {
-    if(a == "" || b == "") {
-      a
+    if(a == "" || b == "" || a == null || b == null) {
+      return ""
     }
     val first_char = a.charAt(0)
-    val b_begin = findBeginning(b, mutationStarts(first_char))
+    val b_begin = if(mutationStarts.contains(first_char)) findBeginning(b, mutationStarts(first_char)) else ""
     val j = if(!a.startsWith(b_begin)) b_begin.length else 0
     val i = if(j == 0) 0 else 1
 
@@ -610,14 +612,14 @@ object IrishFSTConvert {
   def mkPardefs(l: List[EntryBasis]): (List[Pardef], List[E]) = {
     val name_basis = makeEntryKey(l.head)
     val lemmas: List[String] = l.map{_.getLemma}.distinct
-    if(lemmas.nonEmpty) {
+    if(lemmas.length != 1) {
       throw new Exception("Expected one lemma, got: " + lemmas.mkString(", "))
     }
     val lemma = lemmas.head
     def checkMutation(): Unit = {
       for(ent <- l) {
         val mut = getMutation(lemma, ent.getSurface)
-        if(!ent.getTags.contains(mut)) {
+        if(!ent.getTags.contains(mut) && mut != "") {
           System.err.println("Error in " + ent.getSurface + "(" + lemma + "): expected " + mut + "(" + ent.getTags + ")")
         }
       }
@@ -628,7 +630,7 @@ object IrishFSTConvert {
     val lcs = IrishLongestCommonPrefixList(lemma, surfaceforms)
     val pardefname = lcs + "/" + name_basis.substring(lcs.length)
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
-    val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+    val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutationFromEntryBasis(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val tup_conv: Map[String, List[E]] = tup.map{e => (e._1, e._2.map{convertToE})}
     val pardefmap: Map[String, Pardef] = tup_conv.map{ e => {
       val name = if(e._1 != "") pardefname + "__" + e._1 else e._1
