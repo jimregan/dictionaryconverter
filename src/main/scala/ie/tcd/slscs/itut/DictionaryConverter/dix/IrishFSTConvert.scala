@@ -385,7 +385,18 @@ object IrishFSTConvert {
       maptagsInner(List.empty[String], chop.split("\\+").toList)
     }
   }
+  def getLR(surface: String, tags: String): String = {
+    if(tags.contains("+Var") || tags.contains("+Suf")) {
+      "lr"
+    } else if(tags.contains("+Emph") && (surface.endsWith("-s") || (surface.endsWith("-sa") || surface.endsWith("-se")))) {
+      "lr"
+    } else {
+      ""
+    }
+  }
   def procWords(surface: String, lemma: String, tags: String): Option[EntryBasis] = {
+    val tagtweak = if(lemma == "bí" && tags.contains("+Verb")) tags.replace("+Verb", "+Vbser") else tags
+    val lr = getLR(surface, tags)
     if(lronly_whole.contains(tags)) {
       Some(Entry(surface, lemma, lronly_whole(tags).split("\\.").toList, "lr"))
     } else if(remap_whole.contains(tags)) {
@@ -396,13 +407,8 @@ object IrishFSTConvert {
       None
     } else if(tags.contains("Pron+Prep")) {
       Some(prepMaker(surface, lemma, tags))
-    } else if(tags.contains("+Var") || tags.contains("+Suf")) {
-      Some(Entry(surface, lemma, maptags(tags), "lr"))
-    } else if(tags.contains("+Emph") && (surface.endsWith("-s") || (surface.endsWith("-sa") || surface.endsWith("-se")))) {
-      Some(Entry(surface, lemma, maptags(tags), "lr"))
     } else {
-      val tagtweak = if(lemma == "bí" && tags.contains("+Verb")) tags.replace("+Verb", "+Vbser") else tags
-      Some(Entry(surface, lemma, maptags(tagtweak)))
+      Some(Entry(surface, lemma, maptags(tagtweak), lr))
     }
   }
 
