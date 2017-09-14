@@ -569,7 +569,6 @@ object IrishFSTConvert {
     case _ => throw new Exception("Nobody expects the Spanish Inquisition: " + ent)
   }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
-    val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val lemmas: List[String] = l.map{_.getLemma}.distinct
     if(lemmas.nonEmpty) {
       throw new Exception("Expected one lemma, got: " + lemmas.mkString(", "))
@@ -588,7 +587,9 @@ object IrishFSTConvert {
     val surfaceforms: List[String] = l.map{_.getSurface}
     val lcs = IrishLongestCommonPrefixList(lemma, surfaceforms)
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
-    val e_entries = stemmed_entries.map{convertToE}
+    val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+
+    //val e_entries = stemmed_entries.map{convertToE}
 
     List.empty[Pardef]
   }
