@@ -161,6 +161,7 @@ object IrishFSTConvert {
                         "+Punct+Quo" -> "quot",
                         "+Punct+Brack+St" -> "lpar",
                         "+Punct+Brack+End" -> "rpar",
+                        "+Punct+Brack+Fin" -> "rpar",
                         "+Punct+Bar" -> "guio",
                         "+Adv+Q+Wh" -> "adv.itg",
                         "+Prep+Simp" -> "pr",
@@ -230,6 +231,9 @@ object IrishFSTConvert {
                       "Verb" -> "vblex",
                       "Noun" -> "n",
                       "Com" -> "com",
+                      "Comp" -> "comp",
+                      "NegQ" -> "itg.neg",
+                      "RelInd" -> "rel.ind",
                       "Gen" -> "gen",
                       "hPref" -> "hpref",
                       "DefArt" -> "defart",
@@ -371,7 +375,7 @@ object IrishFSTConvert {
           }
         }
       } else {
-        throw new Exception("Unmapped tag: " + head)
+        throw new Exception("Unmapped tag: " + head + "(" + str + ")")
       }
       case Nil => l
     }
