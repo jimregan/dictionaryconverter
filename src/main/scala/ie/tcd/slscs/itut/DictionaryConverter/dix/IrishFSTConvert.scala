@@ -611,7 +611,20 @@ object IrishFSTConvert {
     "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
     "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
     // this is a noun, not an adjective, but we can catch the phrase all the same
-    "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv"))
+    "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv")),
+    "cad+Pron+Q\tcad" -> Entry("cad", "cad", List("prn", "itg", "mf", "sp")),
+    // it's a pronoun: http://www.teanglann.ie/en/fgb/cad
+    // so using this entry to shoehorn in a related entry: it's possible this analysis is only for 'cad chuige' anyway
+    "cad+Cop+Pro+Q\tcad" -> Entry("cad chuige", "cad chuige", List("adv", "itg")),
+    // 'céard' is a contraction of 'cé an rud', but it means the same as 'cad'
+    "cé+Cop+Pro+Q\tcéard" -> Entry("céard", "céard", List("prn", "itg", "mf", "sp"), null, "CM"),
+    "cad_chuige+CC+Cop+Pro+Q\ttuige" -> Entry("tuige", "cad chuige", List("adv", "itg"), "lr", "CC")
+/*
+      cad_é+CU+Cop+Pro+Q\tcaidé
+      cé+Cop+Pro+Q\tcé
+      cé+Cop+Pro+Q+Cop\tcér
+      cé+Cop+Pro+Q+Cop\tcérbh
+*/
   )
   def mapper(s: String): Option[EntryBasis] = {
     if(remap_whole_entry.contains(s)) {
