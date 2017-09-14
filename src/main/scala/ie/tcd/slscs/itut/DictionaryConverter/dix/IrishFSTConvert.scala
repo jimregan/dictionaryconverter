@@ -542,12 +542,26 @@ object IrishFSTConvert {
     }
   }
   def stemmedEntryToE(ent: StemmedEntry): E = {
-    val lm = ent.getLemma
     val restr = if(ent.r.toLowerCase == "lr") "LR" else null
     val tags = ent.tags.map{e => S(e)}
     val l = L(List(Txt(ent.surface)))
     val r = R(List(Txt(ent.lemma)) ++ tags)
-    E(List(P(l, r)), lm, restr, "irishfst", null, false, null, null, null, ent.variant)
+    E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
+  }
+  def RHSToTextLike(rhs: RHS): List[TextLike] = List(Txt(rhs.lemma)) ++ rhs.tags.map{e => S(e)}
+  def joinRHS(l: List[List[TextLike]]): List[TextLike] = {
+    def joinInner(parts: List[List[TextLike]], acc: List[TextLike]): List[TextLike] = parts match {
+      case x :: Nil => acc ++ x
+      case x :: xs => joinInner(xs, acc ++ x ++ List(J()))
+    }
+    joinInner(l, List.empty[TextLike])
+  }
+  def stemmedJoinedEntryToE(ent: StemmedJoinedEntry): E = {
+    val restr = if(ent.r.toLowerCase == "lr") "LR" else null
+    val l = L(List(Txt(ent.surface)))
+    val rhsparts = ent.parts.map{RHSToTextLike}
+    val r = R(joinRHS(rhsparts))
+    E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
   }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
