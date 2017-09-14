@@ -8,6 +8,8 @@ scalaVersion := "2.10.2"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
+mainClass in (Compile, run) := Some("ie.tcd.slscs.itut.DictionaryConverter.dix.Mapper")
+
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v")
 
 libraryDependencies ++= {
