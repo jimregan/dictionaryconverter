@@ -448,11 +448,11 @@ object IrishFSTConvert {
     'Í' -> List("hÍ", "tÍ", "nÍ"), 'Ó' -> List("hÓ", "tÓ", "nÓ"), 'Ú' -> List("hÚ", "tÚ", "nÚ"))
   def isUpperVowel(v: Char): Boolean = {
     val vowels = List('A', 'E', 'I', 'O', 'U', 'Á', 'É', 'Í', 'Ó', 'Ú')
-    return vowels.contains(v)
+    vowels.contains(v)
   }
   def isLowerVowel(v: Char): Boolean = {
     val vowels = List('a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú')
-    return vowels.contains(v)
+    vowels.contains(v)
   }
   def isVowel(v: Char): Boolean = {
     isUpperVowel(v) || isLowerVowel(v)
@@ -568,11 +568,7 @@ object IrishFSTConvert {
         false
       } else {
         if(tags.head == "n" || tags.head == "np") {
-          if(tags(1) != tagsb(1)) {
-            false
-          } else {
-            true
-          }
+          tags(1) != tagsb(1)
         } else {
           true
         }
@@ -580,20 +576,13 @@ object IrishFSTConvert {
     }
     a match {
       case Entry(_, lem, tags, _, _) => b match {
-        case Entry(_, lemb, tagsb, _, _) => {
-          innerCompare(lem, tags, lemb, tagsb)
-        }
-        case JoinedEntry(_, pcs, _, _) => {
-          innerCompare(lem, tags, pcs.head.lemma, pcs.head.tags)
-        }
+        case Entry(_, lemb, tagsb, _, _) => innerCompare(lem, tags, lemb, tagsb)
+        case JoinedEntry(_, pcs, _, _) => innerCompare(lem, tags, pcs.head.lemma, pcs.head.tags)
       }
       case JoinedEntry(_, apcs, _, _) => b match {
-        case Entry(_, lemb, tagsb, _, _) => {
-          innerCompare(apcs.head.lemma, apcs.head.tags, lemb, tagsb)
-        }
-        case JoinedEntry(_, pcs, _, _) => {
-          innerCompare(apcs.head.lemma, apcs.head.tags, pcs.head.lemma, pcs.head.tags)
-        }
+        case Entry(_, lemb, tagsb, _, _) => innerCompare(apcs.head.lemma, apcs.head.tags, lemb, tagsb)
+        case JoinedEntry(_, pcs, _, _) => innerCompare(apcs.head.lemma, apcs.head.tags, pcs.head.lemma, pcs.head.tags)
+
       }
     }
   }
