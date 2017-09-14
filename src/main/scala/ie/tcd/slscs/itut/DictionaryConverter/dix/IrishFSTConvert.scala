@@ -627,12 +627,26 @@ object IrishFSTConvert {
     "ea+Pron+Pers+3P+Sg\teadh" -> Entry("eadh", "ea", List("prn", "subj", "p3", "nt", "sg"), "lr"),
     // this is fixed in my fork, including both entries in case
     "ea+Pron+Pers+3P+Sg\thea" -> Entry("hea", "ea", List("prn", "subj", "p3", "nt", "sg", "hpref")),
-    "ea+Pron+Pers+3P+Sg+hPref\thea" -> Entry("hea", "ea", List("prn", "subj", "p3", "nt", "sg", "hpref"))
+    "ea+Pron+Pers+3P+Sg+hPref\thea" -> Entry("hea", "ea", List("prn", "subj", "p3", "nt", "sg", "hpref")),
+    "seo+Pron+Dem\tseo" -> Entry("seo", "seo", List("prn", "dem", "sp")),
+    "siúd+Pron+Dem\tsiúd" -> Entry("siúd", "siúd", List("prn", "dem", "sp")),
+    "sin+Pron+Dem\tsin" -> Entry("sin", "sin", List("prn", "dem", "sp")),
+    "siúd+Pron+Dem\tiúd" -> Entry("iúd", "siúd", List("prn", "dem", "sp"), "lr"),
+    "sin+Pron+Dem\tsan" -> Entry("san", "sin", List("prn", "dem", "sp"), "lr", "CM"),
+    "sin+CM+Det+Dem\tsan" -> Entry("san", "sin", List("det", "dem", "sp"), "lr", "CM"),
+    "sin+Pron+Dem\tshin" -> Entry("shin", "sin", List("prn", "dem", "sp"), "lr"),
+    "seo+CM+Pron+Dem\tso" -> Entry("so", "seo", List("prn", "dem", "sp"), "lr", "CM"),
+    "seo+CM+Det+Dem\tso" -> Entry("so", "seo", List("det", "dem", "sp"), "lr", "CM"),
+    "sin+Pron+Dem\tin" -> Entry("in", "sin", List("prn", "dem", "sp"), "lr"),
+    "is+Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def+Subst+Noun+Sg\tséard" -> JoinedEntry("séard", List(RHS("is", List("cop", "pres")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr")
 /*
       cad_é+CU+Cop+Pro+Q\tcaidé
       cé+Cop+Pro+Q\tcé
       cé+Cop+Pro+Q+Cop\tcér
       cé+Cop+Pro+Q+Cop\tcérbh
+
+is+Cop+Pres+Pron+Pers+3P+Sg+Masc+Art+Sg+Def     sén
+
 */
   )
   def mapper(s: String): Option[EntryBasis] = {
