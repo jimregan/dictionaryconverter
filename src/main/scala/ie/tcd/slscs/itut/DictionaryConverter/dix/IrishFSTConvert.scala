@@ -541,6 +541,14 @@ object IrishFSTConvert {
       ""
     }
   }
+  def stemmedEntryToE(ent: StemmedEntry): E = {
+    val lm = ent.getLemma
+    val restr = if(ent.r.toLowerCase == "lr") "LR" else null
+    val tags = ent.tags.map{e => S(e)}
+    val l = L(List(Txt(ent.surface)))
+    val r = R(List(Txt(ent.lemma)) ++ tags)
+    E(List(P(l, r)), lm, restr, "irishfst", null, false, null, null, null, ent.variant)
+  }
   def mkPardefs(l: List[EntryBasis]): List[Pardef] = {
     val tup: Map[String, List[EntryBasis]] = l.map{e => (getMutation(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val lemmas: List[String] = l.map{_.getLemma}.distinct
