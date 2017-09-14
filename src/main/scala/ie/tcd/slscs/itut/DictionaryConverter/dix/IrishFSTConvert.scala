@@ -385,19 +385,21 @@ object IrishFSTConvert {
       maptagsInner(List.empty[String], chop.split("\\+").toList)
     }
   }
-  def procWords(surface: String, lemma: String, tags: String): Option[Entry] = {
+  def procWords(surface: String, lemma: String, tags: String): Option[EntryBasis] = {
     if(lronly_whole.contains(tags)) {
       Some(Entry(surface, lemma, lronly_whole(tags).split("\\.").toList, "lr"))
-    } else if(tags.contains("+Var") || tags.contains("+Suf")) {
-      Some(Entry(surface, lemma, maptags(tags), "lr"))
-    } else if(tags.contains("+Emph") && (surface.endsWith("-s") || (surface.endsWith("-sa") || surface.endsWith("-se")))) {
-      Some(Entry(surface, lemma, maptags(tags), "lr"))
     } else if(remap_whole.contains(tags)) {
       Some(Entry(surface, lemma, remap_whole(tags).split("\\.").toList))
     } else if(skip_whole.contains(tags)) {
       None
     } else if(tags.contains("Prop+Noun")) {
       None
+    } else if(tags.contains("Pron+Prep")) {
+      Some(prepMaker(surface, lemma, tags))
+    } else if(tags.contains("+Var") || tags.contains("+Suf")) {
+      Some(Entry(surface, lemma, maptags(tags), "lr"))
+    } else if(tags.contains("+Emph") && (surface.endsWith("-s") || (surface.endsWith("-sa") || surface.endsWith("-se")))) {
+      Some(Entry(surface, lemma, maptags(tags), "lr"))
     } else {
       val tagtweak = if(lemma == "bí" && tags.contains("+Verb")) tags.replace("+Verb", "+Vbser") else tags
       Some(Entry(surface, lemma, maptags(tagtweak)))
@@ -416,6 +418,27 @@ object IrishFSTConvert {
       val base = List("prn", "obj")
       base ++ addtags(tags).flatten
     }
+  }
+  def prepMaker(surface: String, lemma: String, tags: String): JoinedEntry = {
+    val pr = RHS(lemma, List("pr"))
+    val prn = RHS("prpers", prpersMaker(tags))
+    val dem: Option[RHS] = if(surface.endsWith("-seo")) {
+      Some(RHS("seo", List("det", "dem", "sp")))
+    } else if(surface.endsWith("-sin")) {
+      Some(RHS("sin", List("det", "dem", "sp")))
+    } else {
+      None
+    }
+    val dial = if(tags.contains("CC")) {
+      "CC"
+    } else if(tags.contains("CM")) {
+      "CM"
+    } else if(tags.contains("CU")) {
+      "CU"
+    } else {
+      null
+    }
+    JoinedEntry(surface, List(pr, prn, dem).flatten, "LR", dial)
   }
 
   def getMutation(e: EntryBasis): String = {
