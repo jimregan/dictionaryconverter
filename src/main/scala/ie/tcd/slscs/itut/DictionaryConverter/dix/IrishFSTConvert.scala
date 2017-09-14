@@ -495,7 +495,20 @@ object IrishFSTConvert {
       throw new Exception("Shouldn't happen: " + lemma + surface_forms + shortest_forms)
     }
   }
-
+  def stemEntry(e: EntryBasis, lcs: String): StemmedEntryBasis = {
+    def lsuffix(s: String): String = s.substring(lcs.length)
+    def ssuffix(s: String): String = s.substring(IrishLongestCommonPrefix(lcs, s).length)
+    e match {
+      case Entry(s, l, t, r, v) => StemmedEntry(lcs, ssuffix(s), lsuffix(l), t, r, v)
+      case JoinedEntry(s, p, r, v) => {
+        val pend = p.tail
+        val pfirst = p.head
+        val newplem = lsuffix(pfirst.lemma)
+        val retp = List(RHS(newplem, pfirst.tags)) ++ pend
+        StemmedJoinedEntry(lcs, ssuffix(s), retp, r, v)
+      }
+    }
+  }
   def getMutation(lemma: String, surface: String): String = {
     val lenites: List[Char] = List('b', 'c', 'd', 'f', 'g', 'm', 'p', 's', 't')
     val eclcons: List[Char] = List('b', 'c', 'd', 'f', 'g', 'p', 't')
