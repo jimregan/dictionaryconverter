@@ -873,9 +873,10 @@ object Mapper extends App {
     throw new Exception("No filename specified")
   }
   val filename = args(0)
+  val outname = filename + ".dix"
 
-  val parts = Source.fromFile(filename).getLines.flatMap{mapper}
-  val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
+  lazy val parts = Source.fromFile(filename).getLines.flatMap{mapper}
+  lazy val partmap: Map[String, List[EntryBasis]] = parts.map(e => (makeEntryKey(e), e)).toList.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
   print(partmap)
 }
 
