@@ -618,7 +618,11 @@ object IrishFSTConvert {
     "cad+Cop+Pro+Q\tcad" -> Entry("cad chuige", "cad chuige", List("adv", "itg")),
     // 'céard' is a contraction of 'cé an rud', but it means the same as 'cad'
     "cé+Cop+Pro+Q\tcéard" -> Entry("céard", "céard", List("prn", "itg", "mf", "sp"), null, "CM"),
-    "cad_chuige+CC+Cop+Pro+Q\ttuige" -> Entry("tuige", "cad chuige", List("adv", "itg"), "lr", "CC")
+    "cad_chuige+CC+Cop+Pro+Q\ttuige" -> Entry("tuige", "cad chuige", List("adv", "itg"), "lr", "CC"),
+    "cés_moite+Conj+Subord\tcés moite" -> Entry("cés moite", "cé is moite", List("cnjsub"), "lr"),
+    "cés_móite+Conj+Subord\tcés móite" -> Entry("cés moite", "cé is moite", List("cnjsub"), "lr"),
+    "cé_is_moite+Conj+Subord\tcé is moite" -> Entry("cé is moite", "cé is moite", List("cnjsub")),
+    "cé_is_móite+Conj+Subord\tcé is móite" -> Entry("cé is móite", "cé is moite", List("cnjsub"), "lr")
 /*
       cad_é+CU+Cop+Pro+Q\tcaidé
       cé+Cop+Pro+Q\tcé
