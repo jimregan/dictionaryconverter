@@ -282,13 +282,16 @@ object IrishFSTConvert {
   val crap_tags = List("VI", "VT", "Vow", "VTI", "VD", "Base", "Var", "Suf", "Vb", "NotSlen")
   abstract class EntryBasis {
     def getLemma: String
+    def getSurface: String
   }
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = lemma
+    override def getSurface: String = surface
   }
   case class RHS(lemma: String, tags: List[String])
   case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = parts.head.lemma
+    override def getSurface: String = surface
   }
 
   val DIALECTS = List("CC", "CM", "CU")
