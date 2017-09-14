@@ -311,15 +311,18 @@ object IrishFSTConvert {
   abstract class EntryBasis {
     def getLemma: String
     def getSurface: String
+    def getTags: List[String]
   }
   case class Entry(surface: String, lemma: String, tags: List[String], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = lemma
     override def getSurface: String = surface
+    override def getTags: List[String] = tags
   }
   case class RHS(lemma: String, tags: List[String])
   case class JoinedEntry(surface: String, parts: List[RHS], r: String = null, variant: String = null) extends EntryBasis {
     override def getLemma: String = parts.head.lemma
     override def getSurface: String = surface
+    override def getTags: List[String] = parts.head.tags
   }
 
   val DIALECTS = List("CC", "CM", "CU")
@@ -520,6 +523,18 @@ object IrishFSTConvert {
     if(lemmas.length != 0) {
       throw new Exception("Expected one lemma, got: " + lemmas.mkString(", "))
     }
+    val lemma = lemmas.head
+    def checkMutation(): Unit = {
+      for(ent <- l) {
+        val mut = getMutation(lemma, ent.getSurface)
+        if(!ent.getTags.contains(mut)) {
+          System.err.println("Error in " + ent.getSurface + "(" + lemma + "): expected " + mut + "(" + ent.getTags + ")")
+        }
+      }
+    }
+    checkMutation()
+
+    val surfaceforms: List[String] = l.map{_.getSurface}
     List.empty[Pardef]
   }
 
