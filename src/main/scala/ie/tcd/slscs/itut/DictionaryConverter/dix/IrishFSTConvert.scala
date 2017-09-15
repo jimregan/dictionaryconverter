@@ -596,7 +596,7 @@ object IrishFSTConvert {
     val tags = ent.tags.map{e => S(e)}
     val l = L(List(Txt(ent.surface)))
     val r = R(List(Txt(ent.lemma)) ++ tags)
-    E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
+    E(List(P(l, r)), null, restr, null, null, false, null, null, null, ent.variant)
   }
   def RHSToTextLike(rhs: RHS): List[TextLike] = List(Txt(rhs.lemma)) ++ rhs.tags.map{e => S(e)}
   def joinRHS(l: List[List[TextLike]]): List[TextLike] = {
@@ -671,7 +671,7 @@ object IrishFSTConvert {
       val entryl: List[E] = m.map{ e => {
         val fp = firstParts(e._1)
         val name: Par = Par(e._2.name)
-        E(fp :+ name, lm, null, "irishfst")
+        E(fp :+ name, lm)
       }}.toList
       entryl
     }
