@@ -731,6 +731,8 @@ object IrishFSTConvert {
     ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
     "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
     "++Num+Op\t+" -> Entry("+", "+", List("num", "op")),
+    "na+Art+Pl+Def\tna" -> Entry("na", "an", List("det", "def", "mf", "pl")),
+    "na+Art+Gen+Sg+Def+Fem\tna" -> Entry("na", "an", List("det", "def", "f", "pl", "gen")),
     "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
     "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
     "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
