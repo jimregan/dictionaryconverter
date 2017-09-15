@@ -555,7 +555,7 @@ object IrishFSTConvert {
         val pfirst = p.head
         val newplem = lsuffix(pfirst.lemma)
         val retp = List(RHS(newplem, pfirst.tags)) ++ pend
-        StemmedJoinedEntry(lcs.replaceAll("_", " "), ssuffix(s), retp, r, v)
+        StemmedJoinedEntry(lcs, ssuffix(s), retp, r, v)
       }
     }
   }
