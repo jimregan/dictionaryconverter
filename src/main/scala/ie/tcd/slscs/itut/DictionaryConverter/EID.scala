@@ -64,6 +64,7 @@ object EID {
   case class Trg(s: String) extends RawXML(s) with Target
   case class Trg2(s: String, l: String, opt: Boolean = false) extends RawXML(s) with Target
   case class Trg3(s: String, l: String, t: String, opt: Boolean = false) extends RawXML(s) with Target
+  case class NounTrgGen(s: String, l: String, gen: String) extends RawXML(s) with Target
   case class MultiTrg(children: List[BaseXML]) extends BaseXML with Target
   case class Label(label: String) extends LabelBase(label)
   case class GrammaticalLabel(label: String) extends LabelBase(label)
@@ -114,6 +115,7 @@ object EID {
     }
     def breakdownComplexEntryPiece(n: Node): BaseXML = n match {
       case <src>{src}</src> => Src(src.text)
+      case <trg>{trg}<label>{lbl}</label> <noindex>(<label>g.</label>{gen}</noindex></trg> => NounTrgGen(trg.text.trim, lbl.text, optVNTrimmer(gen.text))
       case <trg>{trg}<label>{lbl}</label></trg> => Trg2(trg.text, lbl.text)
       case <trg>{trg}<noindex>(<label>{lbl}</label>)</noindex></trg> => Trg2(trg.text, lbl.text, true)
       case <trg>{trg}<label>{lbl}</label>{trg2}</trg> => Trg3(trg.text, lbl.text, trg2.text)
