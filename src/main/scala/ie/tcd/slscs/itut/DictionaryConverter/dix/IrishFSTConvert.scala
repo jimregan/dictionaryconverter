@@ -61,6 +61,7 @@ object IrishFSTConvert {
 
                          )
   val skip_whole = List("+Abr",
+                        "+Adv+Dir+Len",
                         "+Abr+Title",
                         "+Adj+Pref",
                         "+Filler",
@@ -222,7 +223,8 @@ object IrishFSTConvert {
                         "+Art+Pl+Def" -> "det.def.mf.pl",
                         "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg",
                         "+Noun+Masc+Dat+Pl" -> "n.m.pl.dat",
-                        "+Noun+Masc+Voc+Pl+Def+Len" -> "n.m.pl.voc.len"
+                        "+Noun+Masc+Voc+Pl+Def+Len" -> "n.m.pl.voc.len",
+                        "+Noun+Fem+Voc+Pl+Def+Len" -> "n.f.pl.voc.len"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -590,7 +592,7 @@ object IrishFSTConvert {
     }
   }
   def stemmedEntryToE(ent: StemmedEntry): E = {
-    val restr = if(ent.r.toLowerCase == "lr") "LR" else null
+    val restr = if(ent.r != null && ent.r.toLowerCase == "lr") "LR" else null
     val tags = ent.tags.map{e => S(e)}
     val l = L(List(Txt(ent.surface)))
     val r = R(List(Txt(ent.lemma)) ++ tags)
@@ -626,7 +628,7 @@ object IrishFSTConvert {
     def checkMutation(): Unit = {
       for(ent <- l) {
         val mut = getMutation(lemma, ent.getSurface)
-        if(!ent.getTags.contains(mut) && mut != "") {
+        if(!ent.getTags.contains(mut) && mut != "" && !ent.getTags.contains("defart")) {
           System.err.println("Error in " + ent.getSurface + "(" + lemma + "): expected " + mut + "(" + ent.getTags + ")")
         }
       }
@@ -832,9 +834,9 @@ object IrishFSTConvert {
     } else {
       val parts = s.split("\t")
       val first_plus = s.indexOf('+')
-      val lemma = s.substring(0, first_plus)
+      val lemma = s.substring(0, first_plus).replaceAll("_", " ")
       val tags = parts(0).substring(first_plus)
-      val surface = parts(1)
+      val surface = parts(1).replaceAll("_", " ")
       procWords(surface, lemma, tags)
     }
   }
