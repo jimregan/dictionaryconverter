@@ -546,10 +546,10 @@ object IrishFSTConvert {
     }
   }
   def stemEntry(e: EntryBasis, lcs: String): StemmedEntryBasis = {
-    def lsuffix(s: String): String = s.substring(lcs.length).replaceAll("_", " ")
-    def ssuffix(s: String): String = s.substring(IrishLongestCommonPrefix(lcs, s).length).replaceAll("_", " ")
+    def lsuffix(s: String): String = s.substring(lcs.length)
+    def ssuffix(s: String): String = s.substring(IrishLongestCommonPrefix(lcs, s).length)
     e match {
-      case Entry(s, l, t, r, v) => StemmedEntry(lcs.replaceAll("_", " "), ssuffix(s), lsuffix(l), t, r, v)
+      case Entry(s, l, t, r, v) => StemmedEntry(lcs, ssuffix(s), lsuffix(l), t, r, v)
       case JoinedEntry(s, p, r, v) => {
         val pend = p.tail
         val pfirst = p.head
