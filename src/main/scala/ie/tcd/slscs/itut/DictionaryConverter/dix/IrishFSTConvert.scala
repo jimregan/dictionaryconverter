@@ -534,6 +534,24 @@ object IrishFSTConvert {
       inner
     }
   }
+  def surfaceLongestCommonPrefix(a: String, b: String): String = {
+    if(a == "" || b == "" || a == null || b == null) {
+      return ""
+    }
+    val first_char = a.charAt(0)
+    val b_begin = if(mutationStarts.contains(first_char)) findBeginning(b, mutationStarts(first_char)) else ""
+    val j = if(!a.startsWith(b_begin)) b_begin.length else 0
+    val i = if(j == 0) 0 else 1
+
+    val comp_a = a.substring(i)
+    val comp_b = b.substring(j)
+    val inner = (comp_a, comp_b).zipped.takeWhile(Function.tupled(_ == _)).map(_._1).mkString
+    if(i != 0) {
+      b_begin + inner
+    } else {
+      inner
+    }
+  }
 
   def IrishLongestCommonPrefixList(lemma: String, surface_forms: List[String]): String = {
     val lcps = surface_forms.map{f => IrishLongestCommonPrefix(lemma, f)}
@@ -547,7 +565,8 @@ object IrishFSTConvert {
   }
   def stemEntry(e: EntryBasis, lcs: String): StemmedEntryBasis = {
     def lsuffix(s: String): String = s.substring(lcs.length)
-    def ssuffix(s: String): String = s.substring(IrishLongestCommonPrefix(lcs, s).length)
+    def ssuffix(s: String): String = s.substring(surfaceLongestCommonPrefix(lcs, s).length)
+    System.err.println(s"stemEntry: ${e.getSurface} (${e.getLemma}): lcs($lcs): ${lsuffix(e.getSurface)} ${ssuffix(e.getLemma)}")
     e match {
       case Entry(s, l, t, r, v) => StemmedEntry(lcs, ssuffix(s), lsuffix(l), t, r, v)
       case JoinedEntry(s, p, r, v) => {
