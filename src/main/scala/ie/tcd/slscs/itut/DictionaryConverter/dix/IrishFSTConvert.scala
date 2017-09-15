@@ -435,6 +435,10 @@ object IrishFSTConvert {
       base ++ addtags(tags).flatten
     }
   }
+  /*
+   * TODO: doesn't handle lenited prepositions. But they are a rare and wondrous thing, frightful to behold
+   * and much loathed by all.
+   */
   def prepMaker(surface: String, lemma: String, tags: String): JoinedEntry = {
     val pr = RHS(lemma, List("pr"))
     val prn = RHS("prpers", prpersMaker(tags))
