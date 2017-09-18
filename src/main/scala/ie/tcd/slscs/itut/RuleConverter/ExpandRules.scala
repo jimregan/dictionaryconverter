@@ -157,14 +157,19 @@ object ExpandRules {
       val pos = t._2
       val tok: Token = t._1
       val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos)(0) == 0
+      val isInsert: Boolean = r.al(0).contains(pos)
       val macros: List[Macro] = macromap(pos)
       val align: List[Int] = r.al(pos).toList
       if(isDelete) {
         DeletionTerminalToken(pos, tok, macros)
+      } else if(isInsert) {
+        InsertionTerminalToken(pos, tok, macros)
       } else {
         TerminalToken(pos, align, tok, macros)
       }
     }
+    val al: Map[Int, List[Int]] = r.al.map{e => (e._1, e._2.toList)}
+    val reverseal: Map[Int, List[Int]] = al.flatMap{case (k, v)=>v.map{v2=>(v2,k)}}.groupBy{_._1}.transform {(k, v)=>v.unzip._2.toList}
     // Make token sausage from src, trg
     //zipWithIndex.map{e => (e._1, e._2 + 1)}
     // do I need to keep the original alignments list to unflip the macros?
