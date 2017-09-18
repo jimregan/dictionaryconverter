@@ -151,7 +151,6 @@ object ExpandRules {
     l.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): (List[TokenNode], List[TokenNode]) = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
-    val trgMacroMap: Map[Int, List[Macro]] = macroListToMap(r.trgmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
       val pos = t._2
@@ -171,8 +170,6 @@ object ExpandRules {
         TerminalToken(pos, align, tok, macros)
       }
     }
-    val al: Map[Int, List[Int]] = r.al.map{e => (e._1, e._2.toList)}
-    val reverseal: Map[Int, List[Int]] = al.flatMap{case (k, v)=>v.map{v2=>(v2,k)}}.groupBy{_._1}.transform {(k, v)=>v.unzip._2.toList}
     // Make token sausage from src, trg
     //zipWithIndex.map{e => (e._1, e._2 + 1)}
     // do I need to keep the original alignments list to unflip the macros?
