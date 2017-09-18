@@ -146,10 +146,10 @@ object ExpandRules {
   case class TerminalToken(pos: Int, align: List[Int], child: Token, macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
-  case class NonTerminalToken(pos: Int, align: Int, children: List[Rule], macros: List[Macro]) extends TokenNode
+  case class NonTerminalToken(pos: Int, align: Int, children: List[TrRule], macros: List[Macro]) extends TokenNode
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
-  def expandRuleToSausage(r: RulePiece): (List[TokenNode], List[TokenNode]) = {
+  def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): (List[TokenNode], List[TokenNode]) = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val trgMacroMap: Map[Int, List[Macro]] = macroListToMap(r.trgmac)
     val macromap = macroListToMap(r.srcmac)
@@ -160,10 +160,13 @@ object ExpandRules {
       val isInsert: Boolean = r.al(0).contains(pos)
       val macros: List[Macro] = macromap(pos)
       val align: List[Int] = r.al(pos).toList
+      val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags(0))
       if(isDelete) {
         DeletionTerminalToken(pos, tok, macros)
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
+      } else if(isNT) {
+        NonTerminalToken(pos, align(0), m(tok.getTags(0)), macros)
       } else {
         TerminalToken(pos, align, tok, macros)
       }
@@ -204,7 +207,7 @@ object ExpandRules {
       throw new Exception("Only 1-1 and 1-0 (deletion) alignments are currently handled")
     }
   }
-  def mkRuleMap(in: List[TrRule]): Map[String, TrRule] = in.map{e => (e.getTag, e)}.toMap
+  def mkRuleMap(in: List[TrRule]): Map[String, List[TrRule]] = in.map{e => (e.getTag, e)}.groupBy(_._1).mapValues(_.map(_._2))
 
   def offsetPair(a: (Int, Int), b: (Int, Int)): (Int, Int) = (a._1 - 1 + b._1, a._2 - 1 + b._2)
   def checkSimpleAlignments(m: Map[Int, Array[Int]]): Boolean = m.count{e => e._2.length == 1} == m.size
