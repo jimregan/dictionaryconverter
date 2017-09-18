@@ -170,11 +170,9 @@ object ExpandRules {
         TerminalToken(pos, align, tok, macros)
       }
     }
-    // Make token sausage from src, trg
-    //zipWithIndex.map{e => (e._1, e._2 + 1)}
-    // do I need to keep the original alignments list to unflip the macros?
-    // probably, need to pass through twice: first, adjust positions, keeping a map of old -> new; second, flip
-    (List.empty[TokenNode], List.empty[TokenNode])
+    val left = r.src.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
+    val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
+    (left, right)
   }
 
   def stringToRule(s: String): Rule = {
