@@ -165,7 +165,7 @@ object ExpandRules {
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
-        NonTerminalToken(pos, align(0), m(tok.getTags(0)), macros)
+        NonTerminalToken(pos, align.head, m(tok.getTags.head), macros)
       } else {
         TerminalToken(pos, align, tok, macros)
       }
