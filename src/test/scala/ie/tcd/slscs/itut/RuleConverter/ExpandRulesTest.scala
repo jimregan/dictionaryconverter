@@ -28,7 +28,7 @@
 package ie.tcd.slscs.itut.RuleConverter
 
 import org.scalatest.FlatSpec
-import ie.tcd.slscs.itut.RuleConverter.ExpandRules.{TagsToken, TrivialDeletion, TrivialIdentity}
+import ie.tcd.slscs.itut.RuleConverter.ExpandRules.{Macro, Rule, TagsToken, Token, TrivialDeletion, TrivialIdentity}
 
 class ExpandRulesTest extends FlatSpec {
   "splitAlignmentsSL" should "generate a map of SL to TL alignments" in {
@@ -61,5 +61,20 @@ class ExpandRulesTest extends FlatSpec {
     val outident = ExpandRules.makeTrivialRule(identin)
     assert (expdel === outdel)
     assert (expident === outident)
+  }
+
+  "stringToRule" should "expand string to rule" in {
+    val testin = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór"
+    val tag = "NP"
+    val al = Map(1 -> Array(2), 2 -> Array(1))
+    val ltok: List[Token] = List(TagsToken(List("adj")), TagsToken(List("n")))
+    val rtok: List[Token] = List(TagsToken(List("n")), TagsToken(List("adj")))
+    val lmac = List(Macro("agree", List(1, 2)))
+    val rmac = List(Macro("check_human", List(1)))
+    val leg = "big dog"
+    val reg = "madra mór"
+
+    val exp = Rule(tag, ltok, rtok, al, lmac, rmac, leg, reg)
+    val out = ExpandRules.stringToRule(testin)
   }
 }

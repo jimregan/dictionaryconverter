@@ -110,6 +110,10 @@ object ExpandRules {
   case class Rule(tag: String, src: List[Token], trg: List[Token],
                   srcal: Map[Int, Array[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule(tag)
+  case class TaglessRule(src: List[Token], trg: List[Token],
+                  srcal: Map[Int, Array[Int]], srcmac: List[Macro],
+                  trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
+
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
     val rp:RulePiece = RulePiece(r.src, r.trg, r.srcal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, List[RulePiece](rp))
@@ -175,10 +179,10 @@ object ExpandRules {
     (left, right)
   }
 
-  def stringToRule(s: String): Rule = {
+  def stringToRule(s: String): TrRule = {
     stringToRule(s.split("\\|").map{_.trim})
   }
-  def stringToRule(parts: Array[String]): Rule = {
+  def stringToRule(parts: Array[String]): TrRule = {
     val tag = parts(0)
     val src = makeTokenList(parts(1))
     val trg = makeTokenList(parts(2))
@@ -188,7 +192,11 @@ object ExpandRules {
     val trgmac = stringToMacroList(parts(5))
     val srceg = parts(6)
     val trgeg = parts(7)
-    Rule(tag, src, trg, srcal, srcmac, trgmac, srceg, trgeg)
+    if(tag == "" || tag == null) {
+      TaglessRule(src, trg, srcal, srcmac, trgmac, srceg, trgeg)
+    } else {
+      Rule(tag, src, trg, srcal, srcmac, trgmac, srceg, trgeg)
+    }
   }
   abstract class TrivialRule(tag: String) extends TrRule(tag)
   case class TrivialIdentity(tag: String, toks: List[Token]) extends TrivialRule(tag)
