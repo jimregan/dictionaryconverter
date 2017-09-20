@@ -152,18 +152,18 @@ object ExpandRules {
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, children: List[TrRule], macros: List[Macro]) extends TokenNode
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
-    l.map{e => e.params(0) -> flipMacro(e.params(0), e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
+    l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): (List[TokenNode], List[TokenNode]) = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
       val pos = t._2
       val tok: Token = t._1
-      val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos)(0) == 0
+      val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos).head == 0
       val isInsert: Boolean = r.al(0).contains(pos)
       val macros: List[Macro] = macromap(pos)
-      val align: List[Int] = r.al(pos).toList
-      val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags(0))
+      val align: List[Int] = r.al(pos)
+      val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags.head)
       if(isDelete) {
         DeletionTerminalToken(pos, tok, macros)
       } else if(isInsert) {
