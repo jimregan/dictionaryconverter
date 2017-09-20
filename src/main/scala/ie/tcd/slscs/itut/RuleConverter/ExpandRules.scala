@@ -113,7 +113,7 @@ object ExpandRules {
   case class TaglessRule(src: List[Token], trg: List[Token],
                   al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
-  def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
+  implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
   def appendMultiPart(r: Rule, t: TaglessRule): MultiPartRule = {
     val tag = r.tag
     val first: RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
