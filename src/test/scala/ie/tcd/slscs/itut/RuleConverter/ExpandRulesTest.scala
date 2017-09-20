@@ -34,23 +34,23 @@ class ExpandRulesTest extends FlatSpec {
   "splitAlignmentsSL" should "generate a map of SL to TL alignments" in {
     val al1 = "1-1 1-2"
     val al1out = ExpandRules.splitAlignmentsSL(al1)
-    assert (al1out.get(1).get === Array(1, 2))
+    assert (al1out(1) === Array(1, 2))
     val al2 = "1-1 2-3 3-2"
     val al2out = ExpandRules.splitAlignmentsSL(al2)
-    assert (al2out.get(1).get === Array(1))
-    assert (al2out.get(2).get === Array(3))
-    assert (al2out.get(3).get === Array(2))
+    assert (al2out(1) === Array(1))
+    assert (al2out(2) === Array(3))
+    assert (al2out(3) === Array(2))
   }
 
   "splitAlignmentsTL" should "generate a map of TL to SL alignments" in {
     val al1 = "1-1 1-2"
     val al1out = ExpandRules.splitAlignmentsTL(al1)
-    assert (al1out.get(1).get === Array(1))
-    assert (al1out.get(2).get === Array(1))
+    assert (al1out(1) === Array(1))
+    assert (al1out(2) === Array(1))
     val al2 = "1-1 2-2 3-2"
     val al2out = ExpandRules.splitAlignmentsTL(al2)
-    assert (al2out.get(1).get === Array(1))
-    assert (al2out.get(2).get === Array(2, 3))
+    assert (al2out(1) === Array(1))
+    assert (al2out(2) === Array(2, 3))
   }
   "makeTrivialRule" should "make trivial rules" in {
     val expdel = TrivialDeletion("GEN", List[TagsToken](TagsToken(List[String]("gen"))))
@@ -66,7 +66,7 @@ class ExpandRulesTest extends FlatSpec {
   "stringToRule" should "expand string to rule" in {
     val testin = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2 | check_human:1 | big dog | madra mór"
     val tag = "NP"
-    val al = Map(1 -> Array(2), 2 -> Array(1))
+    val al = Map(1 -> List(2), 2 -> List(1))
     val ltok: List[Token] = List(TagsToken(List("adj")), TagsToken(List("n")))
     val rtok: List[Token] = List(TagsToken(List("n")), TagsToken(List("adj")))
     val lmac = List(Macro("agree", List(1, 2)))
@@ -76,12 +76,13 @@ class ExpandRulesTest extends FlatSpec {
 
     val exp = Rule(tag, ltok, rtok, al, lmac, rmac, leg, reg)
     val out = ExpandRules.stringToRule(testin)
+    assert(exp == out)
   }
 
   "stringToRule2" should "expand string to rule" in {
     val testin = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | |  | big dog | madra mór"
     val tag = "NP"
-    val al = Map(1 -> Array(2), 2 -> Array(1))
+    val al = Map(1 -> List(2), 2 -> List(1))
     val ltok: List[Token] = List(TagsToken(List("adj")), TagsToken(List("n")))
     val rtok: List[Token] = List(TagsToken(List("n")), TagsToken(List("adj")))
     val lmac = List.empty[Macro]
@@ -91,5 +92,11 @@ class ExpandRulesTest extends FlatSpec {
 
     val exp = Rule(tag, ltok, rtok, al, lmac, rmac, leg, reg)
     val out = ExpandRules.stringToRule(testin)
+    assert(exp == out)
+  }
+
+  "tokenIsBasis" should "check if token is basis for rule" in {
+    assert(true == ExpandRules.tokenIsBasis(TagsToken(List("n"))))
+    assert(false == ExpandRules.tokenIsBasis(TagsToken(List("n", "m"))))
   }
 }

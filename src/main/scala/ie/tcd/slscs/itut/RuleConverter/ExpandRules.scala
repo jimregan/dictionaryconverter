@@ -50,16 +50,16 @@ object ExpandRules {
       s.split(" ").flatMap{stringToMacro}.toList
     }
   }
-  def splitAlignmentsSL(al: String): Map[Int, Array[Int]] = {
+  def splitAlignmentsSL(al: String): Map[Int, List[Int]] = {
     def toTuple(i: Array[Int]): (Int, Int) = (i(0), i(1))
     val als = al.split(" ").map {_.split("-").map(_.toInt)}.map{toTuple}
-    val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
+    val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2).toList) }
     almap
   }
-  def splitAlignmentsTL(al: String): Map[Int, Array[Int]] = {
+  def splitAlignmentsTL(al: String): Map[Int, List[Int]] = {
     def toTuple(i: Array[Int]): (Int, Int) = (i(1), i(0))
     val als = al.split(" ").map{_.split("-").map(_.toInt)}.map{toTuple}
-    val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
+    val almap = als.groupBy(_._1).map { case (k, v) => (k, v.map(_._2).toList) }
     almap
   }
   abstract class Token(tags: List[String]) {
@@ -104,14 +104,14 @@ object ExpandRules {
     def getTag:String = tag
   }
   case class RulePiece(src: List[Token], trg: List[Token],
-                       al: Map[Int, Array[Int]], srcmac: List[Macro],
+                       al: Map[Int, List[Int]], srcmac: List[Macro],
                        trgmac: List[Macro], srceg: String, trgeg: String)
   case class MultiPartRule(tag: String, parts: List[RulePiece]) extends TrRule(tag)
   case class Rule(tag: String, src: List[Token], trg: List[Token],
-                  srcal: Map[Int, Array[Int]], srcmac: List[Macro],
+                  srcal: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule(tag)
   case class TaglessRule(src: List[Token], trg: List[Token],
-                  srcal: Map[Int, Array[Int]], srcmac: List[Macro],
+                  srcal: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
 
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
@@ -213,8 +213,8 @@ object ExpandRules {
   def mkRuleMap(in: List[TrRule]): Map[String, List[TrRule]] = in.map{e => (e.getTag, e)}.groupBy(_._1).mapValues(_.map(_._2))
 
   def offsetPair(a: (Int, Int), b: (Int, Int)): (Int, Int) = (a._1 - 1 + b._1, a._2 - 1 + b._2)
-  def checkSimpleAlignments(m: Map[Int, Array[Int]]): Boolean = m.count{e => e._2.length == 1} == m.size
-  def simplifyAlignments(m: Map[Int, Array[Int]]): Option[Map[Int, Int]] = if(checkSimpleAlignments(m)) {
+  def checkSimpleAlignments(m: Map[Int, List[Int]]): Boolean = m.count{e => e._2.length == 1} == m.size
+  def simplifyAlignments(m: Map[Int, List[Int]]): Option[Map[Int, Int]] = if(checkSimpleAlignments(m)) {
     Some(m.map{e => (e._1, e._2(0))})
   } else {
     None
