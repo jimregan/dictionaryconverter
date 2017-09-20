@@ -108,14 +108,22 @@ object ExpandRules {
                        trgmac: List[Macro], srceg: String, trgeg: String)
   case class MultiPartRule(tag: String, parts: List[RulePiece]) extends TrRule(tag)
   case class Rule(tag: String, src: List[Token], trg: List[Token],
-                  srcal: Map[Int, List[Int]], srcmac: List[Macro],
+                  al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule(tag)
   case class TaglessRule(src: List[Token], trg: List[Token],
-                  srcal: Map[Int, List[Int]], srcmac: List[Macro],
+                  al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
+  def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
+  def appendMultiPart(r: Rule, t: TaglessRule): MultiPartRule = {
+    val tag = r.tag
+    val first: RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
+    val second: RulePiece = TaglessToRulePiece(t)
+    MultiPartRule(tag, List(first, second))
+  }
+  def appendMultiPart(r: MultiPartRule, t: TaglessRule) = MultiPartRule(r.tag, r.parts :+ TaglessToRulePiece(t))
 
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
-    val rp:RulePiece = RulePiece(r.src, r.trg, r.srcal, r.srcmac, r.trgmac, r.srceg, r.trgeg)
+    val rp:RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
     MultiPartRule(r.tag, List[RulePiece](rp))
   }
   def flipMacro(pos: Int, mac: Macro): Macro = {
