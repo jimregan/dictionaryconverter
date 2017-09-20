@@ -77,4 +77,19 @@ class ExpandRulesTest extends FlatSpec {
     val exp = Rule(tag, ltok, rtok, al, lmac, rmac, leg, reg)
     val out = ExpandRules.stringToRule(testin)
   }
+
+  "stringToRule2" should "expand string to rule" in {
+    val testin = "NP | <adj> <n> | <n> <adj> | 1-2 2-1 | |  | big dog | madra mór"
+    val tag = "NP"
+    val al = Map(1 -> Array(2), 2 -> Array(1))
+    val ltok: List[Token] = List(TagsToken(List("adj")), TagsToken(List("n")))
+    val rtok: List[Token] = List(TagsToken(List("n")), TagsToken(List("adj")))
+    val lmac = List.empty[Macro]
+    val rmac = List.empty[Macro]
+    val leg = "big dog"
+    val reg = "madra mór"
+
+    val exp = Rule(tag, ltok, rtok, al, lmac, rmac, leg, reg)
+    val out = ExpandRules.stringToRule(testin)
+  }
 }
