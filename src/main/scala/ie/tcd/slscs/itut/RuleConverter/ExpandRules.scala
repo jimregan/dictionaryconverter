@@ -114,13 +114,34 @@ object ExpandRules {
                   al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
   implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
-  def appendMultiPart(r: Rule, t: TaglessRule): MultiPartRule = {
-    val tag = r.tag
-    val first: RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
-    val second: RulePiece = TaglessToRulePiece(t)
-    MultiPartRule(tag, List(first, second))
+  def appendMultiPart(r: TrRule, t: TaglessRule): MultiPartRule = {
+    def appendMultiPartR(r: Rule, t: TaglessRule): MultiPartRule = {
+      val tag = r.tag
+      val first: RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
+      val second: RulePiece = TaglessToRulePiece(t)
+      MultiPartRule(tag, List(first, second))
+    }
+    def appendMultiPartMP(r: MultiPartRule, t: TaglessRule):MultiPartRule = MultiPartRule(r.tag, r.parts :+ TaglessToRulePiece(t))
+    r match {
+      case m @ MultiPartRule(_, _) => appendMultiPartMP(m, t)
+      case tr @ Rule(_, _, _, _, _, _, _, _) => appendMultiPartR(tr, t)
+      case _ => throw new Exception("Unexpected type: " + r)
+    }
   }
-  def appendMultiPart(r: MultiPartRule, t: TaglessRule) = MultiPartRule(r.tag, r.parts :+ TaglessToRulePiece(t))
+
+  def reparentTagless(l: List[TrRule]): List[TrRule] = {
+    def reparentInner(l: List[TrRule], acc: List[TrRule]): List[TrRule] = l match {
+      case Nil => acc
+      case (c @ MultiPartRule(_, _)) :: xs => xs match {
+        case (t: TaglessRule) :: xt => reparentInner(List(appendMultiPart(c, t)) ++ xt, acc)
+      }
+      case (r @ Rule(_, _, _, _, _, _, _, _)) :: xs => xs match {
+        case (t: TaglessRule) :: xt => reparentInner(List(appendMultiPart(r, t)) ++ xt, acc)
+      }
+      case x :: xs => reparentInner(xs, acc :+ x)
+    }
+    reparentInner(l, List.empty[TrRule])
+  }
 
   implicit def RuleToMultiPart(r: Rule): MultiPartRule = {
     val rp:RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
