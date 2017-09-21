@@ -176,7 +176,7 @@ object ExpandRules {
   }
   */
   abstract class TokenNode
-  case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: Token, macros: List[Macro]) extends TokenNode
+  case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: List[Token], macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
@@ -201,7 +201,8 @@ object ExpandRules {
 
         NonTerminalToken(pos, align.head, m(tok.getTags.head), macros)
       } else {
-        TerminalToken(pos, align, tok, r.trg(align - 1), macros)
+        val trgs: List[Token] = align.map{e => r.trg(e - 1)}
+        TerminalToken(pos, align, tok, trgs, macros)
       }
     }
     val left = r.src.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
