@@ -176,10 +176,10 @@ object ExpandRules {
   }
   */
   abstract class TokenNode
-  case class TerminalToken(pos: Int, align: List[Int], child: Token, macros: List[Macro]) extends TokenNode
+  case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: Token, macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
-  case class NonTerminalToken(pos: Int, align: Int, children: List[TrRule], macros: List[Macro]) extends TokenNode
+  case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): (List[TokenNode], List[TokenNode]) = {
@@ -198,9 +198,10 @@ object ExpandRules {
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
+
         NonTerminalToken(pos, align.head, m(tok.getTags.head), macros)
       } else {
-        TerminalToken(pos, align, tok, macros)
+        TerminalToken(pos, align, tok, r.trg(align - 1), macros)
       }
     }
     val left = r.src.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
