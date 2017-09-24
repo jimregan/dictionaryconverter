@@ -150,31 +150,6 @@ object ExpandRules {
   def flipMacro(pos: Int, mac: Macro): Macro = {
     Macro(mac.name, mac.params.map{e => if (e <= pos) e else -e})
   }
-  /*
-  def ruleExpander(r: Rule, m: Map[String, List[Rule]]): Map[String, List[Rule]] = {
-    val srcskip = r.src.takeWhile{e => e.getTags.length != 1 || !m.contains(e.getTags(0))}
-    if (srcskip.length == r.src.length) {
-      m
-    }
-    val skiplen = srcskip.length
-    val srccur = r.src.drop(skiplen).head
-    val srcrest = r.src.drop(skiplen + 1)
-
-    if(r.srcal(skiplen + 1).length != 1) {
-      throw new Exception("Non-terminal cannot have multiple alignments")
-    }
-    val alskip = r.srcal.take(skiplen)
-    val alrest = r.srcal.drop(skiplen + 1)
-
-    val trgpos = r.srcal(skiplen + 1)(0)
-    val trgpostake = if(trgpos <= 0) 0 else trgpos - 1
-    val trgskip = r.trg.take(trgpostake)
-    val trgcur = r.trg.drop(trgpostake).head
-    val trgrest = r.trg.drop(trgpos)
-
-    m
-  }
-  */
   abstract class TokenNode
   case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: List[Token], macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
@@ -182,7 +157,7 @@ object ExpandRules {
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
-  def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): (List[TokenNode], List[TokenNode]) = {
+  def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): List[TokenNode] = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
@@ -204,9 +179,13 @@ object ExpandRules {
         TerminalToken(pos, align, tok, trgs, macros)
       }
     }
+    def filterTokenTL(t: TokenNode): Option[TokenNode] = t match {
+      case InsertionTerminalToken(a, b, c) => Some(t)
+      case _ => None
+    }
     val left = r.src.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
-    val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
-    (left, right)
+    val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}.flatMap{filterTokenTL}
+    left ++ right
   }
 
   def stringToRule(s: String): TrRule = {
