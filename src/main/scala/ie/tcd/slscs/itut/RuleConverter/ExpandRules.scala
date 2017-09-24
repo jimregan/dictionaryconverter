@@ -198,7 +198,6 @@ object ExpandRules {
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
-
         NonTerminalToken(pos, align.head, m(tok.getTags.head), macros)
       } else {
         val trgs: List[Token] = align.map{e => r.trg(e - 1)}
