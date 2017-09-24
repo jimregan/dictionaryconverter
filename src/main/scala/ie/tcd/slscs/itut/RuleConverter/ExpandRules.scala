@@ -180,12 +180,29 @@ object ExpandRules {
       }
     }
     def filterTokenTL(t: TokenNode): Option[TokenNode] = t match {
-      case InsertionTerminalToken(a, b, c) => Some(t)
+      case InsertionTerminalToken(_, _, _) => Some(t)
       case _ => None
     }
     val left = r.src.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}
     val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}.flatMap{filterTokenTL}
     left ++ right
+  }
+
+  def expandNodes(l: List[TokenNode]): List[List[TokenNode]] = {
+    def expandInner(n: List[TokenNode], acc: List[List[TokenNode]]): List[List[TokenNode]] = n match {
+      case Nil => acc
+      case TerminalToken(pos, align, tok, trgs, macros) :: xs => if(acc.isEmpty) {
+        expandInner(xs, List(List(TerminalToken(pos, align, tok, trgs, macros))))
+      } else {
+        expandInner(xs, acc.map{ e => e :+ TerminalToken(pos, align, tok, trgs, macros) })
+      }
+      case NonTerminalToken(pos, align, rules, macros) :: xs => if(acc.isEmpty) {
+        expandInner(xs, v)
+      } else {
+        expandInner(xs, acc.flatMap { e: List[TokenNode] => v.flatMap { f: List[TokenNode] => List(List(e, f).flatten) } })
+      }
+    }
+    expandInner(l, List.empty[List[TokenNode]])
   }
 
   def stringToRule(s: String): TrRule = {

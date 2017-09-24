@@ -78,25 +78,4 @@ class ScratchPad {
 
   def toNodes(b: Map[String, List[List[String]]]): Map[String, List[List[Node]]] = b.map{e => (e._1, e._2.map{_.map{g => TNode(g)}})}
 
-  def expandNodes(l: List[Node]): List[List[Node]] = {
-    def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
-      case Nil => acc
-      case TNode(s) :: xs => if(acc.isEmpty) {
-        expandInner(xs, List(List(TNode(s))))
-      } else {
-        expandInner(xs, acc.map{ e => e :+ TNode(s) })
-      }
-      case NTNode(v) :: xs => if(acc.isEmpty) {
-        expandInner(xs, v)
-      } else {
-        // instead of 'List(List(e, f).flatten)', a function can be used to do this part, also adjusting positions
-        // probably need to stick all relevant parts into each node, then reorder TL side as a postprocessing step
-        // maybe also keep track of initial position and final position, for macro adjustment
-        // insert in the transformer function, create a map in a second pass, then adjust classes with proper positions
-        // case class Foo(d: data, pos: Int) -> FooX(d, initPos, newPos) -> Foo(d, newPos)
-        expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(List(e, f).flatten) } })
-      }
-    }
-    expandInner(l, List.empty[List[Node]])
-  }
 }
