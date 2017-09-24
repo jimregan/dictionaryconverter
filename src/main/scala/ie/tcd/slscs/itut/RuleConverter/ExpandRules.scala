@@ -155,6 +155,10 @@ object ExpandRules {
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
+  case class NTExpandable(pos: Int, align: Int, toks: List[List[TokenNode]])
+  def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
+    NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
+  }
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): List[TokenNode] = {
@@ -188,6 +192,7 @@ object ExpandRules {
     left ++ right
   }
 
+  /*
   def expandNodes(l: List[TokenNode]): List[List[TokenNode]] = {
     def expandInner(n: List[TokenNode], acc: List[List[TokenNode]]): List[List[TokenNode]] = n match {
       case Nil => acc
@@ -203,7 +208,7 @@ object ExpandRules {
       }
     }
     expandInner(l, List.empty[List[TokenNode]])
-  }
+  }*/
 
   def stringToRule(s: String): TrRule = {
     stringToRule(s.split("\\|").map{_.trim})
