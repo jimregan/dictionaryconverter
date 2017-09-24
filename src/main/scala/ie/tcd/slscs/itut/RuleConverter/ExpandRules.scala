@@ -114,6 +114,7 @@ object ExpandRules {
                   al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
   implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
+  implicit def RuleToRulePiece(r: Rule): RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
   def appendMultiPart(r: TrRule, t: TaglessRule): MultiPartRule = {
     def appendMultiPartR(r: Rule, t: TaglessRule): MultiPartRule = {
       val tag = r.tag
@@ -156,6 +157,10 @@ object ExpandRules {
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   case class NTExpandable(pos: Int, align: Int, toks: List[List[TokenNode]])
+  def convertInnerRule(pos: Int, align: Int, rule: TrRule): List[TokenNode] = rule match {
+    case TrivialDeletion(tag, toks) => List(DeletionTerminalToken(pos, toks.head, List.empty[Macro]))
+    case TrivialIdentity(tag, toks) => List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro]))
+  }
   def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
     NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
   }
