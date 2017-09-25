@@ -173,10 +173,10 @@ object ExpandRules {
     def rewriteToken(t: (Token, Int)): TokenNode = {
       val pos = t._2 + startpos - 1
       val tok: Token = t._1
-      val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos).head == 0
-      val isInsert: Boolean = r.al(0).contains(pos)
-      val macros: List[Macro] = macromap(pos)
-      val align: List[Int] = r.al(pos).map{e => e + startal - 1}
+      val isDelete: Boolean = r.al(t._2).length == 1 && r.al(t._2).head == 0
+      val isInsert: Boolean = r.al(0).contains(t._2)
+      val macros: List[Macro] = macromap(t._2)
+      val align: List[Int] = r.al(t._2).map{e => e + startal - 1}
       val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags.head)
       if(isDelete) {
         DeletionTerminalToken(pos, tok, macros)
