@@ -164,6 +164,7 @@ object ExpandRules {
     case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
     case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
     case r @ Rule(tag,_,_,_,_,_,_,_) => ConvertedSingleRule(tag, expandRuleToSausage(r, m, pos, align))
+    case MultiPartRule(tag, parts) => ConvertedMultiRule(tag, parts.map{r => expandRuleToSausage(r, m, pos, align)})
   }
   def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
     NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
