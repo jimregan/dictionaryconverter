@@ -167,6 +167,8 @@ object ExpandRules {
   }
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
+  def realignMacro(m: Macro, pos: Int): Macro = Macro(m.name, m.params.map{e => if(e > 0) e + pos - 1 else e - pos + 1})
+  def realignMacros(l: List[Macro], pos: Int) = l.map{e => realignMacro(e, pos)}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]], startpos: Int = 1, startal: Int = 1): List[TokenNode] = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
@@ -175,7 +177,7 @@ object ExpandRules {
       val tok: Token = t._1
       val isDelete: Boolean = r.al(t._2).length == 1 && r.al(t._2).head == 0
       val isInsert: Boolean = r.al(0).contains(t._2)
-      val macros: List[Macro] = macromap(t._2)
+      val macros: List[Macro] = realignMacros(macromap(t._2), startpos)
       val align: List[Int] = r.al(t._2).map{e => e + startal - 1}
       val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags.head)
       if(isDelete) {
