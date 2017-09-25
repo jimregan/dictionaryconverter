@@ -159,15 +159,16 @@ object ExpandRules {
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
-  case class NTExpandable(pos: Int, align: Int, toks: List[List[TokenNode]])
+  case class NTExpandable(pos: Int, align: Int, toks: List[ConvertedRule], macros: List[Macro]) extends TokenNode
   def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): ConvertedRule = rule match {
     case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
     case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
     case r @ Rule(tag,_,_,_,_,_,_,_) => ConvertedSingleRule(tag, expandRuleToSausage(r, m, pos, align))
     case MultiPartRule(tag, parts) => ConvertedMultiRule(tag, parts.map{r => expandRuleToSausage(r, m, pos, align)})
   }
-  def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
-    NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
+  def convertNonTerminal(n: NonTerminalToken, m: Map[String, List[TrRule]]): NTExpandable = {
+    val rulenodes = n.src.map{r => convertInnerRule(n.pos, n.align, r, m)}
+    NTExpandable(n.pos, n.align, rulenodes, n.macros)
   }
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
@@ -203,7 +204,6 @@ object ExpandRules {
     val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}.flatMap{filterTokenTL}
     left ++ right
   }
-/*
   def expandNodes(l: List[TokenNode]): List[List[TokenNode]] = {
     def expandInner(n: List[TokenNode], acc: List[List[TokenNode]]): List[List[TokenNode]] = n match {
       case Nil => acc
@@ -212,14 +212,17 @@ object ExpandRules {
       } else {
         expandInner(xs, acc.map{ e => e :+ TerminalToken(pos, align, tok, trgs, macros) })
       }
-      case NonTerminalToken(pos, align, rules, macros) :: xs => if(acc.isEmpty) {
-        expandInner(xs, v)
-      } else {
-        expandInner(xs, acc.flatMap { e: List[TokenNode] => v.flatMap { f: List[TokenNode] => List(List(e, f).flatten) } })
+      case NTExpandable(pos, align, rules, macros) :: xs => {
+        val v = rules.map{}
+        if(acc.isEmpty) {
+          expandInner(xs, v)
+        } else {
+          expandInner(xs, acc.flatMap { e: List[TokenNode] => v.flatMap { f: List[TokenNode] => List(List(e, f).flatten) } })
+        }
       }
     }
     expandInner(l, List.empty[List[TokenNode]])
-  }*/
+  }
 
   def stringToRule(s: String): TrRule = {
     stringToRule(s.split("\\|").map{_.trim})
