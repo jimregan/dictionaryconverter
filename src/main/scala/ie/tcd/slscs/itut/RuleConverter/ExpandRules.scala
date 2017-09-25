@@ -113,6 +113,9 @@ object ExpandRules {
   case class TaglessRule(src: List[Token], trg: List[Token],
                   al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
+  abstract class ConvertedRule(tag: String) extends TrRule(tag)
+  case class ConvertedSingleRule(tag: String, toks: List[TokenNode]) extends ConvertedRule(tag)
+  case class ConvertedMultiRule(tag: String, toks: List[List[TokenNode]]) extends ConvertedRule(tag)
   implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
   implicit def RuleToRulePiece(r: Rule): RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
   def appendMultiPart(r: TrRule, t: TaglessRule): MultiPartRule = {
@@ -157,10 +160,10 @@ object ExpandRules {
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   case class NTExpandable(pos: Int, align: Int, toks: List[List[TokenNode]])
-  def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): List[TokenNode] = rule match {
-    case TrivialDeletion(tag, toks) => List(DeletionTerminalToken(pos, toks.head, List.empty[Macro]))
-    case TrivialIdentity(tag, toks) => List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro]))
-    case r @ Rule(_,_,_,_,_,_,_,_) => expandRuleToSausage(r, m, pos, align)
+  def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): ConvertedRule = rule match {
+    case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
+    case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
+    case r @ Rule(tag,_,_,_,_,_,_,_) => ConvertedSingleRule(tag, expandRuleToSausage(r, m, pos, align))
   }
   def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
     NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
