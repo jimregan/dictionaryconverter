@@ -199,7 +199,7 @@ object ExpandRules {
     val right = r.trg.zipWithIndex.map{e => (e._1, e._2 + 1)}.map{rewriteToken}.flatMap{filterTokenTL}
     left ++ right
   }
-
+/*
   def expandNodes(l: List[TokenNode]): List[List[TokenNode]] = {
     def expandInner(n: List[TokenNode], acc: List[List[TokenNode]]): List[List[TokenNode]] = n match {
       case Nil => acc
@@ -215,7 +215,7 @@ object ExpandRules {
       }
     }
     expandInner(l, List.empty[List[TokenNode]])
-  }
+  }*/
 
   def stringToRule(s: String): TrRule = {
     stringToRule(s.split("\\|").map{_.trim})
