@@ -157,25 +157,26 @@ object ExpandRules {
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   case class NTExpandable(pos: Int, align: Int, toks: List[List[TokenNode]])
-  def convertInnerRule(pos: Int, align: Int, rule: TrRule): List[TokenNode] = rule match {
+  def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): List[TokenNode] = rule match {
     case TrivialDeletion(tag, toks) => List(DeletionTerminalToken(pos, toks.head, List.empty[Macro]))
     case TrivialIdentity(tag, toks) => List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro]))
+    case r @ Rule(_,_,_,_,_,_,_,_) => expandRuleToSausage(r, m, pos, align)
   }
   def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
     NTExpandable(n.pos, n.align, List.empty[List[TokenNode]])
   }
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
-  def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]]): List[TokenNode] = {
+  def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]], startpos: Int = 1, startal: Int = 1): List[TokenNode] = {
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
-      val pos = t._2
+      val pos = t._2 + startpos - 1
       val tok: Token = t._1
       val isDelete: Boolean = r.al(pos).length == 1 && r.al(pos).head == 0
       val isInsert: Boolean = r.al(0).contains(pos)
       val macros: List[Macro] = macromap(pos)
-      val align: List[Int] = r.al(pos)
+      val align: List[Int] = r.al(pos).map{e => e + startal - 1}
       val isNT: Boolean = align.size == 1 && tok.getTags.length == 1 && m.contains(tok.getTags.head)
       if(isDelete) {
         DeletionTerminalToken(pos, tok, macros)
@@ -197,7 +198,6 @@ object ExpandRules {
     left ++ right
   }
 
-  /*
   def expandNodes(l: List[TokenNode]): List[List[TokenNode]] = {
     def expandInner(n: List[TokenNode], acc: List[List[TokenNode]]): List[List[TokenNode]] = n match {
       case Nil => acc
@@ -213,7 +213,7 @@ object ExpandRules {
       }
     }
     expandInner(l, List.empty[List[TokenNode]])
-  }*/
+  }
 
   def stringToRule(s: String): TrRule = {
     stringToRule(s.split("\\|").map{_.trim})
