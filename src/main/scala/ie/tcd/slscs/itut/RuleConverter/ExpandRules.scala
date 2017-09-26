@@ -128,22 +128,22 @@ object ExpandRules {
   case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: List[Token], macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
-  case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
   case class NTExpandable(pos: Int, align: Int, toks: List[ConvertedRule], macros: List[Macro]) extends TokenNode
   def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): ConvertedRule = rule match {
     case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
     case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
     case r @ Rule(tag,_,_,_,_,_,_,_) => ConvertedSingleRule(tag, expandRuleToSausage(r, m, pos, align))
   }
-  def convertNonTerminal(n: NonTerminalToken, m: Map[String, List[TrRule]]): NTExpandable = {
-    val rulenodes = n.src.map{r => convertInnerRule(n.pos, n.align, r, m)}
-    NTExpandable(n.pos, n.align, rulenodes, n.macros)
-  }
   def macroListToMap(l: List[Macro]): Map[Int, List[Macro]] =
     l.map{e => e.params.head -> flipMacro(e.params.head, e)}.groupBy(_._1).map{case (k, v) => k -> v.map{_._2}}
   def realignMacro(m: Macro, pos: Int): Macro = Macro(m.name, m.params.map{e => if(e > 0) e + pos - 1 else e - pos + 1})
   def realignMacros(l: List[Macro], pos: Int) = l.map{e => realignMacro(e, pos)}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]], startpos: Int = 1, startal: Int = 1): List[TokenNode] = {
+    case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
+    def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
+      val rulenodes = n.src.map{r => convertInnerRule(n.pos, n.align, r, m)}
+      NTExpandable(n.pos, n.align, rulenodes, n.macros)
+    }
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
@@ -159,7 +159,7 @@ object ExpandRules {
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
-        NonTerminalToken(pos, align.head, m(tok.getTags.head), macros)
+        convertNonTerminal(NonTerminalToken(pos, align.head, m(tok.getTags.head), macros))
       } else {
         val trgs: List[Token] = align.map{e => r.trg(e - 1)}
         TerminalToken(pos, align, tok, trgs, macros)
