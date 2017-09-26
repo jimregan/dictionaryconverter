@@ -128,7 +128,7 @@ object ExpandRules {
   case class TerminalToken(pos: Int, align: List[Int], src: Token, trg: List[Token], macros: List[Macro]) extends TokenNode
   case class InsertionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
   case class DeletionTerminalToken(pos: Int, child: Token, macros: List[Macro]) extends TokenNode
-  case class NTExpandable(pos: Int, align: Int, toks: List[ConvertedRule], macros: List[Macro]) extends TokenNode
+  case class NonTerminalToken(pos: Int, align: Int, toks: List[ConvertedRule], macros: List[Macro]) extends TokenNode
   def convertInnerRule(pos: Int, align: Int, rule: TrRule, m: Map[String, List[TrRule]]): ConvertedRule = rule match {
     case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
     case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
@@ -155,7 +155,7 @@ object ExpandRules {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
         val rulenodes = m(tok.getTags.head).map{r => convertInnerRule(pos, align.head, r, m)}
-        NTExpandable(pos, align.head, rulenodes, macros)
+        NonTerminalToken(pos, align.head, rulenodes, macros)
       } else {
         val trgs: List[Token] = align.map{e => r.trg(e - 1)}
         TerminalToken(pos, align, tok, trgs, macros)
@@ -177,7 +177,7 @@ object ExpandRules {
       } else {
         expandInner(xs, acc.map{ e => e :+ TerminalToken(pos, align, tok, trgs, macros) })
       }
-      case NTExpandable(pos, align, rules, macros) :: xs => {
+      case NonTerminalToken(pos, align, rules, macros) :: xs => {
         val v: List[List[TokenNode]] = rules.map{e => e.getToks}
         if(acc.isEmpty) {
           expandInner(xs, v)
