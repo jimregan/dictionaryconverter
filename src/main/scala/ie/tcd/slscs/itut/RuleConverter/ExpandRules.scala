@@ -113,9 +113,18 @@ object ExpandRules {
   case class TaglessRule(src: List[Token], trg: List[Token],
                   al: Map[Int, List[Int]], srcmac: List[Macro],
                   trgmac: List[Macro], srceg: String, trgeg: String) extends TrRule("")
-  abstract class ConvertedRule(tag: String) extends TrRule(tag)
-  case class ConvertedSingleRule(tag: String, toks: List[TokenNode]) extends ConvertedRule(tag)
-  case class ConvertedMultiRule(tag: String, toks: List[List[TokenNode]]) extends ConvertedRule(tag)
+  abstract class ConvertedRule(tag: String) extends TrRule(tag) {
+    def ismulti: Boolean
+    def getToks: List[List[TokenNode]]
+  }
+  case class ConvertedSingleRule(tag: String, toks: List[TokenNode]) extends ConvertedRule(tag) {
+    override def ismulti: Boolean = false
+    override def getToks: List[List[TokenNode]] = List(toks)
+  }
+  case class ConvertedMultiRule(tag: String, toks: List[List[TokenNode]]) extends ConvertedRule(tag) {
+    override def ismulti: Boolean = true
+    override def getToks: List[List[TokenNode]] = toks
+  }
   implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
   implicit def RuleToRulePiece(r: Rule): RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
   def appendMultiPart(r: TrRule, t: TaglessRule): MultiPartRule = {
@@ -213,7 +222,9 @@ object ExpandRules {
         expandInner(xs, acc.map{ e => e :+ TerminalToken(pos, align, tok, trgs, macros) })
       }
       case NTExpandable(pos, align, rules, macros) :: xs => {
-        val v = rules.map{}
+        val v: List[List[List[TokenNode]]] = rules.map{e => e.getToks}
+        val bools: List[Boolean] = rules.map{e => e.ismulti}
+        val pairs = v.zip(bools)
         if(acc.isEmpty) {
           expandInner(xs, v)
         } else {

@@ -78,4 +78,20 @@ class ScratchPad {
 
   def toNodes(b: Map[String, List[List[String]]]): Map[String, List[List[Node]]] = b.map{e => (e._1, e._2.map{_.map{g => TNode(g)}})}
 
+  def expandNodes(l: List[Node]): List[List[Node]] = {
+    def expandInner(n: List[Node], acc: List[List[Node]]): List[List[Node]] = n match {
+      case Nil => acc
+      case TNode(s) :: xs => if(acc.isEmpty) {
+        expandInner(xs, List(List(TNode(s))))
+      } else {
+        expandInner(xs, acc.map{ e => e :+ TNode(s) })
+      }
+      case NTNode(v) :: xs => if(acc.isEmpty) {
+        expandInner(xs, v)
+      } else {
+        expandInner(xs, acc.flatMap { e: List[Node] => v.flatMap { f: List[Node] => List(List(e, f).flatten) } })
+      }
+    }
+    expandInner(l, List.empty[List[Node]])
+  }
 }
