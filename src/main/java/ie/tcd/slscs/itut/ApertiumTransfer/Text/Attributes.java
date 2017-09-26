@@ -128,7 +128,9 @@ public class Attributes {
         while((line = br.readLine()) != null) {
             lineno++;
             try {
-                out.add(fromText(line));
+                if(!"".equals(line) && !line.startsWith("#")) {
+                    out.add(fromText(line));
+                }
             } catch (Exception e) {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
