@@ -1,6 +1,0 @@
-noun = a_noun num
-adj = a_adj grade
-prn = a_prn pers gen num
-verb = a_verb tense pers num
-rel = a_rel gen num
-det = a_det num
