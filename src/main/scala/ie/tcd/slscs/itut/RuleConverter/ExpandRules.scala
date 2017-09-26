@@ -118,7 +118,6 @@ object ExpandRules {
   case class ConvertedSingleRule(tag: String, toks: List[TokenNode]) extends ConvertedRule(tag) {
     override def getToks = toks
   }
-  implicit def TaglessToRulePiece(t: TaglessRule): RulePiece = RulePiece(t.src, t.trg, t.al, t.srcmac, t.trgmac, t.srceg, t.trgeg)
   implicit def RuleToRulePiece(r: Rule): RulePiece = RulePiece(r.src, r.trg, r.al, r.srcmac, r.trgmac, r.srceg, r.trgeg)
 
   def flipMacro(pos: Int, mac: Macro): Macro = {
