@@ -139,11 +139,6 @@ object ExpandRules {
   def realignMacro(m: Macro, pos: Int): Macro = Macro(m.name, m.params.map{e => if(e > 0) e + pos - 1 else e - pos + 1})
   def realignMacros(l: List[Macro], pos: Int) = l.map{e => realignMacro(e, pos)}
   def expandRuleToSausage(r: RulePiece, m: Map[String, List[TrRule]], startpos: Int = 1, startal: Int = 1): List[TokenNode] = {
-    case class NonTerminalToken(pos: Int, align: Int, src: List[TrRule], macros: List[Macro]) extends TokenNode
-    def convertNonTerminal(n: NonTerminalToken): NTExpandable = {
-      val rulenodes = n.src.map{r => convertInnerRule(n.pos, n.align, r, m)}
-      NTExpandable(n.pos, n.align, rulenodes, n.macros)
-    }
     val srcMacroMap: Map[Int, List[Macro]] = macroListToMap(r.srcmac)
     val macromap = macroListToMap(r.srcmac)
     def rewriteToken(t: (Token, Int)): TokenNode = {
@@ -159,7 +154,8 @@ object ExpandRules {
       } else if(isInsert) {
         InsertionTerminalToken(pos, tok, macros)
       } else if(isNT) {
-        convertNonTerminal(NonTerminalToken(pos, align.head, m(tok.getTags.head), macros))
+        val rulenodes = m(tok.getTags.head).map{r => convertInnerRule(pos, align.head, r, m)}
+        NTExpandable(pos, align.head, rulenodes, macros)
       } else {
         val trgs: List[Token] = align.map{e => r.trg(e - 1)}
         TerminalToken(pos, align, tok, trgs, macros)
