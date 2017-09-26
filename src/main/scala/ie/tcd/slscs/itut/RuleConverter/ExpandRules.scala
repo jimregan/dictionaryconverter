@@ -173,7 +173,6 @@ object ExpandRules {
     case TrivialDeletion(tag, toks) => ConvertedSingleRule(tag, List(DeletionTerminalToken(pos, toks.head, List.empty[Macro])))
     case TrivialIdentity(tag, toks) => ConvertedSingleRule(tag, List(TerminalToken(pos, List(align), toks.head, toks, List.empty[Macro])))
     case r @ Rule(tag,_,_,_,_,_,_,_) => ConvertedSingleRule(tag, expandRuleToSausage(r, m, pos, align))
-    case MultiPartRule(tag, parts) => ConvertedMultiRule(tag, parts.map{r => expandRuleToSausage(r, m, pos, align)})
   }
   def convertNonTerminal(n: NonTerminalToken, m: Map[String, List[TrRule]]): NTExpandable = {
     val rulenodes = n.src.map{r => convertInnerRule(n.pos, n.align, r, m)}
@@ -235,9 +234,7 @@ object ExpandRules {
     expandInner(l, List.empty[List[TokenNode]])
   }
 
-  def stringToRule(s: String): TrRule = {
-    stringToRule(s.split("\\|").map{_.trim})
-  }
+  def stringToRule(s: String): TrRule = stringToRule(s.split("\\|").map{_.trim})
   def stringToRule(parts: Array[String]): TrRule = {
     val tag = parts(0)
     val src = makeTokenList(parts(1))
