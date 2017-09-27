@@ -61,6 +61,9 @@ public class SimpleMacroCall {
     }
     public static List<SimpleMacroCall> listFromString(String s) throws Exception {
         List<SimpleMacroCall> out = new ArrayList<SimpleMacroCall>();
+        if(s.trim().equals("")) {
+            return out;
+        }
         for(String tmp : s.split(";")) {
             out.add(fromString(tmp));
         }
