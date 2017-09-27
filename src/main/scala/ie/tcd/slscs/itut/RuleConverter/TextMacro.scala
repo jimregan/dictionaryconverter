@@ -126,7 +126,7 @@ object TextMacro {
   }
   def convertMacroAttrList(in: List[MacroAttr]): TestElement = {
     if(in.length == 1) {
-      convertMacroAttrToTest(in(0))
+      convertMacroAttrToTest(in.head)
     } else {
       TestElement(null, AndElement(in.map{convertMacroAttrToTest}.map{e => e.cond}))
     }
@@ -235,13 +235,13 @@ object TextMacro {
       }
       def convertSrcMacroEntry(s: SrcTextMacroEntry): (List[SentenceElement], Map[String, List[Option[String]]]) = s match {
         case SrcInsertionMacroEntry(_, matches) => {
-          val first = matches(0) match {
+          val first = matches.head match {
             case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
             case _ => throw new Exception("Insertion macro entry missing lemma " + s.toString)
           }
           val letpart = convertMacroAttrToLet(first, false, m.name)
           val rest = matches.tail
-          val appendname = if(letpart._2 == None) "" else letpart._2.get
+          val appendname = if(letpart._2.isEmpty) "" else letpart._2.get
           val appendpart = mkAppend(appendname, rest)
           (List[SentenceElement](letpart._1, appendpart), Map("insert" -> List(letpart._2)))
         }
