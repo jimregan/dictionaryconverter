@@ -64,12 +64,14 @@ object RuleHolder {
     RuleBody(rs.getLUs.asScala.map{wordTokenToLUProc}.toList,
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
-  /*
   def ChunkToChunkElement(c: Chunk): ChunkElement = {
+    val lemma = if(c.lemma == "") c.tags.map{e => e(0)}.mkString("_") else c.lemma
     val namefrom = ""
     val ccase = ""
-    ChunkElement(c.lemma, namefrom, ccase, null)
-  }*/
+    val ctags = c.tags.map{e => TagsElementType}
+    //ChunkElement(c.lemma, namefrom, ccase, null)
+    null
+  }
   def singleLUToInterchunkChunk(slu: SingleLexicalUnit, pos: Int): ChunkElement = slu match {
     case SimpleLU("", "", list) => if(list.length == 1) {
       ChunkElement(null, null, null, null, None, List(ClipElement(pos.toString, "", "whole", null, null, null)))
@@ -110,7 +112,7 @@ object RuleHolder {
     dropLastBlank(l, List.empty[StreamItem])
   }
   def listSimpleToStream(l: List[SimpleLU]): List[StreamItem] = {
-    simpleStreamDropLastBlank(l.zipWithIndex.map{e => List(e._1, PositionBlank(e._2 + 1))}.flatten)
+    simpleStreamDropLastBlank(l.zipWithIndex.flatMap{e => List(e._1, PositionBlank(e._2 + 1))})
   }
   def convertStreamToken(st: StreamToken): Option[StreamItem] = st match {
     case c: ChunkToken => Some(chunkTokenToChunk(c))
@@ -127,7 +129,7 @@ object RuleHolder {
   def convertMacroCallToCallMacro(in: SimpleMacroCall): CallMacroElement = {
     CallMacroElement(in.name, in.params.map{e => WithParamElement(e)})
   }
-  implicit def catItemToJCatItem(c: CatItem): JCatItem = if(c.name == "") new JCatItem(c.lemma, c.tags) else new JCatItem(c.name)
+  implicit def catItemToJCatItem(c: CatItem): JCatItem = if(c.name == "" || c.name == null) new JCatItem(c.lemma, c.tags) else new JCatItem(c.name)
   implicit def DefCatTupleToJDefCat(dc: (String, List[CatItem])): JDefCat = new JDefCat(dc._1, dc._2.map{catItemToJCatItem}.asJava)
   implicit def DefCatsToJava(m: Map[String, List[CatItem]]): JDefCats = new JDefCats(m.toList.map{DefCatTupleToJDefCat}.asJava)
   implicit def JPatternItemToPatternItem(pi: JPatternItem): PatternItemElement = PatternItemElement(pi.getName)

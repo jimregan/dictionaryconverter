@@ -40,7 +40,7 @@ public class CatItem {
 
     public List<String> getTagsList() {
         List<String> out = new ArrayList<String>();
-        if(this.tags == "") {
+        if(this.tags == "" || this.tags == null) {
             return out;
         } else {
             out = Arrays.asList(tags.split("\\."));
@@ -101,6 +101,9 @@ public class CatItem {
         return tagsMatch(s.split("\\."));
     }
     public boolean tagsStartWith(List<String> other_tags) {
+        if(other_tags == null) {
+            return false;
+        }
         if(other_tags.size() > getTagsList().size()) {
             return false;
         }

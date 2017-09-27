@@ -25,36 +25,13 @@
  * SOFTWARE.
  */
 
-package ie.tcd.slscs.itut.gramadanj.Conversion.EID;
+package ie.tcd.slscs.itut.DictionaryConverter.dix
 
-import java.util.ArrayList;
-import java.util.List;
+import org.scalatest.FlatSpec
+import ie.tcd.slscs.itut.DictionaryConverter.dix.IrishFSTConvert
 
-public class TargetPiece {
-    String preNote;
-    String first;
-    String label;
-    String second;
-    String postNote;
-    List<GrammarNote> notes;
-    TargetPiece() {
-        notes = new ArrayList<GrammarNote>();
-    }
-    TargetPiece(String preNote, String first, String label, String second, String postNote) {
-        this();
-        this.first = first;
-        this.preNote = preNote;
-        this.label = label;
-        this.second = second;
-        this.postNote = postNote;
-    }
-    TargetPiece(String preNote, String first, String label, String second, String postNote, List<GrammarNote> notes) {
-        this();
-        this.first = first;
-        this.preNote = preNote;
-        this.label = label;
-        this.second = second;
-        this.postNote = postNote;
-        this.notes = notes;
-    }
+class IrishFSTConvertTest extends FlatSpec {
+  "maptags" should "convert IrishFST tags to something Apertium-like" in {
+    assert(List("np", "m", "pl", "voc", "defart") == IrishFSTConvert.maptags("+Prop+Noun+Masc+Voc+Pl+DefArt"))
+  }
 }

@@ -126,7 +126,7 @@ object TextMacro {
   }
   def convertMacroAttrList(in: List[MacroAttr]): TestElement = {
     if(in.length == 1) {
-      convertMacroAttrToTest(in(0))
+      convertMacroAttrToTest(in.head)
     } else {
       TestElement(null, AndElement(in.map{convertMacroAttrToTest}.map{e => e.cond}))
     }
@@ -185,6 +185,7 @@ object TextMacro {
     val out = JSTMacro.fromFile(f)
     out.asScala.map{convertJSTMacro}.toList
   }
+  def convertJSTMacroToXML(m: JSTMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = SimpleTextMacroToXML(convertJSTMacro(m), clippables)
   def SimpleTextMacroToXML(m: SimpleTextMacro, clippables: Map[String, Map[String, Boolean]]): DefMacroElement = {
     def mkClearVar(name: String): LetElement = {
       LetElement(VarElement(name), LitElement(""))
@@ -226,21 +227,21 @@ object TextMacro {
       }
       def convertMacroAttrToLetClip(in: MacroAttr, varname: String, tpl: String = "var_"): (LetElement, Option[String]) = {
         val clippable: Boolean = in match {
-          case KVMacroAttr(k, v, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
-          case KeyOnlyMacroAttr(k, pos, apto) => clippables.get(apto) != null && clippables.get(apto).get(k)
+          case KVMacroAttr(k, v, pos, apto) => clippables(apto) != null && clippables(apto)(k)
+          case KeyOnlyMacroAttr(k, pos, apto) => clippables(apto) != null && clippables(apto)(k)
           case _ => false
         }
         convertMacroAttrToLet(in, clippable, varname, tpl)
       }
       def convertSrcMacroEntry(s: SrcTextMacroEntry): (List[SentenceElement], Map[String, List[Option[String]]]) = s match {
         case SrcInsertionMacroEntry(_, matches) => {
-          val first = matches(0) match {
+          val first = matches.head match {
             case LemmaMacroAttr(s, pos, apto) => LemmaMacroAttr(s, pos, apto)
             case _ => throw new Exception("Insertion macro entry missing lemma " + s.toString)
           }
           val letpart = convertMacroAttrToLet(first, false, m.name)
           val rest = matches.tail
-          val appendname = if(letpart._2 == None) "" else letpart._2.get
+          val appendname = if(letpart._2.isEmpty) "" else letpart._2.get
           val appendpart = mkAppend(appendname, rest)
           (List[SentenceElement](letpart._1, appendpart), Map("insert" -> List(letpart._2)))
         }

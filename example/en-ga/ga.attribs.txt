@@ -1,5 +1,5 @@
 grade = comp
-gen = m f mf GD
+gen! = m f mf GD
 num = sg pl sp ND
 case = com gen voc dat
 mut = len hpref ecl defart

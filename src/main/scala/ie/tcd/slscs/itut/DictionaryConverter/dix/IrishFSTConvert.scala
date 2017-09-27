@@ -61,6 +61,7 @@ object IrishFSTConvert {
 
                          )
   val skip_whole = List("+Abr",
+                        "+Adv+Dir+Len",
                         "+Abr+Title",
                         "+Adj+Pref",
                         "+Filler",
@@ -222,7 +223,8 @@ object IrishFSTConvert {
                         "+Art+Pl+Def" -> "det.def.mf.pl",
                         "+Art+Gen+Sg+Def+Fem" -> "det.def.f.gen.sg",
                         "+Noun+Masc+Dat+Pl" -> "n.m.pl.dat",
-                        "+Noun+Masc+Voc+Pl+Def+Len" -> "n.m.pl.voc.len"
+                        "+Noun+Masc+Voc+Pl+Def+Len" -> "n.m.pl.voc.len",
+                        "+Noun+Fem+Voc+Pl+Def+Len" -> "n.f.pl.voc.len"
                         )
 
   val tag_remap = Map("Masc" -> "m",
@@ -433,6 +435,10 @@ object IrishFSTConvert {
       base ++ addtags(tags).flatten
     }
   }
+  /*
+   * TODO: doesn't handle lenited prepositions. But they are a rare and wondrous thing, frightful to behold
+   * and much loathed by all.
+   */
   def prepMaker(surface: String, lemma: String, tags: String): JoinedEntry = {
     val pr = RHS(lemma, List("pr"))
     val prn = RHS("prpers", prpersMaker(tags))
@@ -532,6 +538,24 @@ object IrishFSTConvert {
       inner
     }
   }
+  def surfaceLongestCommonPrefix(a: String, b: String): String = {
+    if(a == "" || b == "" || a == null || b == null) {
+      return ""
+    }
+    val first_char = a.charAt(0)
+    val b_begin = if(mutationStarts.contains(first_char)) findBeginning(b, mutationStarts(first_char)) else ""
+    val j = if(!a.startsWith(b_begin)) b_begin.length else 0
+    val i = if(j == 0) 0 else 1
+
+    val comp_a = a.substring(i)
+    val comp_b = b.substring(j)
+    val inner = (comp_a, comp_b).zipped.takeWhile(Function.tupled(_ == _)).map(_._1).mkString
+    if(i != 0) {
+      b_begin + inner
+    } else {
+      inner
+    }
+  }
 
   def IrishLongestCommonPrefixList(lemma: String, surface_forms: List[String]): String = {
     val lcps = surface_forms.map{f => IrishLongestCommonPrefix(lemma, f)}
@@ -544,16 +568,16 @@ object IrishFSTConvert {
     }
   }
   def stemEntry(e: EntryBasis, lcs: String): StemmedEntryBasis = {
-    def lsuffix(s: String): String = s.substring(lcs.length).replaceAll("_", " ")
-    def ssuffix(s: String): String = s.substring(IrishLongestCommonPrefix(lcs, s).length).replaceAll("_", " ")
+    def lsuffix(s: String): String = s.substring(lcs.length)
+    def ssuffix(s: String): String = s.substring(surfaceLongestCommonPrefix(lcs, s).length)
     e match {
-      case Entry(s, l, t, r, v) => StemmedEntry(lcs.replaceAll("_", " "), ssuffix(s), lsuffix(l), t, r, v)
+      case Entry(s, l, t, r, v) => StemmedEntry(lcs, ssuffix(s), lsuffix(l), t, r, v)
       case JoinedEntry(s, p, r, v) => {
         val pend = p.tail
         val pfirst = p.head
         val newplem = lsuffix(pfirst.lemma)
         val retp = List(RHS(newplem, pfirst.tags)) ++ pend
-        StemmedJoinedEntry(lcs.replaceAll("_", " "), ssuffix(s), retp, r, v)
+        StemmedJoinedEntry(lcs, ssuffix(s), retp, r, v)
       }
     }
   }
@@ -590,11 +614,11 @@ object IrishFSTConvert {
     }
   }
   def stemmedEntryToE(ent: StemmedEntry): E = {
-    val restr = if(ent.r.toLowerCase == "lr") "LR" else null
+    val restr = if(ent.r != null && ent.r.toLowerCase == "lr") "LR" else null
     val tags = ent.tags.map{e => S(e)}
     val l = L(List(Txt(ent.surface)))
     val r = R(List(Txt(ent.lemma)) ++ tags)
-    E(List(P(l, r)), null, restr, "irishfst", null, false, null, null, null, ent.variant)
+    E(List(P(l, r)), null, restr, null, null, false, null, null, null, ent.variant)
   }
   def RHSToTextLike(rhs: RHS): List[TextLike] = List(Txt(rhs.lemma)) ++ rhs.tags.map{e => S(e)}
   def joinRHS(l: List[List[TextLike]]): List[TextLike] = {
@@ -626,7 +650,7 @@ object IrishFSTConvert {
     def checkMutation(): Unit = {
       for(ent <- l) {
         val mut = getMutation(lemma, ent.getSurface)
-        if(!ent.getTags.contains(mut) && mut != "") {
+        if(!ent.getTags.contains(mut) && mut != "" && !ent.getTags.contains("defart")) {
           System.err.println("Error in " + ent.getSurface + "(" + lemma + "): expected " + mut + "(" + ent.getTags + ")")
         }
       }
@@ -669,7 +693,7 @@ object IrishFSTConvert {
       val entryl: List[E] = m.map{ e => {
         val fp = firstParts(e._1)
         val name: Par = Par(e._2.name)
-        E(fp :+ name, lm, null, "irishfst")
+        E(fp :+ name, lm)
       }}.toList
       entryl
     }
@@ -711,6 +735,8 @@ object IrishFSTConvert {
     ",+Punct+Int\t," -> Entry(",", ",", List("cm")),
     "'+Punct+Quo\t'" -> Entry("'", "'", List("apos")),
     "++Num+Op\t+" -> Entry("+", "+", List("num", "op")),
+    "na+Art+Pl+Def\tna" -> Entry("na", "an", List("det", "def", "mf", "pl")),
+    "na+Art+Gen+Sg+Def+Fem\tna" -> Entry("na", "an", List("det", "def", "f", "sg", "gen")),
     "an+Part+Vb+Q\tan" -> Entry("an", "an", List("adv", "itg")),
     "níos+Subst+Noun+Sg+Part+Comp\tníos" -> Entry("níos", "níos", List("adv")),
     "ní+Subst+Noun+Sg+Part+Comp\tní" -> Entry("ní", "ní", List("adv")),
@@ -768,19 +794,19 @@ object IrishFSTConvert {
     "trí+Prep+Poss+3P+Pl\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "mf", "pl")))),
     "trí+Prep+Poss+3P+Sg+Fem\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "f", "sg")))),
     "trí+Prep+Poss+3P+Sg+Masc\ttrína" -> JoinedEntry("trína", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p3", "m", "sg")))),
-    "i+Prep+Poss+1P+Pl\tinár" -> JoinedEntry("inár", List(RHS("i", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-    "ó+Prep+Poss+1P+Pl\tónár" -> JoinedEntry("ónár", List(RHS("ó", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-    "do+Prep+Poss+2P+Sg+NG\tdod" -> JoinedEntry("dod", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
-    "do+Prep+Poss+2P+Sg+NG\tdod'" -> JoinedEntry("dod'", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p2", "mf", "sg"))), "lr"),
-    "de+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("de", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-    "do+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("do", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-    "faoi+Prep+Poss+1P+Pl\tfaoinár" -> JoinedEntry("faoinár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
-    "faoi+Prep+Poss+1P+Pl+NG\tfénár" -> JoinedEntry("fénár", List(RHS("faoi", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-    "go+Prep+Poss+1P+Pl+NG\tgonár" -> JoinedEntry("gonár", List(RHS("go", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-    "le+Prep+Poss+1P+Pl\tlenár" -> JoinedEntry("lenár", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl"))), "lr"),
-    "le+Prep+Poss+1P+Sg+NG\tlem" -> JoinedEntry("lem", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
-    "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "sg"))), "lr"),
-    "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("a", List("det", "pos", "p1", "mf", "pl")))),
+    "i+Prep+Poss+1P+Pl\tinár" -> JoinedEntry("inár", List(RHS("i", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
+    "ó+Prep+Poss+1P+Pl\tónár" -> JoinedEntry("ónár", List(RHS("ó", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
+    "do+Prep+Poss+2P+Sg+NG\tdod" -> JoinedEntry("dod", List(RHS("do", List("pr")), RHS("do", List("det", "pos", "mf", "sg"))), "lr"),
+    "do+Prep+Poss+2P+Sg+NG\tdod'" -> JoinedEntry("dod'", List(RHS("do", List("pr")), RHS("do", List("det", "pos", "mf", "sg"))), "lr"),
+    "de+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("de", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
+    "do+Prep+Poss+1P+Pl\tdár" -> JoinedEntry("dár", List(RHS("do", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
+    "faoi+Prep+Poss+1P+Pl\tfaoinár" -> JoinedEntry("faoinár", List(RHS("faoi", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
+    "faoi+Prep+Poss+1P+Pl+NG\tfénár" -> JoinedEntry("fénár", List(RHS("faoi", List("pr")), RHS("ár", List("det", "pos", "mf", "pl"))), "lr"),
+    "go+Prep+Poss+1P+Pl+NG\tgonár" -> JoinedEntry("gonár", List(RHS("go", List("pr")), RHS("ár", List("det", "pos", "mf", "pl"))), "lr"),
+    "le+Prep+Poss+1P+Pl\tlenár" -> JoinedEntry("lenár", List(RHS("le", List("pr")), RHS("ár", List("det", "pos", "mf", "pl"))), "lr"),
+    "le+Prep+Poss+1P+Sg+NG\tlem" -> JoinedEntry("lem", List(RHS("le", List("pr")), RHS("mo", List("det", "pos", "mf", "sg"))), "lr"),
+    "le+Prep+Poss+1P+Sg+NG\tlem'" -> JoinedEntry("lem'", List(RHS("le", List("pr")), RHS("mo", List("det", "pos", "mf", "sg"))), "lr"),
+    "trí+Prep+Poss+1P+Pl\ttrínár" -> JoinedEntry("trínár", List(RHS("trí", List("pr")), RHS("ár", List("det", "pos", "mf", "pl")))),
     // this is a noun, not an adjective, but we can catch the phrase all the same
     "céanna+Adj+Base+Ecl\tgcéanna" -> Entry("mar an gcéanna", "mar an gcéanna", List("adv")),
     "cad+Pron+Q\tcad" -> Entry("cad", "cad", List("prn", "itg", "mf", "sp")),
@@ -832,9 +858,9 @@ object IrishFSTConvert {
     } else {
       val parts = s.split("\t")
       val first_plus = s.indexOf('+')
-      val lemma = s.substring(0, first_plus)
+      val lemma = s.substring(0, first_plus).replaceAll("_", " ")
       val tags = parts(0).substring(first_plus)
-      val surface = parts(1)
+      val surface = parts(1).replaceAll("_", " ")
       procWords(surface, lemma, tags)
     }
   }
