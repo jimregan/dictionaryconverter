@@ -241,6 +241,7 @@ object IrishFSTConvert {
                       "Gen" -> "gen",
                       "hPref" -> "hpref",
                       "DefArt" -> "defart",
+                      "Def" -> "def",
                       "Ecl" -> "ecl",
                       "Sg" -> "sg",
                       "Len" -> "len",
