@@ -193,7 +193,9 @@ public class RuleContainer {
         while((line = br.readLine()) != null) {
             lineno++;
             try {
-                out.add(fromString(line));
+                if(!"".equals(line) && !line.startsWith("#")) {
+                    out.add(fromString(line));
+                }
             } catch (Exception e) {
                 throw new IOException(e.getMessage() + " on line " + lineno);
             }
