@@ -659,7 +659,8 @@ object IrishFSTConvert {
 
     val surfaceforms: List[String] = l.map{_.getSurface}
     val lcs = IrishLongestCommonPrefixList(lemma, surfaceforms)
-    val pardefname = lcs + "/" + name_basis.substring(lcs.length)
+    val pardefend = name_basis.substring(lcs.length)
+    val pardefname = if(!pardefend.startsWith("__")) lcs + "/" + pardefend else lcs
     val stemmed_entries = l.map{e => stemEntry(e, lcs)}
     val tup: Map[String, List[StemmedEntryBasis]] = stemmed_entries.map{e => (getMutationFromEntryBasis(e), e)}.groupBy(_._1).map { case (k,v) => (k,v.map(_._2))}
     val tup_conv: Map[String, List[E]] = tup.map{e => (e._1, e._2.map{convertToE})}
@@ -673,7 +674,7 @@ object IrishFSTConvert {
       val first = lm.charAt(0)
 
       def firstParts(mut: String): List[TextLikeContainer] = {
-        val i = I(List(Txt(lcs)))
+        val i = if(mut == "" || lcs == "") I(List(Txt(lcs))) else I(List(Txt(lcs.substring(1))))
         val initpar = Par(first + "__" + mut)
         if (lcs == "") {
           if (mut == "") {
