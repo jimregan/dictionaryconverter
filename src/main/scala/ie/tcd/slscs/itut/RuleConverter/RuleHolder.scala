@@ -65,7 +65,7 @@ object RuleHolder {
       rs.getTokens.asScala.map{convertStreamToken}.toList.flatten)
   }
   def ChunkToChunkElement(c: Chunk): ChunkElement = {
-    val lemma = if(c.lemma == "") c.tags.map{e => e(0)}.mkString("_") else c.lemma
+    val lemma = if(c.lemma == "") c.tags.map{e => e.head}.mkString("_") else c.lemma
     val namefrom = ""
     val ccase = ""
     val ctags = c.tags.map{e => TagsElementType}

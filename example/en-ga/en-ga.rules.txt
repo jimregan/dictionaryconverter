@@ -1,12 +1,15 @@
 NP | <n> | <n> | 1-1 | check_human:1;check_def:1;check_profession:1 | | dog | madra
  | <n><list:definites> | an<det><def> <n> | 0-1 1-2 | check_human:1;check_def:1;check_profession:1 | | Monday | an Luan
 NP | <adj> <n> | <n> <adj> | 1-2 2-1 | agree:1,2;check_human:2;check_profession:2 | | big dog | madra mór
- | <adj> <n> | an<det><def> <n> <adj> | 0-1 1-3 2-2 | agree:1,2;check_human:2;check_profession:2 | | long Monday | an Luan fada
+ | <adj> <n><list:definites> | an<det><def> <n> <adj> | 0-1 1-3 2-2 | agree:1,2;check_human:2;check_profession:2 | | long Monday | an Luan fada
 NP | <det> <adj> <n> | <det> <n> <adj> | 1-1 2-3 3-2 | det_type:1;check_human:3;check_def:3;check_profession:3 | | the big dog | an madra mór
  | a<det> <adj> <n> | <n> <adj> | 1-0 2-2 3-1 | det_type:1;check_human:3;check_def:3;check_profession:3 | | a big dog | madra mór
  | this<det> <adj> <n> | an<det><def> <n> <adj> seo<det><dem> | 1-1 2-2 3-1 0-4 | det_type:1;check_human:3;check_def:3;check_profession:3 | | this big dog | an madra mór seo
  | that<det> <adj> <n> | an<det><def> <n> <adj> sin<det><dem> | 1-1 2-2 3-1 0-4 | det_type:1;check_human:3;check_def:3;check_profession:3 | | this big dog | an madra mór sin
 NP | <adj> <adj> <n> | <n> <adj> <adj> | 1-2 2-3 3-1 | agree:1,3;check_human:3;check_def:3;check_profession:3 | | big red book | leabhar mór dearg
+ | <adj> <adj> <n><list:definites> | an<det><def> <n> <adj> <adj> | 0-1 1-3 2-4 3-2 | agree:1,3;check_human:3;check_def:3;check_profession:3 | | big red book | leabhar mór dearg
+NP | ^<adj>$^<cm>$ <adj> <n> | <n> <adj> <adj> | 1-2 2-0 3-3 4-1 | agree:1,4;check_human:4;check_def:4;check_profession:4 | | big, red book | leabhar mór dearg
+ | ^<adj>$^<cm>$ <adj> <n><list:definites> | an<det><def> <n> <adj> <adj> | 0-1 1-3 1-0 3-4 4-2 | agree:1,4;check_human:4;check_def:4;check_profession:4 | | big, red book | leabhar mór dearg
 NP | <det> <adj> <adj> <n> | <det> <n> <adj> <adj> | 1-1 2-3 3-4 4-2 | det_type:1;check_human:3;check_def:3;check_profession:3 | | the big red dog | an madra mór dearg
  | a<det> <adj> <adj> <n> | <n> <adj> <adj> | 1-0 2-2 3-3 4-1 | det_type:1;check_human:4;check_def:4;check_profession:4 | | a big red dog | madra mór dearg
  | this<det> <adj> <adj> <n> | an<det><def> <n> <adj> <adj> seo<det><dem> | 1-1 2-3 3-4 4-2 0-4 | det_type:1;check_human:4;check_def:4;check_profession:4 | | this big red dog | an madra mór dearg seo
@@ -16,3 +19,4 @@ NP | <det> <n> ^to<pr>$ <vblex><inf> | <det> <n> ^le<pr>$ <vblex><subs> | 1-1 2-
  | this<det> <n> ^to<pr>$ <vblex><inf> | an<det><def> <n> ^le<pr>$ <vblex><subs> seo<det><dem> | 1-0 2-2 3-3 4-4 | check_human:2;det_noun:1,2;check_def:2;check_profession:2 | | this book to read | an leabhar seo le léamh
  | that<det> <n> ^to<pr>$ <vblex><inf> | an<det><def> <n> ^le<pr>$ <vblex><subs> seo<det><dem> | 1-0 2-2 3-3 4-4 | check_human:2;det_noun:1,2;check_def:2;check_profession:2 | | that book to read | an leabhar sin le léamh 
 NP | <n> <cnjcoo> <n> <n> | <n> <n> <cnjcoo> <n> | 1-2 2-3 3-4 4-1 | check_human:4;check_def:4;check_profession:4 | | health and safety policy | polasaí sláinte agus sábháilteachta
+ | <n><list:definites> <cnjcoo> <n> <n> | an<det><def> <n> <n> <cnjcoo> <n> | 0-1 1-3 2-4 3-5 4-2 | check_human:4;check_def:4;check_profession:4 | | health and safety Monday(?) | an Luan sláinte agus sábháilteachta
